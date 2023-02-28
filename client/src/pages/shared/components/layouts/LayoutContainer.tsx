@@ -8,7 +8,9 @@ const LayoutContainer = ({ children }: LayoutContainerProps) => {
     return (
         <>
             <div className="container mx-auto px-20">
-                {children}
+                <div className='border border-white text-center'>
+                    {children}
+                </div>
             </div>
         </>
     );
