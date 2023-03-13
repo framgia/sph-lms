@@ -1,10 +1,10 @@
 import React from 'react';
 
-export interface UserProps {
+export interface AvatarProps {
   name: string;
 }
 
-const Avatar: React.FC<UserProps> = ({ name }) => {
+const Avatar: React.FC<AvatarProps> = ({ name }) => {
   const getInitials = (name: string): string => {
     const words = name.split(' ');
     const initials = [];
