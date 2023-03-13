@@ -354,9 +354,9 @@ const DemoComponent: React.FunctionComponent = () => {
           <Select
             label="- Select an option -"
             options={[
-              'This is option 1',
-              'This is option 2',
-              'This is option 3'
+              { id: 1, text: 'Option 1' },
+              { id: 2, text: 'Option 2' },
+              { id: 3, text: 'Option 3' }
             ]}
           />
           <div className="mt-[5px]">
@@ -369,12 +369,12 @@ const DemoComponent: React.FunctionComponent = () => {
           </div>
         </div>
         <br />
-      <div className="p-4 border" id="radiobutton">
+        <div className="p-4 border" id="radiobutton">
           <RadioButton
             label="Description"
             options={['Pif', 'Yell', 'Miko', 'Kent', 'Francis']}
-            alignment=''
-            classname='h-5 w-5 text-sm'
+            alignment=""
+            classname="h-5 w-5 text-sm"
             onClickEvent={() => {}}
           ></RadioButton>
 
