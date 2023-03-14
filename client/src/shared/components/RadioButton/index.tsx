@@ -6,15 +6,21 @@ export interface Props {
   options: string[];
   alignment?: string;
   classname?: string;
-  onClickEvent: (query: string) => void;
+  onClickEvent?: (query: string) => void;
+  selectedOption?: boolean;
+  onOptionChange?: (option: string) => void;
 }
 
-const RadioButton: FC<Props> = ({ label, options, alignment, classname, onClickEvent }: Props) => {
-  const [selectedOption, setSelectedOption] = useState('');
-  const handleOnClick = (value: any): void => {
-    setSelectedOption(value);
-    console.log(selectedOption);
+const RadioButton: FC<Props> = ({ label, options, alignment, classname, onClickEvent, selectedOption, onOptionChange }: Props) => {
+  const [option, setOption] = useState(selectedOption != null || '');
+
+  const handleOptionChange = (value: string): void => {
+    setOption(value);
+    if (onOptionChange != null) {
+      onOptionChange(value);
+    }
   };
+
   return (
     <Fragment>
       {label !== null && (
@@ -27,18 +33,21 @@ const RadioButton: FC<Props> = ({ label, options, alignment, classname, onClickE
           alignment === 'horizontal' ? 'flex flex-row' : 'flex flex-col'
         }`}
       >
-        {options.map((option, index) => (
+        {options.map((optionValue, index) => (
           <div key={index} className="flex flex-row space-x-2 pr-4 pb-2">
             <input
               className={classname}
               type="radio"
-              value={option}
-              checked={selectedOption.includes(option)}
-              onClick={() => { // sample of onclickevent
-                handleOnClick(`${option}`);
+              value={optionValue}
+              checked={option === optionValue}
+              onClick={() => {
+                handleOptionChange(optionValue);
+                if (onClickEvent != null) {
+                  onClickEvent(optionValue);
+                }
               }}
-            ></input>
-            <div className={classname}>{option}</div>
+            />
+            <div className={classname}>{optionValue}</div>
           </div>
         ))}
       </div>
