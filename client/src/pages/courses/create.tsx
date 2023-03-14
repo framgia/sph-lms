@@ -5,30 +5,24 @@ import InputField from '@/src/shared/components/InputField';
 import Textfield from '@/src/shared/components/TextField';
 import Button from '@/src/shared/components/Button';
 import Footer from '@/src/shared/components/Footer';
-import { useRouter } from 'next/router';
+import Select from '@/src/shared/components/Select';
+import { useCreateCourse } from '@/src/shared/hooks/useCreateCourse';
 
 const CoursesCreate: React.FC = () => {
-  const router = useRouter();
-  const handleCancel = (): void => {
-    router.back();
-  };
-  const paths = [
-    {
-      text: 'Courses',
-      url: '/courses'
-    },
-    {
-      text: 'Create',
-      url: '/courses/create'
-    }
-  ];
+  const {
+    handleInput,
+    handleCancel,
+    handleSubmit,
+    postData,
+    paths,
+    categoriesOption
+  } = useCreateCourse();
+
   return (
     <Container>
-      <Breadcrumbs
-        paths={paths}
-      />
+      <Breadcrumbs paths={paths} />
       <div className="flex flex-col mt-10">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="text-2xl font-bold">Create Course</div>
           <div className="mt-12">
             <div className="block">
@@ -39,21 +33,37 @@ const CoursesCreate: React.FC = () => {
                 height="50px"
                 label="Course Name"
                 id="course-name"
+                name="title"
+                value={postData.title}
+                eventHandler={handleInput}
               />
             </div>
             <div className="block">
               <Textfield
-                className="text-xl border border-black rounded-lg rows"
+                className="text-xl border border-black rounded-md rows"
                 resizable={false}
                 width={30}
                 height={2}
                 label="Course Description"
+                name="description"
+                value={postData.description}
+                eventHandler={handleInput}
+              />
+            </div>
+
+            <div className="block">
+              <Select
+                label="Select Course Category"
+                options={categoriesOption}
+                name="course_category"
+                value={postData.course_category}
+                eventHandler={handleInput}
               />
             </div>
           </div>
           <Footer alignment="right">
-            <Button text={'Cancel'} color="#9ca3af" onClick={handleCancel} />
-            <Button text={'Create'} color="#325184"/>
+            <Button text="Cancel" color="#9ca3af" onClick={handleCancel} />
+            <Button text="Create" color="#325184" type="submit" />
           </Footer>
         </form>
       </div>

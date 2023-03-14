@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 django = "*"
-djangt-environ = "*"
+django-environ = "*"
 djangorestframework = "*"
 django-filter = "*"
 markdown = "*"

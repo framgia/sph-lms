@@ -7,6 +7,9 @@ export interface TextFieldProps {
   height: number;
   className: string;
   resizable: boolean;
+  name?: string;
+  value?: string;
+  eventHandler?: (...args: any[]) => any;
 }
 
 const Textfield: React.FC<TextFieldProps> = ({
@@ -15,10 +18,13 @@ const Textfield: React.FC<TextFieldProps> = ({
   width,
   height,
   className,
-  resizable
+  resizable,
+  name,
+  value,
+  eventHandler
 }: TextFieldProps) => {
   return (
-    <div className="p-5 h-auto w-auto">
+    <div className="mb-4 h-auto w-auto">
       {label !== null && (
         <div>
           <label>{label}</label>
@@ -29,6 +35,9 @@ const Textfield: React.FC<TextFieldProps> = ({
         cols={width}
         className={`${resizable ? 'resize' : 'resize:none'} ${className}`}
         placeholder={placeholder}
+        value={value}
+        name={name}
+        onChange={eventHandler}
       ></textarea>
     </div>
   );
@@ -36,7 +45,8 @@ const Textfield: React.FC<TextFieldProps> = ({
 
 Textfield.defaultProps = {
   label: '',
-  placeholder: ''
+  placeholder: '',
+  value: ''
 };
 
 export default Textfield;
