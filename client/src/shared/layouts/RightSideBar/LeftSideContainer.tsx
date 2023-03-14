@@ -8,8 +8,6 @@ export const LeftSideBar: React.FunctionComponent<sideBarProps> = ({
   children
 }: sideBarProps) => {
   return (
-    <div className="fixed bg-gray-400 top-0 bottom-0 w-6/12 left-20 ml-28">
-      {children}
-    </div>
+    <div className="fixed top-0 bottom-0 w-6/12 left-20 ml-28">{children}</div>
   );
 };

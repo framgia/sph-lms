@@ -11,7 +11,7 @@ import InputField from '@/src/shared/components/InputField';
 import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
 import Collapse from '@/src/shared/components/Collapse/Collapse';
 import Checkbox from '@/src/shared/components/Checkbox';
-import Select from '@/src/shared/components/Select';
+import Select, { type SelectOptionData } from '@/src/shared/components/Select';
 import Button from '@/src/shared/components/Button';
 import RadioButton from '@/src/shared/components/RadioButton';
 import Table, { tableData } from '@/src/shared/components/Table';
@@ -33,6 +33,12 @@ const DemoComponent: React.FunctionComponent = () => {
     { id: 1, name: 'Name1', age: 21 },
     { id: 2, name: 'Name2', age: 21 },
     { id: 3, name: 'Name3', age: 21 }
+  ];
+
+  // for Select
+  const options: SelectOptionData[] = [
+    { id: 1, text: 'Option1' },
+    { id: 2, text: 'Option2' }
   ];
 
   return (
@@ -353,11 +359,7 @@ const DemoComponent: React.FunctionComponent = () => {
         <div className="p-4 border first-line:-b border-black" id="select">
           <Select
             label="- Select an option -"
-            options={[
-              'This is option 1',
-              'This is option 2',
-              'This is option 3'
-            ]}
+            options={options}
           />
           <div className="mt-[5px]">
             <h1>Props: Select</h1>
