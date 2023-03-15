@@ -8,6 +8,9 @@ export interface InputFieldProps {
   id?: string;
   width?: string;
   height?: string;
+  name?: string;
+  value?: string;
+  eventHandler?: (...args: any[]) => any;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -16,7 +19,10 @@ const InputField: React.FC<InputFieldProps> = ({
   type,
   id,
   width,
-  height
+  height,
+  name,
+  value,
+  eventHandler
 }: InputFieldProps) => {
   const propStyle = {
     width: width,
@@ -39,6 +45,9 @@ const InputField: React.FC<InputFieldProps> = ({
         id={id}
         type={type}
         placeholder={placeholder}
+        value={value}
+        name={name}
+        onChange={eventHandler}
       />
     </div>
   );
@@ -50,7 +59,8 @@ InputField.defaultProps = {
   type: 'text',
   id: '',
   width: '100%',
-  height: ''
+  height: '',
+  value: ''
 };
 
 export default InputField;

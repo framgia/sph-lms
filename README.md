@@ -36,7 +36,7 @@ docker-compose up
 ```
 To stop:
 ```bash
-docker-compose down
+docker-compose stop
 ```
 ## Running pipenv commands:
 Always run pipenv commands, after running the following command:

@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '@/src/shared/components/Navbar';
 
-const navItems = [
+export const navItems = [
   { url: '/', text: 'Dashboard', dropdownItems: [] },
   {
     url: '/catalog',
@@ -13,7 +13,7 @@ const navItems = [
   }
 ];
 
-const dropdownItems = [
+export const dropdownItems = [
   { text: 'Profile', url: '/profile' },
   { text: 'Settings', url: '/settings' },
   { text: 'Logout', url: '/logout' }
