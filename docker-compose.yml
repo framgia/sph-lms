@@ -23,13 +23,12 @@ services:
     container_name: lms-nextjs
     build:
       context: ./client
-      target: builder
     volumes:
       - ./client:/client/app
       - /client/app/node_modules
+      - /client/app/.next
     ports:
       - "3000:3000"
-    command: "yarn dev"
     environment:
       NODE_ENV: development
   server:
