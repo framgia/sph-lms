@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import React, { Fragment, useState } from 'react';
 import Iframe from '@/src/shared/components/Iframe';
 import Textfield from '@/src/shared/components/TextField';
@@ -27,6 +28,11 @@ const DemoComponent: React.FunctionComponent = () => {
     console.log(`Searching ${searchTerm}`);
   };
 
+  // for table list
+  const table = require('./data.json');
+  const tableHeader = table.tableHeader;
+  const tableData = table.tableData;
+
   return (
     <Fragment>
       <div className="container mx-auto">
@@ -44,7 +50,7 @@ const DemoComponent: React.FunctionComponent = () => {
           <br />
           <a href="#buttonComponent">Event Button</a>
           <br />
-          <a href="#tableComponent">Table</a>
+          <a href="#tableList">Table List</a>
         </div>
         <br />
         <hr className="w-3/4 mx-auto" />
@@ -391,16 +397,45 @@ const DemoComponent: React.FunctionComponent = () => {
             </div>
           </div>
         </div>
-
         <br />
         <hr className="w-3/4 mx-auto" />
         <br />
-
-        <div className="p-4 border" id="tableComponent">
-          <h1>Component: Table</h1>
+        <div className="p-4 border" id="tableList">
+          <h1>Component: Table List</h1>
           <br />
-          <p>No Action Enabled</p>
-          <Table header={['id', 'name', 'age']}> </Table>
+          <Table header={tableHeader}>
+            {tableData.map((col: any) => (
+              <tr
+                className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
+                key={col.id}
+              >
+                <td className="p-4">
+                  <input
+                    type="checkbox"
+                    className="h-5 w-5 cursor-pointer"
+                  ></input>
+                </td>
+                <td className="px-6 py-4">{col.firstName}</td>
+                <td className="px-6 py-4">{col.lastName}</td>
+                <td className="px-6 py-4">{col.email}</td>
+                <td className="px-6 py-4">{col.role}</td>
+                <td className="px-6 py-4">{col.courseProgress}</td>
+                <td className="px-6 py-4">{col.dateStarted}</td>
+                <td className="px-6 py-4">{col.completionDate}</td>
+                <td className="px-6 py-4">{col.deadlineDate}</td>
+                <td className="px-6 py-4">{col.expirationDate}</td>
+                <td>
+                  <Button
+                    text="Actions"
+                    color="#325184"
+                    onClick={() => {
+                      alert('Actions');
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
+          </Table>
           <br />
 
           <div className="mt-[5px]">
