@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import Dropdown from '@/src/shared/components/Dropdown';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
@@ -6,13 +6,32 @@ import GridIcon from '@/src/shared/icons/GridIcon';
 import ListIcon from '@/src/shared/icons/ListIcon';
 import ViewAs from '@/src/sections/courses/list/view-as';
 import RightSideContainer from '@/src/sections/courses/list/right-side-container';
+import debounce from '@/src/utils/debounce';
+import { useRouter } from 'next/router';
+import axiosInstance from '@/src/apis';
 
 const View = (): ReactNode => {
   const [selectedView, setSelectedView] = useState('grid');
   const [gridIconColor, setGridIconColor] = useState('stroke-blue-500');
   const [listIconColor, setListIconColor] = useState('');
-  const listOfCourses = Array(5).fill('Course Title');
+  // const listOfCourses = Array(5).fill('Course Title');
+  const router = useRouter();
+  const { q } = router.query;
 
+  const [data, setData] = useState<[]>([]);
+  useEffect(() => {
+    async function fetchData (): Promise<void> {
+      const response = await axiosInstance.get('/course/');
+      setData(response.data);
+    }
+    console.log('data', data);
+    void fetchData();
+  }, []);
+
+  const handleOnSearchEvent = (searchTerm: string): void => {
+    debounce(router.push(`/trainer/courses/list?q=${searchTerm}`), 500);
+  };
+  const listOfCourses = data.filter((course: any) => course.title.toLowerCase().includes(q as string));
   const handleView = (view: string): void => {
     setSelectedView(view);
     if (view === 'grid') {
@@ -30,11 +49,7 @@ const View = (): ReactNode => {
         <div className="bg-white top-0 bottom-0 w-3/5 left-20 ml-28 pr-10">
           <div className="text-xl pl-5 pt-20 text-blue-500">Courses</div>
           <div className="pl-5 pt-10">
-            <SearchBar
-              height="50px"
-              width="100px"
-              onSearchEvent={() => {}}
-            ></SearchBar>
+            <SearchBar onSearchEvent={handleOnSearchEvent} />
             <div className="pt-5 flex flex-row justify-between">
               <div className="">
                 <Dropdown
@@ -74,10 +89,14 @@ const View = (): ReactNode => {
               </div>
             </div>
             <div className="z-10 pt-4 h-96">
-              <ViewAs
-                typeOfView={selectedView}
-                listOfCourses={listOfCourses}
-              ></ViewAs>
+              { listOfCourses.length > 0
+                ? (<ViewAs
+                    typeOfView={selectedView}
+                    listOfCourses={listOfCourses}
+                  ></ViewAs>
+                  )
+                : (<div className="text-center text-2xl pt-20">No Courses Found</div>)
+              }
             </div>
           </div>
         </div>

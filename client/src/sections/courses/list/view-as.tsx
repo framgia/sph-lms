@@ -2,10 +2,17 @@ import { Fragment } from 'react';
 import type { FC } from 'react';
 import GridCard from '@/src/shared/cards/GridCard';
 import ListCard from '@/src/shared/cards/ListCard';
+import { formatToLocaleDateString } from '@/src/shared/utils';
 
 export interface TypeOfViewProps {
   typeOfView: string;
-  listOfCourses: string[];
+  listOfCourses: Array<{
+    id: number;
+    title: string;
+    description: string;
+    category_name: string;
+    created_at: string;
+  }>;
 }
 
 const ViewAs: FC<TypeOfViewProps> = ({
@@ -16,16 +23,16 @@ const ViewAs: FC<TypeOfViewProps> = ({
     <Fragment>
       {typeOfView === 'grid'
         ? (<div className="grid grid-cols-3 ">
-              {listOfCourses.map((data, index) => (
+              {listOfCourses.map((data) => (
                 <div
-                  key={index}
+                  key={data.id}
                   className="m-3 drop-shadow-lg h-80 border-2 flex justify-between"
                 >
                   <GridCard
-                    courseTitle={'Title'}
+                    courseTitle={data.title}
                     imageSource={'/image1.jpg'}
-                    category={'General'}
-                    date={'03-01-2023'}
+                    category={data.category_name}
+                    date={formatToLocaleDateString(data.created_at)}
                   ></GridCard>
                 </div>
               ))}
@@ -35,10 +42,10 @@ const ViewAs: FC<TypeOfViewProps> = ({
               {listOfCourses.map((data, index) => (
                 <div key={index} className="m-3">
                   <ListCard
-                    courseTitle={'Title'}
+                    courseTitle={data.title}
                     imageSource={'/image1.jpg'}
-                    category={'General'}
-                    date={'03-01-2023'}
+                    category={data.category_name}
+                    date={formatToLocaleDateString(data.created_at)}
                   ></ListCard>
                 </div>
               ))}
