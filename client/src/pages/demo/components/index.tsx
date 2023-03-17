@@ -444,7 +444,6 @@ const DemoComponent: React.FunctionComponent = () => {
             <div className="bg-gray-300 p-[5px]">
               <p>header = (array of string)</p>
               <p>children = table data/ table body </p>
-              <p>children = table data/ table body </p>
             </div>
           </div>
         </div>
