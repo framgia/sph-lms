@@ -1,5 +1,6 @@
 {
   "editor.formatOnSave": true,
+  "prettier.trailingComma": "none",
   "prettier.singleQuote": true,
   "trailingComma": "none",
   "python.linting.pylintArgs": ["--disable=C0111"],

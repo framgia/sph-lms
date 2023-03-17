@@ -13,7 +13,7 @@ import Checkbox from '@/src/shared/components/Checkbox';
 import Select from '@/src/shared/components/Select';
 import Button from '@/src/shared/components/Button';
 import RadioButton from '@/src/shared/components/RadioButton';
-import Table, { type tableData } from '@/src/shared/components/Table';
+import Table from '@/src/shared/components/Table';
 
 const DemoComponent: React.FunctionComponent = () => {
   // sets up the state of the page to track user interaction
@@ -26,13 +26,6 @@ const DemoComponent: React.FunctionComponent = () => {
   const searchHandler = (searchTerm: string): void => {
     console.log(`Searching ${searchTerm}`);
   };
-
-  // for table
-  const tableList: tableData[] = [
-    { id: 1, name: 'Name1', age: 21 },
-    { id: 2, name: 'Name2', age: 21 },
-    { id: 3, name: 'Name3', age: 21 }
-  ];
 
   return (
     <Fragment>
@@ -407,15 +400,7 @@ const DemoComponent: React.FunctionComponent = () => {
           <h1>Component: Table</h1>
           <br />
           <p>No Action Enabled</p>
-          <Table header={['id', 'name', 'age']} data={tableList} />
-
-          <p>Action Enabled</p>
-          <Table
-            header={['id', 'name', 'age']}
-            data={tableList}
-            action={true}
-          />
-
+          <Table header={['id', 'name', 'age']}> </Table>
           <br />
 
           <div className="mt-[5px]">
@@ -423,11 +408,7 @@ const DemoComponent: React.FunctionComponent = () => {
 
             <div className="bg-gray-300 p-[5px]">
               <p>header = (array of string)</p>
-              <p>
-                data = (array of object) ex &#123; id: 1, name: "Name1", age: 21
-                &#125;
-              </p>
-              <p>action = (boolean) ex. true | false</p>
+              <p>children = table data/ table body </p>
             </div>
           </div>
         </div>

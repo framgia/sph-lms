@@ -1,78 +1,34 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React from 'react';
-import Button from '../Button';
+import type { ReactNode } from 'react';
 
-export interface tableData {
-  id: number;
-  name: string;
-  age: number;
-}
-
-export interface TableProps<tableData> {
+export interface TableProps<> {
   header: string[];
-  data: tableData[];
-  action?: boolean;
+  children: ReactNode;
 }
 
-const Table: React.FC<TableProps<any>> = ({
-  header,
-  data,
-  action
-}: TableProps<any>) => {
+const Table: React.FC<TableProps> = ({ header, children }: TableProps) => {
   return (
-    <div className="relative overflow-x-auto">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            {header.map((item, index) => (
-              <th scope="col" className="px-6 py-3" key={index}>
-                {item}
-              </th>
-            ))}
-            {action && (
-              <th scope="col" className="px-6 py-3" key={header.length + 1}>
-                Actions
-              </th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((col) => (
-            <tr
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-              key={col.id}
+    <table className="text-left text-gray-500 dark:text-gray-400">
+      <thead>
+        <tr>
+          <th className="p-4 ">
+            <input type="checkbox" className="h-5 w-5 hover:bg-sky-700"></input>
+          </th>
+          {header.map((item, index) => (
+            <th
+              className="px-6 py-3 w-auto  whitespace-nowrap text-xl text-lightBlue bg-blueGray"
+              key={index}
             >
-              <td scope="row" className="px-6 py-4">
-                {col.id}
-              </td>
-              <td className="px-6 py-4">{col.name}</td>
-              <td className="px-6 py-4">{col.age}</td>
-              {action && (
-                <td className="flex">
-                  <Button
-                    text="Edit"
-                    onClick={() => {
-                      alert('Edit Clicked');
-                    }}
-                  />
-                  <Button
-                    text="Delete"
-                    onClick={() => {
-                      alert('Delete Clicked');
-                    }}
-                  />
-                </td>
-              )}
-            </tr>
+              {item}
+            </th>
           ))}
-        </tbody>
-      </table>
-    </div>
+          <th className="px-6 py-3 w-auto bg-blueGray">{''}</th>
+        </tr>
+      </thead>
+      <tbody>{children}</tbody>
+    </table>
   );
-};
-
-Table.defaultProps = {
-  action: false
 };
 
 export default Table;
