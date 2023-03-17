@@ -14,7 +14,6 @@ const View = (): ReactNode => {
   const [selectedView, setSelectedView] = useState('grid');
   const [gridIconColor, setGridIconColor] = useState('stroke-blue-500');
   const [listIconColor, setListIconColor] = useState('');
-  // const listOfCourses = Array(5).fill('Course Title');
   const router = useRouter();
   const { q } = router.query;
 

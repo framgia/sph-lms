@@ -10,6 +10,7 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     category_id = CourseCategorySerializer(many=True, read_only=True)
     category_name = serializers.CharField(source='course_category.name', read_only=True)
+
     class Meta:
         model = Course
         fields = "__all__"
