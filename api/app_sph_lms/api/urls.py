@@ -8,7 +8,7 @@ from app_sph_lms.api.views import (
 
 urlpatterns = [
     path('course/', CourseList.as_view(), name="course-list"),
-    path('course/<int:id>', CourseDetail.as_view(), name="course-detail"),
+    path('course/<int:pk>', CourseDetail.as_view(), name="course-detail"),
     path('course-category/', CourseCategoryList.as_view(), name="course-category-list"),
-    path('course-category/<int:id>', CourseCategoryDetail.as_view(), name="course-category-detail"),
+    path('course-category/<int:pk>', CourseCategoryDetail.as_view(), name="course-category-detail"),
 ]

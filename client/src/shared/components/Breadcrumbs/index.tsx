@@ -24,7 +24,7 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsProps> = ({
 
   return (
     <div>
-      <nav className="flex" aria-label="Breadcrumb">
+      <nav className="flex mb-4" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
           {paths?.map((path, index) => (
             <Fragment key={index}>
