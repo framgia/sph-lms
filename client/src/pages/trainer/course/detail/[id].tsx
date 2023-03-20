@@ -7,14 +7,12 @@ import { dropdownItems, navItems } from '@/src/pages/demo/layouts/navbar';
 
 const CourseDetails: React.FC = () => {
   const tabData = [
-    { id: 1, tabName: 'Course Content' },
-    { id: 2, tabName: 'Knowledge Boosters' },
-    { id: 3, tabName: 'Course Settings' },
-    { id: 4, tabName: 'Course Layout' },
-    { id: 5, tabName: 'Learners' },
-    { id: 6, tabName: 'Groups' },
-    { id: 7, tabName: 'Assessments' },
-    { id: 8, tabName: 'Learning Paths' }
+    { id: 1, tabName: 'Course Settings' },
+    { id: 2, tabName: 'Course Layout' },
+    { id: 3, tabName: 'Learners' },
+    { id: 4, tabName: 'Groups' },
+    { id: 5, tabName: 'Assessments' },
+    { id: 6, tabName: 'Learning Paths' }
   ];
   const [activeTab, setActiveTab] = useState(1);
 
@@ -61,7 +59,7 @@ const CourseDetails: React.FC = () => {
           <div className="h-screen w-11/12">
             <div className="flex flex-col">
               <div className="flex flex-row border-b-2">
-                <div className="border-1 flex flex-row space-x-5 pb-6 pt-10 pl-2 pr-2 h-10 w-auto font font-small text-sm text-gray-600">
+                <div className="border-1 flex flex-row space-x-10 pb-6 pt-10 pl-2 pr-2 h-10 w-auto font font-small text-sm text-gray-600">
                   {tabData.map((items, index) => (
                     <div
                       key={items.id}
