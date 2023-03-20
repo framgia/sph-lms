@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface sideBarProps {
-  children: any
+  children: any;
 }
 
 export const RightSideBar: React.FunctionComponent<sideBarProps> = ({
   children
 }: sideBarProps) => {
   return (
-    <div className="sidebar fixed top-0 bottom-0 right-20 bg-white w-80 mr-12 ml-6">
+    <div className="absolute top-0 bottom-0 right-20 w-80 mr-12 ml-6">
       {children}
     </div>
   );

@@ -4,6 +4,7 @@ import EllipsesHorizontalIcon from '@/src/shared/icons/EllipsesHorizontalIcon';
 import Navbar from '@/src/shared/components/Navbar';
 import Button from '@/src/shared/components/Button';
 import { dropdownItems, navItems } from '@/src/pages/demo/layouts/navbar';
+import CourseSetting from '../../course-settings';
 
 const CourseDetails: React.FC = () => {
   const tabData = [
@@ -87,8 +88,8 @@ const CourseDetails: React.FC = () => {
               <div className="flex justify-end pr-6">
                 <Button text={'Add Course Content'} color={'#325184'}></Button>
               </div>
-              <div className="flex justify-center items-center h-auto w-auto font font-medium text-xl">
-                Content for Tab {activeTab}
+              <div className="flex h-auto w-auto font font-medium text-xl">
+                {activeTab === 1 ? <CourseSetting /> : null}
               </div>
             </div>
           </div>
