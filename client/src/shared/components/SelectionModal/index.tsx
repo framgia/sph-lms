@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import TrashIcon from '@/src/shared/icons/TrashIcon';
 
 interface CardProps {
   numSelected: number;
-  selectedEmails: string[];
+  selectedNames: string[];
 }
 
 const SelectionModal: React.FC<CardProps> = ({
   numSelected,
-  selectedEmails
+  selectedNames
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -46,15 +47,18 @@ const SelectionModal: React.FC<CardProps> = ({
           </div>
         </div>
         {expanded && (
-          <div className="bg-gray-100 rounded-lg p-6">
-            <p>
-              {selectedEmails.map((email, index) => (
-                <React.Fragment key={index}>
-                  {email}
-                  <br />
-                </React.Fragment>
-              ))}
-            </p>
+          <div className="bg-gray-100 rounded-lg p-6 relative">
+            {selectedNames.map((name, index) => (
+              <div
+                key={index}
+                className="flex items-center mb-2 hover:bg-gray-200 p-2 rounded-lg"
+              >
+                <p className="mr-4">{name}</p>
+                <button className="bg-transparent text-gray hover:text-white hover:bg-red-500 transition duration-500 ease-in-out rounded-full p-1">
+                  <TrashIcon />
+                </button>
+              </div>
+            ))}
           </div>
         )}
       </div>

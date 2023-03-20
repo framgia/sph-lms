@@ -82,9 +82,9 @@ const LearnersTab: React.FC = () => {
         {checkedItems.length > 0 && (
           <SelectionModal
             numSelected={checkedItems.length}
-            selectedEmails={tableData
+            selectedNames={tableData
               .filter((col: any) => checkedItems.includes(col.id))
-              .map((col: any) => col.email)}
+              .map((col: any) => `${col.firstName} ${col.lastName}`)}
           />
         )}
       </Container>
