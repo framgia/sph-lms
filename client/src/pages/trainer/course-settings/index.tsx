@@ -80,7 +80,7 @@ const CourseSetting: React.FC = () => {
         </div>
       </div>
 
-      <div className="">
+      <div>
         <CourseSettingsSidebar />
       </div>
     </Fragment>
