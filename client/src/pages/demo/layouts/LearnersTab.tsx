@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { Fragment, useState } from 'react';
 import { useRouter } from 'next/router';
 import table from '@/src/pages/demo/components/data.json';
