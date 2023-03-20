@@ -18,7 +18,7 @@ const SelectionModal: React.FC<CardProps> = ({
 
   const containerStyle = `fixed z-50 bottom-0 left-0 w-full max-h-96 ${
     expanded ? 'h-1/3' : 'h-1/7'
-  } bg-white rounded-t-lg shadow-lg shadow-xl overflow-y-auto transition-all duration-500`;
+  } bg-white rounded-t-lg shadow-2xl shadow-black overflow-y-auto transition-all duration-500`;
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
