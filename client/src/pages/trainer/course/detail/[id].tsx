@@ -4,7 +4,7 @@ import EllipsesHorizontalIcon from '@/src/shared/icons/EllipsesHorizontalIcon';
 import Navbar from '@/src/shared/components/Navbar';
 import Button from '@/src/shared/components/Button';
 import { dropdownItems, navItems } from '@/src/pages/demo/layouts/navbar';
-import CourseSetting from '../../course-settings';
+import CourseSetting from '@/src/shared/layouts/CourseSettingTab';
 
 const CourseDetails: React.FC = () => {
   const tabData = [
