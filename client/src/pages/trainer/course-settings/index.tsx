@@ -14,7 +14,7 @@ const CourseSetting: React.FC = () => {
       <div className="pr-48">
         <div className="font-medium text-xl">
           <h1 className="pb-7">Basic Course Settings</h1>
-          <div className="pb-5">
+          <div className="pb-5" id="coursename">
             <InputField
               placeholder={'101 Intro to SkyPrep'}
               type="text"
@@ -24,10 +24,10 @@ const CourseSetting: React.FC = () => {
               name="title"
             />
           </div>
-          <div className="pb-10">
+          <div className="pb-10" id="courseintroduction">
             <RichInputTextField label="Course Introduction" />
           </div>
-          <div className="pb-10">
+          <div className="pb-10" id="courseimage">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Course Image
             </label>
@@ -40,14 +40,14 @@ const CourseSetting: React.FC = () => {
             </div>
           </div>
 
-          <div className="pb-10">
+          <div className="pb-10" id="shareablelink">
             <ShareableLink
               url="https:sample-url-that-leads-to-nowhere.com"
               label="Shareable Course Link"
               width="36%"
             />
           </div>
-          <div className="pb-10">
+          <div className="pb-10" id="coursestatus">
             <RadioButton
               label="Course Status"
               description="If a course is active learners can access it. If inactive, it will not be visible to learners. It is recommended to make a course inactive before making any changes to it if learners have been enrolled."
@@ -56,7 +56,7 @@ const CourseSetting: React.FC = () => {
             />
           </div>
           <h1 className="pb-7">Advance Course Settings</h1>
-          <div className="pb-5">
+          <div className="pb-5" id="coursecategory">
             <Select
               width="40%"
               label="Course Category"
@@ -71,7 +71,7 @@ const CourseSetting: React.FC = () => {
               Create New Category
             </a>
           </div>
-          <div className="pt-5 pb-10">
+          <div className="pt-5 pb-10" id="coursetags">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Course Tags
             </label>
