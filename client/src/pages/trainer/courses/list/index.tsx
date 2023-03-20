@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import type { ReactNode } from 'react';
 import Dropdown from '@/src/shared/components/Dropdown';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
@@ -6,31 +6,13 @@ import GridIcon from '@/src/shared/icons/GridIcon';
 import ListIcon from '@/src/shared/icons/ListIcon';
 import ViewAs from '@/src/sections/courses/list/view-as';
 import RightSideContainer from '@/src/sections/courses/list/right-side-container';
-import debounce from '@/src/utils/debounce';
-import { useRouter } from 'next/router';
-import axiosInstance from '@/src/apis';
+import { useSearchCourse } from '@/src/shared/hooks/useSearchCourse';
 
 const View = (): ReactNode => {
   const [selectedView, setSelectedView] = useState('grid');
   const [gridIconColor, setGridIconColor] = useState('stroke-blue-500');
   const [listIconColor, setListIconColor] = useState('');
-  const router = useRouter();
-  const { q } = router.query;
 
-  const [data, setData] = useState<[]>([]);
-  useEffect(() => {
-    async function fetchData (): Promise<void> {
-      const response = await axiosInstance.get('/course/');
-      setData(response.data);
-    }
-    console.log('data', data);
-    void fetchData();
-  }, []);
-
-  const handleOnSearchEvent = (searchTerm: string): void => {
-    debounce(router.push(`/trainer/courses/list?q=${searchTerm}`), 500);
-  };
-  const listOfCourses = data.filter((course: any) => course.title.toLowerCase().includes(q as string));
   const handleView = (view: string): void => {
     setSelectedView(view);
     if (view === 'grid') {
@@ -41,6 +23,11 @@ const View = (): ReactNode => {
       setGridIconColor('');
     }
   };
+
+  const {
+    listOfCourses,
+    handleOnSearchEvent
+  } = useSearchCourse();
 
   return (
     <Fragment>

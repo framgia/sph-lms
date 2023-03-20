@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import debounce from '@/src/utils/debounce';
+import { debounce } from '@/src/shared/utils';
 
 export interface SearchBarProps {
   onSearchEvent: (query: string) => void;

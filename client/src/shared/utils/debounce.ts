@@ -1,6 +1,6 @@
 type DebounceProps = (callback: any, wait: number) => (...args: any) => void;
 
-const debounce: DebounceProps = (callback, wait) => {
+export const debounce: DebounceProps = (callback, wait) => {
   let timeoutId: number | null = null;
   return (...args: any) => {
     if (timeoutId !== null) {
@@ -11,5 +11,3 @@ const debounce: DebounceProps = (callback, wait) => {
     }, wait);
   };
 };
-
-export default debounce;
