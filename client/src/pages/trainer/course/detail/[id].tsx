@@ -89,7 +89,7 @@ const CourseDetails: React.FC = () => {
                 <Button text={'Add Course Content'} color={'#325184'}></Button>
               </div>
               <div className="flex h-auto w-auto font font-medium">
-                {activeTab === 1 ? <CourseSetting /> : null}
+                {activeTab === 1 && <CourseSetting />}
               </div>
             </div>
           </div>
