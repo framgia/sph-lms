@@ -2,27 +2,35 @@ import React, { useState, Fragment } from 'react';
 import type { FC } from 'react';
 
 export interface RadioProps {
+  description?: string;
   label?: string;
   options: string[];
   alignment?: string;
   classname?: string;
-  description?: string;
   onClickEvent?: (query: string) => void;
+  selectedOption?: string;
+  onOptionChange?: (option: string) => void;
 }
 
 const RadioButton: FC<RadioProps> = ({
+  description,
   label,
   options,
   alignment,
   classname,
-  description,
-  onClickEvent
+  onClickEvent,
+  selectedOption,
+  onOptionChange
 }: RadioProps) => {
-  const [selectedOption, setSelectedOption] = useState('');
-  const handleOnClick = (value: any): void => {
-    setSelectedOption(value);
-    console.log(selectedOption);
+  const [option, setOption] = useState(selectedOption != null || '');
+
+  const handleOptionChange = (value: string): void => {
+    setOption(value);
+    if (onOptionChange != null) {
+      onOptionChange(value);
+    }
   };
+
   return (
     <Fragment>
       {label !== null && (
@@ -36,19 +44,21 @@ const RadioButton: FC<RadioProps> = ({
           alignment === 'horizontal' ? 'flex flex-row' : 'flex flex-col'
         }`}
       >
-        {options.map((option, index) => (
-          <div key={index} className="flex flex-row space-x-2 pr-4 pb-2">
+        {options.map((optionValue, index) => (
+          <div key={index} className="flex flex-row space-x-2 pr-4">
             <input
               className={classname}
               type="radio"
-              value={option}
-              checked={selectedOption.includes(option)}
+              value={optionValue}
+              checked={option === optionValue}
               onClick={() => {
-                // sample of onclickevent
-                handleOnClick(`${option}`);
+                handleOptionChange(optionValue);
+                if (onClickEvent != null) {
+                  onClickEvent(optionValue);
+                }
               }}
-            ></input>
-            <div className="block text-gray-700 text-sm mb-2">{option}</div>
+            />
+            <div className={classname}>{optionValue}</div>
           </div>
         ))}
       </div>

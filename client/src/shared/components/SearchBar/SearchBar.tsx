@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { debounce } from '@/src/shared/utils';
 
 export interface SearchBarProps {
+  height?: string;
+  width?: string;
   onSearchEvent: (query: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearchEvent }: SearchBarProps) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  onSearchEvent
+}: SearchBarProps) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const handleSearch = debounce((query: string) => {
@@ -17,7 +21,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchEvent }: SearchBarProps) 
     setSearchQuery(value);
     handleSearch(value);
   };
-  const containerClasses = 'pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-black rounded-xl border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2';
+  const containerClasses =
+    'pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-black rounded-xl border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2';
 
   return (
     <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">

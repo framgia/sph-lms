@@ -5,7 +5,6 @@ import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import GridIcon from '@/src/shared/icons/GridIcon';
 import ListIcon from '@/src/shared/icons/ListIcon';
 import ViewAs from '@/src/sections/courses/list/view-as';
-import RightSideContainer from '@/src/sections/courses/list/right-side-container';
 import { useSearchCourse } from '@/src/shared/hooks/useSearchCourse';
 
 const View = (): ReactNode => {
@@ -24,10 +23,7 @@ const View = (): ReactNode => {
     }
   };
 
-  const {
-    listOfCourses,
-    handleOnSearchEvent
-  } = useSearchCourse();
+  const { courses, handleOnSearchEvent } = useSearchCourse();
 
   return (
     <Fragment>
@@ -75,18 +71,18 @@ const View = (): ReactNode => {
               </div>
             </div>
             <div className="z-10 pt-4 h-96">
-              { listOfCourses.length > 0
-                ? (<ViewAs
-                    typeOfView={selectedView}
-                    listOfCourses={listOfCourses}
-                  ></ViewAs>
+              {courses.length > 0
+                ? (
+                <ViewAs typeOfView={selectedView} courses={courses}></ViewAs>
                   )
-                : (<div className="text-center text-2xl pt-20">No Courses Found</div>)
-              }
+                : (
+                <div className="text-center text-2xl pt-20">
+                  No Courses Found
+                </div>
+                  )}
             </div>
           </div>
         </div>
-        <RightSideContainer></RightSideContainer>
       </div>
     </Fragment>
   );

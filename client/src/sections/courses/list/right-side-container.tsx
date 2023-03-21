@@ -15,10 +15,7 @@ const RightSideContainer: FC = () => {
       <br />
       <div className="text-xl font-bold">Category</div>
       <hr className="bg-gray-500"></hr>
-      <Checkbox
-        options={['Option1', 'Option 2', 'Option 3']}
-        onClickEvent={() => {}}
-      ></Checkbox>
+      <Checkbox options={['Option1', 'Option 2', 'Option 3']}></Checkbox>
     </div>
   );
 };

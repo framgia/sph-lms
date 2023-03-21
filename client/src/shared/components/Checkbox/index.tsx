@@ -1,58 +1,62 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-interface Props {
+export interface Props {
   label?: string;
   options: string[];
   alignment?: string;
-  classname?: string;
-  onClickEvent: () => unknown;
+  className?: string;
+  selectedOptions?: number[];
+  onOptionChange?: (option: number) => void;
 }
 
 const Checkbox: React.FC<Props> = ({
   label,
   options,
   alignment,
-  classname,
-  onClickEvent
+  className,
+  selectedOptions,
+  onOptionChange
 }: Props) => {
-  const [chosenOption, setChosenOption] = React.useState(['']);
-  const handleOnClick = (value: any): void => {
-    setChosenOption((chosenOption) => [...chosenOption, value]);
-    console.log(chosenOption);
+  const handleOptionChange = (optionIndex: number): void => {
+    const isSelected = selectedOptions?.includes(optionIndex);
+    if (onOptionChange != null && isSelected !== undefined) {
+      if (isSelected) {
+        onOptionChange(optionIndex);
+      } else {
+        onOptionChange(-optionIndex);
+      }
+    }
   };
+
   return (
-    <Fragment>
-      {label !== null && (
-        <div className="pb-2">
-          <label className={classname}>{label}</label>
-        </div>
-      )}
+    <div className="flex flex-col">
+      {label != null && <label className={className}>{label}</label>}
       <div
         className={`${
           alignment === 'horizontal' ? 'flex flex-row' : 'flex flex-col'
         }`}
       >
         {options.map((option, index) => (
-          <div key={index} className="flex flex-row space-x-2 pr-4 pb-2">
+          <div key={index} className="flex items-center space-x-2">
             <input
-              className={classname}
+              className={className}
               type="checkbox"
-              onClick={() => {
-                // sample of onclickevent
-                handleOnClick(`${option}`);
+              checked={selectedOptions?.includes(index + 1)}
+              onChange={() => {
+                handleOptionChange(index);
               }}
-            ></input>
-            <div className={classname}>{option}</div>
+            />
+            <label>{option}</label>
           </div>
         ))}
       </div>
-    </Fragment>
+    </div>
   );
 };
 
 Checkbox.defaultProps = {
-  label: '',
   alignment: 'vertical',
-  classname: ''
+  className: ''
 };
+
 export default Checkbox;

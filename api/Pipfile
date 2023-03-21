@@ -12,6 +12,7 @@ markdown = "*"
 mysqlclient = "*"
 django-cors-headers = "*"
 
+
 [dev-packages]
 
 [requires]

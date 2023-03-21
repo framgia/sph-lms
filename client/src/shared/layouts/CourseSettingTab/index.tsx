@@ -52,7 +52,7 @@ const CourseSetting: React.FC = () => {
               label="Course Status"
               description="If a course is active learners can access it. If inactive, it will not be visible to learners. It is recommended to make a course inactive before making any changes to it if learners have been enrolled."
               options={['Active Course', 'Inactive Course']}
-              classname="block text-gray-700 text-sm font-bold mb-2"
+              classname="block text-gray-700 text-sm mb-2"
             />
           </div>
           <h1 className="pb-7">Advance Course Settings</h1>

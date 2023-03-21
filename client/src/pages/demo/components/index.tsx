@@ -322,8 +322,7 @@ const DemoComponent: React.FunctionComponent = () => {
             label="Description"
             options={['Pif', 'Yell', 'Miko', 'Kent', 'Francis']}
             alignment=""
-            classname="h-5 w-5 text-sm"
-            onClickEvent={() => {}}
+            className="h-5 w-5 text-sm"
           ></Checkbox>
 
           <div className="mt-[5px]">
