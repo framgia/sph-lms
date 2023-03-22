@@ -31,6 +31,8 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
+    networks:
+      - lms
   server:
     container_name: lms-django
     build:
