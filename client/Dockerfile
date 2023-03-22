@@ -1,15 +1,15 @@
-FROM node:alpine
+FROM node:18-alpine
 
 ENV PORT 3000
 
 WORKDIR /client/app
 
-COPY package.json /client/app
-COPY package-lock.json /client/app
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm install
 
-COPY . /client/app
+COPY . .
 
 EXPOSE 3000
 
