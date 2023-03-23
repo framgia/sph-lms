@@ -4,8 +4,7 @@ from rest_framework import serializers
 class CourseCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseCategory
-        fields = "__all__"
-        
+        fields = "__all__"       
         
 class CourseSerializer(serializers.ModelSerializer):
     category_id = CourseCategorySerializer(many=True, read_only=True)

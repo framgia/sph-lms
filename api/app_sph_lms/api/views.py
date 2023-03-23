@@ -6,9 +6,39 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import filters
-
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.backends import BaseBackend
+from django.contrib.auth.backends import get_user_model
 
 # Create your views here.
+
+class AuthViaEmail(BaseBackend):
+    def get_user(self, user_id):
+        try:
+             return get_user_model().objects.get(pk=user_id)
+        except get_user_model().DoesNotExist:
+            return None
+    
+    def authenticate(self, request, username=None, password=None):
+        UserModel = get_user_model()
+        try:
+            user = UserModel.objects.get(Q(email__iexact=username))
+            if user.check_password(password):
+                return user
+        except UserModel.DoesNotExist:
+            return None
+
+@api_view()
+def get_auth_user(request):
+    if request.method == 'GET':
+        user = request.user
+        token = Token.objects.get(user=user)
+        return Response({
+            'username': user.username,
+            'email': user.email,
+            'auth_token': token.key,
+        })   
 
 class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
