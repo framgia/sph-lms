@@ -6,7 +6,11 @@ from app_sph_lms.models import Course, CourseCategory, User
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
@@ -46,6 +50,14 @@ def get_auth_user( request):
             'email': serializer.data["email"],
             'auth_token': token.key,
         })   
+
+class SignOutView(APIView):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    
+    def post(self, request):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
 
 class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()

@@ -5,7 +5,8 @@ from app_sph_lms.api.views import (
     CourseDetail, 
     CourseCategoryList, 
     CourseCategoryDetail,
-    get_auth_user
+    get_auth_user,
+    SignOutView
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     
     path('auth/sign-in', obtain_auth_token, name="login"),
     path('auth/user', get_auth_user, name="auth-user-api-health-check"),
+    path('auth/sign-out', SignOutView.as_view(), name="signout")
 ]
