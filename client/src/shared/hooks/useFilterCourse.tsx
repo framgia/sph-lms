@@ -1,26 +1,7 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-import type React from 'react';
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { useState, useEffect } from 'react';
 import axiosInstance from '@/src/apis';
-
-export interface Course {
-  id: number;
-  title: string;
-  is_active: boolean;
-  description: string;
-  course_category: CourseCategory;
-  created_at: string;
-}
-
-export interface CourseParams {
-  is_active: boolean;
-  course_category?: string;
-}
-
-export interface CourseCategory {
-  id: number;
-  name: string;
-}
+import type { Course, CourseCategory } from '../utils/interface';
 
 export interface FilterCourseState {
   courses: Course[];
@@ -29,6 +10,7 @@ export interface FilterCourseState {
   isActive: boolean;
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
   handleCategoryChange: (categoryId: number) => void;
+  handleOnSearchEvent: (searchTerm: string) => void;
 }
 
 const useFilterCourse = (): FilterCourseState => {
@@ -40,7 +22,7 @@ const useFilterCourse = (): FilterCourseState => {
   const [isActive, setIsActive] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchCourses = async (): Promise<void> => {
+    const fetchCourses = async (searchTerm: string = ''): Promise<void> => {
       let endpoint = '/course/';
       const params: Record<string, string> = { is_active: isActive.toString() };
       if (selectedCategories.length > 0) {
@@ -50,42 +32,47 @@ const useFilterCourse = (): FilterCourseState => {
           .join(',');
         params.course_category = categoryIds;
       }
+      if (searchTerm.length > 0) {
+        params.title = searchTerm;
+      }
       endpoint += `?${new URLSearchParams(params).toString()}`;
+      console.log(endpoint);
       const result = await axiosInstance.get<Course[]>(endpoint);
       setCourses(result.data);
     };
-    fetchCourses();
+    void fetchCourses();
   }, [isActive, selectedCategories]);
 
   useEffect(() => {
     const fetchCategories = async (): Promise<void> => {
-      try {
-        const result = await axiosInstance.get<CourseCategory[]>(
-          '/course-category/'
-        );
-        if (result.status === 200) {
-          setCategories(result.data);
-          setSelectedCategories(
-            result.data.map((cat) => ({ id: cat.id, selected: false }))
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      const result = await axiosInstance.get<CourseCategory[]>('/course-category/');
+      setCategories(result.data);
     };
-    fetchCategories();
+    void fetchCategories();
   }, []);
 
   const handleCategoryChange = (categoryId: number): void => {
-    setSelectedCategories((prevState) =>
-      prevState.map((cat) => {
-        if (cat.id === categoryId) {
-          return { id: categoryId, selected: !cat.selected };
-        } else {
-          return cat;
-        }
-      })
+    const updatedCategories = selectedCategories.map((cat) =>
+      cat.id === categoryId ? { ...cat, selected: !cat.selected } : cat
     );
+    setSelectedCategories(updatedCategories);
+  };
+
+  const handleOnSearchEvent = async (searchTerm: string): Promise<void> => {
+    const params: Record<string, string> = { is_active: isActive.toString() };
+    if (selectedCategories.length > 0) {
+      const categoryIds = selectedCategories
+        .filter((cat) => cat.selected)
+        .map((cat) => cat.id)
+        .join(',');
+      params.course_category = categoryIds;
+    }
+    if (searchTerm.length > 0) {
+      params.title = searchTerm;
+    }
+    const endpoint = `?${new URLSearchParams(params).toString()}`;
+    const result = await axiosInstance.get<Course[]>(endpoint);
+    setCourses(result.data);
   };
 
   return {
@@ -94,7 +81,8 @@ const useFilterCourse = (): FilterCourseState => {
     selectedCategories,
     isActive,
     setIsActive,
-    handleCategoryChange
+    handleCategoryChange,
+    handleOnSearchEvent
   };
 };
 

@@ -1,15 +1,42 @@
-import { Fragment, useState } from 'react';
+'use client';
+import { Fragment, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import Dropdown from '@/src/shared/components/Dropdown';
-import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
+
 import GridIcon from '@/src/shared/icons/GridIcon';
 import ListIcon from '@/src/shared/icons/ListIcon';
 import ViewAs from '@/src/sections/courses/list/view-as';
-import { useSearchCourse } from '@/src/shared/hooks/useSearchCourse';
+import axiosInstance from '@/src/apis';
+import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
+import { type Course } from '@/src/shared/utils';
+import useSortByCourse from '@/src/shared/hooks/useSortByCourse';
+import Select from '@/src/shared/components/Select';
+
+export interface TypeOfViewProps {
+  typeOfView: string;
+  listOfCourses: Course[];
+}
+
+export interface CourseProps {
+  id: number;
+  title: string;
+  description: string;
+  category_name: string;
+  created_at: string;
+}
 
 const View = (): ReactNode => {
+  const {
+    setData,
+    data,
+    handleSortDirectionChange,
+    options,
+    sortDirection
+  } = useSortByCourse();
+
   const [selectedView, setSelectedView] = useState('grid');
+
   const [gridIconColor, setGridIconColor] = useState('stroke-blue-500');
+
   const [listIconColor, setListIconColor] = useState('');
 
   const handleView = (view: string): void => {
@@ -23,7 +50,25 @@ const View = (): ReactNode => {
     }
   };
 
-  const { courses, handleOnSearchEvent } = useSearchCourse();
+  useEffect(() => {
+    let ignore = false;
+    async function fetchData (): Promise<void> {
+      const response = await axiosInstance.get('/course');
+      if (!ignore) {
+        setData(response.data);
+      }
+    }
+    void fetchData();
+    return () => {
+      ignore = true;
+    };
+  }, [setData]);
+
+  function handleOnSearchEvent (query: string): void {
+    throw new Error('Function not implemented.');
+  }
+
+  const listOfCourses = data;
 
   return (
     <Fragment>
@@ -31,17 +76,14 @@ const View = (): ReactNode => {
         <div className="bg-white top-0 bottom-0 w-3/5 left-20 ml-28 pr-10">
           <div className="text-xl pl-5 pt-20 text-blue-500">Courses</div>
           <div className="pl-5 pt-10">
-            <SearchBar onSearchEvent={handleOnSearchEvent} />
             <div className="pt-5 flex flex-row justify-between">
+              <SearchBar onSearchEvent={handleOnSearchEvent} />
               <div className="">
-                <Dropdown
-                  label="Sort by Name Ascending"
-                  options={[
-                    { text: 'Option 1', url: '' },
-                    { text: 'Option 2', url: '' }
-                  ]}
-                  classNames="border-solid border-gray-300"
-                ></Dropdown>
+                <Select
+                  eventHandler={handleSortDirectionChange}
+                  options={options}
+                  value={sortDirection}
+                />
               </div>
               <div className="flex flex-row space-x-3 pr-3">
                 <div
@@ -71,15 +113,13 @@ const View = (): ReactNode => {
               </div>
             </div>
             <div className="z-10 pt-4 h-96">
-              {courses.length > 0
-                ? (
-                <ViewAs typeOfView={selectedView} courses={courses}></ViewAs>
-                  )
-                : (
-                <div className="text-center text-2xl pt-20">
-                  No Courses Found
-                </div>
-                  )}
+              <ViewAs
+                typeOfView={selectedView}
+                listOfCourses={listOfCourses}
+              ></ViewAs>
+              (
+              <div className="text-center text-2xl pt-20">No Courses Found</div>
+              )
             </div>
           </div>
         </div>
@@ -87,5 +127,4 @@ const View = (): ReactNode => {
     </Fragment>
   );
 };
-
 export default View;

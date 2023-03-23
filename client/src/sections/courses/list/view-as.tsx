@@ -7,16 +7,15 @@ import ListCard from '@/src/shared/cards/ListCard';
 import { RightSideBar } from '@/src/shared/layouts/RightSideBar/RightSideBar';
 import RadioButton from '@/src/shared/components/RadioButton';
 import useFilterCourse from '@/src/shared/hooks/useFilterCourse';
-import { formatToLocaleDateString } from '@/src/shared/utils';
+import { type Course, formatToLocaleDateString } from '@/src/shared/utils';
 
 export interface TypeOfViewProps {
   typeOfView: string;
-  courses: string[];
+  listOfCourses: Course[];
 }
 
-const ViewAs: FC<TypeOfViewProps> = ({ typeOfView }: TypeOfViewProps) => {
+const ViewAs: FC<TypeOfViewProps> = ({ typeOfView, listOfCourses }: TypeOfViewProps) => {
   const {
-    courses,
     categories,
     selectedCategories,
     isActive,
@@ -29,7 +28,7 @@ const ViewAs: FC<TypeOfViewProps> = ({ typeOfView }: TypeOfViewProps) => {
       {typeOfView === 'grid'
         ? (
         <div className="grid grid-cols-3 ">
-          {courses.map((course) => (
+          {listOfCourses.map((course) => (
             <div
               key={course.id}
               className="m-3 drop-shadow-lg h-80 border-2 flex justify-between"
@@ -46,7 +45,7 @@ const ViewAs: FC<TypeOfViewProps> = ({ typeOfView }: TypeOfViewProps) => {
           )
         : (
         <div>
-          {courses.map((course) => (
+          {listOfCourses.map((course) => (
             <div key={course.id} className="m-3">
               <ListCard
                 courseTitle={course.title}

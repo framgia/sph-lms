@@ -5,6 +5,8 @@ from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework import filters
+
 
 # Create your views here.
 
@@ -52,7 +54,7 @@ class CourseList(generics.ListCreateAPIView):
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    
+
 class CourseCategoryList(generics.ListCreateAPIView):
     queryset = CourseCategory.objects.all()
     serializer_class = CourseCategorySerializer
