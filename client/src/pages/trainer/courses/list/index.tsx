@@ -76,8 +76,8 @@ const View = (): ReactNode => {
         <div className="bg-white top-0 bottom-0 w-3/5 left-20 ml-28 pr-10">
           <div className="text-xl pl-5 pt-20 text-blue-500">Courses</div>
           <div className="pl-5 pt-10">
+          <SearchBar onSearchEvent={handleOnSearchEvent} />
             <div className="pt-5 flex flex-row justify-between">
-              <SearchBar onSearchEvent={handleOnSearchEvent} />
               <div className="">
                 <Select
                   eventHandler={handleSortDirectionChange}
