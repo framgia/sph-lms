@@ -36,7 +36,6 @@ const useFilterCourse = (): FilterCourseState => {
         params.title = searchTerm;
       }
       endpoint += `?${new URLSearchParams(params).toString()}`;
-      console.log(endpoint);
       const result = await axiosInstance.get<Course[]>(endpoint);
       setCourses(result.data);
     };
