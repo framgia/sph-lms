@@ -156,3 +156,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+# Permission
+AUTH_USER_MODEL = "app_sph_lms.User" 

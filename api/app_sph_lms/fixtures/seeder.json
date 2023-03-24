@@ -1,306 +1,151 @@
 [
   {
-    "model": "auth.user",
+      "model": "app_sph_lms.Status",
+      "pk": 1,
+      "fields": { "name": "Active"}
+  },
+  {
+      "model": "app_sph_lms.Status",
+      "pk": 2,
+      "fields": { "name": "Inactive"}
+  },
+  {
+      "model": "app_sph_lms.UserRole",
+      "pk": 1,
+      "fields": { "title": "Admin"}
+  },
+  {
+      "model": "app_sph_lms.UserRole",
+      "pk": 2,
+      "fields": { "title": "Company"}
+  },
+  {
+      "model": "app_sph_lms.UserRole",
+      "pk": 3,
+      "fields": { "title": "Trainer"}
+  },
+  {
+      "model": "app_sph_lms.UserRole",
+      "pk": 4,
+      "fields": { "title": "Trainee"}
+  },
+  {
+    "model": "app_sph_lms.User",
     "fields": {
       "username": "admin",
       "password": "pbkdf2_sha256$180000$MOGSSKEzZ0TO$3KBAmh0aA50EH/ijbElvCgGov/TTrRffL7e9sFy7BVI=",
-      "email": "admin@example.com",
+      "email": "admin@gmail.com",
+      "first_name": "admin",
+      "last_name": "admin",
+      "role_id": 1,
       "is_active": true,
       "is_staff": true,
-      "is_superuser": true
+      "is_superuser": true,
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
     }
   },
   {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 1,
-    "fields": { "name": "Category 1", "description": "Category 1 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 2,
-    "fields": { "name": "Category 2", "description": "Category 2 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 3,
-    "fields": { "name": "Category 3", "description": "Category 3 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 4,
-    "fields": { "name": "Category 4", "description": "Category 4 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 5,
-    "fields": { "name": "Category 5", "description": "Category 5 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 6,
-    "fields": { "name": "Category 6", "description": "Category 6 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 7,
-    "fields": { "name": "Category 7", "description": "Category 7 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 8,
-    "fields": { "name": "Category 8", "description": "Category 8 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 9,
-    "fields": { "name": "Category 9", "description": "Category 9 description" }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 10,
+    "model": "app_sph_lms.User",
     "fields": {
-      "name": "Category 10",
-      "description": "Category 10 description"
+      "username": "sunasterisk",
+      "password": "pbkdf2_sha256$180000$MOGSSKEzZ0TO$3KBAmh0aA50EH/ijbElvCgGov/TTrRffL7e9sFy7BVI=",
+      "email": "sunasterisk@gmail.com",
+      "first_name": "sunasterisk",
+      "last_name": "sunasterisk",
+      "role_id": 2,
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
     }
+  },
+  {
+    "model": "app_sph_lms.Company",
+    "fields": {
+      "user_id": 2,
+      "name": "sunasterisk",
+      "email": "sunasterisk@gmail.com",
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
+    }
+  },
+  {
+    "model": "app_sph_lms.Category",
+    "pk": 1,
+    "fields": { "name": "Category 1" }
+  },
+  {
+    "model": "app_sph_lms.Category",
+    "pk": 2,
+    "fields": { "name": "Category 2" }
+  },
+  {
+    "model": "app_sph_lms.Category",
+    "pk": 3,
+    "fields": { "name": "Category 3" }
+  },
+  {
+    "model": "app_sph_lms.Category",
+    "pk": 4,
+    "fields": { "name": "Category 4" }
+  },
+  {
+    "model": "app_sph_lms.Category",
+    "pk": 5,
+    "fields": { "name": "Category 5" }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 1,
-    "fields": {
-      "title": "Course 1",
-      "description": "Course 1 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 1
-    }
+    "fields": { "name": "Course 1", "company_id": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 2,
-    "fields": {
-      "title": "Course 2",
-      "description": "Course 2 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 2
-    }
+    "fields": { "name": "Course 2", "company_id": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 3,
-    "fields": {
-      "title": "Course 3",
-      "description": "Course 3 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 3
-    }
+    "fields": { "name": "Course 3", "company_id": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 4,
-    "fields": {
-      "title": "Course 4",
-      "description": "Course 4 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 4
-    }
+    "fields": { "name": "Course 4", "company_id": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 5,
-    "fields": {
-      "title": "Course 5",
-      "description": "Course 5 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 5
-    }
+    "fields": { "name": "Course 5", "company_id": 1 }
   },
   {
-    "model": "app_sph_lms.Course",
-    "pk": 6,
-    "fields": {
-      "title": "Course 6",
-      "description": "Course 6 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 6
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 7,
-    "fields": {
-      "title": "Course 7",
-      "description": "Course 7 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 7
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 8,
-    "fields": {
-      "title": "Course 8",
-      "description": "Course 8 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 8
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 9,
-    "fields": {
-      "title": "Course 9",
-      "description": "Course 9 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 9
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 10,
-    "fields": {
-      "title": "Course 10",
-      "description": "Course 10 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 10
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 11,
-    "fields": {
-      "title": "Course 11",
-      "description": "Course 11 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 1
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 12,
-    "fields": {
-      "title": "Course 12",
-      "description": "Course 12 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 2
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 13,
-    "fields": {
-      "title": "Course 13",
-      "description": "Course 13 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 3
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 14,
-    "fields": {
-      "title": "Course 14",
-      "description": "Course 14 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 4
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 15,
-    "fields": {
-      "title": "Course 15",
-      "description": "Course 15 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 5
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 16,
-    "fields": {
-      "title": "Course 16",
-      "description": "Course 16 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 6
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 17,
-    "fields": {
-      "title": "Course 17",
-      "description": "Course 17 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 7
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 18,
-    "fields": {
-      "title": "Course 18",
-      "description": "Course 18 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 8
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 19,
-    "fields": {
-      "title": "Course 19",
-      "description": "Course 19 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 9
-    }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 20,
-    "fields": {
-      "title": "Course 20",
-      "description": "Course 20 description",
-      "created_by": 1,
-      "created_at": "2023-03-08T07:49:25.862880Z",
-      "updated_at": "2023-03-08T07:49:25.862880Z",
-      "course_category": 2
-    }
+    "model": "app_sph_lms.CourseCategory",
+    "pk": 1,
+    "fields": { "course_id": 1, "category_id": 1 }
   }
+  ,
+  {
+    "model": "app_sph_lms.CourseCategory",
+    "pk": 2,
+    "fields": { "course_id": 2, "category_id": 2 }
+  },
+  {
+    "model": "app_sph_lms.CourseCategory",
+    "pk": 3,
+    "fields": { "course_id": 3, "category_id": 3 }
+  },
+  {
+    "model": "app_sph_lms.CourseCategory",
+    "pk": 4,
+    "fields": { "course_id": 4, "category_id": 4 }
+  },
+  {
+    "model": "app_sph_lms.CourseCategory",
+    "pk": 5,
+    "fields": { "course_id": 5, "category_id": 5 }
+  }
+  
 ]
