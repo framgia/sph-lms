@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Avatar from '@/src/shared/components/Avatar';
 import Dropdown, { type DropdownProps } from '@/src/shared/components/Dropdown';
 import NavLink from '@/src/shared/components/NavLink';
 import SettingsIcon from '@/src/shared/icons/SettingsIcon';
-import { isSignedIn } from '../../utils/isSignedIn';
+import { isSignedIn } from '../../utils';
 
 export interface NavItemProps {
   url: string;
@@ -18,10 +18,8 @@ export interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
-  const [signedIn, setSignedIn] = useState(false);
-
   useEffect(() => {
-    setSignedIn(isSignedIn());
+    isSignedIn();
   }, []);
 
   return (
@@ -58,7 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
               </div>
             </div>
           </div>
-          {signedIn
+          {isSignedIn()
             ? (
             <div className="flex items-center">
               <Link href={'/settings'} className="text-gray-600">
