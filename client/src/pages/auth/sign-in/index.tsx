@@ -41,11 +41,7 @@ const SignIn: React.FC = () => {
 
   return (
     <Fragment>
-      <Navbar
-        navItems={navItems}
-        dropdownItems={dropdownItems}
-        isSticky={true}
-      />
+      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <div className="flex justify-center items-center h-screen bg-gray-200">
         <Container>
           <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
