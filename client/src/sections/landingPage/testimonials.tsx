@@ -7,20 +7,19 @@ const Testimonials: FC = () => {
     {
       id: 1,
       full_name: 'Epifanio Villaro',
-      testimony:
-        'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lore'
+      testimony: 'I like this website because it is very nice and helpful'
     },
     {
       id: 2,
       full_name: 'Marielle Regner',
       testimony:
-        'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lore'
+        'The UI is very nice and you can easily navigate through the different sections'
     },
     {
       id: 3,
       full_name: 'Mikole Rosales',
       testimony:
-        'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lore'
+        'I love this website and I will recommend this to other developers'
     }
   ];
   return (
@@ -37,7 +36,9 @@ const Testimonials: FC = () => {
                 className="m-3 shadow-2xl h-96 rounded-lg flex justify-between"
               >
                 <div className="flex flex-col justify-between">
-                  <div className="pt-10 pl-10 pr-5">{data.testimony}</div>
+                  <div className="pt-10 pl-10 pr-5 italic text-2xl ">
+                    {data.testimony}
+                  </div>
                   <div className="flex flex-col items-center pb-10 space-y-10">
                     <div className="rounded-full bg-gray-300 w-20 h-20 border-4 border-lightBlue flex justify-end relative">
                       <span className="text-center text-white text-sm font-medium">

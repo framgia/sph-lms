@@ -6,10 +6,9 @@ import type { FC } from 'react';
 
 export interface NavItemProps {
   navItems: string[];
-  url?: string;
 }
 
-const Navbar: FC<NavItemProps> = ({ navItems, url }) => {
+const Navbar: FC<NavItemProps> = ({ navItems }) => {
   return (
     <nav className="bg-white h-20 sticky top-0">
       <div className="max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -31,7 +30,7 @@ const Navbar: FC<NavItemProps> = ({ navItems, url }) => {
                   return (
                     <div
                       key={navItem}
-                      className="text-lightBlue text-xl font-bold"
+                      className="text-lightBlue text-xl font-semibold cursor-pointer hover:underline"
                     >
                       {navItem}
                     </div>
