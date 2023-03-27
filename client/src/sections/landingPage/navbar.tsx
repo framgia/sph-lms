@@ -3,6 +3,7 @@ import React from 'react';
 import Button from '@/src/shared/components/Button';
 import Image from 'next/image';
 import type { FC } from 'react';
+import Link from 'next/link';
 
 export interface NavItemProps {
   navItems: string[];
@@ -41,9 +42,11 @@ const Navbar: FC<NavItemProps> = ({ navItems }) => {
           </div>
           <div className="flex items-center  space-x-5 pr-32">
             <div className="pt-4">
-              <button className="mb-4 text-lightBlue font-bold py-2 px-4 rounded  border-2 border-lightBlue">
-                Log In
-              </button>
+              <Link href={'/auth/sign-in'}>
+                <button className="mb-4 text-lightBlue font-bold py-2 px-4 rounded  border-2 border-lightBlue">
+                  Log In
+                </button>
+              </Link>
             </div>
             <div className="pt-4">
               <Button text={'Sign Up'} color="#325184"></Button>
