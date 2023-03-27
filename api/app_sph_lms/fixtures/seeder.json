@@ -37,7 +37,7 @@
       "email": "admin@gmail.com",
       "first_name": "admin",
       "last_name": "admin",
-      "role_id": 1,
+      "role": 1,
       "is_active": true,
       "is_staff": true,
       "is_superuser": true,
@@ -53,7 +53,7 @@
       "email": "sunasterisk@gmail.com",
       "first_name": "sunasterisk",
       "last_name": "sunasterisk",
-      "role_id": 2,
+      "role": 2,
       "is_active": true,
       "is_staff": false,
       "is_superuser": false,
@@ -64,7 +64,7 @@
   {
     "model": "app_sph_lms.Company",
     "fields": {
-      "user_id": 2,
+      "user": 2,
       "name": "sunasterisk",
       "email": "sunasterisk@gmail.com",
       "created_at": "2023-03-08T07:49:25.862880Z",
@@ -99,53 +99,53 @@
   {
     "model": "app_sph_lms.Course",
     "pk": 1,
-    "fields": { "name": "Course 1", "company_id": 1 }
+    "fields": { "name": "Course 1", "company": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 2,
-    "fields": { "name": "Course 2", "company_id": 1 }
+    "fields": { "name": "Course 2", "company": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 3,
-    "fields": { "name": "Course 3", "company_id": 1 }
+    "fields": { "name": "Course 3", "company": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 4,
-    "fields": { "name": "Course 4", "company_id": 1 }
+    "fields": { "name": "Course 4", "company": 1 }
   },
   {
     "model": "app_sph_lms.Course",
     "pk": 5,
-    "fields": { "name": "Course 5", "company_id": 1 }
+    "fields": { "name": "Course 5", "company": 1 }
   },
   {
     "model": "app_sph_lms.CourseCategory",
     "pk": 1,
-    "fields": { "course_id": 1, "category_id": 1 }
+    "fields": { "course": 1, "category": 1 }
   }
   ,
   {
     "model": "app_sph_lms.CourseCategory",
     "pk": 2,
-    "fields": { "course_id": 2, "category_id": 2 }
+    "fields": { "course": 2, "category": 2 }
   },
   {
     "model": "app_sph_lms.CourseCategory",
     "pk": 3,
-    "fields": { "course_id": 3, "category_id": 3 }
+    "fields": { "course": 3, "category": 3 }
   },
   {
     "model": "app_sph_lms.CourseCategory",
     "pk": 4,
-    "fields": { "course_id": 4, "category_id": 4 }
+    "fields": { "course": 4, "category": 4 }
   },
   {
     "model": "app_sph_lms.CourseCategory",
     "pk": 5,
-    "fields": { "course_id": 5, "category_id": 5 }
+    "fields": { "course": 5, "category": 5 }
   }
   
 ]
