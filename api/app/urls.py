@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from app_sph_lms.forms import EmailAuthenticationForm
+
+admin.site.login_form = EmailAuthenticationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),

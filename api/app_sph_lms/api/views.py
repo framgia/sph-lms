@@ -1,7 +1,7 @@
 from app_sph_lms.api.serializers import (CourseCategorySerializer,
                                          CourseSerializer,
-                                         UserSerializer
-                                         )
+                                         UserSerializer,
+                                         AuthTokenSerializer)
 from app_sph_lms.models import Course, CourseCategory, User
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
@@ -16,6 +16,9 @@ from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.backends import get_user_model
+from rest_framework.authtoken import views as auth_views
+from rest_framework.compat import coreapi, coreschema
+from rest_framework.schemas import ManualSchema
 
 
 # Create your views here.
@@ -27,10 +30,10 @@ class AuthViaEmail(BaseBackend):
         except get_user_model().DoesNotExist:
             return None
     
-    def authenticate(self, request, username=None, password=None):
+    def authenticate(self, request, email=None, password=None):
         UserModel = get_user_model()
         try:
-            user = UserModel.objects.get(Q(email__iexact=username))
+            user = UserModel.objects.get(email=email)
             if user.check_password(password):
                 return user
         except UserModel.DoesNotExist:
@@ -111,3 +114,31 @@ class CourseCategoryList(generics.ListCreateAPIView):
 class CourseCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CourseCategory.objects.all()
     serializer_class = CourseCategorySerializer
+
+class AuthToken(auth_views.ObtainAuthToken):
+    serializer_class = AuthTokenSerializer
+
+    if coreapi is not None and coreschema is not None:
+        schema = ManualSchema(
+            fields=[
+                coreapi.Field(
+                    name="email",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Email",
+                        description="Valid email for authentication",
+                    ),
+                ),
+                coreapi.Field(
+                    name="password",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Password",
+                        description="Valid password for authentication",
+                    ),
+                ),
+            ],
+            encoding="application/json",
+        )
