@@ -12,7 +12,6 @@ from app_sph_lms.models import (Company,
                                 Trainee,
                                 Trainer
                                 ) 
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 # Register your models here.
 admin.site.register(User)

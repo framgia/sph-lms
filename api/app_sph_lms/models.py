@@ -169,4 +169,3 @@ class Trainee(models.Model):
         db_table = "app_sph_lms_trainees"
     def __str__(self):
         return "Class: " + str(self.class_id) + " | " + "Trainee: " + str(self.trainee)
-
