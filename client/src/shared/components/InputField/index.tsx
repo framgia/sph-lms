@@ -40,7 +40,7 @@ const InputField: React.FC<InputFieldProps> = ({
         </label>
       )}
       <input
-        className="shadow appearance-none border rounded text-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="appearance-none border border-gray-300 rounded text-lg py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         style={propStyle}
         id={id}
         type={type}
