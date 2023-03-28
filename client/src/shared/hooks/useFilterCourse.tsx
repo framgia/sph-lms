@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { useState, useEffect } from 'react';
-import axiosInstance from '@/src/apis';
+import API from '@/src/apis';
 import type { Course, CourseCategory } from '../utils/interface';
 
 export interface FilterCourseState {
@@ -36,7 +36,7 @@ const useFilterCourse = (): FilterCourseState => {
         params.title = searchTerm;
       }
       endpoint += `?${new URLSearchParams(params).toString()}`;
-      const result = await axiosInstance.get<Course[]>(endpoint);
+      const result = await API.get<Course[]>(endpoint);
       setCourses(result.data);
     };
     void fetchCourses();
@@ -44,7 +44,7 @@ const useFilterCourse = (): FilterCourseState => {
 
   useEffect(() => {
     const fetchCategories = async (): Promise<void> => {
-      const result = await axiosInstance.get<CourseCategory[]>('/course-category/');
+      const result = await API.get<CourseCategory[]>('/course-category/');
       setCategories(result.data);
     };
     void fetchCategories();
@@ -70,7 +70,7 @@ const useFilterCourse = (): FilterCourseState => {
       params.title = searchTerm;
     }
     const endpoint = `?${new URLSearchParams(params).toString()}`;
-    const result = await axiosInstance.get<Course[]>(endpoint);
+    const result = await API.get<Course[]>(endpoint);
     setCourses(result.data);
   };
 

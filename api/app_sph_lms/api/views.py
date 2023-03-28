@@ -1,6 +1,8 @@
 from app_sph_lms.api.serializers import (CourseCategorySerializer,
-                                         CourseSerializer)
-from app_sph_lms.models import Course, CourseCategory
+                                         CourseSerializer,
+                                         UserSerializer
+                                         )
+from app_sph_lms.models import Course, CourseCategory, User
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
@@ -10,6 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.backends import get_user_model
+
 
 # Create your views here.
 
@@ -30,13 +33,17 @@ class AuthViaEmail(BaseBackend):
             return None
 
 @api_view()
-def get_auth_user(request):
+def get_auth_user( request):
     if request.method == 'GET':
         user = request.user
         token = Token.objects.get(user=user)
+        user = User.objects.get(id=user.id)
+        serializer =  UserSerializer(user)
+        
         return Response({
-            'username': user.username,
-            'email': user.email,
+            'full_name': serializer.data["full_name"],
+            'username': serializer.data["username"],
+            'email': serializer.data["email"],
             'auth_token': token.key,
         })   
 

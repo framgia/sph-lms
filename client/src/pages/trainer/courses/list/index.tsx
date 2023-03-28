@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import GridIcon from '@/src/shared/icons/GridIcon';
 import ListIcon from '@/src/shared/icons/ListIcon';
 import ViewAs from '@/src/sections/courses/list/view-as';
-import axiosInstance from '@/src/apis';
+import API from '@/src/apis';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import { type Course } from '@/src/shared/utils';
 import useSortByCourse from '@/src/shared/hooks/useSortByCourse';
@@ -25,13 +25,8 @@ export interface CourseProps {
 }
 
 const View = (): ReactNode => {
-  const {
-    setData,
-    data,
-    handleSortDirectionChange,
-    options,
-    sortDirection
-  } = useSortByCourse();
+  const { setData, data, handleSortDirectionChange, options, sortDirection } =
+    useSortByCourse();
 
   const [selectedView, setSelectedView] = useState('grid');
 
@@ -53,7 +48,7 @@ const View = (): ReactNode => {
   useEffect(() => {
     let ignore = false;
     async function fetchData (): Promise<void> {
-      const response = await axiosInstance.get('/course');
+      const response = await API.get('/course');
       if (!ignore) {
         setData(response.data);
       }
@@ -76,7 +71,7 @@ const View = (): ReactNode => {
         <div className="bg-white top-0 bottom-0 w-3/5 left-20 ml-28 pr-10">
           <div className="text-xl pl-5 pt-20 text-blue-500">Courses</div>
           <div className="pl-5 pt-10">
-          <SearchBar onSearchEvent={handleOnSearchEvent} />
+            <SearchBar onSearchEvent={handleOnSearchEvent} />
             <div className="pt-5 flex flex-row justify-between">
               <div className="">
                 <Select

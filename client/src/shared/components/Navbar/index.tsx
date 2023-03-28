@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Avatar from '@/src/shared/components/Avatar';
 import Dropdown, { type DropdownProps } from '@/src/shared/components/Dropdown';
 import NavLink from '@/src/shared/components/NavLink';
 import SettingsIcon from '@/src/shared/icons/SettingsIcon';
-import { isSignedIn } from '../../utils';
+import { getUserFullName, isSignedIn } from '../../utils';
 
 export interface NavItemProps {
   url: string;
@@ -62,8 +63,8 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
               <Link href={'/settings'} className="text-gray-600">
                 <SettingsIcon width={20} height={20} className="mr-2" />
               </Link>
-              <Avatar name="John Doe" />
-              <Dropdown options={dropdownItems} label="John Doe" />
+              <Avatar name={getUserFullName()} />
+              <Dropdown options={dropdownItems} label={getUserFullName()} />
             </div>
               )
             : (

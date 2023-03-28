@@ -1,5 +1,4 @@
 import { Fragment, type ReactNode } from 'react';
-
 import Navbar from '@/src/shared/components/Navbar';
 import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 

@@ -8,7 +8,7 @@ export interface Option {
 }
 
 export interface DropdownProps {
-  label: string;
+  label: string | null;
   options: Option[];
   classNames?: string;
 }
@@ -24,7 +24,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(dropdownRef, () => { setIsOpen(false); });
+  useOutsideClick(dropdownRef, () => {
+    setIsOpen(false);
+  });
 
   const handleOptionSelectEvent = (option: string): void => {
     setSelectedOption(option);

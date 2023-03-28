@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import axiosInstance from '@/src/apis';
+import API from '@/src/apis';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -42,7 +42,7 @@ export const useShowPerPage = (): any => {
     const fetchCourse = async (): Promise<void> => {
       if (params.id !== undefined) {
         try {
-          const result = await axiosInstance.get(`course/${params.id}`);
+          const result = await API.get(`course/${params.id}`);
           if (isRequestOk(result)) {
             setCourse(result.data);
           }
@@ -61,7 +61,6 @@ export const useShowPerPage = (): any => {
   const handleShowPerPage = (e: any): void => {
     const limiter = e.target.value;
     setShowPerPage(users.slice(0, limiter));
-    console.log(showPerPage);
   };
 
   const paths = [

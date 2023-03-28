@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface AvatarProps {
-  name: string;
+  name: string | null;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ name }) => {
@@ -16,9 +16,11 @@ const Avatar: React.FC<AvatarProps> = ({ name }) => {
     return initials.join('').toUpperCase();
   };
   return (
-      <div className="rounded-full bg-gray-300 w-8 h-8 flex items-center justify-center relative">
-        <span className="text-center text-white text-sm font-medium">{getInitials(name)}</span>
-      </div>
+    <div className="rounded-full bg-gray-300 w-8 h-8 flex items-center justify-center relative">
+      <span className="text-center text-white text-sm font-medium">
+        {getInitials(name)}
+      </span>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from '@/src/apis';
+import API from '@/src/apis';
 import type { Course } from '../utils/interface';
 
 export const useSearchCourse = (): any => {
@@ -8,7 +8,7 @@ export const useSearchCourse = (): any => {
   useEffect(() => {
     let ignore = false;
     async function fetchData (): Promise<void> {
-      const result = await axiosInstance.get('/course/');
+      const result = await API.get('/course/');
       if (!ignore) {
         setCourses(result.data);
       }
@@ -23,7 +23,7 @@ export const useSearchCourse = (): any => {
 
   const handleOnSearchEvent = async (searchTerm: string): Promise<void> => {
     try {
-      const result = await axiosInstance.get(`/course/?title=${searchTerm}`);
+      const result = await API.get(`/course/?title=${searchTerm}`);
       setCourses(result.data);
     } catch (error) {
       console.error(error);

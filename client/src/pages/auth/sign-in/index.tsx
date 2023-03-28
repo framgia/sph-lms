@@ -1,43 +1,20 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import React, { Fragment, useState } from 'react';
-
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import React, { Fragment } from 'react';
 import Container from '@/src/shared/layouts/Container';
 import Navbar from '@/src/shared/components/Navbar';
 import { dropdownItems, navItems } from '../../demo/layouts/navbar';
-
+import { useAuthSignIn } from '@/src/shared/hooks/useAuthSignIn';
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState<string | undefined>('');
-  const [passwordError, setPasswordError] = useState<string | undefined>('');
-
-  const handleSubmitEvent = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    if (!email) {
-      setEmailError('Email cannot be empty.');
-    }
-    if (!password) {
-      setPasswordError('Password cannot be empty.');
-    }
-    if (email && password) {
-      console.log('Frontend validations successful');
-    }
-  };
-
-  const handleEmailChangeEvent = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setEmail(e.target.value);
-    setEmailError('');
-  };
-
-  const handlePasswordChangeEvent = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setPassword(e.target.value);
-    setPasswordError('');
-  };
+  const {
+    email,
+    password,
+    emailError,
+    passwordError,
+    handleSubmitEvent,
+    handleEmailChangeEvent,
+    handlePasswordChangeEvent
+  } = useAuthSignIn();
 
   return (
     <Fragment>

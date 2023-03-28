@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { SelectOptionData } from '@/src/shared/components/Select';
 import { useRouter } from 'next/router';
-import axiosInstance from '@/src/apis';
+import API from '@/src/apis';
 import { alertError, alertSuccess, isRequestOk } from '../utils';
 
 export const useCreateCourse = (): any => {
@@ -32,7 +32,7 @@ export const useCreateCourse = (): any => {
   ): Promise<void> => {
     e.preventDefault();
     try {
-      const result = await axiosInstance.post('/course/', postData);
+      const result = await API.post('/course/', postData);
       alertSuccess('Course Successfully Added');
       router.push(`/trainer/course/detail/${result.data.id}`);
     } catch (error) {
@@ -54,7 +54,7 @@ export const useCreateCourse = (): any => {
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
-        const result = await axiosInstance.get('/course-category');
+        const result = await API.get('/course-category');
         if (isRequestOk(result)) {
           setCategory(result.data);
         }

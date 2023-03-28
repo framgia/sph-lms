@@ -1,4 +1,4 @@
-import axiosInstance from '@/src/apis';
+import API from '@/src/apis';
 import { useEffect, useState } from 'react';
 import { type SelectOptionData } from '../components/Select';
 import { type Course } from '../utils';
@@ -22,7 +22,7 @@ const useSortByCourse = (): any => {
   useEffect(() => {
     async function fetchdata (): Promise<void> {
       try {
-        const response = await axiosInstance.get<Course[]>(
+        const response = await API.get<Course[]>(
           `course/?sort=${sortDirection === ASC ? 'title_asc' : 'title_desc'}`
         );
         setData(response.data);
