@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import Head from 'next/head';
-import NavbarSection from '../sections/landing-page/Navbar';
-import HeroSection from '../sections/landing-page/Hero';
-import BenefitsSection from '../sections/landing-page/Benefits';
-import TestimonialsSection from '../sections/landing-page/Testimonials';
+import NavbarSection from '../sections/landing-page/NavbarSection';
+import HeroSection from '../sections/landing-page/HeroSection';
+import BenefitSection from '../sections/landing-page/BenefitSection';
+import TestimonialSection from '../sections/landing-page/TestimonialSection';
 
 const LandingPage: React.FunctionComponent = () => {
   return (
@@ -22,10 +22,10 @@ const LandingPage: React.FunctionComponent = () => {
         <HeroSection></HeroSection>
       </div>
       <div className="h-screen w-auto pl-40 pr-20">
-        <BenefitsSection></BenefitsSection>
+        <BenefitSection></BenefitSection>
       </div>
       <div className="h-screen w-auto pl-20 pr-20">
-        <TestimonialsSection></TestimonialsSection>
+        <TestimonialSection></TestimonialSection>
       </div>
     </Fragment>
   );

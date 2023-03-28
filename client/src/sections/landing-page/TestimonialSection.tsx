@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import type { FC } from 'react';
 
-const TestimonialsSection: FC = () => {
+const TestimonialSection: FC = () => {
   const testimonies = [
     {
       id: 1,
@@ -66,4 +66,4 @@ const TestimonialsSection: FC = () => {
   );
 };
 
-export default TestimonialsSection;
+export default TestimonialSection;

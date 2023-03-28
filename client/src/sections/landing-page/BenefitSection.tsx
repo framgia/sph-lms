@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import type { FC } from 'react';
 
-const BenefitsSection: FC = () => {
+const BenefitSection: FC = () => {
   return (
     <div className="flex flex-col ">
       <div className="flex justify-center text-6xl font-bold pt-10 pb-20 text-red-500">
@@ -135,4 +135,4 @@ const BenefitsSection: FC = () => {
   );
 };
 
-export default BenefitsSection;
+export default BenefitSection;
