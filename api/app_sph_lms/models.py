@@ -13,11 +13,19 @@ def generate_code(length=10):
 # Create your models here.
 class UserRole(models.Model):
     title = models.CharField(max_length=255, unique=True)
+    class Meta:
+        verbose_name = "UserRole"
+        verbose_name_plural = "User Roles"
+        db_table = '"app_sph_lms_user_roles"'
     def __str__(self):
         return str(self.title)
     
 class Status(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    class Meta:
+        verbose_name = "Status"
+        verbose_name_plural = "Statuses"
+        db_table = '"app_sph_lms_statuses"'
     def __str__(self):
         return str(self.name)
 
@@ -28,6 +36,10 @@ class User(AbstractUser):
     img_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+        db_table = '"app_sph_lms_users"'
     def __str__(self):
         return str(self.email)
 
@@ -43,6 +55,10 @@ class Company(models.Model):
     country = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta: 
+        verbose_name = "Company"
+        verbose_name_plural = "Companies"
+        db_table = '"app_sph_lms_companies"'
     def __str__(self):
         return str(self.name)
 
@@ -51,6 +67,10 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta: 
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+        db_table = '"app_sph_lms_categories"'
     def __str__(self):
         return str(self.name)    
     
@@ -64,6 +84,10 @@ class Course(models.Model):
     preview_vid_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta: 
+        verbose_name = "Course"
+        verbose_name_plural = "Courses"
+        db_table = '"app_sph_lms_courses"'
     def __str__(self):
         return str(self.name)   
     
@@ -74,6 +98,9 @@ class CourseCategory(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     class Meta:
         unique_together = ('course', 'category')
+        verbose_name = "CourseCategory"
+        verbose_name_plural = "Course categories"
+        db_table = '"app_sph_lms_course_categories"'
     def __str__(self):
         return "Course: " + str(self.course) + " | " + "Category: " + str(self.category)
 
@@ -82,6 +109,10 @@ class Tag(models.Model):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta: 
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
+        db_table = '"app_sph_lms_tags"'
     def __str__(self):
         return str(self.name)
 
@@ -92,6 +123,9 @@ class CourseTag(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     class Meta:
         unique_together = ('course', 'tag')
+        verbose_name = "CourseTag"
+        verbose_name_plural = "Course Tags"
+        db_table = '"app_sph_lms_course_tags"'
     def __str__(self):
         return "Course: " + str(self.course) + " | " + "Tag: " + str(self.tag)
     
@@ -101,6 +135,10 @@ class Class(models.Model):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta:
+        verbose_name = "Class"
+        verbose_name_plural = "Classes"
+        db_table = '"app_sph_lms_classes"'
     def __str__(self):
         return str(self.name)
 
@@ -112,6 +150,9 @@ class Trainer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         unique_together = ('class_id', 'trainer')
+        verbose_name = "Trainer"
+        verbose_name_plural = "Trainers"
+        db_table = '"app_sph_lms_trainers"'
     def __str__(self):
         return "Class: " + str(self.class_id) + " | " + "Trainer: " + str(self.trainer)
     
@@ -123,6 +164,9 @@ class Trainee(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         unique_together = ('class_id', 'trainee')
+        verbose_name = "Trainee"
+        verbose_name_plural = "Trainees"
+        db_table = '"app_sph_lms_trainees"'
     def __str__(self):
         return "Class: " + str(self.class_id) + " | " + "Trainee: " + str(self.trainee)
 
