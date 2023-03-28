@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Avatar from '@/src/shared/components/Avatar';
 import Dropdown, { type DropdownProps } from '@/src/shared/components/Dropdown';
@@ -19,9 +18,13 @@ export interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    isSignedIn();
+    setIsClient(true);
   }, []);
+
+  const userSignedIn = isClient && isSignedIn();
 
   return (
     <nav className="bg-gray-100 sticky top-0 z-10">
@@ -57,7 +60,7 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
               </div>
             </div>
           </div>
-          {isSignedIn()
+          {userSignedIn
             ? (
             <div className="flex items-center">
               <Link href={'/settings'} className="text-gray-600">
@@ -69,12 +72,14 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
               )
             : (
             <div className="flex items-center">
-              <Link
-                href="/auth/sign-in"
-                className="bg-slate-300 py-1.5 px-3 text-gray rounded hover:bg-slate-500 hover:text-white"
-              >
-                Sign in
-              </Link>
+              {isClient && (
+                <Link
+                  href="/auth/sign-in"
+                  className="bg-slate-300 py-1.5 px-3 text-gray rounded hover:bg-slate-500 hover:text-white"
+                >
+                  Sign in
+                </Link>
+              )}
             </div>
               )}
         </div>
