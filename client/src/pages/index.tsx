@@ -1,9 +1,16 @@
 import React, { Fragment } from 'react';
 import Head from 'next/head';
+<<<<<<< Updated upstream
 import Hero from '../sections/landingPage/hero';
 import Benefits from '../sections/landingPage/benefits';
 import Navbar from '../sections/landingPage/navbar';
 import Testimonials from '../sections/landingPage/testimonials';
+=======
+import NavbarSection from '../sections/landing-page/navbar';
+import HeroSection from '../sections/landing-page/hero';
+import TestimonialsSection from '../sections/landing-page/testimonials';
+import BenefitsSection from '../sections/landing-page/benefits';
+>>>>>>> Stashed changes
 
 const LandingPage: React.FunctionComponent = () => {
   return (
@@ -14,6 +21,7 @@ const LandingPage: React.FunctionComponent = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="sticky top-0 overflow-hidden">
+<<<<<<< Updated upstream
         <Navbar navItems={['About', 'Benefits', 'Testimonies']}></Navbar>
       </div>
       <div className="h-screen w-auto pl-40 pr-10">
@@ -24,6 +32,20 @@ const LandingPage: React.FunctionComponent = () => {
       </div>
       <div className="h-screen w-auto pl-20 pr-20">
         <Testimonials></Testimonials>
+=======
+        <NavbarSection
+          navItems={['About', 'Benefits', 'Testimonies']}
+        ></NavbarSection>
+      </div>
+      <div className="h-screen w-auto pl-40 pr-10">
+        <HeroSection></HeroSection>
+      </div>
+      <div className="h-screen w-auto pl-40 pr-20">
+        <BenefitsSection></BenefitsSection>
+      </div>
+      <div className="h-screen w-auto pl-20 pr-20">
+        <TestimonialsSection></TestimonialsSection>
+>>>>>>> Stashed changes
       </div>
     </Fragment>
   );
