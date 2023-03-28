@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import Head from 'next/head';
-import NavbarSection from '../sections/landing-page/navbar_old';
-import HeroSection from '../sections/landing-page/hero_old';
-import BenefitsSection from '../sections/landing-page/benefits_old';
-import TestimonialsSection from '../sections/landing-page/testimonials_old';
+import NavbarSection from '../sections/landing-page/Navbar';
+import HeroSection from '../sections/landing-page/Hero';
+import BenefitsSection from '../sections/landing-page/Benefits';
+import TestimonialsSection from '../sections/landing-page/Testimonials';
 
 const LandingPage: React.FunctionComponent = () => {
   return (
