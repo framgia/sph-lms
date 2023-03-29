@@ -92,7 +92,6 @@ const UsersList: React.FC = () => {
       setValidation(errorMessages);
     } else {
       // TODO: Implement form submission logic here
-      setIsEditModalOpen(false); // Close modal after form submission
       setIsConfirmationModalOpen(true);
       setConfirmationMessage('Are you sure you want to edit user?');
       setValidation(''); // Clear validation error message
