@@ -18,8 +18,10 @@ export const useSignOut = (): any => {
           }
         }
       );
-      // Remove token from localStorage
       localStorage.removeItem('user_token');
+      localStorage.removeItem('user_full_name');
+      localStorage.removeItem('user_username');
+      localStorage.removeItem('user_email');
       localStorage.setItem('signedIn', 'false');
       router.reload();
       alertSuccess('Logout Successful');

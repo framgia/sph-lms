@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import React, { useState, useRef, useEffect } from 'react';
 import ChevronDownIcon from '@/src/shared/icons/ChevronDownIcon';
 import { useOutsideClick } from '@/src/shared/hooks/useOutsideClick';
+import { useSignOut } from '@/src/shared/hooks/useSignOut';
 
 export interface Option {
   text: string;
@@ -11,17 +13,22 @@ export interface DropdownProps {
   label: string | null;
   options: Option[];
   classNames?: string;
+  showLogoutButton?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
   options,
   label,
-  classNames
+  classNames,
+  showLogoutButton
 }: DropdownProps) => {
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogoutButtonState, setShowLogoutButton] = useState<
+  boolean | undefined
+  >(showLogoutButton);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(dropdownRef, () => {
@@ -32,6 +39,14 @@ const Dropdown: React.FC<DropdownProps> = ({
     setSelectedOption(option);
     setIsOpen(false);
   };
+
+  const { onSignOutEvent } = useSignOut();
+
+  useEffect(() => {
+    if (showLogoutButton !== undefined) {
+      setShowLogoutButton(showLogoutButton);
+    }
+  }, [showLogoutButton]);
 
   return (
     <div className="relative inline-block text-left z-10" ref={dropdownRef}>
@@ -80,11 +95,23 @@ const Dropdown: React.FC<DropdownProps> = ({
                 {option.text}
               </a>
             ))}
+            {showLogoutButtonState && (
+              <button
+                className="block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 border-t border-gray-200"
+                onClick={onSignOutEvent}
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       )}
     </div>
   );
+};
+
+Dropdown.defaultProps = {
+  showLogoutButton: false
 };
 
 export default Dropdown;

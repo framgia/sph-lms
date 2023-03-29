@@ -8,7 +8,9 @@ export const useAuthMiddleware = (): void => {
   const router = useRouter();
 
   useEffect(() => {
-    if (getUserToken() !== null) {
+    const token = getUserToken();
+
+    if (token !== null) {
       const fetchData = async (): Promise<void> => {
         try {
           const user = await API.get('/auth/user');
@@ -25,7 +27,7 @@ export const useAuthMiddleware = (): void => {
       if (router.asPath === '/' || router.asPath === '/auth/sign-in') {
         router.push('/home');
       }
-    } else if (router.asPath === '/home') {
+    } else if (router.asPath !== '/' && router.asPath !== '/auth/sign-in') {
       router.push('/');
     }
   }, [router]);

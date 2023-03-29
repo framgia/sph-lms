@@ -4,9 +4,7 @@ import Avatar from '@/src/shared/components/Avatar';
 import Dropdown, { type DropdownProps } from '@/src/shared/components/Dropdown';
 import NavLink from '@/src/shared/components/NavLink';
 import SettingsIcon from '@/src/shared/icons/SettingsIcon';
-import LogoutIcon from '@/src/shared/icons/LogoutIcon';
 import { getUserFullName, isSignedIn } from '../../utils';
-import { useSignOut } from '@/src/shared/hooks/useSignOut';
 
 export interface NavItemProps {
   url: string;
@@ -27,7 +25,6 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
   }, []);
 
   const userSignedIn = isClient && isSignedIn();
-  const { onSignOutEvent } = useSignOut();
 
   return (
     <nav className="bg-gray-100 sticky top-0 z-10">
@@ -70,14 +67,11 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
                 <SettingsIcon width={20} height={20} className="mr-2" />
               </Link>
               <Avatar name={getUserFullName()} />
-              <Dropdown options={dropdownItems} label={getUserFullName()} />
-              <button
-                className="flex rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
-                onClick={onSignOutEvent}
-              >
-                <LogoutIcon />
-                <span> Logout</span>
-              </button>
+              <Dropdown
+                options={dropdownItems}
+                label={getUserFullName()}
+                showLogoutButton={true}
+              />
             </div>
               )
             : (
