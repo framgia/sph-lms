@@ -44,24 +44,27 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
                 {navItems.map((navItem) => {
                   return (
                     <div key={navItem.url}>
-                      {navItem.dropdownItems.length > 0 ? (
+                      {navItem.dropdownItems.length > 0
+                        ? (
                         <Dropdown
                           options={navItem.dropdownItems}
                           label={navItem.text}
                         />
-                      ) : (
+                          )
+                        : (
                         <NavLink
                           href={navItem.url}
                           text={navItem.text}
                         ></NavLink>
-                      )}
+                          )}
                     </div>
                   );
                 })}
               </div>
             </div>
           </div>
-          {userSignedIn ? (
+          {userSignedIn
+            ? (
             <div className="flex items-center">
               <Link href={'/settings'} className="text-gray-600">
                 <SettingsIcon width={20} height={20} className="mr-2" />
@@ -76,7 +79,8 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
                 <span> Logout</span>
               </button>
             </div>
-          ) : (
+              )
+            : (
             <div className="flex items-center">
               {isClient && (
                 <Link
@@ -87,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
                 </Link>
               )}
             </div>
-          )}
+              )}
         </div>
       </div>
     </nav>

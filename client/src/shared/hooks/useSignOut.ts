@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { alertError, alertSuccess } from '@/src/shared/utils';
+import { alertError, alertSuccess, getUserToken } from '@/src/shared/utils';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { getUserToken } from '@/src/shared/utils';
 
 export const useSignOut = (): any => {
   const router = useRouter();
