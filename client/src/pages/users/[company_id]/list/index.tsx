@@ -69,6 +69,15 @@ const UsersList: React.FC = () => {
     if (formData.firstName.length === 0 || formData.lastName.length === 0 || formData.email.length === 0) {
       errorMessages = 'Please fill in all required fields.';
     }
+    if (
+      formData.firstName.length < 3 ||
+      formData.lastName.length < 3) {
+      errorMessages = 'The First and Last name should be more than 2 characters';
+    }
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(formData.email)) {
+      errorMessages = 'Invalid Email Address';
+    }
     if (errorMessages.length > 0) {
       setValidation(errorMessages);
     } else {
@@ -84,6 +93,20 @@ const UsersList: React.FC = () => {
     let errorMessages = '';
     if (formData.firstName.length === 0 || formData.lastName.length === 0 || formData.email.length === 0) {
       errorMessages = 'Please fill in all required fields.';
+    }
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(formData.email)) {
+      errorMessages = 'Invalid email address';
+    }
+    if (
+      formData.firstName.length < 2 ||
+      formData.lastName.length < 2) {
+      errorMessages = 'The First and Last name should be more than 2 characters';
+    }
+    if (
+      formData.password.length < 5 ||
+      formData.confirmPassword.length < 5) {
+      errorMessages = 'Password should be more than 5 characters';
     }
     if (formData.password !== formData.confirmPassword) {
       errorMessages = 'Passwords do not match.';
@@ -119,11 +142,11 @@ const UsersList: React.FC = () => {
         </div>
       </div>
       <Modal isOpen={isAddModalOpen}>
-        <div className='flex justify-between relative mr-6'>
+        <div className='flex justify-between relative mx-6'>
           <div>
-            <h1 className='text-3xl mt-6 ml-6 mb-14'>Add a new User</h1>
+            <h1 className='text-3xl mt-6 mb-14'>Add a new User</h1>
           </div>
-          <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsAddModalOpen(false); }}>
+          <div className='mt-8 cursor-pointer' onClick={() => { setIsAddModalOpen(false); }}>
             <XmarkIcon />
           </div>
         </div>
@@ -161,11 +184,11 @@ const UsersList: React.FC = () => {
         </form>
       </Modal>
       <Modal isOpen={isEditModalOpen}>
-        <div className='flex justify-between relative mr-6'>
+        <div className='flex justify-between relative mx-6'>
           <div>
-            <h1 className='text-3xl mt-6 ml-6 mb-14'>John Strong</h1>
+            <h1 className='text-3xl mt-6 mb-14'>John Strong</h1>
           </div>
-          <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsEditModalOpen(false); }}>
+          <div className='mt-8 cursor-pointer' onClick={() => { setIsEditModalOpen(false); }}>
             <XmarkIcon />
           </div>
         </div>
