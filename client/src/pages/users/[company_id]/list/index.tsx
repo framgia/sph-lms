@@ -13,6 +13,10 @@ const UsersList: React.FC = () => {
 
   const [validation, setValidation] = useState('');
 
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+
   const handleOpenAddModal = (): void => {
     setIsAddModalOpen(true);
   };
@@ -46,7 +50,9 @@ const UsersList: React.FC = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    password: '',
+    confirmPassword: ''
   });
 
   const handleChange = (event: { target: { name: any; value: any; }; }): void => {
@@ -56,22 +62,62 @@ const UsersList: React.FC = () => {
     });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmitUser = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    let errorMessages = '';
     if (formData.firstName.length === 0 || formData.lastName.length === 0 || formData.email.length === 0) {
-      setValidation('Please fill in all required fields.');
+      errorMessages = 'Please fill in all required fields.';
+    }
+    if (formData.password !== formData.confirmPassword) {
+      errorMessages = 'Passwords do not match.';
+    }
+    if (errorMessages.length > 0) {
+      setValidation(errorMessages);
     } else {
-      // TODO: Implement form submission logic here
-      setIsAddModalOpen(false); // Close modal after form submission
+    // TODO: Implement form submission logic here
+      setIsConfirmationModalOpen(true);
+      setConfirmationMessage('Are you sure you want to create user?'); // Open the confirmation modal
       setValidation(''); // Clear validation error message
     }
   };
 
+  const handleSubmitEdit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    let errorMessages = '';
+    if (formData.firstName.length === 0 || formData.lastName.length === 0 || formData.email.length === 0) {
+      errorMessages = 'Please fill in all required fields.';
+    }
+    if (formData.password !== formData.confirmPassword) {
+      errorMessages = 'Passwords do not match.';
+    }
+    if (errorMessages.length > 0) {
+      setValidation(errorMessages);
+    } else {
+      // TODO: Implement form submission logic here
+      setIsEditModalOpen(false); // Close modal after form submission
+      setIsConfirmationModalOpen(true);
+      setConfirmationMessage('Are you sure you want to edit user?');
+      setValidation(''); // Clear validation error message
+    }
+  };
+
+  const handleConfirm = (): void => {
+    setIsConfirmationModalOpen(false); // Close the confirmation modal
+    setIsEditModalOpen(false);
+    setIsAddModalOpen(false);
+  };
+
+  const handleDeleteUser = (): void => {
+  // TODO: Implement delete operation here
+    setIsConfirmationModalOpen(true); // Open the confirmation modal
+    setConfirmationMessage('Are you sure you want to delete user?'); // Set the confirmation message
+  };
+
   return (
     <Fragment>
-        <div>
+        <div className='ml-12 mb-12'>
             <Button text='Add User' color='blue' width='20' onClick={handleOpenAddModal}/>
-            <div onClick={handleOpenEditModal}>
+            <div onClick={handleOpenEditModal} className='cursor-pointer'>
             <EditIcon/>
             </div>
         </div>
@@ -84,7 +130,7 @@ const UsersList: React.FC = () => {
       <XmarkIcon />
       </div>
     </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmitUser}>
           <div className='space-y-6 pb-5'>
           <div>
             <label className='ml-6 text-sm font-bold'>Role</label>
@@ -126,12 +172,18 @@ const UsersList: React.FC = () => {
       <XmarkIcon />
       </div>
     </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmitEdit}>
           <div className='space-y-6 pb-5'>
           <div>
             <label className='ml-6 text-sm font-bold'>Role</label>
             <div className='mx-6'>
             <Select options={options} value={role} eventHandler={handleValueChange}/>
+            </div>
+          </div>
+          <div>
+            <label className='ml-6 text-sm font-bold'>Email</label>
+            <div className='mx-6'>
+            <InputField value={formData.email} eventHandler={handleChange} name="email"/>
             </div>
           </div>
           <div>
@@ -147,19 +199,39 @@ const UsersList: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className='ml-6 text-sm font-bold'>Email</label>
+            <label className='ml-6 text-sm font-bold'>Password</label>
             <div className='mx-6'>
-            <InputField value={formData.email} eventHandler={handleChange} name="email"/>
+            <InputField value={formData.password} eventHandler={handleChange} name="password" type='password'/>
+            </div>
+          </div>
+          <div>
+            <label className='ml-6 text-sm font-bold'>Confirm Password</label>
+            <div className='mx-6'>
+            <InputField value={formData.confirmPassword} eventHandler={handleChange} name="confirmPassword" type='password'/>
             </div>
           </div>
           {(validation.length > 0) && <p className='text-red-500 ml-6 mb-6'>{validation}</p>}
           </div>
-          <div className='flex justify-end mr-6'>
-      <Button text='Create New User' color='blue' type='submit'/>
+          <div className='flex justify-between mx-6'>
+            <Button text='Delete User' color='red' onClick={handleDeleteUser}/>
+      <Button text='Update User' color='blue' type='submit'/>
     </div>
     </form>
         </Modal>
-
+        <Modal isOpen={isConfirmationModalOpen}>
+  <div className='flex justify-between relative mr-6'>
+    <div>
+      <h1 className='text-3xl mt-6 ml-6 mb-14'>Confirmation</h1>
+    </div>
+    <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsConfirmationModalOpen(false); }}>
+      <XmarkIcon />
+    </div>
+  </div>
+  <div className='text-lg px-6 pb-6'>{confirmationMessage}</div>
+  <div className='flex justify-end mr-6'>
+    <Button text='Confirm' color='blue' onClick={handleConfirm}/>
+  </div>
+</Modal>
         </Fragment>
   );
 };
