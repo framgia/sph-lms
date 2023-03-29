@@ -25,7 +25,7 @@ export const useAuthSignIn = (): any => {
     }
     if (email && password) {
       const postData = {
-        username: email,
+        email: email,
         password: password
       };
 

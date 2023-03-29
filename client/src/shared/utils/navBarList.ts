@@ -42,6 +42,5 @@ export const navItems = [
 ];
 export const dropdownItems = [
   { text: 'Profile', url: '/profile' },
-  { text: 'Settings', url: '/settings' },
-  { text: 'Logout', url: '/logout' }
+  { text: 'Settings', url: '/settings' }
 ];

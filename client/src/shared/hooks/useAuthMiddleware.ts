@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import API from '@/src/apis';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { getUserToken } from '../utils';
 
 export const useAuthMiddleware = (): any => {
@@ -25,5 +25,11 @@ export const useAuthMiddleware = (): any => {
     if (router.asPath === '/' || router.asPath === '/auth/sign-in') {
       router.push('/home');
     }
+  } else {
+    useEffect(() => {
+      if (router.asPath === '/home') {
+        router.push('/');
+      }
+    }, []);
   }
 };
