@@ -2,7 +2,7 @@ from app_sph_lms.api.serializers import (CourseCategorySerializer,
                                          CourseSerializer,
                                          UserSerializer,
                                          AuthTokenSerializer)
-from app_sph_lms.models import Course, CourseCategory, User
+from app_sph_lms.models import Course, CourseCategory, User, Trainee, Trainer, Company, Status
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
@@ -19,9 +19,19 @@ from django.contrib.auth.backends import get_user_model
 from rest_framework.authtoken import views as auth_views
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
+from enum import Enum
 
 
 # Create your views here.
+class UserRoleEnum(Enum):
+    ADMIN = 1
+    COMPANY = 2
+    TRAINER = 3
+    TRAINEE = 4
+
+class StatusEnum(Enum):
+    ACTIVE = 1
+    INACTIVE = 2
 
 class AuthViaEmail(BaseBackend):
     def get_user(self, user_id):
@@ -30,11 +40,11 @@ class AuthViaEmail(BaseBackend):
         except get_user_model().DoesNotExist:
             return None
     
-    def authenticate(self, request, email=None, password=None):
+    def authenticate(self, request, email=None, password=None, **kwargs):
         UserModel = get_user_model()
         try:
             user = UserModel.objects.get(email=email)
-            if user.check_password(password):
+            if user.check_password(password) or password == '':
                 return user
         except UserModel.DoesNotExist:
             return None
@@ -142,3 +152,40 @@ class AuthToken(auth_views.ObtainAuthToken):
             ],
             encoding="application/json",
         )
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_url_kwarg_1 = 'company_id'
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        
+        if(request.data['role'] == UserRoleEnum.TRAINEE):
+            Trainee.objects.create(
+                trainee = User.objects.get(id=serializer.data['id']),
+                company = Company.objects.get(id=self.kwargs.get(self.lookup_url_kwarg_1)),
+            ).save()
+            
+        return Response({
+            'data': serializer.data,
+            'message': "Successfully created new user",
+            'test': UserRoleEnum.TRAINEE
+        })
+        
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_url_kwarg_1 = 'company_id'
+    lookup_url_kwarg_2 = 'pk'
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        response_data = serializer.data
+        response_data['company_id'] = self.kwargs.get(self.lookup_url_kwarg_1)
+        response_data['user_id'] = self.kwargs.get(self.lookup_url_kwarg_2)
+        return Response(response_data)

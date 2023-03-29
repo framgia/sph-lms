@@ -30,8 +30,13 @@ class Status(models.Model):
         return str(self.name)
 
 class User(AbstractUser):
+    first_name = models.CharField(max_length=255, null=False)
+    last_name = models.CharField(max_length=255, null=False)
+    is_active = models.BooleanField(default=True)
     email = models.EmailField(unique=True, null=False, db_index=True)
-    role = models.OneToOneField(UserRole, on_delete=models.CASCADE)
+    username = models.CharField(null=True, unique=False, max_length=255)
+    password = models.CharField(max_length=255, null=True, default='pbkdf2_sha256$180000$MOGSSKEzZ0TO$3KBAmh0aA50EH/ijbElvCgGov/TTrRffL7e9sFy7BVI=')
+    role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
     status =  models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     img_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -143,9 +148,10 @@ class Class(models.Model):
         return str(self.name)
 
 class Trainer(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
     trainer = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
@@ -154,12 +160,13 @@ class Trainer(models.Model):
         verbose_name_plural = "Trainer"
         db_table = "app_sph_lms_trainers"
     def __str__(self):
-        return "Class: " + str(self.class_id) + " | " + "Trainer: " + str(self.trainer)
+        return "Company: " + str(self.company) + " | " + "Trainer: " + str(self.trainer) + " | " + "Class: " + str(self.class_id)
     
 class Trainee(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
     trainee = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
@@ -168,4 +175,4 @@ class Trainee(models.Model):
         verbose_name_plural = "Trainee"
         db_table = "app_sph_lms_trainees"
     def __str__(self):
-        return "Class: " + str(self.class_id) + " | " + "Trainee: " + str(self.trainee)
+        return "Company: " + str(self.company) + " | " + "Trainee: " + str(self.trainee) + " | " + "Class: " + str(self.class_id)
