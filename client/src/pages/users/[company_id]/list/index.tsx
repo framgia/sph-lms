@@ -1,10 +1,11 @@
+import { Fragment, useState } from 'react';
+
 import Button from '@/src/shared/components/Button';
 import InputField from '@/src/shared/components/InputField';
 import Modal from '@/src/shared/components/Modal/Modal';
 import Select, { type SelectOptionData } from '@/src/shared/components/Select';
 import EditIcon from '@/src/shared/icons/EditIcon';
 import XmarkIcon from '@/src/shared/icons/XmarkIcon';
-import { Fragment, useState } from 'react';
 
 const UsersList: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -68,13 +69,10 @@ const UsersList: React.FC = () => {
     if (formData.firstName.length === 0 || formData.lastName.length === 0 || formData.email.length === 0) {
       errorMessages = 'Please fill in all required fields.';
     }
-    if (formData.password !== formData.confirmPassword) {
-      errorMessages = 'Passwords do not match.';
-    }
     if (errorMessages.length > 0) {
       setValidation(errorMessages);
     } else {
-    // TODO: Implement form submission logic here
+      // TODO: Implement form submission logic here
       setIsConfirmationModalOpen(true);
       setConfirmationMessage('Are you sure you want to create user?'); // Open the confirmation modal
       setValidation(''); // Clear validation error message
@@ -108,131 +106,131 @@ const UsersList: React.FC = () => {
   };
 
   const handleDeleteUser = (): void => {
-  // TODO: Implement delete operation here
+    // TODO: Implement delete operation here
     setIsConfirmationModalOpen(true); // Open the confirmation modal
     setConfirmationMessage('Are you sure you want to delete user?'); // Set the confirmation message
   };
 
   return (
     <Fragment>
-        <div className='ml-12 mb-12'>
-            <Button text='Add User' color='blue' width='20' onClick={handleOpenAddModal}/>
-            <div onClick={handleOpenEditModal} className='cursor-pointer'>
-            <EditIcon/>
-            </div>
+      <div className='ml-12 mb-12'>
+        <Button text='Add User' color='blue' width='20' onClick={handleOpenAddModal} />
+        <div onClick={handleOpenEditModal} className='cursor-pointer'>
+          <EditIcon />
         </div>
-        <Modal isOpen={isAddModalOpen}>
+      </div>
+      <Modal isOpen={isAddModalOpen}>
         <div className='flex justify-between relative mr-6'>
-    <div>
-      <h1 className='text-3xl mt-6 ml-6 mb-14'>Add a new User</h1>
-      </div>
-      <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsAddModalOpen(false); }}>
-      <XmarkIcon />
-      </div>
-    </div>
-          <form onSubmit={handleSubmitUser}>
+          <div>
+            <h1 className='text-3xl mt-6 ml-6 mb-14'>Add a new User</h1>
+          </div>
+          <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsAddModalOpen(false); }}>
+            <XmarkIcon />
+          </div>
+        </div>
+        <form onSubmit={handleSubmitUser}>
           <div className='space-y-6 pb-5'>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Role</label>
-            <div className='mx-6'>
-            <Select options={options} value={role} eventHandler={handleValueChange}/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Role</label>
+              <div className='mx-6'>
+                <Select options={options} value={role} eventHandler={handleValueChange} />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>First Name</label>
-            <div className='mx-6'>
-            <InputField value= {formData.firstName} eventHandler={handleChange} name="firstName"/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>First Name</label>
+              <div className='mx-6'>
+                <InputField value={formData.firstName} eventHandler={handleChange} name="firstName" />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Last Name</label>
-            <div className='mx-6'>
-            <InputField value={formData.lastName} eventHandler={handleChange} name="lastName"/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Last Name</label>
+              <div className='mx-6'>
+                <InputField value={formData.lastName} eventHandler={handleChange} name="lastName" />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Email</label>
-            <div className='mx-6'>
-            <InputField value={formData.email} eventHandler={handleChange} name="email"/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Email</label>
+              <div className='mx-6'>
+                <InputField value={formData.email} eventHandler={handleChange} name="email" />
+              </div>
             </div>
-          </div>
-          {(validation.length > 0) && <p className='text-red-500 ml-6 mb-6'>{validation}</p>}
+            {(validation.length > 0) && <p className='text-red-500 ml-6 mb-6'>{validation}</p>}
           </div>
           <div className='flex justify-end mr-6'>
-      <Button text='Create New User' color='blue' type='submit'/>
-    </div>
-    </form>
-        </Modal>
-        <Modal isOpen={isEditModalOpen}>
+            <Button text='Create New User' color='blue' type='submit' />
+          </div>
+        </form>
+      </Modal>
+      <Modal isOpen={isEditModalOpen}>
         <div className='flex justify-between relative mr-6'>
-    <div>
-      <h1 className='text-3xl mt-6 ml-6 mb-14'>John Strong</h1>
-      </div>
-      <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsEditModalOpen(false); }}>
-      <XmarkIcon />
-      </div>
-    </div>
-          <form onSubmit={handleSubmitEdit}>
+          <div>
+            <h1 className='text-3xl mt-6 ml-6 mb-14'>John Strong</h1>
+          </div>
+          <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsEditModalOpen(false); }}>
+            <XmarkIcon />
+          </div>
+        </div>
+        <form onSubmit={handleSubmitEdit}>
           <div className='space-y-6 pb-5'>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Role</label>
-            <div className='mx-6'>
-            <Select options={options} value={role} eventHandler={handleValueChange}/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Role</label>
+              <div className='mx-6'>
+                <Select options={options} value={role} eventHandler={handleValueChange} />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Email</label>
-            <div className='mx-6'>
-            <InputField value={formData.email} eventHandler={handleChange} name="email"/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Email</label>
+              <div className='mx-6'>
+                <InputField value={formData.email} eventHandler={handleChange} name="email" />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>First Name</label>
-            <div className='mx-6'>
-            <InputField value= {formData.firstName} eventHandler={handleChange} name="firstName"/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>First Name</label>
+              <div className='mx-6'>
+                <InputField value={formData.firstName} eventHandler={handleChange} name="firstName" />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Last Name</label>
-            <div className='mx-6'>
-            <InputField value={formData.lastName} eventHandler={handleChange} name="lastName"/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Last Name</label>
+              <div className='mx-6'>
+                <InputField value={formData.lastName} eventHandler={handleChange} name="lastName" />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Password</label>
-            <div className='mx-6'>
-            <InputField value={formData.password} eventHandler={handleChange} name="password" type='password'/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Password</label>
+              <div className='mx-6'>
+                <InputField value={formData.password} eventHandler={handleChange} name="password" type='password' />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className='ml-6 text-sm font-bold'>Confirm Password</label>
-            <div className='mx-6'>
-            <InputField value={formData.confirmPassword} eventHandler={handleChange} name="confirmPassword" type='password'/>
+            <div>
+              <label className='ml-6 text-sm font-bold'>Confirm Password</label>
+              <div className='mx-6'>
+                <InputField value={formData.confirmPassword} eventHandler={handleChange} name="confirmPassword" type='password' />
+              </div>
             </div>
-          </div>
-          {(validation.length > 0) && <p className='text-red-500 ml-6 mb-6'>{validation}</p>}
+            {(validation.length > 0) && <p className='text-red-500 ml-6 mb-6'>{validation}</p>}
           </div>
           <div className='flex justify-between mx-6'>
-            <Button text='Delete User' color='red' onClick={handleDeleteUser}/>
-      <Button text='Update User' color='blue' type='submit'/>
-    </div>
-    </form>
-        </Modal>
-        <Modal isOpen={isConfirmationModalOpen}>
-  <div className='flex justify-between relative mr-6'>
-    <div>
-      <h1 className='text-3xl mt-6 ml-6 mb-14'>Confirmation</h1>
-    </div>
-    <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsConfirmationModalOpen(false); }}>
-      <XmarkIcon />
-    </div>
-  </div>
-  <div className='text-lg px-6 pb-6'>{confirmationMessage}</div>
-  <div className='flex justify-end mr-6'>
-    <Button text='Confirm' color='blue' onClick={handleConfirm}/>
-  </div>
-</Modal>
-        </Fragment>
+            <Button text='Delete User' color='red' onClick={handleDeleteUser} />
+            <Button text='Update User' color='blue' type='submit' />
+          </div>
+        </form>
+      </Modal>
+      <Modal isOpen={isConfirmationModalOpen}>
+        <div className='flex justify-between relative mr-6'>
+          <div>
+            <h1 className='text-3xl mt-6 ml-6 mb-14'>Confirmation</h1>
+          </div>
+          <div className='mt-8 mr-4 cursor-pointer' onClick={() => { setIsConfirmationModalOpen(false); }}>
+            <XmarkIcon />
+          </div>
+        </div>
+        <div className='text-lg px-6 pb-6'>{confirmationMessage}</div>
+        <div className='flex justify-end mr-6'>
+          <Button text='Confirm' color='blue' onClick={handleConfirm} />
+        </div>
+      </Modal>
+    </Fragment>
   );
 };
 
