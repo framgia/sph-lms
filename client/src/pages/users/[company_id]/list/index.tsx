@@ -224,8 +224,9 @@ const UsersList: React.FC = () => {
             <XmarkIcon />
           </div>
         </div>
-        <div className='text-lg px-6 pb-6'>{confirmationMessage}</div>
-        <div className='flex justify-end mr-6'>
+        <div className='text-lg px-6 pb-10'>{confirmationMessage}</div>
+        <div className='flex justify-between mx-6'>
+          <Button text='Cancel' color='red' onClick={() => { setIsConfirmationModalOpen(false); }}/>
           <Button text='Confirm' color='blue' onClick={handleConfirm} />
         </div>
       </Modal>
