@@ -142,3 +142,19 @@ class AuthToken(auth_views.ObtainAuthToken):
             ],
             encoding="application/json",
         )
+
+class UserList(APIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['search']
+
+    def get(self, request, format=None, *args, **kwargs):
+        #pk (company)
+        pk = self.kwargs.get('pk')
+        #search params
+        search = self.request.query_params.get('search', None)
+        if pk:
+            user = User.objects.get(id=pk)
+            serializer = UserSerializer(user)
+            return Response(serializer.data)

@@ -143,13 +143,14 @@ class Class(models.Model):
         return str(self.name)
 
 class Trainer(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
-    trainer = models.ForeignKey(User, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, unique=False)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=False)
+    trainer = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
-        unique_together = ('class_id', 'trainer')
+        unique_together = ('company', 'trainer')
         verbose_name = "Trainer"
         verbose_name_plural = "Trainer"
         db_table = "app_sph_lms_trainers"
@@ -157,13 +158,14 @@ class Trainer(models.Model):
         return "Class: " + str(self.class_id) + " | " + "Trainer: " + str(self.trainer)
     
 class Trainee(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
-    trainee = models.ForeignKey(User, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, unique=False)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=False)
+    trainee = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
-        unique_together = ('class_id', 'trainee')
+        unique_together = ('company', 'trainee')
         verbose_name = "Trainee"
         verbose_name_plural = "Trainee"
         db_table = "app_sph_lms_trainees"
