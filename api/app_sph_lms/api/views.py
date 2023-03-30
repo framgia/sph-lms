@@ -2,7 +2,7 @@ from app_sph_lms.api.serializers import (CourseCategorySerializer,
                                          CourseSerializer,
                                          UserSerializer,
                                          AuthTokenSerializer)
-from app_sph_lms.models import Course, CourseCategory, User, Trainee, Trainer, Company, Status
+from app_sph_lms.models import Course, CourseCategory, User
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
@@ -19,19 +19,8 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken import views as auth_views
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
-from enum import Enum
-
 
 # Create your views here.
-class UserRoleEnum(Enum):
-    ADMIN = 1
-    COMPANY = 2
-    TRAINER = 3
-    TRAINEE = 4
-
-class StatusEnum(Enum):
-    ACTIVE = 1
-    INACTIVE = 2
 
 class AuthViaEmail(BaseBackend):
     def get_user(self, user_id):
@@ -160,42 +149,31 @@ class UserList(generics.ListCreateAPIView):
     lookup_url_kwarg_1 = 'company_id'
     
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        encypted_password = make_password(request.data['password'])
+        serializer = self.get_serializer(data=request.data, context={
+            'company_id': self.kwargs.get(self.lookup_url_kwarg_1),
+            'password': encypted_password,
+            'role': request.data['role']
+        })
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        
-        user = User.objects.get(id=serializer.data['id'])
-        user.is_active = True
-        user.password = make_password(serializer.data['password'])
-        user.save()
-        
-        Trainee.objects.create(
-                trainee = user,
-                company = Company.objects.get(id=self.kwargs.get(self.lookup_url_kwarg_1)),
-            ).save()
-        
-        # if(request.data['role'] == UserRoleEnum.TRAINEE):
-        #     Trainee.objects.create(
-        #         trainee = user,
-        #         company = Company.objects.get(id=self.kwargs.get(self.lookup_url_kwarg_1)),
-        #     ).save()
-            
+        serializer.save()
+
         return Response({
             'data': serializer.data,
             'message': "Successfully created new user",
         })
         
-
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg_1 = 'company_id'
     lookup_url_kwarg_2 = 'pk'
+    lookup_field = 'pk'
     
-    def retrieve(self, request, *args, **kwargs):
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        response_data = serializer.data
-        response_data['company_id'] = self.kwargs.get(self.lookup_url_kwarg_1)
-        response_data['user_id'] = self.kwargs.get(self.lookup_url_kwarg_2)
-        return Response(response_data)
+        serializer.destroy()
+        return Response({
+            'message': 'User deleted'
+        })
