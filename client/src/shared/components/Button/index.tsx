@@ -8,6 +8,7 @@ export interface ButtonProps {
   width?: string;
   onClick?: () => void;
   type?: 'button' | 'submit';
+  hover?: string;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -15,18 +16,13 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   color,
   width,
   onClick,
-  type
+  type,
+  hover
 }: ButtonProps) => {
-  const propStyle = {
-    backgroundColor: color,
-    width: width
-  };
-
   return (
     <div className="flex flex-row">
       <button
-        className="mb-4 text-white font-bold py-2 px-4 rounded border"
-        style={propStyle}
+        className={`mb-4 text-white font-bold py-2 px-2 rounded border bg-${color}-500 ${hover} ${width}`}
         onClick={onClick}
         type={type}
       >
@@ -37,10 +33,11 @@ const Button: React.FunctionComponent<ButtonProps> = ({
 };
 
 Button.defaultProps = {
-  color: '',
-  width: 'auto',
+  color: 'blue',
+  width: 'w-auto',
   onClick: () => {},
-  type: 'button'
+  type: 'button',
+  hover: ''
 };
 
 export default Button;
