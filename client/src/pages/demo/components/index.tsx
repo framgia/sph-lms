@@ -249,6 +249,7 @@ const DemoComponent: React.FunctionComponent = () => {
               <p> id: (string)[""] ex. label="Testing"</p>
               <p> width: "100%" | "50px",</p>
               <p>height: "100%" | "50px"</p>
+              <p>className:(string)[""] ex. 'bg-red-500 w-5 h-5'</p>
             </div>
           </div>
 
@@ -262,18 +263,18 @@ const DemoComponent: React.FunctionComponent = () => {
             <Button text="Plain" />
             <Button
               text="Submit"
-              color="blue"
-              width="200px"
+              color="bg-blue-700"
+              width="w-1/4"
               onClick={() => {
                 console.log('I clicked Submit button');
               }}
             />
-            <Button text="Okay" color="green" width="50%" />
-            <Button text="Delete" color="red" width="75%" />
+            <Button text="Okay" color="bg-green-500" width="w-82" />
+            <Button text="Delete" color="bg-red-500" width="w-full" />
             <Button
               text="Edit"
-              color="yellow"
-              width="100%"
+              color="bg-yellow-500"
+              width="w-3/4"
               onClick={() => {
                 alert('Clicked yellow button, this is a function');
               }}
