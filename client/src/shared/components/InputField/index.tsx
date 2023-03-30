@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable object-shorthand */
 import React from 'react';
 
@@ -11,6 +12,7 @@ export interface InputFieldProps {
   name?: string;
   value?: string;
   eventHandler?: (...args: any[]) => any;
+  className?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -22,7 +24,8 @@ const InputField: React.FC<InputFieldProps> = ({
   height,
   name,
   value,
-  eventHandler
+  eventHandler,
+  className
 }: InputFieldProps) => {
   const propStyle = {
     width: width,
@@ -40,7 +43,7 @@ const InputField: React.FC<InputFieldProps> = ({
         </label>
       )}
       <input
-        className="appearance-none border border-gray-300 rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className={`appearance-none border border-gray-300 rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${className}`}
         style={propStyle}
         id={id}
         type={type}
@@ -60,7 +63,8 @@ InputField.defaultProps = {
   id: '',
   width: '100%',
   height: '',
-  value: ''
+  value: '',
+  className: ''
 };
 
 export default InputField;
