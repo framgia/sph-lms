@@ -33,7 +33,7 @@ class AuthViaEmail(BaseBackend):
         UserModel = get_user_model()
         try:
             user = UserModel.objects.get(email=email)
-            if user.check_password(password) or password == '':
+            if user.check_password(password):
                 
                 return user
         except UserModel.DoesNotExist:
@@ -169,7 +169,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg_1 = 'company_id'
     lookup_url_kwarg_2 = 'pk'
     lookup_field = 'pk'
-    
+     
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)

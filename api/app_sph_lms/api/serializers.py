@@ -47,7 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
                 role = value
                 setattr(instance, key, role)
             elif key == 'password':
-                setattr(instance, key, make_password(value))
+                setattr(instance, key, make_password(self.validated_data['password']))
             else:
                 if isinstance(getattr(instance.__class__, key).field, models.ManyToManyField):
                     getattr(instance, key).set(value)
