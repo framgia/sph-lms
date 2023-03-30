@@ -14,8 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.backends import BaseBackend
-from django.contrib.auth.backends import get_user_model
+from django.contrib.auth.backends import BaseBackend, get_user_model
+from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken import views as auth_views
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
@@ -45,6 +45,7 @@ class AuthViaEmail(BaseBackend):
         try:
             user = UserModel.objects.get(email=email)
             if user.check_password(password) or password == '':
+                
                 return user
         except UserModel.DoesNotExist:
             return None
@@ -163,16 +164,25 @@ class UserList(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         
-        if(request.data['role'] == UserRoleEnum.TRAINEE):
-            Trainee.objects.create(
-                trainee = User.objects.get(id=serializer.data['id']),
+        user = User.objects.get(id=serializer.data['id'])
+        user.is_active = True
+        user.password = make_password(serializer.data['password'])
+        user.save()
+        
+        Trainee.objects.create(
+                trainee = user,
                 company = Company.objects.get(id=self.kwargs.get(self.lookup_url_kwarg_1)),
             ).save()
+        
+        # if(request.data['role'] == UserRoleEnum.TRAINEE):
+        #     Trainee.objects.create(
+        #         trainee = user,
+        #         company = Company.objects.get(id=self.kwargs.get(self.lookup_url_kwarg_1)),
+        #     ).save()
             
         return Response({
             'data': serializer.data,
             'message': "Successfully created new user",
-            'test': UserRoleEnum.TRAINEE
         })
         
 

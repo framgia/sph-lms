@@ -32,10 +32,9 @@ class Status(models.Model):
 class User(AbstractUser):
     first_name = models.CharField(max_length=255, null=False)
     last_name = models.CharField(max_length=255, null=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=1)
     email = models.EmailField(unique=True, null=False, db_index=True)
     username = models.CharField(null=True, unique=False, max_length=255)
-    password = models.CharField(max_length=255, null=True, default='pbkdf2_sha256$180000$MOGSSKEzZ0TO$3KBAmh0aA50EH/ijbElvCgGov/TTrRffL7e9sFy7BVI=')
     role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
     status =  models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     img_path = models.CharField(max_length=255, null=True)
