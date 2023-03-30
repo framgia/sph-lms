@@ -22,7 +22,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   return (
     <div className="flex flex-row">
       <button
-        className={`mb-4 text-white font-bold py-2 px-2 rounded border bg-${color}-500 ${hover} ${width}`}
+        className={`mb-4 text-white font-bold py-2 px-3 rounded border bg-${color}-500 ${hover} ${width}`}
         onClick={onClick}
         type={type}
       >

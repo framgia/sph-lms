@@ -47,7 +47,7 @@ const UsersList: React.FC = () => {
         <Modal isOpen={isAddModalOpen}>
           <div className='flex justify-between relative mx-6' >
             <div>
-              <h1 className='text-3xl mt-6 mb-14'>Add a new User</h1>
+              <h1 className='text-3xl mt-6 mb-9'>Add a new User</h1>
             </div>
             <div className='mt-8 cursor-pointer' onClick={() => { setIsAddModalOpen(false); }}>
               <XmarkIcon />
@@ -91,7 +91,7 @@ const UsersList: React.FC = () => {
         <Modal isOpen={isEditModalOpen}>
           <div className='flex justify-between relative mx-6 sticky'>
             <div>
-              <h1 className='text-3xl mt-6 mb-14'>John Strong</h1>
+              <h1 className='text-3xl mt-6 mb-9'>John Strong</h1>
             </div>
             <div className='mt-8 cursor-pointer' onClick={() => { setIsEditModalOpen(false); }}>
               <XmarkIcon />
