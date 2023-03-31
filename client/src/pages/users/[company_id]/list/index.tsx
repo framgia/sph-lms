@@ -54,7 +54,7 @@ const ListOfUser: FC = () => {
     email: `john_doe@gmail.com ${index}`,
     role: `manager ${index}`
   }));
-  const initialList = userList.slice(0,10)
+  const initialList = userList.slice(0, 10);
   const numberOfUsers = userList.length;
   const [limiter, setLimiter] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
