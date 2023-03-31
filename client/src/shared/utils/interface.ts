@@ -32,3 +32,10 @@ export interface CourseCategory {
   id: number;
   name: string;
 }
+
+export interface UserList {
+  first_name: string,
+  last_name: string,
+  email: string,
+  role: string
+}

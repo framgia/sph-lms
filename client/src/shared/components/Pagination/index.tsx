@@ -34,11 +34,11 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav>
-      <ul className="flex">
+      <ul className="flex cursor-pointer">
         {!isFirstPage && (
           <li className="mr-1">
             <div
-              className="flex items-center border-2 hover:bg-blue-400 hover:text-white px-2 py-2 rounded-full"
+              className="flex items-center border-2 hover:bg-blue-400 hover:text-white px-2 py-2 rounded-full "
               onClick={() => {
                 handlePageChange(prevPage);
               }}

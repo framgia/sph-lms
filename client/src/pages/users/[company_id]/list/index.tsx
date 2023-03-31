@@ -1,3 +1,5 @@
+import React, { Fragment, useState } from 'react';
+import type { FC } from 'react';
 import Button from '@/src/shared/components/Button';
 import InputField from '@/src/shared/components/InputField';
 import Modal from '@/src/shared/components/Modal/Modal';
@@ -5,8 +7,15 @@ import EditIcon from '@/src/shared/icons/EditIcon';
 import XmarkIcon from '@/src/shared/icons/XmarkIcon';
 import useEditAddUser from '@/src/shared/hooks/useEditAddUser';
 import Select from '@/src/shared/components/Select';
+import Navbar from '@/src/shared/components/Navbar';
+import Table from '@/src/shared/components/Table';
+import Container from '@/src/shared/layouts/Container';
+import Pagination from '@/src/shared/components/Pagination';
+import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
+import { dropdownItems, navItems } from '@/src/pages/demo/layouts/navbar';
+import type { UserList } from '@/src/shared/utils';
 
-const UsersList: React.FC = () => {
+const ListOfUser: FC = () => {
   const {
     isAddModalOpen,
     isEditModalOpen,
@@ -32,23 +41,74 @@ const UsersList: React.FC = () => {
     errorPassword,
     confirmPassword
   } = useEditAddUser();
+  const tableHeader = [
+    'First Name',
+    'Last Name',
+    'Email',
+    'Role',
+    'Quick Actions'
+  ];
+  const userList = new Array(100).fill(null).map((a, index) => ({
+    first_name: `John ${index}`,
+    last_name: `Doe ${index}`,
+    email: `john_doe@gmail.com ${index}`,
+    role: `manager ${index}`
+  }));
+  const numberOfUsers = userList.length;
+  const [limiter, setLimiter] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showPerPage, setShowPerPage] = useState<UserList[]>([]);
+  const [startingIndex, setStartingIndex] = useState(0);
+  const [lastIndex, setLastIndex] = useState(0);
 
+  const handleChangePageEvent = (page: number): void => {
+    setCurrentPage(page);
+    setShowPerPage(userList.slice(page * limiter - limiter, limiter * page));
+    setStartingIndex(page * limiter - limiter);
+    setLastIndex(limiter * page);
+  };
+
+  const handleShowPerPage = (e: any): void => {
+    const limiter = e.target.value;
+    setLimiter(limiter);
+    setStartingIndex(1);
+    setLastIndex(limiter);
+    setShowPerPage(userList.slice(0, limiter));
+    setCurrentPage(1);
+  };
+  const searchHandler = (searchTerm: string): void => {
+    console.log(`Searching ${searchTerm}`);
+  };
+
+  const showPerPageOption = [
+    { id: 10, text: '10' },
+    { id: 25, text: '25' },
+    { id: 50, text: '50' },
+    { id: userList.length, text: `all (${numberOfUsers})` }
+  ];
   return (
-    <div>
+    <Fragment>
+      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <div>
-        <div className="ml-12 mb-12">
-          <Button
-            text="Add User"
-            hover="hover:bg-blue-700"
-            width="20"
-            onClick={handleOpenAddModal}
-          />
-          <div onClick={handleOpenEditModal} className="cursor-pointer">
-            <EditIcon classname="text-blue-700 w-7 h-7 font-extrabold text-xl" />
+      <div>
+      </div>
+    </div>
+      <Container>
+        <div className=" flex flex-col">
+          <div className='flex flex-row justify-between'>
+            <div className="text-3xl flex justify-start pb-10 pt-5 text-lightBlue">
+              Users
+            </div>
+            <div className='pb-10 pt-5'>
+              <Button
+                text="Add User"
+                hover="hover:bg-blue-700"
+                width="20"
+                onClick={handleOpenAddModal}
+              />
+            </div>
           </div>
-        </div>
-        <div></div>
-        <Modal isOpen={isAddModalOpen}>
+           <Modal isOpen={isAddModalOpen}>
           <div className="flex justify-between relative mx-6">
             <div>
               <h1 className="text-3xl mt-6 mb-14">Add a new User</h1>
@@ -269,9 +329,74 @@ const UsersList: React.FC = () => {
             />
           </div>
         </Modal>
-      </div>
-    </div>
+          <div className="flex justify-end pb-10">
+            <Searchbar onSearchEvent={searchHandler} />
+          </div>
+          <div className="h-96">
+            <Table header={tableHeader} checkbox={false}>
+              {numberOfUsers === 0
+                ? (
+                    <tr>
+                      <td colSpan={5} className="text-center pt-10 font-bold">
+                        <div className="flex justify-center w-full">
+                          No data Found
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                : (
+                    showPerPage.map((col: any) => (
+                      <tr
+                        className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
+                        key={col.id}
+                      >
+                        <td className="px-6 py-4 text-lightBlue underline">
+                          {col.first_name}
+                        </td>
+                        <td className="px-6 py-4 text-lightBlue underline">
+                          {col.last_name}
+                        </td>
+                        <td className="px-6 py-4 text-lightBlue underline">
+                          {col.email}
+                        </td>
+                        <td className="px-6 py-4">{col.role}</td>
+                        <td className="pl-12">
+                          <div className='cursor-pointer' onClick={handleOpenEditModal}>
+                            <EditIcon classname='stroke-white'></EditIcon>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+            </Table>
+            <div></div>
+            <div className="flex flex-row justify-between pt-10 pb-10">
+              <Select
+                width="200px"
+                eventHandler={handleShowPerPage}
+                label="Show Per Page"
+                options={showPerPageOption}
+              />
+              <div className="flex items-center">
+                Showing {startingIndex} to {lastIndex} of {numberOfUsers}{' '}
+                entries
+              </div>
+            </div>
+            <div className="flex justify-center pb-20">
+              <div className="flex flex-row">
+                <Pagination
+                  maxPages={5}
+                  totalPages={10}
+                  currentPage={currentPage}
+                  onChangePage={handleChangePageEvent}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </Fragment>
   );
 };
 
-export default UsersList;
+export default ListOfUser;
