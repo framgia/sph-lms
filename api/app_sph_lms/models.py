@@ -149,7 +149,7 @@ class Class(models.Model):
 class Trainer(models.Model):
     class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
     trainer = models.ForeignKey(User, on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="trainer")
     status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -163,8 +163,8 @@ class Trainer(models.Model):
     
 class Trainee(models.Model):
     class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
-    trainee = models.ForeignKey(User, on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    trainee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="trainee")
     status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,8 +1,10 @@
 from app_sph_lms.api.serializers import (CourseCategorySerializer,
                                          CourseSerializer,
                                          UserSerializer,
-                                         AuthTokenSerializer)
-from app_sph_lms.models import Course, CourseCategory, User
+                                         AuthTokenSerializer, 
+                                         CompanySerializer,
+                                         )
+from app_sph_lms.models import Course, CourseCategory, User, Company
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
@@ -143,11 +145,11 @@ class AuthToken(auth_views.ObtainAuthToken):
             encoding="application/json",
         )
 
-class UserList(generics.ListCreateAPIView):
+class UserList(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg_1 = 'company_id'
-    
+
     def create(self, request, *args, **kwargs):
         encypted_password = make_password(request.data['password'])
         serializer = self.get_serializer(data=request.data, context={
@@ -177,3 +179,8 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response({
             'message': 'User deleted'
         })
+        
+class CompanyUsersList(generics.RetrieveAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    

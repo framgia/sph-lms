@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.db import models
 from app_sph_lms.utils.enum import UserRoleEnum
+from rest_framework.pagination import PageNumberPagination
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
@@ -108,13 +109,53 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+            
     
 class TraineeSerializer(serializers.ModelSerializer):
+    details = serializers.SerializerMethodField()
     class Meta:
         model = Trainee
         fields = "__all__"
         
+    def get_details(self, obj):
+        return UserSerializer(obj.trainee).data
+
 class TrainerSerializer(serializers.ModelSerializer):
+    details = serializers.SerializerMethodField()
     class Meta:
         model = Trainer
         fields = "__all__"
+    
+    def get_details(self, obj):
+        return UserSerializer(obj.trainer).data
+        
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = '__all__'
+        
+    def get_details(self, obj):
+        trainee_data = TraineeSerializer(obj.trainee, many=True).data
+        trainer_data = TrainerSerializer(obj.trainer, many=True).data
+        users = trainee_data + trainer_data
+        return [user['details'] for user in users]
+    
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        
+        # Paginate the users list
+        users = self.get_details(obj)
+        # by default, I set page size to the length of users, to control the size, params = page_size=
+        page_size = self.context['request'].query_params.get('page_size', len(users))
+        paginator = PageNumberPagination()
+        paginator.page_size = page_size
+        paginated_users = paginator.paginate_queryset(users, self.context['request'])
+        
+        data['user'] = paginated_users
+        data['pagination'] = {
+            'next': paginator.get_next_link(),
+            'previous': paginator.get_previous_link(),
+            'count': paginator.page.paginator.count
+        }
+        return data
+
