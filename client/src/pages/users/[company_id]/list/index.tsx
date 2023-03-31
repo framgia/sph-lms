@@ -12,8 +12,8 @@ import Table from '@/src/shared/components/Table';
 import Container from '@/src/shared/layouts/Container';
 import Pagination from '@/src/shared/components/Pagination';
 import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
-import { dropdownItems, navItems } from '@/src/pages/demo/layouts/navbar';
 import type { UserList } from '@/src/shared/utils';
+import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 
 const ListOfUser: FC = () => {
   const {
@@ -54,12 +54,13 @@ const ListOfUser: FC = () => {
     email: `john_doe@gmail.com ${index}`,
     role: `manager ${index}`
   }));
+  const initialList = userList.slice(0,10)
   const numberOfUsers = userList.length;
   const [limiter, setLimiter] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPerPage, setShowPerPage] = useState<UserList[]>([]);
-  const [startingIndex, setStartingIndex] = useState(0);
-  const [lastIndex, setLastIndex] = useState(0);
+  const [showPerPage, setShowPerPage] = useState<UserList[]>(initialList);
+  const [startingIndex, setStartingIndex] = useState(1);
+  const [lastIndex, setLastIndex] = useState(10);
 
   const handleChangePageEvent = (page: number): void => {
     setCurrentPage(page);
