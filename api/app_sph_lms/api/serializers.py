@@ -143,19 +143,24 @@ class CompanySerializer(serializers.ModelSerializer):
     def to_representation(self, obj):
         data = super().to_representation(obj)
         
-        # Paginate the users list
-        users = self.get_details(obj)
-        # by default, I set page size to the length of users, to control the size, params = page_size=
-        page_size = self.context['request'].query_params.get('page_size', len(users))
-        paginator = PageNumberPagination()
-        paginator.page_size = page_size
-        paginated_users = paginator.paginate_queryset(users, self.context['request'])
-        
-        data['user'] = paginated_users
-        data['pagination'] = {
-            'next': paginator.get_next_link(),
-            'previous': paginator.get_previous_link(),
-            'count': paginator.page.paginator.count
-        }
+        if(len(self.get_details(obj)) > 0):
+
+            # Paginate the users list
+            users = self.get_details(obj)
+            # by default, I set page size to the length of users, to control the size, params = page_size=
+            page_size = self.context['request'].query_params.get('page_size', len(users))
+            paginator = PageNumberPagination()
+            paginator.page_size = page_size
+            paginated_users = paginator.paginate_queryset(users, self.context['request'])
+            
+            data['user'] = paginated_users
+            data['pagination'] = {
+                'next': paginator.get_next_link(),
+                'previous': paginator.get_previous_link(),
+                'count': paginator.page.paginator.count
+            }
+        else:
+            data['user'] = []
+            
         return data
 
