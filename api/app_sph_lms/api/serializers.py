@@ -8,11 +8,11 @@ from app_sph_lms.utils.enum import UserRoleEnum
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
+    password = serializers.CharField(write_only=True, min_length=5)
     
     class Meta:
         model = User
         exclude = [
-            'password',
             'is_superuser',
             'is_staff',
             'groups',
@@ -40,6 +40,11 @@ class UserSerializer(serializers.ModelSerializer):
             )
             
         return user
+    
+    def validate_password(self, value):
+        if len(value) < 5:
+            raise serializers.ValidationError("Password must be at least 5 characters long.")
+        return value
     
     def update(self, instance, validated_data):
         for key, value in validated_data.items():

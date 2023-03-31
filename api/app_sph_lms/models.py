@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import UserManager
+from django.core.validators import MinLengthValidator
 import random
 import string
 
@@ -21,7 +22,7 @@ class UserRole(models.Model):
         return str(self.title)
     
 class Status(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, validators=[MinLengthValidator(5)])
     class Meta:
         verbose_name = "Status"
         verbose_name_plural = "Status"
@@ -30,11 +31,10 @@ class Status(models.Model):
         return str(self.name)
 
 class User(AbstractUser):
-    first_name = models.CharField(max_length=255, null=False)
-    last_name = models.CharField(max_length=255, null=False)
+    first_name = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(2)])
+    last_name = models.CharField(max_length=255, null=False, validators=[MinLengthValidator(2)])
     is_active = models.BooleanField(default=1)
-    email = models.EmailField(unique=True, null=False, db_index=True)
-    username = models.CharField(null=True, unique=False, max_length=255)
+    email = models.EmailField(unique=True, null=False, db_index=True, validators=[MinLengthValidator(5)])
     role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
     status =  models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     img_path = models.CharField(max_length=255, null=True)
@@ -49,14 +49,14 @@ class User(AbstractUser):
 
 class Company(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255)
-    description = models.TextField(max_length=65000, null=True)
-    address = models.CharField(max_length=255, null=True)
-    city = models.CharField(max_length=255, null=True)
-    state = models.CharField(max_length=255, null=True)
-    postal_code = models.CharField(max_length=255, null=True)
-    country = models.CharField(max_length=255, null=True)
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
+    email = models.EmailField(max_length=255, validators=[MinLengthValidator(5)])
+    description = models.TextField(max_length=65000, null=True, validators=[MinLengthValidator(5)])
+    address = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(5)])
+    city = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(5)])
+    state = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(5)])
+    postal_code = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(5)])
+    country = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     class Meta: 
@@ -68,7 +68,7 @@ class Company(models.Model):
 
 class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     class Meta: 
@@ -81,8 +81,8 @@ class Category(models.Model):
 class Course(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     code = models.CharField(max_length=10, unique=True, default=generate_code)
-    name = models.CharField(max_length=255)
-    description = models.TextField(max_length=65000, null=True)
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
+    description = models.TextField(max_length=65000, null=True, validators=[MinLengthValidator(5)])
     status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     img_path = models.CharField(max_length=255, null=True)
     preview_vid_path = models.CharField(max_length=255, null=True)
@@ -110,7 +110,7 @@ class CourseCategory(models.Model):
 
     
 class Tag(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     class Meta: 
@@ -136,7 +136,7 @@ class CourseTag(models.Model):
 class Class(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     code = models.CharField(max_length=10, unique=True, default=generate_code)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     class Meta:
