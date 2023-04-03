@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.db import models
 from app_sph_lms.utils.enum import UserRoleEnum
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.exceptions import ValidationError
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
@@ -109,14 +110,16 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
-            
-    
+                    
 class TraineeSerializer(serializers.ModelSerializer):
     details = serializers.SerializerMethodField()
     class Meta:
         model = Trainee
         fields = "__all__"
         
+    def get_details(self, obj):
+        return UserSerializer(obj.trainee).data
+
     def get_details(self, obj):
         return UserSerializer(obj.trainee).data
 
@@ -133,25 +136,32 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = '__all__'
-        
-    def get_details(self, obj):
+
+    def get_details(self, obj, sort_by=None, sort_order='asc'):
         trainee_data = TraineeSerializer(obj.trainee, many=True).data
         trainer_data = TrainerSerializer(obj.trainer, many=True).data
         users = trainee_data + trainer_data
-        return [user['details'] for user in users]
-    
+        data = [user['details'] for user in users]
+        if sort_by is not None:
+            if sort_by not in ['id', 'email', 'first_name', 'last_name']:
+                raise serializers.ValidationError(f"'{sort_by}' is not a valid attribute for User")
+            data.sort(key=lambda user: user.get(sort_by, ''))
+            if sort_order == 'desc':
+                data.reverse()
+        return data
+
     def to_representation(self, obj):
         data = super().to_representation(obj)
-        
-        if(len(self.get_details(obj)) > 0):
-            # Paginate the users list
-            users = self.get_details(obj)
-            # by default, I set page size to the length of users, to control the size, params = page_size=
+
+        if len(self.get_details(obj)) > 0:
+            sort_by = self.context['request'].query_params.get('sort_by')
+            sort_order = self.context['request'].query_params.get('sort_order', 'asc')
+            users = self.get_details(obj, sort_by, sort_order)
             page_size = self.context['request'].query_params.get('page_size', len(users))
             paginator = PageNumberPagination()
             paginator.page_size = page_size
             paginated_users = paginator.paginate_queryset(users, self.context['request'])
-            
+
             data['user'] = paginated_users
             data['pagination'] = {
                 'next': paginator.get_next_link(),
@@ -160,6 +170,6 @@ class CompanySerializer(serializers.ModelSerializer):
             }
         else:
             data['user'] = []
-            
+
         return data
 
