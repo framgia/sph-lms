@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import type { FC } from 'react';
 import Button from '@/src/shared/components/Button';
 import InputField from '@/src/shared/components/InputField';
@@ -12,8 +12,12 @@ import Table from '@/src/shared/components/Table';
 import Container from '@/src/shared/layouts/Container';
 import Pagination from '@/src/shared/components/Pagination';
 import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
-import type { UserList } from '@/src/shared/utils';
+import { UserList, UserList , getUserToken } from '@/src/shared/utils';
 import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
+import { useRouter } from 'next/router';
+import API from '@/src/apis';
+import axios from 'axios';
+
 
 const ListOfUser: FC = () => {
   const {
@@ -48,23 +52,20 @@ const ListOfUser: FC = () => {
     'Role',
     'Quick Actions'
   ];
-  const userList = new Array(100).fill(null).map((a, index) => ({
-    first_name: `John ${index}`,
-    last_name: `Doe ${index}`,
-    email: `john_doe@gmail.com ${index}`,
-    role: `manager ${index}`
-  }));
-  const initialList = userList.slice(0, 10);
-  const numberOfUsers = userList.length;
-  const [limiter, setLimiter] = useState(1);
+
+  const [listOfUser, setListOfUser] = useState<UserList[]>([]);
+  const router = useRouter();
+  const params = router.query;
+  const numberOfUsers = listOfUser.length;
+  const [limiter, setLimiter] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPerPage, setShowPerPage] = useState<UserList[]>(initialList);
+  const [showPerPage, setShowPerPage] = useState<UserList[]>([]);
   const [startingIndex, setStartingIndex] = useState(1);
   const [lastIndex, setLastIndex] = useState(10);
 
   const handleChangePageEvent = (page: number): void => {
     setCurrentPage(page);
-    setShowPerPage(userList.slice(page * limiter - limiter, limiter * page));
+    setShowPerPage(listOfUser.slice(page * limiter - limiter, limiter * page));
     setStartingIndex(page * limiter - limiter);
     setLastIndex(limiter * page);
   };
@@ -74,7 +75,7 @@ const ListOfUser: FC = () => {
     setLimiter(limiter);
     setStartingIndex(1);
     setLastIndex(limiter);
-    setShowPerPage(userList.slice(0, limiter));
+    setShowPerPage(listOfUser.slice(0, limiter));
     setCurrentPage(1);
   };
   const searchHandler = (searchTerm: string): void => {
@@ -85,15 +86,36 @@ const ListOfUser: FC = () => {
     { id: 10, text: '10' },
     { id: 25, text: '25' },
     { id: 50, text: '50' },
-    { id: userList.length, text: `all (${numberOfUsers})` }
+    { id: listOfUser.length, text: `all (${numberOfUsers})` }
   ];
+
+  useEffect(() => {
+    async function fetchdata (): Promise<void> {
+      try {
+        const token = getUserToken();
+        const headers = { Authorization: `Token ${token}`};
+        const response = await API.get(`user/${params.company_id}`,{
+            headers
+          }
+        );
+        setListOfUser(
+          response.data.user
+        )
+        setShowPerPage(response.data.user.slice(0,10))
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    void fetchdata();
+  },[params]);
+
+
   return (
     <Fragment>
       <Navbar navItems={navItems} dropdownItems={dropdownItems} />
-      <div>
-      <div>
-      </div>
-    </div>
+    <div>
+      {showPerPage.length}
+  </div>
       <Container>
         <div className=" flex flex-col">
           <div className='flex flex-row justify-between'>
