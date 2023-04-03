@@ -12,7 +12,7 @@ import Table from '@/src/shared/components/Table';
 import Container from '@/src/shared/layouts/Container';
 import Pagination from '@/src/shared/components/Pagination';
 import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
-import { UserList, UserList , getUserToken } from '@/src/shared/utils';
+import { UserList , getUserToken } from '@/src/shared/utils';
 import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 import { useRouter } from 'next/router';
 import API from '@/src/apis';
