@@ -13,7 +13,7 @@ from app_sph_lms.api.views import (
 )
 
 urlpatterns = [
-    path('user/<int:pk>', CompanyUsersList.as_view(), name="comapny-user-list"),
+    path('user/<int:pk>', CompanyUsersList.as_view(), name="company-user-list"),
     path('user/<int:company_id>', UserList.as_view(), name="user-list"),
     path('user/<int:company_id>/<int:pk>', UserDetail.as_view(), name="user-list"),
     

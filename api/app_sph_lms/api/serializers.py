@@ -144,7 +144,6 @@ class CompanySerializer(serializers.ModelSerializer):
         data = super().to_representation(obj)
         
         if(len(self.get_details(obj)) > 0):
-
             # Paginate the users list
             users = self.get_details(obj)
             # by default, I set page size to the length of users, to control the size, params = page_size=
