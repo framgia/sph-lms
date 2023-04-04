@@ -145,26 +145,6 @@ class AuthToken(auth_views.ObtainAuthToken):
             encoding="application/json",
         )
 
-class UserList(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    lookup_url_kwarg_1 = 'company_id'
-
-    def create(self, request, *args, **kwargs):
-        encypted_password = make_password(request.data['password'])
-        serializer = self.get_serializer(data=request.data, context={
-            'company_id': self.kwargs.get(self.lookup_url_kwarg_1),
-            'password': encypted_password,
-            'role': request.data['role']
-        })
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response({
-            'data': serializer.data,
-            'message': "Successfully created new user",
-        })
-        
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -178,9 +158,36 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         serializer.destroy()
         return Response({
             'message': 'User deleted'
-        })
-        
-class CompanyUsersList(generics.RetrieveAPIView):
-    queryset = Company.objects.all()
-    serializer_class = CompanySerializer
+        })       
     
+class CompanyUsersViewSet(generics.CreateAPIView, generics.RetrieveAPIView):
+    lookup_url_kwarg = 'company_id'
+    user_queryset = User.objects.all()
+    company_queryset = Company.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return UserSerializer
+        else:
+            return CompanySerializer
+
+    def get_queryset(self):
+        if self.request.method == 'POST':
+            return self.user_queryset.filter(company_id=self.kwargs.get(self.lookup_url_kwarg))
+        else:
+            return self.company_queryset.filter(id=self.kwargs.get(self.lookup_url_kwarg))
+        
+    def create(self, request, *args, **kwargs):
+        encypted_password = make_password(request.data['password'])
+        serializer = self.get_serializer(data=request.data, context={
+            'company_id': self.kwargs.get(self.lookup_url_kwarg),
+            'password': encypted_password,
+            'role': request.data['role']
+        })
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({
+            'data': serializer.data,
+            'message': "Successfully created new user",
+        })
