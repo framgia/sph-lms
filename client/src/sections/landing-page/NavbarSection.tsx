@@ -49,7 +49,7 @@ const NavbarSection: FC<NavItemProps> = ({ navItems }) => {
               </Link>
             </div>
             <div className="pt-4">
-              <Button text={'Sign Up'} color="#325184"></Button>
+              <Button text={'Sign Up'} color="bg-lightBlue"></Button>
             </div>
           </div>
         </div>
