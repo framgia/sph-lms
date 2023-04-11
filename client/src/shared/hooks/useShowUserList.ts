@@ -27,23 +27,24 @@ const useShowUserList = (): any => {
       }
     }
     void fetchdata();
+    console.log(showPerPage);
     setCurrentPage(page);
     setStartingIndex(limiter * page - limiter + 1);
     setLastIndex(limiter * page);
   };
-  const handleShowPerPage = async (e: any): Promise<void> => {
-    async function fetchdata (): Promise<void> {
+  const handleShowPerPage = (e: any): void => {
+    const fetchdata = async (): Promise<void> => {
       try {
         const response = await API.get(
-          `user/${params.company_id}?page_size=${e.target.value}&page=${currentPage}`
+          `user/${params.company_id}?page_size=${e.target.value}&page=${1}`
         );
         setShowPerPage(response.data.user);
+        setCurrentPage(1);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     void fetchdata();
-
     const limiter = e.target.value;
     setLimiter(limiter);
     setStartingIndex(limiter * currentPage - limiter + 1);
@@ -57,12 +58,13 @@ const useShowUserList = (): any => {
         setShowPerPage(response.data.user.slice(0, limiter));
         setStartingIndex(1);
         setLastIndex(limiter);
+        console.log(showPerPage);
       } catch (error) {
         console.error(error);
       }
     }
     void fetchdata();
-  }, [params, limiter]);
+  }, [params, limiter, showPerPage]);
 
   const showPerPageOption = [
     { id: 10, text: '10' },
