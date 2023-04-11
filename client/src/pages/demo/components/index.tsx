@@ -427,7 +427,7 @@ const DemoComponent: React.FunctionComponent = () => {
                 <td>
                   <Button
                     text="Actions"
-                    color="#325184"
+                    color="bg-lightBlue"
                     onClick={() => {
                       alert('Actions');
                     }}

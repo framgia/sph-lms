@@ -86,7 +86,10 @@ const CourseDetails: React.FC = () => {
                 </div>
               </div>
               <div className="flex justify-end pr-6">
-                <Button text={'Add Course Content'} color={'#325184'}></Button>
+                <Button
+                  text={'Add Course Content'}
+                  color={'bg-lightBlue'}
+                ></Button>
               </div>
               <div className="flex h-auto w-auto font font-medium">
                 {activeTab === 1 && <CourseSetting />}

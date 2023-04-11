@@ -64,8 +64,12 @@ const CoursesCreate: React.FC = () => {
               </div>
             </div>
             <Footer alignment="right">
-              <Button text="Cancel" color="#9ca3af" onClick={handleCancel} />
-              <Button text="Create" color="#325184" type="submit" />
+              <Button
+                text="Cancel"
+                color="bg-lightGray1"
+                onClick={handleCancel}
+              />
+              <Button text="Create" color="bg-lightBlue" type="submit" />
             </Footer>
           </form>
         </div>

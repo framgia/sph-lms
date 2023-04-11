@@ -75,7 +75,7 @@ const CourseSetting: React.FC = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Course Tags
             </label>
-            <Button text="Manage Tags" color="#0284BE" width="200px" />
+            <Button text="Manage Tags" color="bg-lightBlue" width="200px" />
           </div>
         </div>
       </div>
