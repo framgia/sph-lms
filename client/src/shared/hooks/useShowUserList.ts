@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import API from '@/src/apis';
 import { useEffect, useState } from 'react';
-import { getUserToken } from '@/src/shared/utils';
 import { useRouter } from 'next/router';
 import type { UserList } from '@/src/shared/utils';
 
@@ -19,13 +18,8 @@ const useShowUserList = (): any => {
   const handleChangePageEvent = (page: number): void => {
     async function fetchdata (): Promise<void> {
       try {
-        const token = getUserToken();
-        const headers = { Authorization: `Token ${token}` };
         const response = await API.get(
-          `user/${params.company_id}?page_size=${limiter}&page=${page}`,
-          {
-            headers
-          }
+          `user/${params.company_id}?page_size=${limiter}&page=${page}`
         );
         setShowPerPage(response.data.user);
       } catch (error) {
@@ -40,13 +34,8 @@ const useShowUserList = (): any => {
   const handleShowPerPage = async (e: any): Promise<void> => {
     async function fetchdata (): Promise<void> {
       try {
-        const token = getUserToken();
-        const headers = { Authorization: `Token ${token}` };
         const response = await API.get(
-          `user/${params.company_id}?page_size=${e.target.value}&page=${currentPage}`,
-          {
-            headers
-          }
+          `user/${params.company_id}?page_size=${e.target.value}&page=${currentPage}`
         );
         setShowPerPage(response.data.user);
       } catch (error) {
@@ -63,11 +52,7 @@ const useShowUserList = (): any => {
   useEffect(() => {
     async function fetchdata (): Promise<void> {
       try {
-        const token = getUserToken();
-        const headers = { Authorization: `Token ${token}` };
-        const response = await API.get(`user/${params.company_id}`, {
-          headers
-        });
+        const response = await API.get(`user/${params.company_id}`);
         setListOfUser(response.data.user);
         setShowPerPage(response.data.user.slice(0, limiter));
         setStartingIndex(1);
