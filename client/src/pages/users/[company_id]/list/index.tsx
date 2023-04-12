@@ -35,7 +35,7 @@ const ListOfUser: FC = () => {
   const tableHeader = [
     'First Name',
     'Last Name',
-    'username',
+    'Username',
     'Email',
     'Role',
     'Quick Actions'
@@ -92,6 +92,9 @@ const ListOfUser: FC = () => {
                     </td>
                     <td className="px-6 py-4 text-lightBlue underline">
                       {col.last_name}
+                    </td>
+                    <td className="px-6 py-4 text-lightBlue underline">
+                      {col.username}
                     </td>
                     <td className="px-6 py-4 text-lightBlue underline">
                       {col.email}

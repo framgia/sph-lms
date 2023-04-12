@@ -9,6 +9,7 @@ import API from '@/src/apis';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
+import RFSelectField from '@/src/shared/components/ReactForm/RFSelectField';
 import Modal from '@/src/shared/components/Modal/Modal';
 import XmarkIcon from '@/src/shared/icons/XmarkIcon';
 import EditIcon from '@/src/shared/icons/EditIcon';
@@ -101,13 +102,16 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
     }
   };
 
+  const [fetchedRoleValue, setFetchedRoleValue] = useState('');
+
   const handleOpenEditModal = (): void => {
     const fetchData = async () => {
       try {
         const response = await API.get(`user/${params.company_id}/${id}`);
         const userData = response.data;
         setUserData(userData);
-        reset(userData); // <-- Use reset method to set form values
+        setFetchedRoleValue(userData.role.id);
+        reset(userData);
       } catch (error) {
         console.log(error);
       }
@@ -139,23 +143,14 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 pb-6">
           <div className="mb-4">
-            <label
-              className="block text-gray-700 font-bold mb-2"
-              htmlFor="role"
-            >
-              Role
-            </label>
-            <select
-              className="border rounded py-2 px-3 w-full"
-              id="role_id"
+            <RFSelectField
+              label="Role"
+              id="role"
+              options={roles}
               {...register('role_id', { required: true })}
-            >
-              {roles.map((role) => (
-                <option key={role.value} value={role.value}>
-                  {role.label}
-                </option>
-              ))}
-            </select>
+              error={errors.role_id !== undefined && 'This field is required'}
+              value={fetchedRoleValue}
+            />
           </div>
           <div className="my-4">
             <RFInputField

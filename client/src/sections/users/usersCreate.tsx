@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import API from '@/src/apis';
 import { useRouter } from 'next/router';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
+import RFSelectField from '@/src/shared/components/ReactForm/RFSelectField';
 
 export interface FormData {
   username: string;
@@ -61,7 +62,7 @@ export const UserCreate: React.FC = () => {
           Role
         </label>
         <select
-          className="border rounded py-2 px-3 w-full"
+          className="appearance-none border border-gray-300 rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
           id="role"
           {...register('role', { required: true })}
         >
