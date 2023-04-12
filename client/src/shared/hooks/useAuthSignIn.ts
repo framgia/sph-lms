@@ -20,8 +20,6 @@ export const useAuthSignIn = (): any => {
   const onSubmit: SubmitHandler<AuthFormInput> = async (
     data: AuthFormInput
   ): Promise<void> => {
-    console.log(data);
-
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/sign-in`,
