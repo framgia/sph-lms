@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import API from '@/src/apis';
 import { useRouter } from 'next/router';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
-import RFSelectField from '@/src/shared/components/ReactForm/RFSelectField';
 
 export interface FormData {
   username: string;
