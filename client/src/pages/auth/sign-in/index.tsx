@@ -1,20 +1,12 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { Fragment } from 'react';
 import Container from '@/src/shared/layouts/Container';
 import Navbar from '@/src/shared/components/Navbar';
 import { dropdownItems, navItems } from '../../demo/layouts/navbar';
 import { useAuthSignIn } from '@/src/shared/hooks/useAuthSignIn';
+import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
+
 const SignIn: React.FC = () => {
-  const {
-    email,
-    password,
-    emailError,
-    passwordError,
-    handleSubmitEvent,
-    handleEmailChangeEvent,
-    handlePasswordChangeEvent
-  } = useAuthSignIn();
+  const { onSubmit, handleSubmit, register, errors } = useAuthSignIn();
 
   return (
     <Fragment>
@@ -26,49 +18,23 @@ const SignIn: React.FC = () => {
               Sign in
             </h1>
             <hr className="mb-5 pb-8" />
-            <form onSubmit={handleSubmitEvent}>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-bold mb-2"
-                  htmlFor="email"
-                >
-                  Email
-                </label>
-                <input
-                  className={`border rounded py-2 px-3 w-full ${
-                    emailError && 'border-red-500'
-                  }`}
-                  type="email"
-                  id="email"
-                  placeholder="E-mail"
-                  value={email || ''}
-                  onChange={handleEmailChangeEvent}
-                />
-                {emailError && (
-                  <p className="text-red-500 mt-1">{emailError}</p>
-                )}
-              </div>
-              <div className="mb-4">
-                <label
-                  className="block text-gray-700 font-bold mb-2"
-                  htmlFor="password"
-                >
-                  Password
-                </label>
-                <input
-                  className={`border rounded py-2 px-3 w-full ${
-                    passwordError && 'border-red-500'
-                  }`}
-                  type="password"
-                  id="password"
-                  placeholder="Password"
-                  value={password || ''}
-                  onChange={handlePasswordChangeEvent}
-                />
-                {passwordError && (
-                  <p className="text-red-500 mt-1">{passwordError}</p>
-                )}
-              </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <RFInputField
+                label="Email"
+                {...register('email', { required: true, pattern: /@/ })}
+                error={
+                  errors.email !== undefined &&
+                  'This field is required and must be an email address.'
+                }
+              />
+              <RFInputField
+                label="Password"
+                type="password"
+                {...register('password', { required: true })}
+                error={
+                  errors.password !== undefined && 'This field is required'
+                }
+              />
               <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mt-5">
                 Log in
               </button>

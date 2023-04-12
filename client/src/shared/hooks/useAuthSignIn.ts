@@ -1,72 +1,47 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable object-shorthand */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { alertError, alertSuccess } from '@/src/shared/utils';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
+import {
+  type AuthFormInput,
+  alertError,
+  alertSuccess
+} from '@/src/shared/utils';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 export const useAuthSignIn = (): any => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState<string | undefined>('');
-  const [passwordError, setPasswordError] = useState<string | undefined>('');
 
-  const handleSubmitEvent = async (
-    e: React.FormEvent<HTMLFormElement>
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<AuthFormInput>();
+
+  const onSubmit: SubmitHandler<AuthFormInput> = async (
+    data: AuthFormInput
   ): Promise<void> => {
-    e.preventDefault();
-    if (!email) {
-      setEmailError('Email cannot be empty.');
+    console.log(data);
+
+    try {
+      const result = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/sign-in`,
+        data
+      );
+      localStorage.setItem('user_token', result.data.token);
+      localStorage.setItem('signedIn', 'true');
+      router.reload();
+      alertSuccess('Login Successful');
+    } catch (error) {
+      console.log(error);
+
+      alertError('Wrong Credentials');
     }
-    if (!password) {
-      setPasswordError('Password cannot be empty.');
-    }
-    if (email && password) {
-      const postData = {
-        email: email,
-        password: password
-      };
-
-      try {
-        const result = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/sign-in`,
-          postData
-        );
-        localStorage.setItem('user_token', result.data.token);
-        localStorage.setItem('signedIn', 'true');
-        router.reload();
-        alertSuccess('Login Successful');
-      } catch (error) {
-        console.log(error);
-
-        alertError('Wrong Credentials');
-      }
-    }
-  };
-
-  const handleEmailChangeEvent = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setEmail(e.target.value);
-    setEmailError('');
-  };
-
-  const handlePasswordChangeEvent = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setPassword(e.target.value);
-    setPasswordError('');
   };
 
   return {
-    email,
-    password,
-    emailError,
-    passwordError,
-    handleSubmitEvent,
-    handleEmailChangeEvent,
-    handlePasswordChangeEvent
+    onSubmit,
+    handleSubmit,
+    register,
+    errors
   };
 };

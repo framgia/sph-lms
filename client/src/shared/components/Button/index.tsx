@@ -4,6 +4,7 @@ import React from 'react';
 
 export interface ButtonProps {
   text: string;
+  textColor?: string;
   color?: string;
   width?: string;
   onClick?: () => void;
@@ -13,6 +14,7 @@ export interface ButtonProps {
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   text,
+  textColor,
   color,
   width,
   onClick,
@@ -22,7 +24,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   return (
     <div className="flex flex-row">
       <button
-        className={`mb-4 text-white font-bold py-2 px-3 rounded border ${color} ${hover} ${width}`}
+        className={`mb-4 font-bold py-2 px-3 rounded mx-1 ${textColor} ${color} ${hover} ${width}`}
         onClick={onClick}
         type={type}
       >
@@ -34,6 +36,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
 
 Button.defaultProps = {
   color: 'bg-blue-500',
+  textColor: 'text-white',
   width: 'w-auto',
   onClick: () => {},
   type: 'button',

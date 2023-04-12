@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint @typescript-eslint/no-var-requires: "off" */
 import React, { Fragment, useState } from 'react';
@@ -15,6 +16,11 @@ import Select from '@/src/shared/components/Select';
 import Button from '@/src/shared/components/Button';
 import RadioButton from '@/src/shared/components/RadioButton';
 import Table from '@/src/shared/components/Table';
+import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+interface Inputs {
+  name: string;
+}
 
 const DemoComponent: React.FunctionComponent = () => {
   // sets up the state of the page to track user interaction
@@ -32,6 +38,18 @@ const DemoComponent: React.FunctionComponent = () => {
   const table = require('./data.json');
   const tableHeader = table.tableHeader;
   const tableData = table.tableData;
+
+  // React Hook Form
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data: Inputs): void => {
+    console.log(data);
+  };
+  console.log(watch('name')); // watch input value by passing the name of it
 
   return (
     <Fragment>
@@ -444,6 +462,43 @@ const DemoComponent: React.FunctionComponent = () => {
             <div className="bg-gray-300 p-[5px]">
               <p>header = (array of string)</p>
               <p>children = table data/ table body </p>
+            </div>
+          </div>
+        </div>
+        <br />
+        <hr className="w-3/4 mx-auto" />
+        <br />
+        <div className="p-4 border" id="tableList">
+          <h1>Component: React Form Input Filed (RFInputField)</h1>
+          <br />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <RFInputField
+              label="Name"
+              {...register('name', { required: true })}
+              error={errors.name !== undefined && 'This field is required'}
+            />
+            <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mt-5">
+              Submit
+            </button>
+          </form>
+          <br />
+
+          <div className="mt-[5px]">
+            <h1>Props: </h1>
+
+            <div className="bg-gray-300 p-[5px]">
+              <p>label: (string)[""] ex. label="Testing"</p>
+              <p> placeholder: (string)[""] ex. placeholder="Testing"</p>
+              <p>
+                type: (string)["text"] ex. type="text | email | passwrod | etc"
+              </p>
+              <p> width: "100%" | "50px",</p>
+              <p>height: "100%" | "50px"</p>
+              <p>className:(string)[""] ex. 'bg-red-500 w-5 h-5'</p>
+              <p>
+                register: (string)[""] ex. 'bg-red-500 w-5 h-5' (in regiester,
+                it must use the proper name field and also can pass validation)
+              </p>
             </div>
           </div>
         </div>
