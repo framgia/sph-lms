@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable object-shorthand */
 /* eslint-disable react/display-name */
@@ -36,10 +35,6 @@ const RFInputField = forwardRef(
       height: height
     };
 
-    const errorAlert = (error: string | boolean): string => {
-      return error ? ' border-red-500' : ' border-gray-300';
-    };
-
     return (
       <div className="mb-4">
         {label !== '' && (
@@ -50,16 +45,14 @@ const RFInputField = forwardRef(
         <input
           {...register}
           {...rest}
-          ref={ref}
           type={type}
-          className={`appearance-none border rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-            error !== undefined && errorAlert(error)
-          } ${className}`}
+          ref={ref}
+          className={`appearance-none border border-gray-300 rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${className}`}
           style={propStyle}
         />
         {error !== undefined && (
           <div className="text-red-700 rounded relative" role="alert">
-            <span className="block sm:inline text-sm">{error}</span>
+            <span className="block sm:inline">{error}</span>
           </div>
         )}
       </div>
