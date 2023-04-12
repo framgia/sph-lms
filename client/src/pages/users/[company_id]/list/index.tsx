@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import type { FC } from 'react';
+
 import Button from '@/src/shared/components/Button';
 import InputField from '@/src/shared/components/InputField';
 import Modal from '@/src/shared/components/Modal/Modal';
@@ -50,7 +51,9 @@ const ListOfUser: FC = () => {
     lastIndex,
     startingIndex,
     numberOfUsers,
-    limiter
+    limiter,
+    searchHandler,
+    listOfUser
   } = useShowUserList();
   const tableHeader = [
     'First Name',
@@ -60,10 +63,6 @@ const ListOfUser: FC = () => {
     'Role',
     'Quick Actions'
   ];
-
-  const searchHandler = (searchTerm: string): void => {
-    console.log(`Searching ${searchTerm}`);
-  };
 
   return (
     <Fragment>
@@ -321,46 +320,40 @@ const ListOfUser: FC = () => {
           </div>
           <div className="h-96">
             <Table header={tableHeader} checkbox={false}>
-              {numberOfUsers === 0
-                ? (
+            {Array.isArray(showPerPage) && showPerPage.length > 0
+              ? (
+                  showPerPage.map((col: any) => (
+                    <tr
+                      className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
+                      key={col.id}
+                    >
+                      <td className="px-6 py-4 text-lightBlue underline">
+                        {col.first_name}
+                      </td>
+                      <td className="px-6 py-4 text-lightBlue underline">
+                        {col.last_name}
+                      </td>
+                      <td className="px-6 py-4 text-lightBlue underline">
+                        {col.email}
+                      </td>
+                      <td className="px-6 py-4">{col.role.title}</td>
+                      <td className="pl-12">
+                        <div className='cursor-pointer' onClick={handleOpenEditModal}>
+                          <EditIcon classname='stroke-white'></EditIcon>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )
+              : (
                 <tr>
-                  <td colSpan={5} className="text-center pt-10 font-bold">
-                    <div className="flex justify-center w-full">
-                      No data Found
-                    </div>
-                  </td>
-                </tr>
-                  )
-                : (
-                    showPerPage.map((col: any) => (
-                  <tr
-                    className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
-                    key={col.id}
-                  >
-                    <td className="px-6 py-4 text-lightBlue underline">
-                      {col.first_name}
-                    </td>
-                    <td className="px-6 py-4 text-lightBlue underline">
-                      {col.last_name}
-                    </td>
-                    <td className="px-6 py-4 text-lightBlue underline">
-                      {col.username}
-                    </td>
-                    <td className="px-6 py-4 text-lightBlue underline">
-                      {col.email}
-                    </td>
-                    <td className="px-6 py-4">{col.role}</td>
-                    <td className="pl-12">
-                      <div
-                        className="cursor-pointer"
-                        onClick={handleOpenEditModal}
-                      >
-                        <EditIcon classname="stroke-white"></EditIcon>
-                      </div>
-                    </td>
-                  </tr>
-                    ))
-                  )}
+                <td colSpan={5} className="text-center pt-10 font-bold">
+                  <div className="flex justify-center w-full">
+                    User does not exist
+                  </div>
+                </td>
+              </tr>
+                )}
             </Table>
             <div></div>
             <div className="flex flex-row justify-between pt-10 pb-10">
@@ -371,7 +364,7 @@ const ListOfUser: FC = () => {
                 options={showPerPageOption}
               />
               <div className="flex items-center">
-                Showing {startingIndex} to {lastIndex} of {numberOfUsers}{' '}
+                Showing {startingIndex} to {lastIndex} of {listOfUser.length}{' '}
                 entries
               </div>
             </div>
@@ -379,7 +372,7 @@ const ListOfUser: FC = () => {
               <div className="flex flex-row">
                 <Pagination
                   maxPages={5}
-                  totalPages={numberOfUsers / limiter}
+                  totalPages={Math.floor(numberOfUsers / limiter + (numberOfUsers % limiter === 0 ? 0 : 1))}
                   currentPage={currentPage}
                   onChangePage={handleChangePageEvent}
                 />

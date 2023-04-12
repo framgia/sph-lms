@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { debounce } from '@/src/shared/utils';
 
 export interface SearchBarProps {
   height?: string;
@@ -10,16 +9,16 @@ export interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearchEvent
 }: SearchBarProps) => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = debounce((query: string) => {
-    onSearchEvent(query);
-  }, 1000);
+  const handleSearch = (): void => {
+    onSearchEvent(searchTerm);
+  };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const { value } = event.target;
-    setSearchQuery(value);
-    handleSearch(value);
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
   const containerClasses =
     'pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-black rounded-xl border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2';
@@ -41,12 +40,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
         />
       </svg>
       <input
-        type="text"
-        value={searchQuery}
-        onChange={handleChange}
-        placeholder="Search"
-        className={containerClasses}
-      />
+          type="text"
+          value={searchTerm}
+          onChange={(e) => { setSearchTerm(e.target.value); }}
+          className={containerClasses}
+          onKeyUp={handleKeyUp}
+        />
     </div>
   );
 };

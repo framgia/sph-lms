@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import API from '@/src/apis';
 import { useEffect, useState } from 'react';
@@ -14,12 +15,13 @@ const useShowUserList = (): any => {
   const [showPerPage, setShowPerPage] = useState<UserList[]>([]);
   const [startingIndex, setStartingIndex] = useState(0);
   const [lastIndex, setLastIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleChangePageEvent = (page: number): void => {
     async function fetchdata (): Promise<void> {
       try {
         const response = await API.get(
-          `user/${params.company_id}?page_size=${limiter}&page=${page}`
+          `user/${params.company_id}?page_size=${limiter}&page=${page}&search=${searchTerm}`
         );
         setShowPerPage(response.data.user);
       } catch (error) {
@@ -36,7 +38,7 @@ const useShowUserList = (): any => {
     const fetchdata = async (): Promise<void> => {
       try {
         const response = await API.get(
-          `user/${params.company_id}?page_size=${e.target.value}&page=${1}`
+          `user/${params.company_id}?page_size=${e.target.value}&page=${1}&search=${searchTerm}`
         );
         setShowPerPage(response.data.user);
         setCurrentPage(1);
@@ -50,10 +52,21 @@ const useShowUserList = (): any => {
     setStartingIndex(limiter * currentPage - limiter + 1);
     setLastIndex(limiter * currentPage);
   };
+  const searchHandler = (searchTerm: string): void => {
+    setSearchTerm(searchTerm);
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        search: searchTerm
+      }
+    });
+  };
+
   useEffect(() => {
     async function fetchdata (): Promise<void> {
       try {
-        const response = await API.get(`user/${params.company_id}`);
+        const response = await API.get(`user/${params.company_id}?search=${searchTerm}`);
         setListOfUser(response.data.user);
         setShowPerPage(response.data.user.slice(0, limiter));
         setStartingIndex(1);
@@ -64,7 +77,7 @@ const useShowUserList = (): any => {
       }
     }
     void fetchdata();
-  }, [params, limiter, showPerPage]);
+  }, [params]);
 
   const showPerPageOption = [
     { id: 10, text: '10' },
@@ -83,7 +96,8 @@ const useShowUserList = (): any => {
     lastIndex,
     startingIndex,
     numberOfUsers,
-    limiter
+    limiter,
+    searchHandler
   };
 };
 export default useShowUserList;

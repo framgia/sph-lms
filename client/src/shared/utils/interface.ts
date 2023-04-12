@@ -40,3 +40,16 @@ export interface UserList {
   email: string;
   role: string;
 }
+
+export interface User {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  role: {
+    title: string;
+  };
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
