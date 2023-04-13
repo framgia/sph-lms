@@ -5,7 +5,7 @@
 import API from '@/src/apis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { type UserList, isRequestOk } from '@/src/shared/utils';
+import { type UserList, isRequestOk, alertError } from '@/src/shared/utils';
 
 const useShowUserList = (): any => {
   const router = useRouter();
@@ -99,7 +99,7 @@ const useShowUserList = (): any => {
         }
       } catch (error) {
         console.error(error);
-        alert('something went wrong');
+        alertError('something went wrong');
       }
     };
 
