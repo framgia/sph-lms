@@ -40,12 +40,14 @@ const SearchBar: React.FC<SearchBarProps> = ({
         />
       </svg>
       <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => { setSearchTerm(e.target.value); }}
-          className={containerClasses}
-          onKeyUp={handleKeyUp}
-        />
+        type="text"
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+        }}
+        className={containerClasses}
+        onKeyUp={handleKeyUp}
+      />
     </div>
   );
 };

@@ -1,27 +1,22 @@
-from app_sph_lms.api.serializers import (
-    CourseCategorySerializer,
-    CourseSerializer,
-    UserSerializer,
-    AuthTokenSerializer,
-    CompanySerializer,
-)
-from app_sph_lms.models import Course, CourseCategory, User, Company
-from django.db.models import Q
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import filters
-from rest_framework.decorators import api_view
-from rest_framework.authtoken.models import Token
+from app_sph_lms.api.serializers import (AuthTokenSerializer,
+                                         CompanySerializer,
+                                         CourseCategorySerializer,
+                                         CourseSerializer, UserSerializer)
+from app_sph_lms.models import Company, Course, CourseCategory, User
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken import views as auth_views
+from rest_framework.authtoken.models import Token
 from rest_framework.compat import coreapi, coreschema
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
+from rest_framework.views import APIView
 
 # Create your views here.
 

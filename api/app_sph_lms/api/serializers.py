@@ -1,12 +1,13 @@
-from app_sph_lms.models import Course, CourseCategory, User, Trainee, Trainer, Company
-from rest_framework import serializers
+from app_sph_lms.models import (Company, Course, CourseCategory, Trainee,
+                                Trainer, User)
+from app_sph_lms.utils.enum import UserRoleEnum
 from django.contrib.auth import authenticate
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.db import models
-from app_sph_lms.utils.enum import UserRoleEnum
-from rest_framework.pagination import PageNumberPagination
+from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from rest_framework.pagination import PageNumberPagination
 
 
 class UserSerializer(serializers.ModelSerializer):

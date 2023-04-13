@@ -40,6 +40,12 @@ export interface UserList {
   email: string;
   role: string;
 }
+export interface ClassList {
+  class_name: string;
+  class_trainer: string;
+  number_of_trainees: number;
+  number_of_courses: number;
+}
 
 export interface User {
   id: string;
