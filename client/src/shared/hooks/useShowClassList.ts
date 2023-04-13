@@ -23,7 +23,6 @@ const useShowClassList = (): any => {
     setShowPerPage(classList.slice(page * limiter - limiter, limiter * page));
     setCurrentPage(page);
     setStartingIndex(limiter * page - limiter + 1);
-    setLastIndex(limiter * page);
     setLastIndex(
       limiter * page <= numberOfUsers ? limiter * page : numberOfUsers
     );
