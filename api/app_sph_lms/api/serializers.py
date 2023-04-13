@@ -1,4 +1,4 @@
-from app_sph_lms.models import Course, CourseCategory, User, Trainee, Trainer, Company
+from app_sph_lms.models import Class, Course, CourseCategory, User, Trainee, Trainer, Company
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
@@ -214,3 +214,20 @@ class CompanySerializer(serializers.ModelSerializer):
         else:
             data["user"] = "User does not exist"
         return data
+
+class ClassSerializer(serializers.ModelSerializer):
+    total_trainees = serializers.SerializerMethodField()
+    total_trainers = serializers.SerializerMethodField()
+    
+    
+    class Meta:
+        model = Class
+        fields = "__all__"
+    
+    def get_total_trainees(self, obj):
+        return obj.trainee_set.count()
+    
+    def get_total_trainers(self, obj):
+        return obj.trainer_set.count()
+        
+        
