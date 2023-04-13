@@ -13,20 +13,11 @@ import RFSelectField from '@/src/shared/components/ReactForm/RFSelectField';
 import Modal from '@/src/shared/components/Modal/Modal';
 import XmarkIcon from '@/src/shared/icons/XmarkIcon';
 import EditIcon from '@/src/shared/icons/EditIcon';
+import { type UserUpdateDeleteFormData } from '@/src/shared/utils';
+import { alertError, alertSuccess } from '@/src/shared/utils';
 
 interface UserUpdateDeleteProps {
   id: number;
-}
-
-export interface UserData {
-  id: number;
-  username: string;
-  role_id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  password: string;
-  confirm_password: string;
 }
 
 export const roles = [
@@ -51,7 +42,7 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
   const params = router.query;
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [, setUserData] = useState<UserData>(initialUserData);
+  const [, setUserData] = useState<UserUpdateDeleteFormData>(initialUserData);
 
   const {
     register,
@@ -59,15 +50,11 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<UserData>();
+  } = useForm<UserUpdateDeleteFormData>();
 
-  const onSubmit = async (data: UserData) => {
-    const password = watch('password');
-    const confirmPassword = watch('confirm_password');
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  const onSubmit = async (data: UserUpdateDeleteFormData) => {
     const confirmed = window.confirm(
       'Are you sure you want to update the user data?'
     );
@@ -76,11 +63,11 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
     }
     try {
       await API.put(`user/${params.company_id}/${id}`, data);
-      alert('User data updated successfully!');
+      alertSuccess('User data successfully updated');
       router.reload();
     } catch (error) {
       console.log(error);
-      alert('Failed to update user data!');
+      alertError('User already exists in the system');
     }
   };
 
@@ -96,9 +83,11 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
     }
     try {
       await API.delete(`user/${params.company_id}/${id}`);
+      alertSuccess('User data successfully set to inactive');
       router.reload();
     } catch (error) {
       console.error(error);
+      alertError('Something Went Wrong');
     }
   };
 
@@ -166,8 +155,17 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
             <RFInputField
               label="Email"
               type="email"
-              {...register('email', { required: true })}
-              error={errors.email !== undefined && 'This field is required'}
+              {...register('email', {
+                required: true,
+                pattern: {
+                  value: emailRegex,
+                  message: 'Invalid email address'
+                }
+              })}
+              error={
+                errors.email !== undefined &&
+                'This field must be a valid email address'
+              }
             />
           </div>
           <div className="my-4">
@@ -197,7 +195,7 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
               {...register('password', { required: true, minLength: 5 })}
               error={
                 errors.password !== undefined &&
-                'Please make sure to input correct password'
+                'This field is required and must have at least 5 characters'
               }
             />
           </div>
@@ -207,11 +205,11 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
               type="password"
               {...register('confirm_password', {
                 required: true,
-                minLength: 5
+                validate: (value: any) => value === watch('password')
               })}
               error={
                 errors.confirm_password !== undefined &&
-                'Please make sure to input correct password'
+                'Passwords do not match'
               }
             />
           </div>

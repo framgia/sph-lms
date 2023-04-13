@@ -62,3 +62,23 @@ export interface AuthFormInput {
   email: string;
   password: string;
 }
+
+export interface UserCreateFormData {
+  username: string;
+  email: string;
+  role: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+}
+
+export interface UserUpdateDeleteFormData {
+  id: number;
+  username: string;
+  role_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  confirm_password: string;
+}
