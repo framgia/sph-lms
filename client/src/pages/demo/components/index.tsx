@@ -36,7 +36,56 @@ const DemoComponent: React.FunctionComponent = () => {
 
   // for table list
   const table = require('./data.json');
-  const tableHeader = table.tableHeader;
+  const tableHeader = [
+    {
+      text: 'Last Name',
+      onClick: () => {
+        alert('clicked');
+      }
+    },
+    {
+      text: 'First Name',
+      onClick: () => {
+        alert('clicked');
+      }
+    },
+    {
+      text: 'Email'
+    },
+    {
+      text: 'Role'
+    },
+    {
+      text: 'Course Category'
+    },
+    {
+      text: 'Date Started',
+      onClick: () => {
+        alert('clicked');
+      }
+    },
+    {
+      text: 'Completion Date',
+      onClick: () => {
+        alert('clicked');
+      }
+    },
+    {
+      text: 'Deadline Date',
+      onClick: () => {
+        alert('clicked');
+      }
+    },
+    {
+      text: 'Expiration Date',
+      onClick: () => {
+        alert('clicked');
+      }
+    },
+    {
+      text: 'Action'
+    }
+  ];
   const tableData = table.tableData;
 
   // React Hook Form
@@ -445,7 +494,7 @@ const DemoComponent: React.FunctionComponent = () => {
                 <td>
                   <Button
                     text="Actions"
-                    color="bg-lightBlue"
+                    color="#325184"
                     onClick={() => {
                       alert('Actions');
                     }}
@@ -460,8 +509,8 @@ const DemoComponent: React.FunctionComponent = () => {
             <h1>Props: </h1>
 
             <div className="bg-gray-300 p-[5px]">
-              <p>header = (array of string)</p>
-              <p>children = table data/ table body </p>
+              <p>header = (array of text: string and onclcik:function)</p>
+              <p>children = table data / table body </p>
             </div>
           </div>
         </div>

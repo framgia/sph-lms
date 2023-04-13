@@ -1,15 +1,4 @@
 {
-  "tableHeader": [
-    "Last Name",
-    "First Name",
-    "Email",
-    "Role",
-    "Course Progress",
-    "Date Started",
-    "Completion Date",
-    "Deadline Date",
-    "Expiration Date"
-  ],
   "tableData": [
     {
       "id": 1,

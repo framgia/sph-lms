@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
+/* eslint-disable object-shorthand */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import API from '@/src/apis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import type { UserList } from '@/src/shared/utils';
+import { type UserList, isRequestOk } from '@/src/shared/utils';
 
 const useShowUserList = (): any => {
   const router = useRouter();
@@ -18,27 +20,33 @@ const useShowUserList = (): any => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleChangePageEvent = (page: number): void => {
-    async function fetchdata (): Promise<void> {
+    const fetchdata = async (): Promise<void> => {
       try {
         const response = await API.get(
-          `user/${params.company_id}?page_size=${limiter}&page=${page}&search=${searchTerm}`
+          `user/${
+            params.company_id
+          }?page_size=${limiter}&page=${page}&search=${searchTerm}&sort_by=${sortBy}&sort_order=${
+            sortOrder ? 'asc' : 'desc'
+          }`
         );
         setShowPerPage(response.data.user);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     void fetchdata();
-    console.log(showPerPage);
     setCurrentPage(page);
     setStartingIndex(limiter * page - limiter + 1);
     setLastIndex(limiter * page);
   };
+
   const handleShowPerPage = (e: any): void => {
     const fetchdata = async (): Promise<void> => {
       try {
         const response = await API.get(
-          `user/${params.company_id}?page_size=${e.target.value}&page=${1}&search=${searchTerm}`
+          `user/${params.company_id}?page_size=${
+            e.target.value
+          }&page=${1}&search=${searchTerm}`
         );
         setShowPerPage(response.data.user);
         setCurrentPage(1);
@@ -51,6 +59,13 @@ const useShowUserList = (): any => {
     setLimiter(limiter);
     setStartingIndex(limiter * currentPage - limiter + 1);
     setLastIndex(limiter * currentPage);
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page_size: limiter
+      }
+    });
   };
   const searchHandler = (searchTerm: string): void => {
     setSearchTerm(searchTerm);
@@ -63,19 +78,48 @@ const useShowUserList = (): any => {
     });
   };
 
-  useEffect(() => {
-    async function fetchdata (): Promise<void> {
+  const [sortBy, setSortBy] = useState('first_name');
+  const [sortOrder, setSortOrder] = useState(true);
+
+  const handleSortBy = (attribute: string): void => {
+    const newSortOrder = sortBy === attribute ? !sortOrder : true;
+    setSortBy(attribute);
+    setSortOrder(newSortOrder);
+
+    const fetchUsers = async (): Promise<void> => {
       try {
-        const response = await API.get(`user/${params.company_id}?search=${searchTerm}`);
+        const result = await API.get(
+          `/user/${params.company_id}?sort_by=${sortBy}&sort_order=${
+            newSortOrder ? 'asc' : 'desc'
+          }&page_size=${limiter}`
+        );
+        if (isRequestOk(result)) {
+          setShowPerPage(result.data.user);
+          setCurrentPage(1);
+        }
+      } catch (error) {
+        console.error(error);
+        alert('something went wrong');
+      }
+    };
+
+    void fetchUsers();
+  };
+
+  useEffect(() => {
+    const fetchdata = async (): Promise<void> => {
+      try {
+        const response = await API.get(
+          `user/${params.company_id}?search=${searchTerm}`
+        );
         setListOfUser(response.data.user);
         setShowPerPage(response.data.user.slice(0, limiter));
         setStartingIndex(1);
         setLastIndex(limiter);
-        console.log(showPerPage);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     void fetchdata();
   }, [params]);
 
@@ -84,6 +128,15 @@ const useShowUserList = (): any => {
     { id: 25, text: '25' },
     { id: 50, text: '50' },
     { id: listOfUser.length, text: `all (${listOfUser.length})` }
+  ];
+
+  const tableHeader = [
+    { text: 'First Name', onClick: () => handleSortBy('first_name') },
+    { text: 'Last Name', onClick: () => handleSortBy('last_name') },
+    { text: 'User Name' },
+    { text: 'Email', onClick: () => handleSortBy('email') },
+    { text: 'Role' },
+    { text: 'Action' }
   ];
 
   return {
@@ -97,7 +150,8 @@ const useShowUserList = (): any => {
     startingIndex,
     numberOfUsers,
     limiter,
-    searchHandler
+    searchHandler,
+    tableHeader
   };
 };
 export default useShowUserList;
