@@ -31,7 +31,7 @@ const Table: React.FC<TableProps> = ({
     }
   };
 
-  const arrowClasses = isOpen ? 'rotate-180 order-last' : 'order-last';
+  const arrowClasses = !isOpen ? 'rotate-180 order-last' : 'order-last';
 
   return (
     <div className="overflow-auto flex justify-center">
