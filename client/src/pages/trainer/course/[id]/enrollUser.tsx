@@ -17,7 +17,9 @@ const EnrollUser: React.FC = () => {
       <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <Container>
         <Breadcrumbs paths={paths} />
-        <Table header={['id', 'name', 'username']}>
+        <Table
+          header={[{ text: 'id' }, { text: 'name' }, { text: 'username' }]}
+        >
           {showPerPage.map((item: UserDetails) => (
             <tr
               className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
