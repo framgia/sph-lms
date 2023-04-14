@@ -3,6 +3,7 @@ from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
                                          CourseCategorySerializer,
                                          CourseSerializer, UserSerializer)
 from app_sph_lms.models import Class, Company, Course, CourseCategory, User
+from app_sph_lms.utils.enum import StatusEnum
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
@@ -72,16 +73,24 @@ class CourseList(generics.ListCreateAPIView):
     filterset_fields = ['status', 'name', 'category']
     
     def filter_queryset(self, queryset):
-        # Get the value of the is_active query parameter
-        status = self.request.query_params.get('status', None)
-        
-        # If is_active is set to 'false', filter for inactive courses
-        if status == 'inactive':
-            queryset = queryset.filter(status_id=2)
-        elif status == 'active':
-            queryset = queryset.filter(status_id=1)
+        # Get the value of the status query parameter as a string
+        status_str = self.request.query_params.get('status', None)
+        status = None
 
-        # Get the value of the title query parameter
+        # Map the status string to the corresponding enum value
+        if status_str:
+            try:
+                status = StatusEnum[status_str.upper()]
+            except KeyError:
+                pass
+        
+        # If the status is set to INACTIVE, filter for inactive courses
+        if status == StatusEnum.INACTIVE:
+            queryset = queryset.filter(status_id=StatusEnum.INACTIVE.value)
+        elif status == StatusEnum.ACTIVE:
+            queryset = queryset.filter(status_id=StatusEnum.ACTIVE.value)
+
+        # Get the value of the name query parameter
         name = self.request.query_params.get('name', None)
         if name:
             queryset = queryset.filter(name__icontains=name)
@@ -101,7 +110,6 @@ class CourseList(generics.ListCreateAPIView):
                 queryset = queryset.order_by('-name')
 
         return queryset
-
 
 
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
