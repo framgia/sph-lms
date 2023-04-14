@@ -18,6 +18,8 @@ const useShowUserList = (): any => {
   const [startingIndex, setStartingIndex] = useState(0);
   const [lastIndex, setLastIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('id');
+  const [sortOrder, setSortOrder] = useState(true);
 
   const handleChangePageEvent = (page: number): void => {
     const fetchdata = async (): Promise<void> => {
@@ -77,9 +79,6 @@ const useShowUserList = (): any => {
       }
     });
   };
-
-  const [sortBy, setSortBy] = useState('first_name');
-  const [sortOrder, setSortOrder] = useState(true);
 
   const handleSortBy = (attribute: string): void => {
     const newSortOrder = sortBy === attribute ? !sortOrder : true;
