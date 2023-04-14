@@ -41,7 +41,7 @@ const ClassList: FC = () => {
         <div className=" flex flex-col">
           <div className="flex flex-row justify-between">
             <div className="text-3xl flex justify-start pb-10 pt-5 text-lightBlue">
-              Groups
+              Classes
             </div>
             <div className="flex justify-start pb-10 pt-5">
               <AddClassModal />
