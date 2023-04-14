@@ -223,4 +223,3 @@ class ClassList(generics.ListCreateAPIView):
         if not queryset.exists():
             queryset = Class.objects.none()
         return queryset
-    
