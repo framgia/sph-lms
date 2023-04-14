@@ -1,4 +1,4 @@
-'use client';
+/* eslint-disable @typescript-eslint/space-before-function-paren */
 import { Fragment, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 
@@ -47,7 +47,7 @@ const View = (): ReactNode => {
 
   useEffect(() => {
     let ignore = false;
-    async function fetchData (): Promise<void> {
+    async function fetchData(): Promise<void> {
       const response = await API.get('/course');
       if (!ignore) {
         setData(response.data);
@@ -59,7 +59,7 @@ const View = (): ReactNode => {
     };
   }, [setData]);
 
-  function handleOnSearchEvent (query: string): void {
+  function handleOnSearchEvent(query: string): void {
     throw new Error('Function not implemented.');
   }
 

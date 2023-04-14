@@ -13,7 +13,16 @@ import Navbar from '@/src/shared/components/Navbar';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 
 const LearnersTab: React.FC = () => {
-  const tableHeader = table.tableHeader;
+  const tableHeader = [
+    { text: 'Last Name' },
+    { text: 'First Name' },
+    { text: 'Role' },
+    { text: 'Course Progress' },
+    { text: 'Date Started' },
+    { text: 'Completion Date' },
+    { text: 'Deadline Date' },
+    { text: 'Expiration Date' }
+  ];
   const tableData = table.tableData;
 
   const router = useRouter();
