@@ -1,12 +1,13 @@
-from app_sph_lms.models import Class, Course, CourseCategory, User, Trainee, Trainer, Company
-from rest_framework import serializers
+from app_sph_lms.models import (Class, Company, Course, CourseCategory,
+                                Trainee, Trainer, User)
+from app_sph_lms.utils.enum import UserRoleEnum
 from django.contrib.auth import authenticate
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 from django.db import models
-from app_sph_lms.utils.enum import UserRoleEnum
-from rest_framework.pagination import PageNumberPagination
+from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from rest_framework.pagination import PageNumberPagination
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -92,12 +93,15 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    category_id = CourseCategorySerializer(many=True, read_only=True)
-    category_name = serializers.CharField(source="course_category.name", read_only=True)
+    category = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
         fields = "__all__"
+        
+    def get_category(self, obj):
+        categories = obj.coursecategory_set.all()
+        return [category.category.name for category in categories]
 
 
 class AuthTokenSerializer(serializers.Serializer):

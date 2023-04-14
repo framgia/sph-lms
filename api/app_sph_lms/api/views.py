@@ -1,28 +1,22 @@
-from app_sph_lms.api.serializers import (
-    ClassSerializer,
-    CourseCategorySerializer,
-    CourseSerializer,
-    UserSerializer,
-    AuthTokenSerializer,
-    CompanySerializer,
-)
-from app_sph_lms.models import Class, Course, CourseCategory, User, Company
-from django.db.models import Q
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import filters
-from rest_framework.decorators import api_view
-from rest_framework.authtoken.models import Token
+from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
+                                         CompanySerializer,
+                                         CourseCategorySerializer,
+                                         CourseSerializer, UserSerializer)
+from app_sph_lms.models import Class, Company, Course, CourseCategory, User
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken import views as auth_views
+from rest_framework.authtoken.models import Token
 from rest_framework.compat import coreapi, coreschema
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
+from rest_framework.views import APIView
 
 # Create your views here.
 
@@ -75,44 +69,39 @@ class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["is_active", "course_category", "title"]
-
+    filterset_fields = ['status', 'name', 'category']
+    
     def filter_queryset(self, queryset):
         # Get the value of the is_active query parameter
-        is_active = self.request.query_params.get("is_active", None)
-
+        status = self.request.query_params.get('status', None)
+        
         # If is_active is set to 'false', filter for inactive courses
-        if is_active == "false":
-            queryset = queryset.filter(is_active=False)
-        elif is_active == "true":
-            queryset = queryset.filter(is_active=True)
-
-        # Get the list of course categories from the query parameters
-        category_ids_str = self.request.query_params.get("course_category")
-        if category_ids_str:
-            category_ids = [
-                int(category_id) for category_id in category_ids_str.split(",")
-            ]
-            # Use Q objects to combine filters for multiple categories
-            category_filters = Q()
-            for category_id in category_ids:
-                category_filters |= Q(course_category__id=category_id)
-            queryset = queryset.filter(category_filters)
+        if status == 'inactive':
+            queryset = queryset.filter(status_id=2)
+        elif status == 'active':
+            queryset = queryset.filter(status_id=1)
 
         # Get the value of the title query parameter
-        title = self.request.query_params.get("title", None)
-        if title:
-            queryset = queryset.filter(title__icontains=title)
+        name = self.request.query_params.get('name', None)
+        if name:
+            queryset = queryset.filter(name__icontains=name)
 
+        # Get the value of the category query parameter as a comma-separated string
+        category_str = self.request.query_params.get('category', None)
+        if category_str:
+            category_ids = [int(cid) for cid in category_str.split(',')]
+            queryset = queryset.filter(coursecategory__category_id__in=category_ids)
+        
         # Get the value of the sort query parameter
         sort = self.request.query_params.get("sort", None)
         if sort:
-            if sort == "title_asc":
-                queryset = queryset.order_by("title")
-            elif sort == "title_desc":
-                queryset = queryset.order_by("-title")
+            if sort == 'name_asc':
+                queryset = queryset.order_by('name')
+            elif sort == 'name_desc':
+                queryset = queryset.order_by('-name')
 
         return queryset
+
 
 
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
