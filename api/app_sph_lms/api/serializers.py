@@ -219,7 +219,6 @@ class ClassSerializer(serializers.ModelSerializer):
     total_trainees = serializers.SerializerMethodField()
     total_trainers = serializers.SerializerMethodField()
     
-    
     class Meta:
         model = Class
         fields = "__all__"
@@ -229,5 +228,3 @@ class ClassSerializer(serializers.ModelSerializer):
     
     def get_total_trainers(self, obj):
         return obj.trainer_set.count()
-        
-        

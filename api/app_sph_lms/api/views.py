@@ -215,5 +215,12 @@ class CompanyUsersViewSet(generics.CreateAPIView, generics.RetrieveAPIView):
         )
         
 class ClassList(generics.ListCreateAPIView):
-    queryset = Class.objects.all()
     serializer_class = ClassSerializer
+    
+    def get_queryset(self):
+        company_id = self.kwargs.get('company_id')
+        queryset = Class.objects.filter(company_id=company_id)
+        if not queryset.exists():
+            queryset = Class.objects.none()
+        return queryset
+    
