@@ -5,13 +5,13 @@
 import API from '@/src/apis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { type UserList } from '@/src/shared/utils';
+import { type ClassList } from '@/src/shared/utils';
 
 const useShowUserList = (): any => {
   const router = useRouter();
   const params = router.query;
-  const [listOfClass, setListOfClass] = useState<UserList[]>([]);
-  const [numberOfUsers, setNumberOfUsers] = useState(1000);
+  const [listOfClass, setListOfClass] = useState<ClassList[]>([]);
+  const [numberOfClasses, setNumberOfClasses] = useState(1000);
   const [limiter, setLimiter] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [startingIndex, setStartingIndex] = useState(0);
@@ -19,30 +19,40 @@ const useShowUserList = (): any => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('id');
   const [sortOrder, setSortOrder] = useState(true);
+  const [flag, setFlag] = useState(0);
 
   const handleChangePageEvent = (page: number): void => {
-    // void router.push({
-    //   pathname: router.pathname,
-    //   query: {
-    //     ...router.query,
-    //     page: page
-    //   }
-    // });
-    // setCurrentPage(page);
-    // setStartingIndex(limiter * page - limiter + 1);
-    // setLastIndex(limiter * page);
+    setCurrentPage(page);
+    setStartingIndex(limiter * page - limiter + 1);
+    setLastIndex(
+      limiter * page <= numberOfClasses ? limiter * page : numberOfClasses
+    );
+    setFlag(1);
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page: page
+      }
+    });
   };
 
   const handleShowPerPage = (e: any): void => {
-    // const thisLimiter = e.target.value;
-    // setLimiter(thisLimiter);
-    // void router.push({
-    //   pathname: router.pathname,
-    //   query: {
-    //     ...router.query,
-    //     page_size: thisLimiter
-    //   }
-    // });
+    const thisLimiter = e.target.value;
+    setLimiter(thisLimiter);
+    setCurrentPage(1);
+    setStartingIndex(1);
+    setLastIndex(
+      listOfClass.length >= thisLimiter ? thisLimiter : listOfClass.length
+    );
+    setFlag(1);
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page_size: thisLimiter
+      }
+    });
   };
   const searchHandler = (searchTerm: string): void => {
     // setSearchTerm(searchTerm);
@@ -78,13 +88,13 @@ const useShowUserList = (): any => {
       queryParams.sort_order = sortOrder ? 'asc' : 'desc';
     }
 
-    // if (limiter !== 0) {
-    //   queryParams.page_size = limiter;
-    // }
+    if (limiter !== 0) {
+      queryParams.page_size = limiter;
+    }
 
-    // if (currentPage !== 0) {
-    //   queryParams.page = currentPage;
-    // }
+    if (currentPage !== 0) {
+      queryParams.page = currentPage;
+    }
 
     // if (searchTerm !== '') {
     //   queryParams.search = searchTerm;
@@ -98,21 +108,34 @@ const useShowUserList = (): any => {
           params: queryParams
         });
         setListOfClass(response.data);
-
-        // uncomment this if you are working with pagination
-        // setNumberOfUsers(response.data.pagination.count);
+        if (flag === 0) {
+          const classes = await API.get(`classes/${params.company_id}`);
+          setNumberOfClasses(classes.data.length);
+          setStartingIndex(1);
+          setLastIndex(numberOfClasses >= limiter ? limiter : numberOfClasses);
+        }
       } catch (error) {
         console.error(error);
       }
     };
     void fetchdata();
-  }, [params, sortBy, sortOrder, limiter, currentPage, searchTerm]);
+  }, [
+    params,
+    sortBy,
+    sortOrder,
+    limiter,
+    currentPage,
+    searchTerm,
+    flag,
+    numberOfClasses
+  ]);
 
   const showPerPageOption = [
+    { id: 8, text: '8' },
     { id: 10, text: '10' },
     { id: 25, text: '25' },
     { id: 50, text: '50' },
-    { id: numberOfUsers, text: `all (${numberOfUsers})` }
+    { id: numberOfClasses, text: `all (${numberOfClasses})` }
   ];
 
   const tableHeader = [
@@ -133,7 +156,7 @@ const useShowUserList = (): any => {
     currentPage,
     lastIndex,
     startingIndex,
-    numberOfUsers,
+    numberOfClasses,
     limiter,
     searchHandler,
     tableHeader

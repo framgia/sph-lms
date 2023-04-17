@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React, { Fragment } from 'react';
 import AddClassModal from '@/src/sections/classes/AddClassModal';
 import Navbar from '@/src/shared/components/Navbar';
@@ -21,7 +22,8 @@ const ClassList: FC = () => {
     startingIndex,
     numberOfUsers,
     limiter,
-    tableHeader
+    tableHeader,
+    numberOfClasses
   } = useShowClassList();
 
   const searchHandler = (searchTerm: string): void => {
@@ -61,8 +63,7 @@ const ClassList: FC = () => {
           </div>
           <div className="h-96">
             <Table header={tableHeader} checkbox={false}>
-              {numberOfUsers === 0
-                ? (
+              {numberOfUsers === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center pt-10 font-bold">
                     <div className="flex justify-center w-full">
@@ -70,9 +71,8 @@ const ClassList: FC = () => {
                     </div>
                   </td>
                 </tr>
-                  )
-                : (
-                    listOfClass.map((col: any) => (
+              ) : (
+                listOfClass.map((col: any) => (
                   <tr
                     className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
                     key={col.id}
@@ -88,13 +88,13 @@ const ClassList: FC = () => {
                     </td>
                     <td className="px-6 py-4">{col.trainer[0].course_count}</td>
                   </tr>
-                    ))
-                  )}
+                ))
+              )}
             </Table>
             <div></div>
             <div className="flex flex-row justify-end pt-10 pb-10">
               <div className="flex items-center">
-                Showing {startingIndex} to {lastIndex} of {numberOfUsers}{' '}
+                Showing {startingIndex} to {lastIndex} of {numberOfClasses}{' '}
                 entries
               </div>
             </div>
@@ -103,8 +103,8 @@ const ClassList: FC = () => {
                 <Pagination
                   maxPages={5}
                   totalPages={Math.floor(
-                    numberOfUsers / limiter +
-                      (numberOfUsers % limiter === 0 ? 0 : 1)
+                    numberOfClasses / limiter +
+                      (numberOfClasses % limiter === 0 ? 0 : 1)
                   )}
                   currentPage={currentPage}
                   onChangePage={handleChangePageEvent}
