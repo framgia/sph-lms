@@ -1,20 +1,18 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable object-shorthand */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import API from '@/src/apis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { type UserList, isRequestOk, alertError } from '@/src/shared/utils';
+import { type UserList } from '@/src/shared/utils';
 
 const useShowUserList = (): any => {
   const router = useRouter();
   const params = router.query;
   const [listOfUser, setListOfUser] = useState<UserList[]>([]);
-  const numberOfUsers = listOfUser.length;
+  const [numberOfUsers, setNumberOfUsers] = useState(1000);
   const [limiter, setLimiter] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showPerPage, setShowPerPage] = useState<UserList[]>([]);
   const [startingIndex, setStartingIndex] = useState(0);
   const [lastIndex, setLastIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,55 +20,32 @@ const useShowUserList = (): any => {
   const [sortOrder, setSortOrder] = useState(true);
 
   const handleChangePageEvent = (page: number): void => {
-    const fetchdata = async (): Promise<void> => {
-      try {
-        const response = await API.get(
-          `user/${
-            params.company_id
-          }?page_size=${limiter}&page=${page}&search=${searchTerm}&sort_by=${sortBy}&sort_order=${
-            sortOrder ? 'asc' : 'desc'
-          }`
-        );
-        setShowPerPage(response.data.user);
-      } catch (error) {
-        console.error(error);
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page: page
       }
-    };
-    void fetchdata();
+    });
     setCurrentPage(page);
     setStartingIndex(limiter * page - limiter + 1);
     setLastIndex(limiter * page);
   };
 
   const handleShowPerPage = (e: any): void => {
-    const fetchdata = async (): Promise<void> => {
-      try {
-        const response = await API.get(
-          `user/${params.company_id}?page_size=${
-            e.target.value
-          }&page=${1}&search=${searchTerm}`
-        );
-        setShowPerPage(response.data.user);
-        setCurrentPage(1);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    void fetchdata();
-    const limiter = e.target.value;
-    setLimiter(limiter);
-    setStartingIndex(limiter * currentPage - limiter + 1);
-    setLastIndex(limiter * currentPage);
+    const thisLimiter = e.target.value;
+    setLimiter(thisLimiter);
     void router.push({
       pathname: router.pathname,
       query: {
         ...router.query,
-        page_size: limiter
+        page_size: thisLimiter
       }
     });
   };
   const searchHandler = (searchTerm: string): void => {
     setSearchTerm(searchTerm);
+
     void router.push({
       pathname: router.pathname,
       query: {
@@ -85,48 +60,57 @@ const useShowUserList = (): any => {
     setSortBy(attribute);
     setSortOrder(newSortOrder);
 
-    const fetchUsers = async (): Promise<void> => {
-      try {
-        const result = await API.get(
-          `/user/${params.company_id}?sort_by=${sortBy}&sort_order=${
-            newSortOrder ? 'asc' : 'desc'
-          }&page_size=${limiter}`
-        );
-        if (isRequestOk(result)) {
-          setShowPerPage(result.data.user);
-          setCurrentPage(1);
-        }
-      } catch (error) {
-        console.error(error);
-        alertError('something went wrong');
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        sort_by: attribute,
+        sort_order: newSortOrder ? 'asc' : 'desc'
       }
-    };
-
-    void fetchUsers();
+    });
   };
 
   useEffect(() => {
+    const queryParams: any = {};
+
+    if (sortBy !== 'id') {
+      queryParams.sort_by = sortBy;
+      queryParams.sort_order = sortOrder ? 'asc' : 'desc';
+    }
+
+    if (limiter !== 0) {
+      queryParams.page_size = limiter;
+    }
+
+    if (currentPage !== 0) {
+      queryParams.page = currentPage;
+    }
+
+    if (searchTerm !== '') {
+      queryParams.search = searchTerm;
+    }
+
+    setListOfUser([]);
+
     const fetchdata = async (): Promise<void> => {
       try {
-        const response = await API.get(
-          `user/${params.company_id}?search=${searchTerm}`
-        );
+        const response = await API.get(`user/${params.company_id}`, {
+          params: queryParams
+        });
+        setNumberOfUsers(response.data.pagination.count);
         setListOfUser(response.data.user);
-        setShowPerPage(response.data.user.slice(0, limiter));
-        setStartingIndex(1);
-        setLastIndex(limiter);
       } catch (error) {
         console.error(error);
       }
     };
     void fetchdata();
-  }, [params]);
+  }, [params, sortBy, sortOrder, limiter, currentPage, searchTerm]);
 
   const showPerPageOption = [
     { id: 10, text: '10' },
     { id: 25, text: '25' },
     { id: 50, text: '50' },
-    { id: listOfUser.length, text: `all (${listOfUser.length})` }
+    { id: numberOfUsers, text: `all (${numberOfUsers})` }
   ];
 
   const tableHeader = [
@@ -143,7 +127,6 @@ const useShowUserList = (): any => {
     showPerPageOption,
     handleChangePageEvent,
     handleShowPerPage,
-    showPerPage,
     currentPage,
     lastIndex,
     startingIndex,

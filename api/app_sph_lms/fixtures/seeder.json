@@ -199,56 +199,5 @@
     "model": "app_sph_lms.Category",
     "pk": 5,
     "fields": { "name": "Category 5" }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 1,
-    "fields": { "name": "Course 1", "company": 1 }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 2,
-    "fields": { "name": "Course 2", "company": 1 }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 3,
-    "fields": { "name": "Course 3", "company": 1 }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 4,
-    "fields": { "name": "Course 4", "company": 1 }
-  },
-  {
-    "model": "app_sph_lms.Course",
-    "pk": 5,
-    "fields": { "name": "Course 5", "company": 1 }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 1,
-    "fields": { "course": 1, "category": 1 }
-  }
-  ,
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 2,
-    "fields": { "course": 2, "category": 2 }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 3,
-    "fields": { "course": 3, "category": 3 }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 4,
-    "fields": { "course": 4, "category": 4 }
-  },
-  {
-    "model": "app_sph_lms.CourseCategory",
-    "pk": 5,
-    "fields": { "course": 5, "category": 5 }
   }
 ]

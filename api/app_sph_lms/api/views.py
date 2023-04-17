@@ -18,6 +18,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
+from rest_framework import serializers
+from django.db.models import Count, F
 
 # Create your views here.
 
@@ -210,13 +212,33 @@ class CompanyUsersViewSet(generics.CreateAPIView, generics.RetrieveAPIView):
                 "message": "Successfully created new user",
             }
         )
-        
-class ClassList(generics.ListCreateAPIView):
+
+class ClassList(generics.ListAPIView):
     serializer_class = ClassSerializer
-    
+    lookup_url_kwarg = "company_id"
+    queryset = Class.objects.all()
+
     def get_queryset(self):
-        company_id = self.kwargs.get('company_id')
-        queryset = Class.objects.filter(company_id=company_id)
-        if not queryset.exists():
-            queryset = Class.objects.none()
+        sort_by = self.request.query_params.get("sort_by")
+        sort_order = self.request.query_params.get("sort_order", "asc")
+        if sort_by and sort_by not in ["name", "trainer", "total_trainees", "course_count"]:
+            raise serializers.ValidationError(
+                f"'{sort_by}' is not a valid attribute for Class"
+            )
+        queryset = self.queryset.filter(company=self.kwargs.get(self.lookup_url_kwarg))
+
+        if sort_by:
+            if sort_by == "name":
+                sort_field = "name" if sort_order == "asc" else "-name"
+                queryset = queryset.order_by(sort_field)
+            elif sort_by == "trainer":
+                sort_field = "trainer__trainer__first_name" if sort_order == "asc" else "-trainer__trainer__first_name"
+                queryset = queryset.annotate(trainer_name=F('trainer__trainer__first_name')).order_by(sort_field)
+            elif sort_by == "total_trainees":
+                sort_field = "total_trainees" if sort_order == "asc" else "-total_trainees"
+                queryset = queryset.annotate(total_trainees=Count('trainee')).order_by(sort_field)
+            elif sort_by == "course_count":
+                sort_field = "course_count" if sort_order == "asc" else "-course_count"
+                queryset = queryset.annotate(course_count=Count('trainer__author')).order_by(sort_field)
+       
         return queryset

@@ -12,6 +12,7 @@ import type { FC } from 'react';
 
 const ClassList: FC = () => {
   const {
+    listOfClass,
     showPerPageOption,
     handleChangePageEvent,
     handleShowPerPage,
@@ -20,14 +21,10 @@ const ClassList: FC = () => {
     lastIndex,
     startingIndex,
     numberOfUsers,
-    limiter
+    limiter,
+    tableHeader
   } = useShowClassList();
-  const tableHeader = [
-    'Class Name',
-    'Class Trainer',
-    'Number of Trainees',
-    'Number of Courses'
-  ];
+
   const searchHandler = (searchTerm: string): void => {
     console.log(`Searching ${searchTerm}`);
   };
@@ -65,8 +62,7 @@ const ClassList: FC = () => {
           </div>
           <div className="h-96">
             <Table header={tableHeader} checkbox={false}>
-              {numberOfUsers === 0
-                ? (
+              {numberOfUsers === 0 ? (
                 <tr>
                   <td colSpan={5} className="text-center pt-10 font-bold">
                     <div className="flex justify-center w-full">
@@ -74,26 +70,25 @@ const ClassList: FC = () => {
                     </div>
                   </td>
                 </tr>
-                  )
-                : (
-                    showPerPage.map((col: any) => (
+              ) : (
+                listOfClass.map((col: any) => (
                   <tr
                     className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
                     key={col.id}
                   >
                     <td className="px-6 py-4 text-lightBlue underline">
-                      {col.class_name}
+                      {col.name}
                     </td>
                     <td className="px-6 py-4 text-lightBlue underline">
-                      {col.class_trainer}
+                      {col.trainer[0].details.full_name}
                     </td>
                     <td className="px-6 py-4 text-lightBlue underline">
-                      {col.number_of_trainees}
+                      {col.total_trainees}
                     </td>
-                    <td className="px-6 py-4">{col.number_of_courses}</td>
+                    <td className="px-6 py-4">{col.trainer[0].course_count}</td>
                   </tr>
-                    ))
-                  )}
+                ))
+              )}
             </Table>
             <div></div>
             <div className="flex flex-row justify-end pt-10 pb-10">

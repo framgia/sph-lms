@@ -76,38 +76,7 @@ class Category(models.Model):
         verbose_name_plural = "Category"
         db_table = "app_sph_lms_categories"
     def __str__(self):
-        return str(self.name)    
-    
-class Course(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    code = models.CharField(max_length=10, unique=True, default=generate_code)
-    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
-    description = models.TextField(max_length=65000, null=True, validators=[MinLengthValidator(5)])
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
-    img_path = models.CharField(max_length=255, null=True)
-    preview_vid_path = models.CharField(max_length=255, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-    class Meta: 
-        verbose_name = "Course"
-        verbose_name_plural = "Course"
-        db_table = "app_sph_lms_courses"
-    def __str__(self):
-        return str(self.name)   
-    
-class CourseCategory(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-    class Meta:
-        unique_together = ('course', 'category')
-        verbose_name = "CourseCategory"
-        verbose_name_plural = "CourseCategory"
-        db_table = "app_sph_lms_course_categories"
-    def __str__(self):
-        return "Course: " + str(self.course) + " | " + "Category: " + str(self.category)
-
+        return str(self.name)     
     
 class Tag(models.Model):
     name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
@@ -119,19 +88,6 @@ class Tag(models.Model):
         db_table = "app_sph_lms_tags"
     def __str__(self):
         return str(self.name)
-
-class CourseTag(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-    class Meta:
-        unique_together = ('course', 'tag')
-        verbose_name = "CourseTag"
-        verbose_name_plural = "CourseTag"
-        db_table = "app_sph_lms_course_tags"
-    def __str__(self):
-        return "Course: " + str(self.course) + " | " + "Tag: " + str(self.tag)
     
 class Class(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -175,3 +131,47 @@ class Trainee(models.Model):
         db_table = "app_sph_lms_trainees"
     def __str__(self):
         return "Company: " + str(self.company) + " | " + "Trainee: " + str(self.trainee) + " | " + "Class: " + str(self.class_id)
+
+class Course(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="company")
+    author = models.ForeignKey(Trainer, on_delete=models.CASCADE, related_name="author")
+    code = models.CharField(max_length=10, unique=True, default=generate_code)
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
+    description = models.TextField(max_length=65000, null=True, validators=[MinLengthValidator(5)])
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
+    img_path = models.CharField(max_length=255, null=True)
+    preview_vid_path = models.CharField(max_length=255, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta: 
+        verbose_name = "Course"
+        verbose_name_plural = "Course"
+        db_table = "app_sph_lms_courses"
+    def __str__(self):
+        return str(self.name)   
+
+class CourseCategory(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta:
+        unique_together = ('course', 'category')
+        verbose_name = "CourseCategory"
+        verbose_name_plural = "CourseCategory"
+        db_table = "app_sph_lms_course_categories"
+    def __str__(self):
+        return "Course: " + str(self.course) + " | " + "Category: " + str(self.category)
+
+class CourseTag(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    class Meta:
+        unique_together = ('course', 'tag')
+        verbose_name = "CourseTag"
+        verbose_name_plural = "CourseTag"
+        db_table = "app_sph_lms_course_tags"
+    def __str__(self):
+        return "Course: " + str(self.course) + " | " + "Tag: " + str(self.tag)

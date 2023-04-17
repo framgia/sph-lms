@@ -144,12 +144,12 @@ class TraineeSerializer(serializers.ModelSerializer):
     def get_details(self, obj):
         return UserSerializer(obj.trainee).data
 
-    def get_details(self, obj):
-        return UserSerializer(obj.trainee).data
 
 
 class TrainerSerializer(serializers.ModelSerializer):
     details = serializers.SerializerMethodField()
+    author = CourseSerializer(many=True, read_only=True)
+    course_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Trainer
@@ -157,7 +157,10 @@ class TrainerSerializer(serializers.ModelSerializer):
 
     def get_details(self, obj):
         return UserSerializer(obj.trainer).data
-
+    
+    def get_course_count(self, obj):
+        return len(obj.author.all())
+    
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
@@ -214,21 +217,17 @@ class CompanySerializer(serializers.ModelSerializer):
                 "previous": paginator.get_previous_link(),
                 "count": paginator.page.paginator.count,
             }
-            data["example"] = search
         else:
             data["user"] = "User does not exist"
         return data
 
 class ClassSerializer(serializers.ModelSerializer):
     total_trainees = serializers.SerializerMethodField()
-    total_trainers = serializers.SerializerMethodField()
-    
+    trainer = TrainerSerializer(source='trainer_set', many=True, read_only=True)
+
     class Meta:
         model = Class
         fields = "__all__"
-    
+
     def get_total_trainees(self, obj):
         return obj.trainee_set.count()
-    
-    def get_total_trainers(self, obj):
-        return obj.trainer_set.count()
