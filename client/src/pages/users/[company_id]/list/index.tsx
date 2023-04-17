@@ -43,8 +43,9 @@ const ListOfUser: FC = () => {
           </div>
           <div className="h-96">
             <Table header={tableHeader} checkbox={false}>
-              {Array.isArray(listOfUser) && listOfUser.length > 0 ? (
-                listOfUser.map((col: any) => (
+              {Array.isArray(listOfUser) && listOfUser.length > 0
+                ? (
+                    listOfUser.map((col: any) => (
                   <tr
                     className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
                     key={col.id}
@@ -66,8 +67,9 @@ const ListOfUser: FC = () => {
                       <UserEditDelete id={col.id} />
                     </td>
                   </tr>
-                ))
-              ) : (
+                    ))
+                  )
+                : (
                 <tr>
                   <td colSpan={5} className="text-center pt-10 font-bold">
                     <div className="flex justify-center w-full">
@@ -75,7 +77,7 @@ const ListOfUser: FC = () => {
                     </div>
                   </td>
                 </tr>
-              )}
+                  )}
             </Table>
             <div></div>
             <div className="flex flex-row justify-between pt-10 pb-10">

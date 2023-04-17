@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
