@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import API from '@/src/apis';
 import { useRouter } from 'next/router';
-import { getUserToken } from '../utils';
+import {
+  getUserToken,
+  isTokenInvalid,
+  removeLocalStorage,
+  setLocalStorage
+} from '../utils';
 import { useEffect } from 'react';
 
 export const useAuthMiddleware = (): void => {
@@ -14,11 +19,13 @@ export const useAuthMiddleware = (): void => {
       const fetchData = async (): Promise<void> => {
         try {
           const user = await API.get('/auth/user');
-          localStorage.setItem('user_full_name', user.data.full_name);
-          localStorage.setItem('user_username', user.data.username);
-          localStorage.setItem('user_email', user.data.email);
-        } catch (error) {
+          setLocalStorage(user);
+        } catch (error: any) {
           console.log(error);
+          if (isTokenInvalid(error.response)) {
+            removeLocalStorage();
+            router.reload();
+          }
         }
       };
 

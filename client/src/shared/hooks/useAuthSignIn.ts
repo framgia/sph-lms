@@ -4,7 +4,8 @@ import axios from 'axios';
 import {
   type AuthFormInput,
   alertError,
-  alertSuccess
+  alertSuccess,
+  setLocalStorage
 } from '@/src/shared/utils';
 import { useRouter } from 'next/router';
 
@@ -25,8 +26,7 @@ export const useAuthSignIn = (): any => {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/sign-in`,
         data
       );
-      localStorage.setItem('user_token', result.data.token);
-      localStorage.setItem('signedIn', 'true');
+      setLocalStorage(result);
       router.reload();
       alertSuccess('Login Successful');
     } catch (error) {

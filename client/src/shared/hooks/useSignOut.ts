@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { alertError, alertSuccess, getUserToken } from '@/src/shared/utils';
+import {
+  alertError,
+  alertSuccess,
+  getUserToken,
+  removeLocalStorage
+} from '@/src/shared/utils';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
@@ -18,11 +23,7 @@ export const useSignOut = (): any => {
           }
         }
       );
-      localStorage.removeItem('user_token');
-      localStorage.removeItem('user_full_name');
-      localStorage.removeItem('user_username');
-      localStorage.removeItem('user_email');
-      localStorage.setItem('signedIn', 'false');
+      removeLocalStorage();
       router.reload();
       alertSuccess('Logout Successful');
     } catch (error) {
