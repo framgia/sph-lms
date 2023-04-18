@@ -55,14 +55,14 @@ const useShowUserList = (): any => {
     });
   };
   const searchHandler = (searchTerm: string): void => {
-    // setSearchTerm(searchTerm);
-    // void router.push({
-    //   pathname: router.pathname,
-    //   query: {
-    //     ...router.query,
-    //     search: searchTerm
-    //   }
-    // });
+    setSearchTerm(searchTerm);
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        search: searchTerm
+      }
+    });
   };
 
   const handleSortBy = (attribute: string): void => {
@@ -96,9 +96,9 @@ const useShowUserList = (): any => {
       queryParams.page = currentPage;
     }
 
-    // if (searchTerm !== '') {
-    //   queryParams.search = searchTerm;
-    // }
+    if (searchTerm !== '') {
+      queryParams.search = searchTerm;
+    }
 
     setListOfClass([]);
 

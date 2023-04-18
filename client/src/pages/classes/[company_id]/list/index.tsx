@@ -23,12 +23,10 @@ const ClassList: FC = () => {
     numberOfUsers,
     limiter,
     tableHeader,
-    numberOfClasses
+    numberOfClasses,
+    searchHandler
   } = useShowClassList();
 
-  const searchHandler = (searchTerm: string): void => {
-    console.log(`Searching ${searchTerm}`);
-  };
   return (
     <Fragment>
       <Navbar navItems={navItems} dropdownItems={dropdownItems} />

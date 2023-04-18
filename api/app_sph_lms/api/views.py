@@ -6,9 +6,10 @@ from app_sph_lms.models import Class, Company, Course, CourseCategory, User
 from app_sph_lms.utils.enum import StatusEnum
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
-from django.db.models import Q
+from django.core.paginator import Paginator
+from django.db.models import Count, F, Q
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics, status
+from rest_framework import filters, generics, serializers, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken import views as auth_views
 from rest_framework.authtoken.models import Token
@@ -18,9 +19,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
-from rest_framework import serializers
-from django.db.models import Count, F
-from django.core.paginator import Paginator
+
 # Create your views here.
 
 
@@ -228,6 +227,14 @@ class ClassList(generics.ListAPIView):
                 f"'{sort_by}' is not a valid attribute for Class"
             )
         queryset = self.queryset.filter(company=self.kwargs.get(self.lookup_url_kwarg))
+        
+        search_query = self.request.query_params.get("search")
+        if search_query:
+            queryset = queryset.filter(
+                Q(name__icontains=search_query) |
+                Q(trainer__trainer__first_name__icontains=search_query) |
+                Q(trainer__trainer__last_name__icontains=search_query)
+            )
 
         if sort_by:
             if sort_by == "name":
