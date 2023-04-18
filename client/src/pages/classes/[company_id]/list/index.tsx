@@ -102,10 +102,7 @@ const ClassList: FC = () => {
               <div className="flex flex-row">
                 <Pagination
                   maxPages={5}
-                  totalPages={Math.floor(
-                    numberOfClasses / limiter +
-                      (numberOfClasses % limiter === 0 ? 0 : 1)
-                  )}
+                  totalPages={Math.ceil(numberOfClasses / limiter)}
                   currentPage={currentPage}
                   onChangePage={handleChangePageEvent}
                 />

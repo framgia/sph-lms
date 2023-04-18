@@ -43,7 +43,7 @@ const useShowUserList = (): any => {
     setCurrentPage(1);
     setStartingIndex(1);
     setLastIndex(
-      listOfClass.length >= thisLimiter ? thisLimiter : listOfClass.length
+      numberOfClasses <= thisLimiter ? numberOfClasses : thisLimiter
     );
     setFlag(1);
     void router.push({
