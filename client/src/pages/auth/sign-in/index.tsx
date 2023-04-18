@@ -1,18 +1,17 @@
 import React, { Fragment } from 'react';
 import Container from '@/src/shared/layouts/Container';
-import Navbar from '@/src/shared/components/Navbar';
-import { dropdownItems, navItems } from '../../demo/layouts/navbar';
 import { useAuthSignIn } from '@/src/shared/hooks/useAuthSignIn';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
+import Logo from '@/src/shared/components/Logo';
 
 const SignIn: React.FC = () => {
   const { onSubmit, handleSubmit, register, errors } = useAuthSignIn();
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <div className="flex justify-center items-center h-screen bg-gray-200">
         <Container>
+          <Logo />
           <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
             <h1 className="flex justify-center text-3xl font-medium mb-4 mb-5 text-sky-800">
               Sign in

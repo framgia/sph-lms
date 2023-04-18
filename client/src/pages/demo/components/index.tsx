@@ -18,6 +18,7 @@ import RadioButton from '@/src/shared/components/RadioButton';
 import Table from '@/src/shared/components/Table';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import Logo from '@/src/shared/components/Logo';
 interface Inputs {
   name: string;
 }
@@ -119,6 +120,29 @@ const DemoComponent: React.FunctionComponent = () => {
           <br />
           <a href="#tableList">Table List</a>
         </div>
+        <br />
+        <hr className="w-3/4 mx-auto" />
+
+        <div className="p-4 border">
+          <h1>Component: Iframe</h1>
+          <br />
+          <Logo />
+          <Logo className="border " width={50} />
+
+          <div className="mt-[5px]">
+            <h1>Props: Logo</h1>
+
+            <div className="bg-gray-300 p-[5px]">
+              <p>
+                className = (string)["flex justify-center"] ex.
+                className="border-2"
+              </p>
+              <p> width = (number)[180] ex. width=180 </p>
+              <p>height = (number)[40] ex. height=40 </p>
+            </div>
+          </div>
+        </div>
+
         <br />
         <hr className="w-3/4 mx-auto" />
 
