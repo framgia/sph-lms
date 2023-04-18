@@ -1,8 +1,8 @@
 from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
                                          CompanySerializer,
                                          CourseCategorySerializer,
-                                         CourseSerializer, UserSerializer)
-from app_sph_lms.models import Class, Company, Course, CourseCategory, User
+                                         CourseSerializer, UserSerializer, CategorySerializer)
+from app_sph_lms.models import Class, Company, Course, CourseCategory, User, Category
 from app_sph_lms.utils.enum import StatusEnum
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
@@ -111,6 +111,32 @@ class CourseList(generics.ListCreateAPIView):
                 queryset = queryset.order_by('-name')
 
         return queryset
+    
+    def create(self, request, *args, **kwargs):
+        # 1 create course
+        # 2 loop through category, and create data for course category
+        
+        # Customize the behavior here
+        response = super().create(request, *args, **kwargs)
+        course_id = response.data.get('id')
+        
+        for category in request.data['category'].split(','):
+            CourseCategory.objects.create(
+                course=Course.objects.get(id=course_id), 
+                category=Category.objects.get(id=category)
+            )
+        
+        # Trainee.objects.create(
+        #         trainee=user, company=Company.objects.get(id=company_id)
+        #     )
+        
+        
+        # Do something with the response here
+        # return Response({"test": request.data})
+        return response
+        # return Response({"test": request.data['category'].split(',')})
+        
+        # return Response({"test": response.data.get('id')})
 
 
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -254,3 +280,11 @@ class ClassList(generics.ListAPIView):
             paginated_class_list = per_page.page(page)
             queryset = paginated_class_list
         return queryset
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer

@@ -54,9 +54,10 @@ export const useCreateCourse = (): any => {
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
-        const result = await API.get('/course-category');
+        const result = await API.get('/category');
         if (isRequestOk(result)) {
           setCategory(result.data);
+          console.log(result.data);
         }
       } catch (error) {
         console.error(error);

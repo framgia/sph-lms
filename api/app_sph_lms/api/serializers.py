@@ -1,5 +1,5 @@
 from app_sph_lms.models import (Class, Company, Course, CourseCategory,
-                                Trainee, Trainer, User)
+                                Trainee, Trainer, User, Category)
 from app_sph_lms.utils.enum import UserRoleEnum
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
@@ -231,3 +231,8 @@ class ClassSerializer(serializers.ModelSerializer):
 
     def get_total_trainees(self, obj):
         return obj.trainee_set.count()
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"

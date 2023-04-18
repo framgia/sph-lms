@@ -9,7 +9,9 @@ from app_sph_lms.api.views import (
     SignOutView,
     AuthToken,
     UserDetail,
-    CompanyUsersViewSet
+    CompanyUsersViewSet,
+    CategoryList, 
+    CategoryDetail, 
 )
 
 urlpatterns = [
@@ -18,6 +20,8 @@ urlpatterns = [
     
     path('course/', CourseList.as_view(), name="course-list"),
     path('course/<int:pk>', CourseDetail.as_view(), name="course-detail"),
+    path('category/', CategoryList.as_view(), name="category-list"),
+    path('category/<int:pk>', CategoryDetail.as_view(), name="category-detail"),
     path('course-category/', CourseCategoryList.as_view(), name="course-category-list"),
     path('course-category/<int:pk>', CourseCategoryDetail.as_view(), name="course-category-detail"),
     

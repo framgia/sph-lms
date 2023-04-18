@@ -2,8 +2,8 @@
 import React from 'react';
 
 export interface SelectOptionData {
-  id: number;
-  text: string;
+  value: number;
+  label: string;
 }
 
 export interface SelectProps<SelectOptionData> {
