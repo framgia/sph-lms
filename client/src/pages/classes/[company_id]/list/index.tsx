@@ -20,7 +20,6 @@ const ClassList: FC = () => {
     currentPage,
     lastIndex,
     startingIndex,
-    numberOfUsers,
     limiter,
     tableHeader,
     numberOfClasses,
@@ -61,34 +60,34 @@ const ClassList: FC = () => {
           </div>
           <div className="h-96">
             <Table header={tableHeader} checkbox={false}>
-              {numberOfUsers === 0 ? (
+              {listOfClass.map((col: any) => (
+                <tr
+                  className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
+                  key={col.id}
+                >
+                  <td className="px-6 py-4 text-lightBlue underline">
+                    {col.name}
+                  </td>
+                  <td className="px-6 py-4 text-lightBlue underline">
+                    {col.trainer[0].details.full_name}
+                  </td>
+                  <td className="px-6 py-4 text-lightBlue underline">
+                    {col.total_trainees}
+                  </td>
+                  <td className="px-6 py-4">{col.trainer[0].course_count}</td>
+                </tr>
+              ))}
+              {listOfClass.length === 0 && (
                 <tr>
                   <td colSpan={5} className="text-center pt-10 font-bold">
                     <div className="flex justify-center w-full">
-                      No data Found
+                      No data found
                     </div>
                   </td>
                 </tr>
-              ) : (
-                listOfClass.map((col: any) => (
-                  <tr
-                    className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
-                    key={col.id}
-                  >
-                    <td className="px-6 py-4 text-lightBlue underline">
-                      {col.name}
-                    </td>
-                    <td className="px-6 py-4 text-lightBlue underline">
-                      {col.trainer[0].details.full_name}
-                    </td>
-                    <td className="px-6 py-4 text-lightBlue underline">
-                      {col.total_trainees}
-                    </td>
-                    <td className="px-6 py-4">{col.trainer[0].course_count}</td>
-                  </tr>
-                ))
               )}
             </Table>
+
             <div></div>
             <div className="flex flex-row justify-end pt-10 pb-10">
               <div className="flex items-center">
