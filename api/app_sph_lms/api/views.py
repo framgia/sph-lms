@@ -113,10 +113,6 @@ class CourseList(generics.ListCreateAPIView):
         return queryset
     
     def create(self, request, *args, **kwargs):
-        # 1 create course
-        # 2 loop through category, and create data for course category
-        
-        # Customize the behavior here
         response = super().create(request, *args, **kwargs)
         course_id = response.data.get('id')
         
@@ -125,19 +121,7 @@ class CourseList(generics.ListCreateAPIView):
                 course=Course.objects.get(id=course_id), 
                 category=Category.objects.get(id=category)
             )
-        
-        # Trainee.objects.create(
-        #         trainee=user, company=Company.objects.get(id=company_id)
-        #     )
-        
-        
-        # Do something with the response here
-        # return Response({"test": request.data})
         return response
-        # return Response({"test": request.data['category'].split(',')})
-        
-        # return Response({"test": response.data.get('id')})
-
 
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
