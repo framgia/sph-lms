@@ -1,50 +1,71 @@
-import React, { Fragment } from 'react';
-import { useShowPerPage } from '@/src/shared/hooks/useShowPerPage';
+import React, { Fragment, useEffect, useState } from 'react';
 import Navbar from '@/src/shared/components/Navbar';
-import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Container from '@/src/shared/layouts/Container';
 import Table from '@/src/shared/components/Table';
 import { dropdownItems, navItems } from '@/src/pages/demo/layouts/navbar';
-import Select from '@/src/shared/components/Select';
-import { type UserDetails } from '@/src/shared/utils';
+import API from '@/src/apis';
+import { type User } from '@/src/shared/utils';
 
 const EnrollUser: React.FC = () => {
-  const { paths, showPerPage, showPerPageOption, handleShowPerPage } =
-    useShowPerPage();
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    let ignore = false;
+    async function fetchData (): Promise<void> {
+      const result = await API.get('user/1');
+      if (!ignore) {
+        setUsers(result.data.user);
+        console.log(result.data.user);
+      }
+    }
+
+    void fetchData();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   return (
     <Fragment>
       <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <Container>
-        <Breadcrumbs paths={paths} />
         <Table
-          header={[{ text: 'id' }, { text: 'name' }, { text: 'username' }]}
+          header={[{ text: 'First Name' }, { text: 'Last Name' }, { text: 'Email' }, { text: 'Role' }]}
         >
-          {showPerPage.map((item: UserDetails) => (
-            <tr
-              className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
-              key={item.id}
-            >
-              <td className="px-6 py-4">
-                <input
-                  type="checkbox"
-                  className="h-5 w-5 hover:bg-sky-700"
-                ></input>
-              </td>
-              <td className="px-6 py-4">{item.id}</td>
-              <td className="px-6 py-4">{item.name}</td>
-              <td className="px-6 py-4">{item.email}</td>
-            </tr>
-          ))}
+         {Array.isArray(users) && users.length > 0
+           ? (
+               users.map((col: any) => (
+                  <tr
+                    className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
+                    key={col.id}
+                  >
+                    <td className="px-6 py-4 text-lightBlue underline">
+                      {col.first_name}
+                    </td>
+                    <td className="px-6 py-4 text-lightBlue underline">
+                      {col.last_name}
+                    </td>
+                    <td className="px-6 py-4 text-lightBlue underline">
+                      {col.created_at}
+                    </td>
+                    <td className="px-6 py-4 text-lightBlue underline">
+                      {col.email}
+                    </td>
+                    <td className="px-6 py-4">{col.role.title}</td>
+                  </tr>
+               ))
+             )
+           : (
+                <tr>
+                  <td colSpan={5} className="text-center pt-10 font-bold">
+                    <div className="flex justify-center w-full">
+                      Loading . . .
+                    </div>
+                  </td>
+                </tr>
+             )}
         </Table>
-        <div className="flex justify-end">
-          <Select
-            width="200px"
-            eventHandler={handleShowPerPage}
-            label="Show Per Page"
-            options={showPerPageOption}
-          />
-        </div>
       </Container>
     </Fragment>
   );
