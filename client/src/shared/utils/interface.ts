@@ -47,6 +47,12 @@ export interface ClassList {
   number_of_trainees: number;
   number_of_courses: number;
 }
+export interface CourseList {
+  category: string;
+  name: string;
+  description: string;
+  created_at: Date;
+}
 
 export interface User {
   id: string;
