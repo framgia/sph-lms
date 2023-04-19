@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { Fragment } from 'react';
-
 import Navbar from '@/src/shared/components/Navbar';
 import Container from '@/src/shared/layouts/Container';
 import Table from '@/src/shared/components/Table';

@@ -2,7 +2,6 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useEffect, useRef, useState } from 'react';
-
 import API from '@/src/apis';
 import { useRouter } from 'next/router';
 import { is404, isRequestOk, type User } from '../utils';
@@ -33,7 +32,6 @@ const useEnrollUser = (): any => {
           }
         } catch (error: any) {
           console.error(error);
-          /* alert('something went wrong'); */
           if (is404(error.response)) {
             setPageNotFound(true);
           }
@@ -58,7 +56,7 @@ const useEnrollUser = (): any => {
   const paths = [
     {
       text: 'Courses',
-      url: '/trainer/course'
+      url: '/trainer/courses/list'
     },
     {
       text: courseTitle,
