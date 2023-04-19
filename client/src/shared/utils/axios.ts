@@ -7,3 +7,7 @@ export const isRequestOk = (res: AxiosResponse): boolean => {
 export const isTokenInvalid = (res: AxiosResponse): boolean => {
   return res.status === 401;
 };
+
+export const is404 = (res: AxiosResponse): boolean => {
+  return res.status === 404;
+};
