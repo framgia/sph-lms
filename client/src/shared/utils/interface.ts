@@ -95,3 +95,8 @@ export interface CourseFormInput {
   description: string;
   category: { value: number; label: string }[];
 }
+
+export interface MultiSelectOptionData {
+  value: number;
+  label: string;
+}
