@@ -10,6 +10,11 @@ import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import { type Course } from '@/src/shared/utils';
 import useSortByCourse from '@/src/shared/hooks/useSortByCourse';
 import Select from '@/src/shared/components/Select';
+import Navbar from '@/src/shared/components/Navbar';
+import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
+import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
+import useShowCourseList from '@/src/shared/hooks/useShowCourseList';
+import Container from '@/src/shared/layouts/Container';
 
 export interface TypeOfViewProps {
   typeOfView: string;
@@ -25,6 +30,7 @@ export interface CourseProps {
 }
 
 const View = (): ReactNode => {
+  const { paths } = useShowCourseList();
   const { setData, data, handleSortDirectionChange, options, sortDirection } =
     useSortByCourse();
 
@@ -67,8 +73,10 @@ const View = (): ReactNode => {
 
   return (
     <Fragment>
+      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <div className="flex flex-row">
         <div className="bg-white top-0 bottom-0 w-3/5 left-20 ml-28 pr-10">
+          <Breadcrumbs paths={paths} />
           <div className="text-xl pl-5 pt-20 text-blue-500">Courses</div>
           <div className="pl-5 pt-10">
             <SearchBar onSearchEvent={handleOnSearchEvent} />

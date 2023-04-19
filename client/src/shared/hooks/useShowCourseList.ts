@@ -15,6 +15,17 @@ const useShowCourseList = (): any => {
   const [sortOrder, setSortOrder] = useState(true);
   const [listOfCategories, setListOfCategories] = useState<string[]>([]);
 
+  const paths = [
+    {
+      text: 'Courses',
+      url: '/courses'
+    },
+    {
+      text: 'List',
+      url: router.asPath
+    }
+  ];
+
   const searchHandler = (searchTerm: string): void => {
     setSearchTerm(searchTerm);
 
@@ -79,7 +90,8 @@ const useShowCourseList = (): any => {
     listOfCourse,
     listOfCategories,
     searchHandler,
-    handleSortBy
+    handleSortBy,
+    paths
   };
 };
 export default useShowCourseList;
