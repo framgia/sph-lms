@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -17,14 +18,36 @@ const useEnrollUser = (): any => {
 
   const [pageNotFound, setPageNotFound] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const searchHandler = (searchTerm: string): void => {
+    setSearchTerm(searchTerm);
+
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        search: searchTerm
+      }
+    });
+  };
+
   useEffect(() => {
+    const queryParams: any = {};
+
+    if (searchTerm !== '') {
+      queryParams.search = searchTerm;
+    }
+
     const fetchCourse = async (): Promise<void> => {
       if (router.query.id !== undefined) {
         try {
           const result = await API.get(`course/${router.query.id}`);
           setCourseTitle(result.data.name);
           if (isRequestOk(result)) {
-            const userResult = await API.get(`user/${result.data.company}`);
+            const userResult = await API.get(`user/${result.data.company}`, {
+              params: queryParams
+            });
             if (isRequestOk(userResult)) {
               fetchedUsersRef.current = userResult.data.user;
               setShowPerPage(fetchedUsersRef.current.slice(0, 10));
@@ -39,7 +62,7 @@ const useEnrollUser = (): any => {
       }
     };
     void fetchCourse();
-  }, [router.query.id]);
+  }, [router.query.id, searchTerm]);
 
   const handleShowPerPage = (e: any): void => {
     const limiter = e.target.value;
@@ -74,7 +97,8 @@ const useEnrollUser = (): any => {
     showPerPage,
     handleShowPerPage,
     showPerPageOption,
-    pageNotFound
+    pageNotFound,
+    searchHandler
   };
 };
 

@@ -9,6 +9,7 @@ import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import NotFoundPage from '@/src/pages/404';
 import useEnrollUser from '@/src/shared/hooks/useEnrollUser';
+import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 
 const EnrollUser: React.FC = () => {
   const {
@@ -17,7 +18,8 @@ const EnrollUser: React.FC = () => {
     showPerPage,
     handleShowPerPage,
     showPerPageOption,
-    pageNotFound
+    pageNotFound,
+    searchHandler
   } = useEnrollUser();
 
   if (pageNotFound) {
@@ -35,6 +37,9 @@ const EnrollUser: React.FC = () => {
         </div>
         <div>
           <h1 className='text-2xl text-blue-500 pb-10 pl-2'>Enroll Users into {courseTitle}</h1>
+        </div>
+        <div className='pl-2 pb-5'>
+          <SearchBar onSearchEvent={searchHandler}/>
         </div>
         <Table
           header={[{ text: 'First Name' }, { text: 'Last Name' }, { text: 'Email' }, { text: 'Creation Date' }, { text: 'Role' }]}
