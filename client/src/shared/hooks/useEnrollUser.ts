@@ -10,8 +10,6 @@ import { is404, isRequestOk, type User } from '../utils';
 const useEnrollUser = (): any => {
   const router = useRouter();
 
-  const [showPerPage, setShowPerPage] = useState<User[]>([]);
-
   const fetchedUsersRef = useRef<User[]>([]);
 
   const [courseTitle, setCourseTitle] = useState('');
@@ -19,6 +17,37 @@ const useEnrollUser = (): any => {
   const [pageNotFound, setPageNotFound] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [limiter, setLimiter] = useState(10);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [numberOfUsers, setNumberOfUsers] = useState(1000);
+
+  const [listOfUser, setListOfUser] = useState<User[]>([]);
+
+  const handleChangePageEvent = (page: number): void => {
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page: page
+      }
+    });
+    setCurrentPage(page);
+  };
+
+  const handleShowPerPage = (e: any): void => {
+    const thisLimiter = e.target.value;
+    setLimiter(thisLimiter);
+    void router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        page_size: thisLimiter
+      }
+    });
+  };
 
   const searchHandler = (searchTerm: string): void => {
     setSearchTerm(searchTerm);
@@ -39,6 +68,16 @@ const useEnrollUser = (): any => {
       queryParams.search = searchTerm;
     }
 
+    if (limiter !== 0) {
+      queryParams.page_size = limiter;
+    }
+
+    if (currentPage !== 0) {
+      queryParams.page = currentPage;
+    }
+
+    setListOfUser([]);
+
     const fetchCourse = async (): Promise<void> => {
       if (router.query.id !== undefined) {
         try {
@@ -50,7 +89,8 @@ const useEnrollUser = (): any => {
             });
             if (isRequestOk(userResult)) {
               fetchedUsersRef.current = userResult.data.user;
-              setShowPerPage(fetchedUsersRef.current.slice(0, 10));
+              setNumberOfUsers(userResult.data.pagination.count);
+              setListOfUser(userResult.data.user);
             }
           }
         } catch (error: any) {
@@ -62,12 +102,7 @@ const useEnrollUser = (): any => {
       }
     };
     void fetchCourse();
-  }, [router.query.id, searchTerm]);
-
-  const handleShowPerPage = (e: any): void => {
-    const limiter = e.target.value;
-    setShowPerPage(fetchedUsersRef.current.slice(0, limiter));
-  };
+  }, [router.query.id, searchTerm, currentPage, limiter]);
 
   const showPerPageOption = [
     { id: 10, text: '10' },
@@ -94,11 +129,15 @@ const useEnrollUser = (): any => {
   return {
     paths,
     courseTitle,
-    showPerPage,
     handleShowPerPage,
     showPerPageOption,
     pageNotFound,
-    searchHandler
+    searchHandler,
+    numberOfUsers,
+    limiter,
+    currentPage,
+    handleChangePageEvent,
+    listOfUser
   };
 };
 
