@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react';
 
 export interface ModalProps {
-  children?: any
-  isOpen: boolean
+  children?: any;
+  isOpen: boolean;
+  className?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
   children,
-  isOpen
+  isOpen,
+  className = ''
 }: ModalProps) => {
   if (!isOpen) return null;
 
@@ -25,14 +27,14 @@ const Modal: React.FC<ModalProps> = ({
           ></span>
 
           <div
-            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all lg:my-8 lg:align-middle w-2/4"
+            className={`inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all lg:my-8 lg:align-middle ${
+              className === '' ? 'w-2/4' : className
+            }`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-headline"
           >
-            <div className='max-h-screen overflow-y-auto'>
-              {children}
-            </div>
+            <div className="max-h-screen overflow-y-auto">{children}</div>
           </div>
         </div>
       </div>
