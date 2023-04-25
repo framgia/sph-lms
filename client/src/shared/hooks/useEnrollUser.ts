@@ -1,11 +1,13 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
-/* eslint-disable object-shorthand */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useEffect, useRef, useState } from 'react';
+import { type AxiosResponse } from 'axios';
 import API from '@/src/apis';
 import { useRouter } from 'next/router';
 import { is404, isRequestOk, type User } from '../utils';
+
+interface Course {
+  name: string;
+  company: string;
+}
 
 const useEnrollUser = (): any => {
   const router = useRouter();
@@ -31,7 +33,7 @@ const useEnrollUser = (): any => {
       pathname: router.pathname,
       query: {
         ...router.query,
-        page: page
+        page
       }
     });
     setCurrentPage(page);
@@ -81,7 +83,7 @@ const useEnrollUser = (): any => {
     const fetchCourse = async (): Promise<void> => {
       if (router.query.id !== undefined) {
         try {
-          const result = await API.get(`course/${router.query.id}`);
+          const result: AxiosResponse<Course> = await API.get(`course/${router.query.id.toString()}`);
           setCourseTitle(result.data.name);
           if (isRequestOk(result)) {
             const userResult = await API.get(`user/${result.data.company}`, {
@@ -118,7 +120,7 @@ const useEnrollUser = (): any => {
     },
     {
       text: courseTitle,
-      url: `/trainer/course/detail/${router.query.id}`
+      url: typeof router.query.id === 'string' ? `/trainer/course/detail/${router.query.id}` : ''
     },
     {
       text: 'Enroll User',
