@@ -52,7 +52,7 @@ const AddMaterialModal: React.FC = () => {
               onClick={() => handleTabClick('embedLink')}
             />
           </div>
-          <div className="border float-right w-3/4">
+          <div className="border float-right w-3/4 overflow-hidden">
             <SingleFileForm isActive={activeTab === 'singleFile'} />
             <YouTubeForm isActive={activeTab === 'youTube'} />
             <EmbedLinkForm isActive={activeTab === 'embedLink'} />

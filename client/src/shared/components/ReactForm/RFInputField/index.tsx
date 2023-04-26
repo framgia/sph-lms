@@ -52,6 +52,7 @@ const RFInputField = forwardRef(
           {...rest}
           type={type}
           ref={ref}
+          placeholder={placeholder}
           className={`appearance-none border rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
             error !== undefined && errorAlert(error)
           } ${className}`}

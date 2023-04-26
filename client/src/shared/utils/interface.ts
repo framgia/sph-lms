@@ -100,3 +100,17 @@ export interface MultiSelectOptionData {
   value: number;
   label: string;
 }
+
+export interface IsActiveProps {
+  isActive: boolean;
+}
+
+export interface MaterialFormInput {
+  name: string;
+  file: FileList;
+  type?: string;
+  description?: string;
+  directory?: number;
+  category?: number;
+  course?: number;
+}
