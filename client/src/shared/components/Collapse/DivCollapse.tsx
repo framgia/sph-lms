@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import ChevronDown from '../../icons/ChevronDownIcon';
-
-export interface DivCollapseProps {
-  label: string;
-  children: React.ReactNode;
-}
+import { type DivCollapseProps } from '../../utils';
 
 const DivCollapse: React.FC<DivCollapseProps> = ({ label, children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,10 +27,6 @@ const DivCollapse: React.FC<DivCollapseProps> = ({ label, children }) => {
       <div className={`${isOpen ? 'block' : 'hidden'}`}>{children}</div>
     </div>
   );
-};
-
-DivCollapse.defaultProps = {
-  label: 'Click to collapse'
 };
 
 export default DivCollapse;

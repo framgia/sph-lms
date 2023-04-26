@@ -8,6 +8,7 @@ import EmbedLinkForm from './EmbedLinkForm';
 
 const AddMaterialModal: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   const handleAddMaterialModal = (): void => {
     setIsAddModalOpen(!isAddModalOpen);
   };
@@ -16,9 +17,9 @@ const AddMaterialModal: React.FC = () => {
 
   const handleTabClick = (tab: string): string => {
     setActiveTab(tab);
-    // console.log(tab);
     return tab;
   };
+
   return (
     <Fragment>
       <Button text="Add Material" onClick={handleAddMaterialModal} />

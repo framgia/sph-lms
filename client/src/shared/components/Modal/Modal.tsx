@@ -1,10 +1,5 @@
 import React, { Fragment } from 'react';
-
-export interface ModalProps {
-  children?: any;
-  isOpen: boolean;
-  className?: string;
-}
+import { type ModalProps } from '../../utils';
 
 const Modal: React.FC<ModalProps> = ({
   children,

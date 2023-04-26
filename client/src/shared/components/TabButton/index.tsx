@@ -1,11 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-
-export interface TabButtonProps {
-  text: string;
-  isActive: boolean;
-  onClick?: () => void;
-}
+import { type TabButtonProps } from '../../utils';
 
 const TabButton: React.FunctionComponent<TabButtonProps> = ({
   text,

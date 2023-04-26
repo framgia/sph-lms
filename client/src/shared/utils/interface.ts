@@ -114,3 +114,20 @@ export interface MaterialFormInput {
   category?: number;
   course?: number;
 }
+
+export interface DivCollapseProps {
+  label: string;
+  children: React.ReactNode;
+}
+
+export interface ModalProps {
+  children?: any;
+  isOpen: boolean;
+  className?: string;
+}
+
+export interface TabButtonProps {
+  text: string;
+  isActive: boolean;
+  onClick?: () => void;
+}
