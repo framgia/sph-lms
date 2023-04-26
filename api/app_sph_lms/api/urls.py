@@ -12,6 +12,7 @@ from app_sph_lms.api.views import (
     CompanyUsersViewSet,
     CategoryList, 
     CategoryDetail, 
+    MaterialList
 )
 
 urlpatterns = [
@@ -29,5 +30,7 @@ urlpatterns = [
     path('auth/user', get_auth_user, name="auth-user-api-health-check"),
     path('auth/sign-out', SignOutView.as_view(), name="signout"),
     
-    path('classes/<int:company_id>', ClassList.as_view(), name="classes")
+    path('classes/<int:company_id>', ClassList.as_view(), name="classes"),
+    
+    path('material', MaterialList.as_view(), name="materials")
 ]

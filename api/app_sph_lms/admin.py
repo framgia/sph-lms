@@ -10,7 +10,8 @@ from app_sph_lms.models import (Company,
                                 UserRole,
                                 Status,
                                 Trainee,
-                                Trainer
+                                Trainer,
+                                Material
                                 ) 
 
 # Register your models here.
@@ -26,3 +27,5 @@ admin.site.register(UserRole)
 admin.site.register(Status)
 admin.site.register(Trainer)
 admin.site.register(Trainee)
+admin.site.register(Material)
+

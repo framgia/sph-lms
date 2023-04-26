@@ -175,3 +175,23 @@ class CourseTag(models.Model):
         db_table = "app_sph_lms_course_tags"
     def __str__(self):
         return "Course: " + str(self.course) + " | " + "Tag: " + str(self.tag)
+
+class MaterialCategory(models.Model):
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(5)])
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+class Material(models.Model):
+    name = models.CharField(max_length=255, validators=[MinLengthValidator(5)])
+    link = models.CharField(max_length=255, validators=[MinLengthValidator(5)])
+    type = models.CharField(max_length=255, validators=[MinLengthValidator(5)])
+    description = models.TextField(max_length=65000, validators=[MinLengthValidator(5)])
+    directory = models.BigIntegerField(default=0)
+    material_categories_id = models.ForeignKey(MaterialCategory, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+class CompanyMaterial(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="companymaterials")
+    material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="material")
