@@ -64,12 +64,12 @@ const YouTubeForm: React.FunctionComponent<IsActiveProps> = ({
           <RFInputField
             label="Youtube URL"
             placeholder="e.g. https://www.youtube.com/watch?v=HGl75kurxok"
-            {...register('file', {
+            {...register('link', {
               required: true,
               pattern: /www.youtube.com/
             })}
             error={
-              errors.file !== undefined &&
+              errors.link !== undefined &&
               'This field is required and must be a youtube url'
             }
           />

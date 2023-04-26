@@ -107,7 +107,7 @@ export interface IsActiveProps {
 
 export interface MaterialFormInput {
   name: string;
-  file: FileList;
+  link: FileList; // it can accept string, but can also accept file, update accordingly
   type?: string;
   description?: string;
   directory?: number;

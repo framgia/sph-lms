@@ -65,12 +65,12 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
           <RFInputField
             label="Youtube URL"
             placeholder="https://"
-            {...register('file', {
+            {...register('link', {
               required: true,
               pattern: /^(?!.*youtube).*https:\/\//i
             })}
             error={
-              errors.file !== undefined &&
+              errors.link !== undefined &&
               'This field is required and must be a web page'
             }
           />

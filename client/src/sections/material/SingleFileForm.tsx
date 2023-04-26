@@ -56,11 +56,11 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
 
             <input
               type="file"
-              {...register('file', { required: true })}
-              id="file"
+              {...register('link', { required: true })}
+              id="link"
             />
 
-            {errors.file !== undefined && (
+            {errors.link !== undefined && (
               <div className="text-red-700 rounded relative" role="alert">
                 <span className="block sm:inline text-sm">
                   This field is required
