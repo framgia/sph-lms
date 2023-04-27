@@ -276,14 +276,17 @@ class MaterialList(generics.ListCreateAPIView):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
     
-    # def create(self, request, *args, **kwargs):
-    #     # response = super().create(request, *args, **kwargs)
-    #     # course_id = response.data.get('id')
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
         
-    #     # for category in request.data['category'].split(','):
-    #     #     CourseCategory.objects.create(
-    #     #         course=Course.objects.get(id=course_id), 
-    #     #         category=Category.objects.get(id=category)
-    #     #     )
-    #     return request.data
+        user = request.user
+        user = User.objects.get(id=user.id)
+        user = UserSerializer(user)
+        
+        company = Company.objects.get(user=user.data['id'])
+        company = CompanySerializer(company, context={"request": request})
+        
+        
+
+        return response
     

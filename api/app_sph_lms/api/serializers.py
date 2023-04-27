@@ -167,7 +167,7 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = "__all__"
 
-    def get_details(self, obj, sort_by=None, sort_order="asc"):
+    def get_details(self, obj, sort_by=None, sort_order="asc", search=None):
         trainee_data = TraineeSerializer(obj.trainee, many=True).data
         trainer_data = TrainerSerializer(obj.trainer, many=True).data
         users = trainee_data + trainer_data
@@ -183,6 +183,7 @@ class CompanySerializer(serializers.ModelSerializer):
                 data.reverse()
 
         search = self.context["request"].query_params.get("search")
+        
         if search:
             search = search.lower()
             data = [
@@ -210,7 +211,7 @@ class CompanySerializer(serializers.ModelSerializer):
             paginated_users = paginator.paginate_queryset(
                 users, self.context["request"]
             )
-            search = self.context["request"].query_params.get("search")
+            
             data["user"] = paginated_users
             data["pagination"] = {
                 "next": paginator.get_next_link(),
@@ -238,7 +239,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class MaterialSerializer(serializers.ModelSerializer):
-    material_category_name = serializers.CharField(source='material_categories_id.name')
+    material_category_name = serializers.CharField(source='material_categories_id.name', read_only=True)
 
     class Meta:
         model = Material
