@@ -120,7 +120,7 @@ const useEnrollUser = (): any => {
     },
     {
       text: courseTitle,
-      url: typeof router.query.id === 'string' ? `/trainer/course/detail/${router.query.id}` : ''
+      url: `/trainer/course/detail/${router.query.id?.toString() as string}`
     },
     {
       text: 'Enroll User',
