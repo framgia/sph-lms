@@ -22,7 +22,7 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
     console.log(data);
   };
 
-  const folder = [
+  const folders = [
     { value: '0', label: 'Nothing Selected' },
     { value: '1', label: 'Example Folder 1' },
     { value: '2', label: 'Example Folder 2' },
@@ -36,7 +36,7 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
     { value: '3', label: 'Example Category 3' }
   ];
 
-  const coureses = [
+  const courses = [
     { value: '0', label: 'Nothing Selected' },
     { value: '1', label: 'Example Course 1' },
     { value: '2', label: 'Example Course 2' },
@@ -57,7 +57,7 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
             label="Name"
             {...register('name', { required: true, minLength: 5 })}
             error={
-              errors.name !== undefined &&
+              !!errors.name &&
               'This field is required and must have at least 5 characters'
             }
           />
@@ -70,8 +70,7 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
               pattern: /^(?!.*youtube).*https:\/\//i
             })}
             error={
-              errors.link !== undefined &&
-              'This field is required and must be a web page'
+              !!errors.link && 'This field is required and must be a web page'
             }
           />
 
@@ -80,7 +79,7 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
               label="Description"
               {...register('description', { minLength: 5 })}
               error={
-                errors.description !== undefined &&
+                !!errors.description &&
                 'This field is not required but should have at least 5 characters'
               }
             />
@@ -88,9 +87,9 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
             <RFSelectField
               label="Assign to Folder"
               id="directory"
-              options={folder}
+              options={folders}
               {...register('directory', { required: true })}
-              error={errors.directory !== undefined && 'This field is required'}
+              error={!!errors.directory && 'This field is required'}
             />
 
             <RFSelectField
@@ -103,7 +102,7 @@ const EmbedLinkForm: React.FunctionComponent<IsActiveProps> = ({
             <RFSelectField
               label="Assign to Course"
               id="course"
-              options={coureses}
+              options={courses}
               {...register('course')}
             />
           </DivCollapse>

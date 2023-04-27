@@ -22,7 +22,7 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
     console.log(data);
   };
 
-  const folder = [
+  const folders = [
     { value: '0', label: 'Nothing Selected' },
     { value: '1', label: 'Example Folder 1' },
     { value: '2', label: 'Example Folder 2' },
@@ -36,7 +36,7 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
     { value: '3', label: 'Example Category 3' }
   ];
 
-  const coureses = [
+  const courses = [
     { value: '0', label: 'Nothing Selected' },
     { value: '1', label: 'Example Course 1' },
     { value: '2', label: 'Example Course 2' },
@@ -60,7 +60,7 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
               id="link"
             />
 
-            {errors.link !== undefined && (
+            {errors.link && (
               <div className="text-red-700 rounded relative" role="alert">
                 <span className="block sm:inline text-sm">
                   This field is required
@@ -73,7 +73,7 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
             label="Document Name"
             {...register('name', { required: true, minLength: 5 })}
             error={
-              errors.name !== undefined &&
+              !!errors.name &&
               'This field is required and must have at least 5 characters'
             }
           />
@@ -83,7 +83,7 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
               label="Description"
               {...register('description', { minLength: 5 })}
               error={
-                errors.description !== undefined &&
+                !!errors.description &&
                 'This field is not required but should have at least 5 characters'
               }
             />
@@ -91,9 +91,9 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
             <RFSelectField
               label="Assign to Folder"
               id="directory"
-              options={folder}
+              options={folders}
               {...register('directory', { required: true })}
-              error={errors.directory !== undefined && 'This field is required'}
+              error={!!errors.directory && 'This field is required'}
             />
 
             <RFSelectField
@@ -106,7 +106,7 @@ const SingleFileForm: React.FunctionComponent<IsActiveProps> = ({
             <RFSelectField
               label="Assign to Course"
               id="course"
-              options={coureses}
+              options={courses}
               {...register('course')}
             />
           </DivCollapse>
