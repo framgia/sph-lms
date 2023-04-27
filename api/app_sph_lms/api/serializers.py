@@ -1,4 +1,4 @@
-from app_sph_lms.models import (Class, Company, Course, CourseCategory,
+from app_sph_lms.models import (Class, Company, Course, CourseCategory, Material,
                                 Trainee, Trainer, User, Category)
 from app_sph_lms.utils.enum import UserRoleEnum
 from django.contrib.auth import authenticate
@@ -236,3 +236,10 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+
+class MaterialSerializer(serializers.ModelSerializer):
+    material_category_name = serializers.CharField(source='material_categories_id.name')
+
+    class Meta:
+        model = Material
+        fields = '__all__'    
