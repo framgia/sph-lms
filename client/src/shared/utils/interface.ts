@@ -100,3 +100,7 @@ export interface MultiSelectOptionData {
   value: number;
   label: string;
 }
+  export interface Icon {
+    className?: string
+    onClick?: () => void
+}
