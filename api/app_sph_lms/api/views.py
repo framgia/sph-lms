@@ -1,3 +1,4 @@
+from urllib import request
 from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
                                          CompanySerializer,
                                          CourseCategorySerializer,
@@ -273,5 +274,14 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
 
 class MaterialList(generics.ListCreateAPIView):
-    queryset = Material.objects.all()
     serializer_class = MaterialSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        user = User.objects.get(id=user.id)
+        user = UserSerializer(user)
+        company = Company.objects.get(user=user.data['id'])
+        company = CompanySerializer(company, context={"request": request})
+        materials = Material.objects.filter(company=company.data['id'])
+        serializer = MaterialSerializer(materials, many=True)
+        return Response(serializer.data)

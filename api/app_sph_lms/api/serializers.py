@@ -238,7 +238,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class MaterialSerializer(serializers.ModelSerializer):
-    material_category_name = serializers.CharField(source='material_categories_id.name')
+    material_category_name = serializers.CharField(source='material_categories_id.name', read_only=True)
 
     class Meta:
         model = Material
