@@ -22,9 +22,7 @@ const Modal: React.FC<ModalProps> = ({
           ></span>
 
           <div
-            className={`inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all lg:my-8 lg:align-middle ${
-              className === '' ? 'w-2/4' : className
-            }`}
+            className={className}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-headline"
@@ -35,6 +33,11 @@ const Modal: React.FC<ModalProps> = ({
       </div>
     </Fragment>
   );
+};
+
+Modal.defaultProps = {
+  className:
+    'inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all lg:my-8 lg:align-middle w-2/4'
 };
 
 export default Modal;

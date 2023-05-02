@@ -2,9 +2,7 @@ import Button from '@/src/shared/components/Button';
 import Modal from '@/src/shared/components/Modal/Modal';
 import TabButton from '@/src/shared/components/TabButton';
 import React, { Fragment, useState } from 'react';
-import SingleFileForm from './SingleFileForm';
-import YouTubeForm from './YoutubeForm';
-import EmbedLinkForm from './EmbedLinkForm';
+import MaterialForm from './MaterialForm';
 
 const AddMaterialModal: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -15,6 +13,24 @@ const AddMaterialModal: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState('singleFile');
 
+  const tabButtons = [
+    {
+      text: 'Single File',
+      isActive: activeTab === 'singleFile',
+      onClick: () => handleTabClick('singleFile')
+    },
+    {
+      text: 'YouTube',
+      isActive: activeTab === 'youTube',
+      onClick: () => handleTabClick('youTube')
+    },
+    {
+      text: 'Embed Link',
+      isActive: activeTab === 'embedLink',
+      onClick: () => handleTabClick('embedLink')
+    }
+  ];
+
   const handleTabClick = (tab: string): string => {
     setActiveTab(tab);
     return tab;
@@ -24,7 +40,10 @@ const AddMaterialModal: React.FC = () => {
     <Fragment>
       <Button text="Add Material" onClick={handleAddMaterialModal} />
 
-      <Modal className="w-2/3" isOpen={isAddModalOpen}>
+      <Modal
+        className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all lg:my-8 lg:align-middle w-2/3"
+        isOpen={isAddModalOpen}
+      >
         <div className="flex justify-between m-4">
           <h1 className="text-2xl ">Add Material</h1>
           <Button
@@ -37,26 +56,17 @@ const AddMaterialModal: React.FC = () => {
 
         <div className="flex justify-between m-4">
           <div className="border float-left w-1/3">
-            <TabButton
-              text="Single File"
-              isActive={activeTab === 'singleFile'}
-              onClick={() => handleTabClick('singleFile')}
-            />
-            <TabButton
-              text="YouTube"
-              isActive={activeTab === 'youTube'}
-              onClick={() => handleTabClick('youTube')}
-            />
-            <TabButton
-              text="Embed Link"
-              isActive={activeTab === 'embedLink'}
-              onClick={() => handleTabClick('embedLink')}
-            />
+            {tabButtons.map((item, index) => (
+              <TabButton
+                key={index}
+                text={item.text}
+                isActive={item.isActive}
+                onClick={item.onClick}
+              />
+            ))}
           </div>
           <div className="border float-right w-3/4 overflow-hidden">
-            <SingleFileForm isActive={activeTab === 'singleFile'} />
-            <YouTubeForm isActive={activeTab === 'youTube'} />
-            <EmbedLinkForm isActive={activeTab === 'embedLink'} />
+            <MaterialForm activeField={activeTab} />
           </div>
         </div>
       </Modal>
