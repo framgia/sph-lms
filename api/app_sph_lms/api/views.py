@@ -3,7 +3,7 @@ from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
                                          CompanySerializer,
                                          CourseCategorySerializer,
                                          CourseSerializer, MaterialSerializer, UserSerializer, CategorySerializer)
-from app_sph_lms.models import Class, Company, Course, CourseCategory, Material, User, Category
+from app_sph_lms.models import Class, Company, CompanyMaterial, Course, CourseCategory, Material, User, Category
 from app_sph_lms.utils.enum import StatusEnum
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
@@ -275,13 +275,9 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class MaterialList(generics.ListCreateAPIView):
     serializer_class = MaterialSerializer
-
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        user = User.objects.get(id=user.id)
-        user = UserSerializer(user)
-        company = Company.objects.get(user=user.data['id'])
-        company = CompanySerializer(company, context={"request": request})
-        materials = Material.objects.filter(company=company.data['id'])
-        serializer = MaterialSerializer(materials, many=True)
-        return Response(serializer.data)
+    
+    def get_queryset(self):    
+        user = self.request.user
+        company = Company.objects.get(user=user)
+        materials = Material.objects.filter(company_materials__company=company)
+        return materials
