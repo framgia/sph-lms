@@ -2,7 +2,7 @@ from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
                                          CompanySerializer,
                                          CourseCategorySerializer,
                                          CourseSerializer, MaterialSerializer, UserSerializer, CategorySerializer)
-from app_sph_lms.models import Class, Company, Course, CourseCategory, Material, User, Category
+from app_sph_lms.models import Class, Company, Course, CourseCategory, Material, User, Category, CompanyMaterial
 from app_sph_lms.utils.enum import StatusEnum
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
@@ -276,17 +276,14 @@ class MaterialList(generics.ListCreateAPIView):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
     
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        
-        user = request.user
-        user = User.objects.get(id=user.id)
-        user = UserSerializer(user)
-        
-        company = Company.objects.get(user=user.data['id'])
-        company = CompanySerializer(company, context={"request": request})
-        
-        
-
-        return response
     
+class MaterialDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    lookup_field = "pk"
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        serializer.delete(instance)
+        return Response({'message': 'Material deleted successfully.'})

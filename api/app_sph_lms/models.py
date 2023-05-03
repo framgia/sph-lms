@@ -199,3 +199,5 @@ class Material(models.Model):
 class CompanyMaterial(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="companymaterials")
     material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="material")
+    def __str__(self):
+        return "Company: " + str(self.company) + " | " + "Material: " + str(self.material)
