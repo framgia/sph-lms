@@ -20,7 +20,6 @@ const useEnrollUser = (): any => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-<<<<<<< Updated upstream
   const [limiter, setLimiter] = useState(10);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,8 +51,6 @@ const useEnrollUser = (): any => {
     });
   };
 
-=======
->>>>>>> Stashed changes
   const searchHandler = (searchTerm: string): void => {
     setSearchTerm(searchTerm);
 
@@ -73,7 +70,6 @@ const useEnrollUser = (): any => {
       queryParams.search = searchTerm;
     }
 
-<<<<<<< Updated upstream
     if (limiter !== 0) {
       queryParams.page_size = limiter;
     }
@@ -84,8 +80,6 @@ const useEnrollUser = (): any => {
 
     setListOfUser([]);
 
-=======
->>>>>>> Stashed changes
     const fetchCourse = async (): Promise<void> => {
       if (router.query.id !== undefined) {
         try {
@@ -110,16 +104,7 @@ const useEnrollUser = (): any => {
       }
     };
     void fetchCourse();
-<<<<<<< Updated upstream
   }, [router.query.id, searchTerm, currentPage, limiter]);
-=======
-  }, [router.query.id, searchTerm]);
-
-  const handleShowPerPage = (e: any): void => {
-    const limiter = e.target.value;
-    setShowPerPage(fetchedUsersRef.current.slice(0, limiter));
-  };
->>>>>>> Stashed changes
 
   const showPerPageOption = [
     { id: 10, text: '10' },
@@ -149,16 +134,12 @@ const useEnrollUser = (): any => {
     handleShowPerPage,
     showPerPageOption,
     pageNotFound,
-<<<<<<< Updated upstream
     searchHandler,
     numberOfUsers,
     limiter,
     currentPage,
     handleChangePageEvent,
     listOfUser
-=======
-    searchHandler
->>>>>>> Stashed changes
   };
 };
 
