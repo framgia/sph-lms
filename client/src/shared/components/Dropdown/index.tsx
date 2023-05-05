@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ChevronDownIcon from '@/src/shared/icons/ChevronDownIcon';
 import { useOutsideClick } from '@/src/shared/hooks/useOutsideClick';
 import { useSignOut } from '@/src/shared/hooks/useSignOut';
+import Link from 'next/link';
 
 export interface Option {
   text: string;
@@ -79,7 +80,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         >
           <div className="py-1" role="none">
             {options.map((option) => (
-              <a
+              <Link
                 key={option.url}
                 href={`${option.url}`}
                 className={`${
@@ -93,7 +94,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 }}
               >
                 {option.text}
-              </a>
+              </Link>
             ))}
             {showLogoutButtonState && (
               <button

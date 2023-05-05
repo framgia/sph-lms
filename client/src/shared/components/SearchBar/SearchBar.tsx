@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 export interface SearchBarProps {
   height?: string;
   width?: string;
+  placeholder?: string;
   onSearchEvent: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-  onSearchEvent
+  onSearchEvent,
+  placeholder = ''
 }: SearchBarProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -45,6 +47,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onChange={(e) => {
           setSearchTerm(e.target.value);
         }}
+        placeholder={placeholder}
         className={containerClasses}
         onKeyUp={handleKeyUp}
       />

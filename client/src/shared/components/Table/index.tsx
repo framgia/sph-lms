@@ -2,8 +2,12 @@
 /* eslint-disable multiline-ternary */
 import React, { useState } from 'react';
 import type { ReactNode } from 'react';
-import ChevronDown from '../../icons/ChevronDownIcon';
+import HeaderTitle from './HeaderTitle';
 
+export enum TableSortEnum {
+  ASC,
+  DESC
+}
 export interface TableHeader {
   text: string;
   onClick?: () => void;
@@ -20,24 +24,28 @@ const Table: React.FC<TableProps> = ({
   children,
   checkbox
 }: TableProps) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [sortHead, setSortHead] = useState(-1);
-  const toggleCollapse = (sortBy: number): void => {
-    setSortHead(sortBy);
-    if (sortHead === sortBy) {
-      setIsOpen(!isOpen);
-    } else {
-      setIsOpen(false);
-    }
-  };
+  const [sort, setSort] = useState({
+    index: -1,
+    sortBy: TableSortEnum.ASC
+  });
 
-  const arrowClasses = !isOpen ? 'rotate-180 order-last' : 'order-last';
+  const handleSortChange = (uid: number): void => {
+    setSort((curr) => ({
+      index: uid,
+      sortBy:
+        curr.index === uid
+          ? curr.sortBy === TableSortEnum.ASC
+            ? TableSortEnum.DESC
+            : TableSortEnum.ASC
+          : TableSortEnum.ASC
+    }));
+  };
 
   return (
     <div className="overflow-auto flex justify-center">
       <table className="text-left text-gray-500 dark:text-gray-400 w-full">
         <thead>
-          <tr>
+          <tr className="bg-blueGray">
             {checkbox !== false && (
               <th className="p-4 ">
                 <input type="checkbox" className="h-5 w-5 hover:bg-sky-700" />
@@ -45,35 +53,17 @@ const Table: React.FC<TableProps> = ({
             )}
             {header.map((item, index) => (
               <th
-                className="px-6 py-3 w-auto  whitespace-nowrap text-sm text-lightBlue bg-blueGray"
+                className="px-4 py-3 w-auto  whitespace-nowrap text-sm text-lightBlue"
                 key={index}
               >
-                {item.onClick ? (
-                  <button
-                    type="button"
-                    className="flex"
-                    onClick={() => {
-                      if (item.onClick) {
-                        item.onClick();
-                        toggleCollapse(index);
-                      }
-                    }}
-                  >
-                    {item.text}
-                    {sortHead === index && (
-                      <ChevronDown
-                        height={4}
-                        width={4}
-                        className={`w-5 h-5 ml-2 mr-5 ${arrowClasses} `}
-                      />
-                    )}
-                  </button>
-                ) : (
-                  <span>{item.text}</span>
-                )}
+                <HeaderTitle
+                  item={item}
+                  index={index}
+                  sort={sort}
+                  handleSortChange={handleSortChange}
+                />
               </th>
             ))}
-            <th className="px-6 py-3 w-auto bg-blueGray"></th>
           </tr>
         </thead>
         <tbody>{children}</tbody>

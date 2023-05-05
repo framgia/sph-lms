@@ -12,7 +12,7 @@ export const navItems = [
     url: '/',
     text: 'Training Elements',
     dropdownItems: [
-      { text: 'Materials', url: '/' },
+      { text: 'Materials', url: '/element/material' },
       { text: 'Studio', url: '/' },
       { text: 'Assessments', url: '/' },
       { text: 'Checklists', url: '/' },

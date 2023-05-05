@@ -13,6 +13,7 @@ export interface SelectProps<SelectOptionData> {
   value?: string;
   width?: string;
   height?: string;
+  divClass?: string;
   eventHandler?: (...args: any[]) => any;
 }
 
@@ -23,6 +24,7 @@ const Select: React.FC<SelectProps<SelectOptionData>> = ({
   value,
   width,
   height,
+  divClass,
   eventHandler
 }) => {
   const propStyle = {
@@ -31,7 +33,7 @@ const Select: React.FC<SelectProps<SelectOptionData>> = ({
   };
 
   return (
-    <div className="mb-4">
+    <div className={`mb-4 ${divClass ?? ''}`}>
       {label !== '' && (
         <label className="block text-gray-700 text-sm font-bold mb-2">
           {label}

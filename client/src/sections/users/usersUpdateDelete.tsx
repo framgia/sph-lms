@@ -114,7 +114,7 @@ const UserEditDelete: React.FC<UserUpdateDeleteProps> = ({ id }) => {
   return (
     <Fragment>
       <div className="cursor-pointer" onClick={handleOpenEditModal}>
-        <EditIcon classname="stroke-white"></EditIcon>
+        <EditIcon className="stroke-white"></EditIcon>
       </div>
       <Modal isOpen={isEditModalOpen}>
         <div className="flex justify-between relative mx-6 sticky">
