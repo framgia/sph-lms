@@ -1,8 +1,8 @@
 from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
                                          CompanySerializer,
                                          CourseCategorySerializer,
-                                         CourseSerializer, UserSerializer, CategorySerializer)
-from app_sph_lms.models import Class, Company, Course, CourseCategory, User, Category
+                                         CourseSerializer, MaterialSerializer, UserSerializer, CategorySerializer)
+from app_sph_lms.models import Class, Company, Course, CourseCategory, Material, User, Category, CompanyMaterial
 from app_sph_lms.utils.enum import StatusEnum
 from django.contrib.auth.backends import BaseBackend, get_user_model
 from django.contrib.auth.hashers import make_password
@@ -21,7 +21,6 @@ from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
 
 # Create your views here.
-
 
 class AuthViaEmail(BaseBackend):
     def get_user(self, user_id):
@@ -222,7 +221,7 @@ class CompanyUsersViewSet(generics.CreateAPIView, generics.RetrieveAPIView):
             }
         )
 
-class ClassList(generics.ListAPIView):
+class   ClassList(generics.ListAPIView):
     serializer_class = ClassSerializer
     lookup_url_kwarg = "company_id"
     queryset = Class.objects.all()
@@ -272,3 +271,19 @@ class CategoryList(generics.ListCreateAPIView):
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class MaterialList(generics.ListCreateAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    
+    
+class MaterialDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    lookup_field = "pk"
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        serializer.delete(instance)
+        return Response({'message': 'Material deleted successfully.'})

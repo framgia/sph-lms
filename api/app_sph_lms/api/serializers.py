@@ -1,5 +1,5 @@
-from app_sph_lms.models import (Class, Company, Course, CourseCategory,
-                                Trainee, Trainer, User, Category)
+from app_sph_lms.models import (Class, Company, Course, CourseCategory, Material,
+                                Trainee, Trainer, User, Category, CompanyMaterial)
 from app_sph_lms.utils.enum import UserRoleEnum
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import PageNumberPagination
+from django.utils import timezone
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -167,7 +168,7 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = "__all__"
 
-    def get_details(self, obj, sort_by=None, sort_order="asc"):
+    def get_details(self, obj, sort_by=None, sort_order="asc", search=None):
         trainee_data = TraineeSerializer(obj.trainee, many=True).data
         trainer_data = TrainerSerializer(obj.trainer, many=True).data
         users = trainee_data + trainer_data
@@ -183,6 +184,7 @@ class CompanySerializer(serializers.ModelSerializer):
                 data.reverse()
 
         search = self.context["request"].query_params.get("search")
+        
         if search:
             search = search.lower()
             data = [
@@ -210,7 +212,7 @@ class CompanySerializer(serializers.ModelSerializer):
             paginated_users = paginator.paginate_queryset(
                 users, self.context["request"]
             )
-            search = self.context["request"].query_params.get("search")
+            
             data["user"] = paginated_users
             data["pagination"] = {
                 "next": paginator.get_next_link(),
@@ -236,3 +238,26 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+
+class MaterialSerializer(serializers.ModelSerializer):
+    material_category_name = serializers.CharField(source='material_categories_id.name', read_only=True)
+
+    class Meta:
+        model = Material
+        fields = '__all__'    
+        
+    def create(self, validated_data):
+        material = super().create(validated_data)
+        
+        request = self.context['request']
+        user = request.user
+        
+        company = Company.objects.get(user=user)
+        CompanyMaterial.objects.create(company=company, material=material)
+        
+        return material
+    
+    def delete(self, instance):
+        instance.updated_at = timezone.now()
+        instance.is_active = False
+        instance.save()
