@@ -110,7 +110,7 @@ export interface MaterialFormInput {
   link: FileList; // it can accept string, but can also accept file, update accordingly
   type?: string;
   description?: string;
-  directory?: number;
+  directory?: number | string;
   category?: number;
   course?: number;
 }

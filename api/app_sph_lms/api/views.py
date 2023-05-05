@@ -1,7 +1,7 @@
 from app_sph_lms.api.serializers import (AuthTokenSerializer, ClassSerializer,
                                          CompanySerializer,
                                          CourseCategorySerializer,
-                                         CourseSerializer, MaterialSerializer, UserSerializer, CategorySerializer)
+                                         CourseSerializer, MaterialSerializer, UserSerializer, CategorySerializer, CompanyMaterialSerializer)
 from app_sph_lms.models import Class, Company, Course, CourseCategory, Material, User, Category, CompanyMaterial
 from app_sph_lms.utils.enum import StatusEnum
 from django.contrib.auth.backends import BaseBackend, get_user_model
@@ -273,8 +273,35 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
 
 class MaterialList(generics.ListCreateAPIView):
-    queryset = Material.objects.all()
-    serializer_class = MaterialSerializer
+    # queryset = Material.objects.all()
+    # serializer_class = MaterialSerializer
+    
+    queryset = CompanyMaterial.objects.all()
+    serializer_class = CompanyMaterialSerializer
+
+    # def get_queryset(self):
+    #     queryset = CompanyMaterial.objects.all()
+       
+    #     # modify the queryset here
+    #     # queryset = queryset.filter(is_active=True)
+    #     return queryset
+    
+    # def get_queryset(self):
+    #     if self.request.method == "POST":
+    #         return Material.objects.all()
+    #     else:
+    #         return CompanyMaterial
+    
+    # def get_serializer_class(self):
+    #     if self.request.method == "POST":
+    #         serializer_class = MaterialSerializer
+    #     else:
+    #         serializer_class = CompanyMaterialSerializer
+    #     return serializer_class
+    
+    
+    
+    
     
     
 class MaterialDetail(generics.RetrieveUpdateDestroyAPIView):

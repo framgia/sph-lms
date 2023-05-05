@@ -1,12 +1,16 @@
+import { type FC, Fragment } from 'react';
 import AddMaterialModal from '@/src/sections/material/AddMaterialModal';
-import React, { Fragment } from 'react';
+import AddFolderModal from '@/src/sections/material/AddFolderModal';
 
-const MaterialIndex: React.FC = () => {
+const Material: FC = () => {
   return (
     <Fragment>
-      <AddMaterialModal />
+      <div className="flex justify-end">
+        <AddFolderModal />
+        <AddMaterialModal />
+      </div>
     </Fragment>
   );
 };
 
-export default MaterialIndex;
+export default Material;

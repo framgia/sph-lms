@@ -238,6 +238,11 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+        
+class CompanyMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyMaterial
+        fields = "__all__"
 
 class MaterialSerializer(serializers.ModelSerializer):
     material_category_name = serializers.CharField(source='material_categories_id.name', read_only=True)
