@@ -6,6 +6,7 @@
       "link": "Link1",
       "type": "docs",
       "material_categories_id": 1,
+      "uploader_id": 12,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -17,6 +18,7 @@
       "link": "Link2",
       "type": "docs",
       "material_categories_id": 2,
+      "uploader_id": 13,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -28,6 +30,7 @@
       "link": "Link3",
       "type": "docs",
       "material_categories_id": 1,
+      "uploader_id": 14,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -39,6 +42,7 @@
       "link": "Link4",
       "type": "docs",
       "material_categories_id": 2,
+      "uploader_id": 15,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -50,6 +54,7 @@
       "link": "Link5",
       "type": "docs",
       "material_categories_id": 1,
+      "uploader_id": 16,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -61,6 +66,7 @@
       "link": "Link6",
       "type": "Link",
       "material_categories_id": 2,
+      "uploader_id": 17,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -72,6 +78,7 @@
       "link": "Link7",
       "type": "Link",
       "material_categories_id": 1,
+      "uploader_id": 18,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -83,6 +90,7 @@
       "link": "Link8",
       "type": "Link",
       "material_categories_id": 2,
+      "uploader_id": 19,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -94,6 +102,7 @@
       "link": "Link9",
       "type": "PNG",
       "material_categories_id": 1,
+      "uploader_id": 20,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -105,6 +114,7 @@
       "link": "Link10",
       "type": "PNG",
       "material_categories_id": 2,
+      "uploader_id": 21,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -116,6 +126,7 @@
       "link": "Link11",
       "type": "PNG",
       "material_categories_id": 1,
+      "uploader_id": 22,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -127,6 +138,7 @@
       "link": "Link12",
       "type": "PNG",
       "material_categories_id": 2,
+      "uploader_id": 23,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -138,6 +150,7 @@
       "link": "Link13",
       "type": "Youtube",
       "material_categories_id": 1,
+      "uploader_id": 24,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -149,6 +162,7 @@
       "link": "Link14",
       "type": "Youtube",
       "material_categories_id": 2,
+      "uploader_id": 25,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -160,6 +174,7 @@
       "link": "Link15",
       "type": "Youtube",
       "material_categories_id": 1,
+      "uploader_id": 26,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -171,6 +186,7 @@
       "link": "Link16",
       "type": "Youtube",
       "material_categories_id": 2,
+      "uploader_id": 27,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -182,6 +198,7 @@
       "link": "Link17",
       "type": "PPT",
       "material_categories_id": 1,
+      "uploader_id": 28,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -193,6 +210,7 @@
       "link": "Link18",
       "type": "PPT",
       "material_categories_id": 2,
+      "uploader_id": 29,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -204,6 +222,7 @@
       "link": "Link19",
       "type": "PPT",
       "material_categories_id": 1,
+      "uploader_id": 30,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }
@@ -215,6 +234,72 @@
       "link": "Link20",
       "type": "PPT",
       "material_categories_id": 2,
+      "uploader_id": 31,
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
+    }
+  },
+  {
+    "model": "app_sph_lms.Material",
+    "fields": {
+      "name": "material-21",
+      "link": "Link20",
+      "type": "Folder",
+      "directory": 1,
+      "material_categories_id": 2,
+      "uploader_id": 31,
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
+    }
+  },
+  {
+    "model": "app_sph_lms.Material",
+    "fields": {
+      "name": "material-22",
+      "link": "Link20",
+      "type": "Folder",
+      "directory": 1,
+      "material_categories_id": 2,
+      "uploader_id": 31,
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
+    }
+  },
+  {
+    "model": "app_sph_lms.Material",
+    "fields": {
+      "name": "material-23",
+      "link": "Link20",
+      "type": "Folder",
+      "directory": 1,
+      "material_categories_id": 2,
+      "uploader_id": 31,
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
+    }
+  },
+  {
+    "model": "app_sph_lms.Material",
+    "fields": {
+      "name": "material-24",
+      "link": "Link20",
+      "type": "Folder",
+      "directory": 1,
+      "material_categories_id": 2,
+      "uploader_id": 31,
+      "created_at": "2023-03-08T07:49:25.862880Z",
+      "updated_at": "2023-03-08T07:49:25.862880Z"
+    }
+  },
+  {
+    "model": "app_sph_lms.Material",
+    "fields": {
+      "name": "material-25",
+      "link": "Link20",
+      "type": "Folder",
+      "directory": 1,
+      "material_categories_id": 2,
+      "uploader_id": 31,
       "created_at": "2023-03-08T07:49:25.862880Z",
       "updated_at": "2023-03-08T07:49:25.862880Z"
     }

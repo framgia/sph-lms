@@ -188,10 +188,15 @@ class Material(models.Model):
     description = models.TextField(max_length=65000, validators=[MinLengthValidator(5)])
     directory = models.BigIntegerField(default=0)
     material_categories_id = models.ForeignKey(MaterialCategory, on_delete=models.CASCADE)
+    uploader_id = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return str(self.name) 
 
 class CompanyMaterial(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="companymaterials")
     material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="material")
+    def __str__(self):
+        return "Company: " + str(self.company) + " | " + "Material: " + str(self.material)

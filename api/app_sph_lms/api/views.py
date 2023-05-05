@@ -20,6 +20,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
+from django.http import Http404
 
 # Create your views here.
 
@@ -275,9 +276,15 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class MaterialList(generics.ListCreateAPIView):
     serializer_class = MaterialSerializer
-    
-    def get_queryset(self):    
+
+    def get_queryset(self):
         user = self.request.user
         company = Company.objects.get(user=user)
-        materials = Material.objects.filter(company_materials__company=company)
+        if CompanyMaterial.objects.filter(company=company):
+            materials = Material.objects.all()
+            if not materials.exists():
+                raise Http404
+        else:
+            raise Http404 
+
         return materials

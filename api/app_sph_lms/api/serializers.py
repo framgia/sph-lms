@@ -239,7 +239,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class MaterialSerializer(serializers.ModelSerializer):
     material_category_name = serializers.CharField(source='material_categories_id.name', read_only=True)
+    uploaded_by = serializers.SerializerMethodField()
 
     class Meta:
         model = Material
-        fields = '__all__'    
+        fields = '__all__'
+        
+    def get_uploaded_by(self, obj):
+        return f"{obj.uploader_id.first_name} {obj.uploader_id.last_name}"
