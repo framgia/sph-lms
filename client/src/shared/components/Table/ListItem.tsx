@@ -14,6 +14,7 @@ interface ListItemProps<T> {
   columnWithIcons?: string[];
   editable?: boolean;
   deletable?: boolean;
+  clickableColumns?: { [key: string]: (data: T) => void };
 }
 
 export const ListItem: any = <T extends Data>({
@@ -22,7 +23,8 @@ export const ListItem: any = <T extends Data>({
   headerEnum,
   columnWithIcons = [],
   editable = true,
-  deletable = true
+  deletable = true,
+  clickableColumns = {}
 }: ListItemProps<T>) => {
   return (
     <tr className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5 hover:shadow-md group transition-all ease-out duration-200">
@@ -34,6 +36,11 @@ export const ListItem: any = <T extends Data>({
 
       {Object.values(headerEnum).map((column: string, index) => {
         const item = data[column as keyof typeof data];
+        const isClickable = Object.hasOwnProperty.call(
+          clickableColumns,
+          column
+        );
+
         const instanceOfA = (object: any): object is IconData => {
           return 'type' in object;
         };
@@ -41,7 +48,13 @@ export const ListItem: any = <T extends Data>({
         const showIcon = columnWithIcons.includes(column) && instanceOfA(data);
 
         return (
-          <td key={index} className="px-6 py-4">
+          <td
+            onClick={() =>
+              isClickable ? clickableColumns[column](data) : null
+            }
+            key={index}
+            className={`px-6 py-4 ${isClickable && 'cursor-pointer'}`}
+          >
             <div className="flex items-center space-x-2">
               {showIcon && (
                 <Icon item={data} className="h-6 w-6 text-lightBlue" />

@@ -48,8 +48,6 @@ const RFInputField = forwardRef(
           </label>
         )}
         <input
-          {...register}
-          {...rest}
           type={type}
           ref={ref}
           placeholder={placeholder}
@@ -57,6 +55,8 @@ const RFInputField = forwardRef(
             error !== undefined && errorAlert(error)
           } ${className}`}
           style={propStyle}
+          {...register}
+          {...rest}
         />
         {error !== undefined && (
           <div className="text-red-700 rounded relative" role="alert">

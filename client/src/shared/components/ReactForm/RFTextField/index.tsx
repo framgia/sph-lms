@@ -36,13 +36,13 @@ const RFTextField = forwardRef(
           </label>
         )}
         <textarea
-          {...register}
-          {...rest}
           ref={ref}
           className={`appearance-none border rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
             error !== undefined && errorAlert(error)
           } ${className}`}
           style={propStyle}
+          {...register}
+          {...rest}
         ></textarea>
         {error !== undefined && (
           <div className="text-red-700 rounded relative" role="alert">

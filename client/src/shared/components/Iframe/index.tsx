@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface IframeProps {
   src: string;
-  className: string;
+  className?: string;
   width?: string;
   height?: string;
   title?: string;
@@ -18,7 +18,7 @@ const Iframe: React.FunctionComponent<IframeProps> = ({
   return (
     <div>
       <iframe
-        className={`mx-auto m-2 ${className}`}
+        className={`mx-auto m-2 ${className ?? ''}`}
         width={width}
         height={height}
         src={src}

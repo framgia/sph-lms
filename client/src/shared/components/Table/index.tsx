@@ -10,7 +10,7 @@ export enum TableSortEnum {
 }
 export interface TableHeader {
   text: string;
-  onClick?: () => void;
+  onClick?: (() => void) | null;
 }
 
 export interface TableProps {
