@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-import EditIcon from '../../icons/EditIcon';
-import TrashIcon from '../../icons/TrashIcon';
-import Icon, { type IconData } from './Icon';
+import TdCell from './TdCell';
 
 interface Data {
   type?: string;
 }
 
-interface ListItemProps<T> {
+export interface ListItemProps<T> {
   data: T;
   headerEnum: { [key: string]: string };
   showCheckbox?: boolean;
@@ -34,50 +32,18 @@ export const ListItem: any = <T extends Data>({
         </td>
       )}
 
-      {Object.values(headerEnum).map((column: string, index) => {
-        const item = data[column as keyof typeof data];
-        const isClickable = Object.hasOwnProperty.call(
-          clickableColumns,
-          column
-        );
-
-        const instanceOfA = (object: any): object is IconData => {
-          return 'type' in object;
-        };
-
-        const showIcon = columnWithIcons.includes(column) && instanceOfA(data);
-
-        return (
-          <td
-            onClick={() =>
-              isClickable ? clickableColumns[column](data) : null
-            }
-            key={index}
-            className={`px-6 py-4 ${isClickable && 'cursor-pointer'}`}
-          >
-            <div className="flex items-center space-x-2">
-              {showIcon && (
-                <Icon item={data} className="h-6 w-6 text-lightBlue" />
-              )}
-              {column === headerEnum.Actions && (
-                <div className="flex invisible items-center group-hover:visible">
-                  {editable && (
-                    <EditIcon className="w-5 h-5 mx-1 cursor-pointer" />
-                  )}
-                  {deletable && (
-                    <TrashIcon className="w-5 h-5 mx-1 text-red-600 cursor-pointer" />
-                  )}
-                </div>
-              )}
-              <p>
-                {item instanceof Date
-                  ? item.toLocaleDateString()
-                  : (item as string)}
-              </p>
-            </div>
-          </td>
-        );
-      })}
+      {Object.values(headerEnum).map((column: string, index) => (
+        <TdCell
+          column={column}
+          key={index}
+          data={data}
+          headerEnum={headerEnum}
+          columnWithIcons={columnWithIcons}
+          editable={editable}
+          deletable={deletable}
+          clickableColumns={clickableColumns}
+        />
+      ))}
     </tr>
   );
 };

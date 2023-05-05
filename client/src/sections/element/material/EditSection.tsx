@@ -9,7 +9,8 @@ import { materialSchema } from '@/src/shared/utils/validationSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { type FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { type DetailSectionProps, type MaterialI } from './DetailSection';
+import { type DetailSectionProps } from './DetailSection';
+import { type ListItemI } from '@/src/pages/element/material';
 
 const EditSection: FC<DetailSectionProps> = ({ data }) => {
   const {
@@ -34,7 +35,7 @@ const EditSection: FC<DetailSectionProps> = ({ data }) => {
         key,
         key === 'category'
           ? data.material_category_name
-          : data[key as keyof MaterialI]
+          : data[key as keyof ListItemI]
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

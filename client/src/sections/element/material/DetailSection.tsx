@@ -3,7 +3,7 @@ import Tab from '@/src/shared/components/Tabs/Tab';
 import React, { type FC, Fragment } from 'react';
 import PreviewSection from './PreviewSection';
 import EditSection from './EditSection';
-import { ListItemI } from '@/src/pages/element/material';
+import { type ListItemI } from '@/src/pages/element/material';
 export interface DetailSectionProps {
   data: ListItemI;
 }

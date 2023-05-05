@@ -1,4 +1,5 @@
-import { ListItemI } from '@/src/pages/element/material';
+/* eslint-disable multiline-ternary */
+import { type ListItemI } from '@/src/pages/element/material';
 import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Select from '@/src/shared/components/Select';
@@ -33,7 +34,9 @@ const ListSection: FC<ListSectionProps> = ({ data }) => {
     let clickHandler = null;
     // Example
     if (text === 'Name') {
-      clickHandler = () => console.log('filter by name');
+      clickHandler = () => {
+        console.log('filter by name');
+      };
     }
     return {
       text: text.split('_').join(' '),
@@ -50,9 +53,9 @@ const ListSection: FC<ListSectionProps> = ({ data }) => {
     { id: 25, text: '25' },
     { id: 50, text: '50' }
   ];
-  const changeDirectory = (item: ListItemI): void => {
+  const changeDirectory = async (item: ListItemI): Promise<void> => {
     if (item.id) {
-      push(`#${item.id}`);
+      await push(`#${item.id}`);
     }
   };
 
