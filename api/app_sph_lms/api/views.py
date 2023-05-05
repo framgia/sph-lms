@@ -21,6 +21,7 @@ from rest_framework.response import Response
 from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
 from django.http import Http404
+from django.db.models import Subquery
 
 # Create your views here.
 
@@ -276,15 +277,12 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class MaterialList(generics.ListCreateAPIView):
     serializer_class = MaterialSerializer
-
+    
     def get_queryset(self):
         user = self.request.user
         company = Company.objects.get(user=user)
-        if CompanyMaterial.objects.filter(company=company):
-            materials = Material.objects.all()
-            if not materials.exists():
+        material_ids = CompanyMaterial.objects.filter(company=company).values_list('material_id', flat=True)
+        materials = Material.objects.filter(id__in=Subquery(material_ids))
+        if not materials.exists():
                 raise Http404
-        else:
-            raise Http404 
-
         return materials

@@ -1,4 +1,4 @@
-from app_sph_lms.models import (Class, Company, Course, CourseCategory, Material,
+from app_sph_lms.models import (Class, Company, CompanyMaterial, Course, CourseCategory, Material,
                                 Trainee, Trainer, User, Category)
 from app_sph_lms.utils.enum import UserRoleEnum
 from django.contrib.auth import authenticate
@@ -237,13 +237,14 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = "__all__"
 
+class CompanyMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyMaterial
+        fields = "__all__"
+
 class MaterialSerializer(serializers.ModelSerializer):
     material_category_name = serializers.CharField(source='material_categories_id.name', read_only=True)
-    uploaded_by = serializers.SerializerMethodField()
 
     class Meta:
         model = Material
         fields = '__all__'
-        
-    def get_uploaded_by(self, obj):
-        return f"{obj.uploader_id.first_name} {obj.uploader_id.last_name}"

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_sph_lms.models import (Company, 
+from app_sph_lms.models import (Company, CompanyMaterial, 
                                 Course, 
                                 Category, 
                                 CourseCategory,
@@ -28,4 +28,5 @@ admin.site.register(Status)
 admin.site.register(Trainer)
 admin.site.register(Trainee)
 admin.site.register(Material)
+admin.site.register(CompanyMaterial)
 
