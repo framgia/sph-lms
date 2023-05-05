@@ -79,18 +79,13 @@ const MaterialForm: React.FunctionComponent<TestingProps> = ({
             {activeField === 'singleFile' && (
               <div>
                 <h2 className="text-md text-blue-900 mb-5">Upload a File</h2>
-                <input
+
+                <RFInputField
+                  className="border-none"
                   type="file"
                   {...register('link', { required: true })}
-                  id="link"
+                  error={!!errors.link && 'This field is required'}
                 />
-                {errors.link && (
-                  <div className="text-red-700 rounded relative" role="alert">
-                    <span className="block sm:inline text-sm">
-                      This field is required
-                    </span>
-                  </div>
-                )}
 
                 <RFInputField
                   label="Document Name"
@@ -182,7 +177,6 @@ const MaterialForm: React.FunctionComponent<TestingProps> = ({
               />
             ))}
           </DivCollapse>
-
           <div className="flex justify-end">
             <Button text="Create" color="bg-lightBlue" type="submit" />
           </div>

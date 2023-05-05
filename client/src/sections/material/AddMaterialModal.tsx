@@ -40,10 +40,7 @@ const AddMaterialModal: React.FC = () => {
     <Fragment>
       <Button text="Add Material" onClick={handleAddMaterialModal} />
 
-      <Modal
-        className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all lg:my-8 lg:align-middle w-2/3"
-        isOpen={isAddModalOpen}
-      >
+      <Modal className="w-2/3" isOpen={isAddModalOpen}>
         <div className="flex justify-between m-4">
           <h1 className="text-2xl ">Add Material</h1>
           <Button
