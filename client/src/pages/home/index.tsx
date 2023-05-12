@@ -1,11 +1,8 @@
 import { Fragment, type ReactNode } from 'react';
-import Navbar from '@/src/shared/components/Navbar';
-import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 
 const Home = (): ReactNode => {
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <div className="h-screen flex flex-col justify-center items-center bg-blue-100">
         <h1 className="text-5xl font-bold mb-10">
           Welcome to the LMS Homepage

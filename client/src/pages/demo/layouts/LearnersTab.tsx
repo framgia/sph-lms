@@ -8,8 +8,6 @@ import Container from '@/src/shared/layouts/Container';
 import SelectionModal from '@/src/shared/components/SelectionModal';
 import Table from '@/src/shared/components/Table';
 import Button from '@/src/shared/components/Button';
-import { dropdownItems, navItems } from '../../demo/layouts/navbar';
-import Navbar from '@/src/shared/components/Navbar';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 
 const LearnersTab: React.FC = () => {
@@ -37,7 +35,6 @@ const LearnersTab: React.FC = () => {
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <Container>
         <Breadcrumbs
           paths={[

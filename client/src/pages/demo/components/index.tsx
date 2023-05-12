@@ -287,7 +287,6 @@ const DemoComponent: React.FunctionComponent = () => {
         <br />
         <div className="p-4 border first-letter:-b border-black" id="dropdown">
           <Dropdown
-            label="Select an option"
             options={[
               { text: 'Option 1', url: '/login' },
               { text: 'Option 2', url: '/register' }

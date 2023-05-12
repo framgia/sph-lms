@@ -1,13 +1,11 @@
 /* eslint-disable multiline-ternary */
 import React, { Fragment } from 'react';
 import AddClassModal from '@/src/sections/classes/AddClassModal';
-import Navbar from '@/src/shared/components/Navbar';
 import Table from '@/src/shared/components/Table';
 import Container from '@/src/shared/layouts/Container';
 import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
 import Select from '@/src/shared/components/Select';
 import Pagination from '@/src/shared/components/Pagination';
-import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 import useShowClassList from '@/src/shared/hooks/useShowClassList';
 import type { FC } from 'react';
 
@@ -28,7 +26,6 @@ const ClassList: FC = () => {
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <div>
         <div></div>
       </div>

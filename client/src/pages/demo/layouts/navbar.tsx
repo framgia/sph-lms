@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '@/src/shared/components/Navbar';
+// import Navbar from '@/src/shared/components/Navbar';
 
 export const navItems = [
   { url: '/', text: 'Dashboard', dropdownItems: [] },
@@ -22,7 +22,7 @@ export const dropdownItems = [
 const NavbarPage: React.FC = () => {
   return (
     <div>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
+      {/* <Navbar navItems={navItems} dropdownItems={dropdownItems} /> */}
     </div>
   );
 };

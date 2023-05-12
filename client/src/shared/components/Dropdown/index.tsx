@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, type ReactElement } from 'react';
 import ChevronDownIcon from '@/src/shared/icons/ChevronDownIcon';
 import { useOutsideClick } from '@/src/shared/hooks/useOutsideClick';
 import { useSignOut } from '@/src/shared/hooks/useSignOut';
@@ -11,25 +11,25 @@ export interface Option {
 }
 
 export interface DropdownProps {
-  label: string | null;
   options: Option[];
   classNames?: string;
   showLogoutButton?: boolean;
+  children?: ReactElement;
+  showArrowIcon?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
   options,
-  label,
   classNames,
-  showLogoutButton
+  showLogoutButton,
+  showArrowIcon = false,
+  children
 }: DropdownProps) => {
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     undefined
   );
   const [isOpen, setIsOpen] = useState(false);
-  const [showLogoutButtonState, setShowLogoutButton] = useState<
-  boolean | undefined
-  >(showLogoutButton);
+  const [showLogoutButtonState, setShowLogoutButton] = useState<boolean | undefined>(showLogoutButton);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useOutsideClick(dropdownRef, () => {
@@ -50,30 +50,33 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [showLogoutButton]);
 
   return (
-    <div className="relative inline-block text-left z-10" ref={dropdownRef}>
-      <div>
-        <button
-          type="button"
-          className={`inline-flex justify-between w-full rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none ${
-            classNames !== undefined ? classNames : ''
-          }`}
-          id="options-menu"
-          aria-haspopup="true"
-          aria-expanded="true"
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-        >
-          <span>{label}</span>
+    <div
+      className="relative inline-block text-left z-10 h-10"
+      ref={dropdownRef}
+    >
+      <button
+        type="button"
+        className={`inline-flex justify-between w-full rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none ${
+          classNames !== undefined ? classNames : ''
+        }`}
+        id="options-menu"
+        aria-haspopup="true"
+        aria-expanded="true"
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+      >
+        <span>{children}</span>
+        {showArrowIcon && (
           <div className="-mr-1 ml-2 h-5 w-5" aria-hidden="true">
             <ChevronDownIcon height={20} width={20} />
           </div>
-        </button>
-      </div>
+        )}
+      </button>
 
       {isOpen && (
         <div
-          className="origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-black ring-opacity-5 focus:outline-none"
+          className="origin-top-right absolute mt-2 -right-4 w-56 rounded-md shadow-lg bg-white ring-black ring-opacity-5 focus:outline-none"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="options-menu"

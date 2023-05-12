@@ -2,12 +2,10 @@ import React, { Fragment } from 'react';
 import type { FC } from 'react';
 
 import Select from '@/src/shared/components/Select';
-import Navbar from '@/src/shared/components/Navbar';
 import Table from '@/src/shared/components/Table';
 import Container from '@/src/shared/layouts/Container';
 import Pagination from '@/src/shared/components/Pagination';
 import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
-import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 import useShowUserList from '@/src/shared/hooks/useShowUserList';
 import UserCreate from '@/src/sections/users/usersCreate';
 import UserEditDelete from '@/src/sections/users/usersUpdateDelete';
@@ -29,7 +27,6 @@ const ListOfUser: FC = () => {
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <Container>
         <div className=" flex flex-col">
           <div className="flex flex-row justify-between">

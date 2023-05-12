@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { Fragment } from 'react';
-import Navbar from '@/src/shared/components/Navbar';
 import Container from '@/src/shared/layouts/Container';
 import Table from '@/src/shared/components/Table';
 import Select from '@/src/shared/components/Select';
-import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import NotFoundPage from '@/src/pages/404';
 import useEnrollUser from '@/src/shared/hooks/useEnrollUser';
@@ -35,7 +33,6 @@ const EnrollUser: React.FC = () => {
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <Container>
         <div className='mb-10 mt-2'>
           <Breadcrumbs paths={paths} />

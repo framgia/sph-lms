@@ -1,18 +1,33 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useAuthMiddleware } from '@/src/shared/hooks/useAuthMiddleware';
+import Navbar from '../shared/components/Navbar';
+import { isSignedIn } from '../shared/utils';
+import { useRouter } from 'next/router';
 
 const App: React.FunctionComponent<AppProps> = ({
   Component,
   pageProps
 }: AppProps) => {
   useAuthMiddleware();
+  const [showNavbar, setShowNavbar] = useState(false);
+  const { pathname } = useRouter();
+  const userSignedIn = isSignedIn();
+
+  useEffect(() => {
+    if (pathname === '/404' || pathname === '/500') {
+      setShowNavbar(false);
+    } else {
+      setShowNavbar(userSignedIn);
+    }
+  }, [pathname, userSignedIn]);
 
   return (
     <Fragment>
+      {showNavbar && <Navbar />}
       <Component {...pageProps} />
       <ToastContainer />
     </Fragment>

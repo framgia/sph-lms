@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 import { useCreateCourse } from '@/src/shared/hooks/useCreateCourse';
-import Navbar from '@/src/shared/components/Navbar';
-import { dropdownItems, navItems } from '../../demo/layouts/navbar';
 import Container from '@/src/shared/layouts/Container';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
@@ -25,7 +23,6 @@ const CoursesCreate: React.FC = () => {
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <Container>
         <Breadcrumbs paths={paths} />
 

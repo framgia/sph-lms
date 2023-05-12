@@ -1,94 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import { type FC } from 'react';
 import Link from 'next/link';
 import Avatar from '@/src/shared/components/Avatar';
-import Dropdown, { type DropdownProps } from '@/src/shared/components/Dropdown';
-import NavLink from '@/src/shared/components/NavLink';
-import SettingsIcon from '@/src/shared/icons/SettingsIcon';
-import { getUserFullName, isSignedIn } from '../../utils';
-
+import Dropdown from '@/src/shared/components/Dropdown';
+import { dropdownItems, navItems } from '../../utils/navBarList';
+import Logo from './Logo';
+import { useRouter } from 'next/router';
+import NotificationIcon from '../../icons/NotificationIcon';
 export interface NavItemProps {
   url: string;
   text: string;
-  dropdownItems: Array<{ text: string; url: string }>;
 }
 
-export interface NavbarProps {
-  navItems: NavItemProps[];
-  dropdownItems: DropdownProps['options'];
+interface NavbarProps {
+  navLinks?: NavItemProps[];
 }
 
-const Navbar: React.FC<NavbarProps> = ({ navItems, dropdownItems }) => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const userSignedIn = isClient && isSignedIn();
+const Navbar: FC<NavbarProps> = ({ navLinks = navItems }) => {
+  const { asPath } = useRouter();
 
   return (
-    <nav className="bg-gray-100 sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <Link href="/" className="text-gray-600">
-                LMS
+    <header className="sticky top-0 z-10 px-[64px] flex shadow-sm bg-white text-textGray items-center text-[14px]">
+      <Link href="/dashboard">
+        <Logo divClass="py-[12px]" />
+      </Link>
+
+      <nav className="hidden md:flex grow justify-center">
+        <ul className="flex space-x-[32px]">
+          {navLinks.map((navItem, index) => (
+            <li key={index} className="pointer-events-none">
+              <Link
+                className={`flex items-center px-[8px] py-[21px] border-b pointer-events-auto ${
+                  navItem.url === asPath
+                    ? ' border-red bg-lightRed'
+                    : 'bg-transparent border-transparent'
+                }`}
+                href={navItem.url}
+              >
+                {navItem.text}
               </Link>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                {navItems.map((navItem) => {
-                  return (
-                    <div key={navItem.url}>
-                      {navItem.dropdownItems.length > 0
-                        ? (
-                        <Dropdown
-                          options={navItem.dropdownItems}
-                          label={navItem.text}
-                        />
-                          )
-                        : (
-                        <NavLink
-                          href={navItem.url}
-                          text={navItem.text}
-                        ></NavLink>
-                          )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          {userSignedIn
-            ? (
-            <div className="flex items-center">
-              <Link href={'/settings'} className="text-gray-600">
-                <SettingsIcon width={20} height={20} className="mr-2" />
-              </Link>
-              <Avatar name={getUserFullName()} />
-              <Dropdown
-                options={dropdownItems}
-                label={getUserFullName()}
-                showLogoutButton={true}
-              />
-            </div>
-              )
-            : (
-            <div className="flex items-center">
-              {isClient && (
-                <Link
-                  href="/auth/sign-in"
-                  className="bg-slate-300 py-1.5 px-3 text-gray rounded hover:bg-slate-500 hover:text-white"
-                >
-                  Sign in
-                </Link>
-              )}
-            </div>
-              )}
-        </div>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div className="flex items-center space-x-2">
+        <NotificationIcon />
+        <Dropdown options={dropdownItems} showLogoutButton={true}>
+          <Avatar />
+        </Dropdown>
       </div>
-    </nav>
+    </header>
   );
 };
 

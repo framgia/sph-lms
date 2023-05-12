@@ -1,9 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import EllipsesHorizontalIcon from '@/src/shared/icons/EllipsesHorizontalIcon';
-import Navbar from '@/src/shared/components/Navbar';
 import Button from '@/src/shared/components/Button';
-import { dropdownItems, navItems } from '@/src/pages/demo/layouts/navbar';
 import CourseSetting from '@/src/shared/layouts/CourseSettingTab';
 
 const CourseDetails: React.FC = () => {
@@ -23,7 +21,6 @@ const CourseDetails: React.FC = () => {
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <div className="top-0 bottom-0 left-30 ml-28 pr-10 pl-32 w-11/12 ">
         <div className="flex flex-col w-11/12">
           <div className="pt-4">

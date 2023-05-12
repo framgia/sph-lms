@@ -15,7 +15,10 @@ module.exports = {
         lightBlue: '#325184',
         lightGray: '#E0E5ED',
         lightGray1: '#BABABA',
-        black1: '#212529'
+        black1: '#212529',
+        red: '#FF0000',
+        lightRed: '#F2E2DF',
+        textGray: '#2F302C'
       },
       },
     },

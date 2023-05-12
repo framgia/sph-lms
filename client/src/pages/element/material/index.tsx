@@ -1,14 +1,12 @@
 /* eslint-disable multiline-ternary */
 import AddMaterialModal from '@/src/sections/material/AddMaterialModal';
 import Button from '@/src/shared/components/Button';
-import Navbar from '@/src/shared/components/Navbar';
 import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Select from '@/src/shared/components/Select';
 import Table from '@/src/shared/components/Table';
 import { ListItem } from '@/src/shared/components/Table/ListItem';
 import Container from '@/src/shared/layouts/Container';
-import { dropdownItems, navItems } from '@/src/shared/utils/navBarList';
 import { type FC, Fragment, useState } from 'react';
 
 export enum MaterialHeaderEnum {
@@ -57,7 +55,6 @@ const Material: FC = () => {
 
   return (
     <Fragment>
-      <Navbar navItems={navItems} dropdownItems={dropdownItems} />
       <Container>
         <div className="flex items-center justify-between w-full mt-5">
           <div className="text-lightBlue">
