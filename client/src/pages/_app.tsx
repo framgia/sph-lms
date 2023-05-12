@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,6 +7,8 @@ import { useAuthMiddleware } from '@/src/shared/hooks/useAuthMiddleware';
 import Navbar from '../shared/components/Navbar';
 import { isSignedIn } from '../shared/utils';
 import { useRouter } from 'next/router';
+import { Provider } from 'react-redux';
+import { store } from '@/app/store';
 
 const App: React.FunctionComponent<AppProps> = ({
   Component,
@@ -26,11 +28,11 @@ const App: React.FunctionComponent<AppProps> = ({
   }, [pathname, userSignedIn]);
 
   return (
-    <Fragment>
+    <Provider store={store}>
       {showNavbar && <Navbar />}
       <Component {...pageProps} />
       <ToastContainer />
-    </Fragment>
+    </Provider>
   );
 };
 
