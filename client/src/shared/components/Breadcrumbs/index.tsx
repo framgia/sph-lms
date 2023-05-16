@@ -17,7 +17,7 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsProps> = ({
 
   const activeClass = (currentURL: string, currentIndex: number, totalPaths: number): string => {
     if (asPath === currentURL) {
-      return 'text-black2 font-bold pointer-events-none text-sm font-normal';
+      return 'text-textGray font-bold pointer-events-none text-sm font-normal';
     } else if (currentIndex === totalPaths - 1) {
       return 'text-gray2 text-sm font-normal hover:underline';
     } else {

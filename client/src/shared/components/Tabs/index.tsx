@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useState
 } from 'react';
-import { type SideBarProps } from './SideBar';
+import { type TabProps } from './Tab';
 
 interface ChildElement {
   id: number;
@@ -19,11 +19,11 @@ interface ChildElementObject {
   [key: number]: ChildElement;
 }
 
-interface SidebarContentProps {
-  children: ReactElement<SideBarProps> | Array<ReactElement<SideBarProps>>;
+interface TabsProps {
+  children: ReactElement<TabProps> | Array<ReactElement<TabProps>>;
 }
 
-const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
+const Tabs: FC<TabsProps> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<null | number>(null);
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
 
@@ -33,7 +33,7 @@ const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
     Children.map(children, (child, index) => {
       if (
         Object.hasOwnProperty.call(child.type, 'name') &&
-          Object.getOwnPropertyDescriptors(child.type).name?.value === 'SideBar'
+          Object.getOwnPropertyDescriptors(child.type).name?.value === 'Tab'
       ) {
         childrenListObj[index] = {
           id: index,
@@ -52,16 +52,16 @@ const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
 
   return (
       <Fragment>
-        <div className="hidden md:flex">
-          <div className="flex flex-col  font-medium text-[14px] text-gray2 capitalize bg-gray1 w-[300px] ">
+        <div className="hidden md:flex mb-4 border-b">
+          <div className="flex space-x-[12px] font-medium text-[14px] text-textGray capitalize items-center">
             {Object.values(childrenList).map(({ title, id }) => (
               <div
                 key={id}
                 className={`${
                   activeTab !== id
                     ? 'p-2'
-                    : 'bg-lightRed border-red border-r-[2px] p-2 text-textGray'
-                } cursor-pointer flex pointer-events-auto w-full pl-4`}
+                    : ' bg-lightRed border-red p-2 border-b-[2px]'
+                } cursor-pointer flex pointer-events-auto`}
                 onClick={() => {
                   setActiveTab(id);
                 }}
@@ -76,4 +76,4 @@ const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
       </Fragment>
   );
 };
-export default SidebarContent;
+export default Tabs;
