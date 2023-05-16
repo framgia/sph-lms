@@ -1,3 +1,5 @@
+import { type ReactElement } from 'react';
+
 /* eslint-disable @typescript-eslint/array-type */
 export interface CourseDetails {
   id: string;
@@ -131,3 +133,11 @@ export interface TabButtonProps {
   isActive: boolean;
   onClick?: () => void;
 }
+
+export interface ChildElement {
+  id: number;
+  title: string;
+  childContent: ReactElement;
+}
+
+export type ChildElementObject = Record<number, ChildElement>;

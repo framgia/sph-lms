@@ -2,15 +2,15 @@ import React from 'react';
 
 interface ContainerProps {
   children: any;
-  padding?: string;
+  className?: string;
 }
 
-const Container: React.FC<ContainerProps> = ({ children, padding }: ContainerProps) => {
-  return <div className={`container mx-auto ${padding}`}>{children}</div>;
+const Container: React.FC<ContainerProps> = ({ children, className }: ContainerProps) => {
+  return <div className={`container mx-auto ${className}`}>{children}</div>;
 };
 
 Container.defaultProps = {
-  padding: 'px-20'
+  className: 'px-20'
 };
 
 export default Container;

@@ -7,17 +7,8 @@ import React, {
   useEffect,
   useState
 } from 'react';
+import { type ChildElementObject } from '../../utils/interface';
 import { type TabProps } from './Tab';
-
-interface ChildElement {
-  id: number;
-  title: string;
-  childContent: ReactElement;
-}
-
-interface ChildElementObject {
-  [key: number]: ChildElement;
-}
 
 interface TabsProps {
   children: ReactElement<TabProps> | Array<ReactElement<TabProps>>;

@@ -9,7 +9,7 @@ const CourseContent: React.FC = () => {
   const paths = [
     {
       text: 'Course',
-      url: '/'
+      url: '/trainer/courses'
     },
     {
       text: 'Vue Introduction',
@@ -21,7 +21,7 @@ const CourseContent: React.FC = () => {
     <Fragment>
       <div className='ml-5 mt-5'>
         <Breadcrumbs paths={paths}/>
-        <Container padding='px-28'>
+        <Container className='px-28'>
           <div className='text-[20px] font-semibold my-5 text-textGray'>Vue Introduction</div>
           <Tabs>
             <Tab title='Content' >

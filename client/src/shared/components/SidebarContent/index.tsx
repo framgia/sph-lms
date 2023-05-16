@@ -7,17 +7,8 @@ import React, {
   useEffect,
   useState
 } from 'react';
+import { type ChildElementObject } from '../../utils/interface';
 import { type SideBarProps } from './SideBar';
-
-interface ChildElement {
-  id: number;
-  title: string;
-  childContent: ReactElement;
-}
-
-interface ChildElementObject {
-  [key: number]: ChildElement;
-}
 
 interface SidebarContentProps {
   children: ReactElement<SideBarProps> | Array<ReactElement<SideBarProps>>;
