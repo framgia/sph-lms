@@ -1,6 +1,6 @@
 export const navItems = [
   { url: '/dashboard', text: 'Dashboard' },
-  { url: '/courses', text: 'Courses' },
+  { url: '/trainer/courses', text: 'Courses' },
   { url: '/learning_paths', text: 'Learning Paths' }
 ];
 

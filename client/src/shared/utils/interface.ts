@@ -19,21 +19,22 @@ export interface UserDetails {
 
 export interface Course {
   id: number;
+  image: string;
   title: string;
-  is_active: boolean;
   description: string;
-  course_category: CourseCategory;
-  created_at: string;
-}
-
-export interface CourseParams {
+  ratings: number;
+  categories: CourseCategory[];
   is_active: boolean;
-  course_category?: string;
 }
 
 export interface CourseCategory {
   id: number;
   name: string;
+}
+
+export interface CourseParams {
+  is_active: boolean;
+  course_category?: string;
 }
 
 export interface UserList {

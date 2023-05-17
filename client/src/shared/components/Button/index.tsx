@@ -10,6 +10,7 @@ export interface ButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit';
   hover?: string;
+  buttonClass?: string;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -19,12 +20,13 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   width,
   onClick,
   type,
-  hover
+  hover,
+  buttonClass
 }: ButtonProps) => {
   return (
     <div className="flex flex-row">
       <button
-        className={`mb-4 font-bold py-2 px-3 rounded mx-1 ${textColor} ${color} ${hover} ${width}`}
+        className={`font-semibold rounded mx-1 ${textColor} ${color} ${hover} ${width} ${buttonClass}`}
         onClick={onClick}
         type={type}
       >
@@ -40,7 +42,8 @@ Button.defaultProps = {
   width: 'w-auto',
   onClick: () => {},
   type: 'button',
-  hover: ''
+  hover: '',
+  buttonClass: ''
 };
 
 export default Button;

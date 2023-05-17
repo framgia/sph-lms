@@ -6,7 +6,11 @@ interface Props {
   className?: string;
 }
 
-const PreviousIcon: React.FC<Props> = ({ height, width, className }: Props) => {
+const SingleNextIcon: React.FC<Props> = ({
+  height,
+  width,
+  className
+}: Props) => {
   return (
     <svg
       height={height}
@@ -14,16 +18,18 @@ const PreviousIcon: React.FC<Props> = ({ height, width, className }: Props) => {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      strokeWidth={1.5}
       stroke="currentColor"
+      className={className}
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M15.75 19.5L8.25 12l7.5-7.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 17l5-5-5-5"
+        transform="rotate(0 12 12)"
       />
     </svg>
   );
 };
 
-export default PreviousIcon;
+export default SingleNextIcon;

@@ -1,6 +1,8 @@
 import React from 'react';
-import PreviousIcon from '@/src/shared/icons/PreviousIcon';
-import NextIcon from '@/src/shared/icons/NextIcon';
+import DoublePreviousIcon from '@/src/shared/icons/DoublePreviousIcon';
+import DoubleNextIcon from '@/src/shared/icons/DoubleNextIcon';
+import SinglePreviousIcon from '../../icons/SinglePreviousIcon';
+import SingleNextIcon from '../../icons/SingleNextIcon';
 
 export interface PaginationProps {
   maxPages: number;
@@ -21,10 +23,12 @@ const Pagination: React.FC<PaginationProps> = ({
     { length: endIndex - startIndex },
     (_, i) => startIndex + i + 1
   );
-  const prevPage = currentPage - 1;
-  const nextPage = currentPage + 1;
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === totalPages;
+  const prevPage: number = currentPage - 1;
+  const nextPage: number = currentPage + 1;
+  const isFirstPage: boolean = currentPage === 1;
+  const firstPage: number = 1;
+  const isLastPage: boolean = currentPage === totalPages;
+  const lastPage: number = totalPages;
 
   const handlePageChange = (page: number): void => {
     if (onChangePage != null) {
@@ -32,32 +36,50 @@ const Pagination: React.FC<PaginationProps> = ({
     }
   };
 
+  const arrowClass =
+    'flex items-center border-2 border-white hover:border-red hover:text-red py-1 rounded-lg';
   return (
     <nav>
       <ul className="flex cursor-pointer">
         {!isFirstPage && (
-          <li className="mr-1">
-            <div
-              className="flex items-center border-2 hover:bg-blue-400 hover:text-white px-2 py-2 rounded-full "
-              onClick={() => {
-                handlePageChange(prevPage);
-              }}
-            >
-              <PreviousIcon height={25} width={25} />
-            </div>
-          </li>
+          <>
+            <li>
+              <div
+                className={arrowClass}
+                onClick={() => {
+                  handlePageChange(firstPage);
+                }}
+              >
+                <DoublePreviousIcon height={23} width={23} />
+              </div>
+            </li>
+            <li>
+              <div
+                className={arrowClass}
+                onClick={() => {
+                  handlePageChange(prevPage);
+                }}
+              >
+                <SinglePreviousIcon
+                  height={23}
+                  width={23}
+                  className={!firstPage ? 'text-blue-600' : ''}
+                />
+              </div>
+            </li>
+          </>
         )}
 
         {pages.map((page) => {
           const isCurrentPage = currentPage === page;
-          const className = isCurrentPage
-            ? 'border-2 bg-blue-400 text-white px-4 py-2 rounded-full'
-            : 'border-2 hover:bg-blue-400 hover:text-white px-4 py-2 rounded-full';
+          const isSelected = isCurrentPage
+            ? 'border-2 bg-red text-white text-sm font-bold px-3 py-1 rounded-lg'
+            : 'border-2 border-white hover:border-red text-gray-400 hover:text-red text-sm font-semibold hover:font-semibold px-3 py-1 rounded-lg';
 
           return (
-            <li key={page} className="mr-1">
+            <li key={page}>
               <div
-                className={className}
+                className={isSelected}
                 onClick={() => {
                   handlePageChange(page);
                 }}
@@ -69,16 +91,29 @@ const Pagination: React.FC<PaginationProps> = ({
         })}
 
         {!isLastPage && (
-          <li className="mr-1">
-            <div
-              className="flex items-center border-2 hover:bg-blue-400 hover:text-white px-2 py-2 rounded-full"
-              onClick={() => {
-                handlePageChange(nextPage);
-              }}
-            >
-              <NextIcon height={25} width={25} />
-            </div>
-          </li>
+          <>
+            {endIndex < totalPages && <li className="ellipsis">...</li>}
+            <li>
+              <div
+                className={arrowClass}
+                onClick={() => {
+                  handlePageChange(nextPage);
+                }}
+              >
+                <SingleNextIcon height={23} width={23} />
+              </div>
+            </li>
+            <li>
+              <div
+                className={arrowClass}
+                onClick={() => {
+                  handlePageChange(lastPage);
+                }}
+              >
+                <DoubleNextIcon height={23} width={23} />
+              </div>
+            </li>
+          </>
         )}
       </ul>
     </nav>
