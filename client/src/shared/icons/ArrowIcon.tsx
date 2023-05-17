@@ -1,20 +1,14 @@
 import React from 'react';
 
 interface Props {
-  height: number;
-  width: number;
   className?: string;
 }
 
-const SinglePreviousIcon: React.FC<Props> = ({
-  height,
-  width,
-  className
-}: Props) => {
+const ArrowIcon: React.FC<Props> = ({ className }: Props) => {
   return (
     <svg
-      height={height}
-      width={width}
+      height={23}
+      width={23}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -27,4 +21,4 @@ const SinglePreviousIcon: React.FC<Props> = ({
   );
 };
 
-export default SinglePreviousIcon;
+export default ArrowIcon;

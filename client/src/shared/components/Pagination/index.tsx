@@ -1,8 +1,6 @@
 import React from 'react';
-import DoublePreviousIcon from '@/src/shared/icons/DoublePreviousIcon';
-import DoubleNextIcon from '@/src/shared/icons/DoubleNextIcon';
-import SinglePreviousIcon from '../../icons/SinglePreviousIcon';
-import SingleNextIcon from '../../icons/SingleNextIcon';
+import ArrowIcon from '../../icons/ArrowIcon';
+import DoubleArrowIcon from '../../icons/DoubleArrowIcon';
 
 export interface PaginationProps {
   maxPages: number;
@@ -42,7 +40,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const nextArrowClass = `flex items-center ${
     isLastPage ? 'text-gray-400' : ''
-  } border-2 border-white hover:border-red hover:text-red py-1 rounded-lg`;
+  } border-2 border-white hover:border-red hover:text-red py-1 rounded-lg transform rotate-180`;
 
   return (
     <nav>
@@ -54,7 +52,7 @@ const Pagination: React.FC<PaginationProps> = ({
               handlePageChange(firstPage);
             }}
           >
-            <DoublePreviousIcon height={23} width={23} />
+            <DoubleArrowIcon />
           </div>
         </li>
         <li>
@@ -66,11 +64,7 @@ const Pagination: React.FC<PaginationProps> = ({
               );
             }}
           >
-            <SinglePreviousIcon
-              height={23}
-              width={23}
-              className={!firstPage ? 'text-blue-600' : ''}
-            />
+            <ArrowIcon className={!firstPage ? 'text-blue-600' : ''} />
           </div>
         </li>
 
@@ -102,7 +96,7 @@ const Pagination: React.FC<PaginationProps> = ({
               handlePageChange(currentPage === lastPage ? lastPage : nextPage);
             }}
           >
-            <SingleNextIcon height={23} width={23} />
+            <ArrowIcon />
           </div>
         </li>
         <li>
@@ -112,7 +106,7 @@ const Pagination: React.FC<PaginationProps> = ({
               handlePageChange(lastPage);
             }}
           >
-            <DoubleNextIcon height={23} width={23} />
+            <DoubleArrowIcon />
           </div>
         </li>
       </ul>
