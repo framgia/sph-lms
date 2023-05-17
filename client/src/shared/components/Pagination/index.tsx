@@ -36,39 +36,43 @@ const Pagination: React.FC<PaginationProps> = ({
     }
   };
 
-  const arrowClass =
-    'flex items-center border-2 border-white hover:border-red hover:text-red py-1 rounded-lg';
+  const prevArrowClass = `flex items-center ${
+    isFirstPage ? 'text-gray-400' : ''
+  } border-2 border-white hover:border-red hover:text-red py-1 rounded-lg`;
+
+  const nextArrowClass = `flex items-center ${
+    isLastPage ? 'text-gray-400' : ''
+  } border-2 border-white hover:border-red hover:text-red py-1 rounded-lg`;
+
   return (
     <nav>
       <ul className="flex cursor-pointer">
-        {!isFirstPage && (
-          <>
-            <li>
-              <div
-                className={arrowClass}
-                onClick={() => {
-                  handlePageChange(firstPage);
-                }}
-              >
-                <DoublePreviousIcon height={23} width={23} />
-              </div>
-            </li>
-            <li>
-              <div
-                className={arrowClass}
-                onClick={() => {
-                  handlePageChange(prevPage);
-                }}
-              >
-                <SinglePreviousIcon
-                  height={23}
-                  width={23}
-                  className={!firstPage ? 'text-blue-600' : ''}
-                />
-              </div>
-            </li>
-          </>
-        )}
+        <li>
+          <div
+            className={prevArrowClass}
+            onClick={() => {
+              handlePageChange(firstPage);
+            }}
+          >
+            <DoublePreviousIcon height={23} width={23} />
+          </div>
+        </li>
+        <li>
+          <div
+            className={prevArrowClass}
+            onClick={() => {
+              handlePageChange(
+                currentPage === firstPage ? firstPage : prevPage
+              );
+            }}
+          >
+            <SinglePreviousIcon
+              height={23}
+              width={23}
+              className={!firstPage ? 'text-blue-600' : ''}
+            />
+          </div>
+        </li>
 
         {pages.map((page) => {
           const isCurrentPage = currentPage === page;
@@ -90,31 +94,27 @@ const Pagination: React.FC<PaginationProps> = ({
           );
         })}
 
-        {!isLastPage && (
-          <>
-            {endIndex < totalPages && <li className="ellipsis">...</li>}
-            <li>
-              <div
-                className={arrowClass}
-                onClick={() => {
-                  handlePageChange(nextPage);
-                }}
-              >
-                <SingleNextIcon height={23} width={23} />
-              </div>
-            </li>
-            <li>
-              <div
-                className={arrowClass}
-                onClick={() => {
-                  handlePageChange(lastPage);
-                }}
-              >
-                <DoubleNextIcon height={23} width={23} />
-              </div>
-            </li>
-          </>
-        )}
+        {endIndex < totalPages && <li className="ellipsis">...</li>}
+        <li>
+          <div
+            className={nextArrowClass}
+            onClick={() => {
+              handlePageChange(currentPage === lastPage ? lastPage : nextPage);
+            }}
+          >
+            <SingleNextIcon height={23} width={23} />
+          </div>
+        </li>
+        <li>
+          <div
+            className={nextArrowClass}
+            onClick={() => {
+              handlePageChange(lastPage);
+            }}
+          >
+            <DoubleNextIcon height={23} width={23} />
+          </div>
+        </li>
       </ul>
     </nav>
   );
