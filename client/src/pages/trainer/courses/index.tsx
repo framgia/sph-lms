@@ -3,7 +3,7 @@ import Button from '@/src/shared/components/Button';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Pagination from '@/src/shared/components/Pagination';
 import CourseCard from '../../../shared/components/Card/CourseCard';
-import { Course } from '@/src/shared/utils';
+import type { Course } from '@/src/shared/utils';
 
 // SAMPLE COURSE
 export const courses: Course[] = [
@@ -163,7 +163,7 @@ const CoursesListPage: React.FC = () => {
       <div>
         <div className="flex justify-center">
           <div className="container mt-4">
-            <div className="flex justify-between items-center mb-3 md:mx-28 lg:mx-24 xl:mx-20 2xl:mx-52">
+            <div className="flex justify-between items-center mb-3 md:mx-28 lg:mx-24 xl:52 2xl:mx-[12.5rem]">
               <SearchBar
                 onSearchEvent={handleSearch}
                 placeholder="Search"

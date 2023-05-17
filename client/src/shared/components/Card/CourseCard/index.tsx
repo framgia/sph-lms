@@ -1,18 +1,18 @@
 import React from 'react';
-import { Course } from '@/src/shared/utils';
+import type { Course } from '@/src/shared/utils';
 import Image from 'next/image';
 
 interface Props {
   course: Course;
 }
 
-const generateStarRating = (rating: number) => {
+const generateStarRating = (rating: number): string => {
   const starCount = 5;
   const roundedRating = Math.round(rating);
   return `${'★'.repeat(roundedRating)}${'☆'.repeat(starCount - roundedRating)}`;
 };
 
-const CourseCard: React.FC<Props> = ({ course }: Props) => {
+const CourseCard: React.FC<Props> = ({ course }: Props): JSX.Element => {
   return (
     <div className="w-[268px] rounded-lg group border border-gray-300 shadow-[2.0px_2.0px_7.0px_rgba(0,0,0,0.1)]">
       <div className="relative overflow-hidden">
