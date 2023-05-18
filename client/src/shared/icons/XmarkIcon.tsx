@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import type { FC } from 'react';
+import type { FC, HTMLProps } from 'react';
 
-export interface ListIconProps {
-  classname?: string
-}
-
-const ListIcon: FC<ListIconProps> = ({ classname }: ListIconProps) => {
+const XmarkIcon: FC<HTMLProps<SVGSVGElement>> = (props) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className={classname}>
-  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-</svg>
-
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      width="24px"
+      height="24px"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      {...props}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
   );
 };
 
-ListIcon.defaultProps = {
-  classname: 'w-6 h-6'
-};
-
-export default ListIcon;
+export default XmarkIcon;

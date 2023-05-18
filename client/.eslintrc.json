@@ -17,6 +17,8 @@
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "@next/next/no-html-link-for-pages": ["error", "client/src/pages/"],
     "react/function-component-definition": [
       2,
       {

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
 
@@ -10,9 +11,7 @@ export interface BreadcrumbsProps {
   paths: pathObject[];
 }
 
-const Breadcrumbs: React.FunctionComponent<BreadcrumbsProps> = ({
-  paths
-}: BreadcrumbsProps) => {
+const Breadcrumbs: React.FunctionComponent<BreadcrumbsProps> = ({ paths }: BreadcrumbsProps) => {
   const { asPath } = useRouter();
 
   const activeClass = (currentURL: string, currentIndex: number, totalPaths: number): string => {
@@ -26,19 +25,17 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsProps> = ({
   };
 
   return (
-    <div className='bg-gray1 inline-block p-2 rounded-md'>
+    <div className="bg-gray1 inline-block p-2 rounded-md">
       <nav className="flex" aria-label="Breadcrumb">
         <ol className="inline-flex items-center">
           {paths?.map((path, index) => (
             <Fragment key={index}>
               <li>
                 <div className="flex items-center mr-1">
-                  {index !== 0 && (
-                    <div className='text-gray2 mr-1'>/</div>
-                  )}
-                  <a href={path.url} className={activeClass(path.url, index, paths.length)}>
+                  {index !== 0 && <div className="text-gray2 mr-1">/</div>}
+                  <Link href={path.url} className={activeClass(path.url, index, paths.length)}>
                     <p className="capitalize">{path.text}</p>
-                  </a>
+                  </Link>
                 </div>
               </li>
             </Fragment>

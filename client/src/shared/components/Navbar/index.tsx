@@ -30,7 +30,7 @@ const Navbar: FC<NavbarProps> = ({ navLinks = navItems }) => {
             <li key={index} className="pointer-events-none">
               <Link
                 className={`flex items-center px-[8px] py-[21px] border-b pointer-events-auto ${
-                  navItem.url === asPath
+                  new RegExp('^' + navItem.url).test(asPath)
                     ? ' border-red bg-lightRed'
                     : 'bg-transparent border-transparent'
                 }`}

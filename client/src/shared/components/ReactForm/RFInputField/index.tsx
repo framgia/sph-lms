@@ -12,70 +12,54 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
   register?: UseFormRegisterReturn;
   error?: string | boolean;
-  width?: string;
-  height?: string;
   className?: string;
+  id?: string;
+  labelClass?: string;
 }
 
-const RFInputField = forwardRef(
-  (props: Props, ref: ForwardedRef<HTMLInputElement>) => {
-    const {
-      label,
-      placeholder,
-      register,
-      error,
-      width,
-      height,
-      className,
-      type,
-      ...rest
-    } = props;
+const RFInputField = forwardRef((props: Props, ref: ForwardedRef<HTMLInputElement>) => {
+  const { label, placeholder, register, error, className, type, id, labelClass, ...rest } = props;
 
-    const propStyle = {
-      width: width,
-      height: height
-    };
+  const errorAlert = (error: string | boolean): string => {
+    return error ? ' border-red' : ' border-gray-300';
+  };
 
-    const errorAlert = (error: string | boolean): string => {
-      return error ? ' border-red-500' : ' border-gray-300';
-    };
-
-    return (
-      <div className="mb-4">
-        {label !== '' && (
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            {label}
-          </label>
-        )}
-        <input
-          {...register}
-          {...rest}
-          type={type}
-          ref={ref}
-          placeholder={placeholder}
-          className={`appearance-none border rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-            error !== undefined && errorAlert(error)
-          } ${className}`}
-          style={propStyle}
-        />
-        {error !== undefined && (
-          <div className="text-red-700 rounded relative" role="alert">
-            <span className="block sm:inline text-sm">{error}</span>
-          </div>
-        )}
-      </div>
-    );
-  }
-);
+  return (
+    <div className="mb-4">
+      {label !== '' && (
+        <label
+          htmlFor={id ?? ''}
+          className={`block text-gray-700 text-sm font-semibold mb-2 ${labelClass}`}
+        >
+          {label}
+        </label>
+      )}
+      <input
+        id={id}
+        type={type}
+        ref={ref}
+        placeholder={placeholder}
+        className={`appearance-none border rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+          error !== undefined && errorAlert(error)
+        } ${className}`}
+        {...register}
+        {...rest}
+      />
+      {error !== undefined && (
+        <div className="text-red rounded relative" role="alert">
+          <span className="block sm:inline text-sm">{error}</span>
+        </div>
+      )}
+    </div>
+  );
+});
 
 RFInputField.defaultProps = {
   label: '',
   placeholder: '',
   type: 'text',
   id: '',
-  width: '100%',
-  height: '',
-  className: ''
+  className: '',
 };
 
 export default RFInputField;

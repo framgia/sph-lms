@@ -1,6 +1,6 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import React from 'react';
+import React, { type ReactElement } from 'react';
 
 export interface ButtonProps {
   text: string;
@@ -11,6 +11,7 @@ export interface ButtonProps {
   type?: 'button' | 'submit';
   hover?: string;
   buttonClass?: string;
+  children?: ReactElement;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -21,29 +22,30 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   onClick,
   type,
   hover,
-  buttonClass
+  buttonClass,
+  children,
 }: ButtonProps) => {
   return (
     <div className="flex flex-row">
       <button
-        className={`font-semibold rounded mx-1 ${textColor} ${color} ${hover} ${width} ${buttonClass}`}
+        className={`font-semibold rounded ${textColor} ${color} ${hover} ${width} ${buttonClass}`}
         onClick={onClick}
         type={type}
       >
-        {text}
+        {children} <span>{text}</span>
       </button>
     </div>
   );
 };
 
 Button.defaultProps = {
-  color: 'bg-blue-500',
-  textColor: 'text-white',
+  color: 'bg-white',
+  textColor: 'text-gray',
   width: 'w-auto',
   onClick: () => {},
   type: 'button',
   hover: '',
-  buttonClass: ''
+  buttonClass: '',
 };
 
 export default Button;

@@ -142,3 +142,12 @@ export interface ChildElement {
 }
 
 export type ChildElementObject = Record<number, ChildElement>;
+
+export interface LessonForm {
+  title: string;
+  link: string;
+}
+
+export interface Lesson extends LessonForm {
+  id: string;
+}
