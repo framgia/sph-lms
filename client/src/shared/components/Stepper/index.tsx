@@ -8,11 +8,12 @@ import { reset, setActiveStep } from '@/features/stepper/stepperSlice';
 
 interface StepperProps {
   title: string;
+  contentClass?: string;
   onNext?: ((index: number) => boolean) | ((index: number) => Promise<boolean>);
   children: ReactElement<StepProps> | Array<ReactElement<StepProps>>;
 }
 
-const Stepper: FC<StepperProps> = ({ title, onNext, children }) => {
+const Stepper: FC<StepperProps> = ({ title, contentClass = '', onNext, children }) => {
   const { activeStep, isStepValid } = useAppSelector((state) => state.stepper);
   const dispatch = useAppDispatch();
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
@@ -60,13 +61,13 @@ const Stepper: FC<StepperProps> = ({ title, onNext, children }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-bold text-[20px]">{title}</h2>
-      <div className="space-y-1">
+      <h2 className="font-semibold text-[20px]">{title}</h2>
+      <div className="space-y-1 font-normal">
         <p>
           Step <span className="text-red">{childrenList[activeStep] ? activeStep + 1 : 0}</span> of{' '}
           {childListLength}
         </p>
-        <label htmlFor="progress" className="font-bold text-[14px]">
+        <label htmlFor="progress" className="font-medium text-[14px]">
           {childrenList[activeStep]?.childContent.props.title ?? ''}
         </label>
         <ProgressBar
@@ -75,20 +76,22 @@ const Stepper: FC<StepperProps> = ({ title, onNext, children }) => {
           id="progress"
         />
       </div>
-      <div className="rounded-md border p-[16px]">{childrenList[activeStep]?.childContent}</div>
+      <div className={`rounded-md border p-[16px] ${contentClass}`}>
+        {childrenList[activeStep]?.childContent}
+      </div>
 
       <div className="flex space-x-4 text-[14px]">
         <Button
           onClick={handlePrev}
           text={activeStep ? childrenList[activeStep]?.childContent.props.backTitle : 'Back'}
-          buttonClass={`border border-textGray py-[6px] !px-4 ${
+          buttonClass={`border border-textGray py-[6px] !px-4 !font-medium ${
             activeStep === 0 && 'opacity-50 cursor-not-allowed'
           }`}
         />
         <Button
           onClick={handleNext}
           text={activeStep ? childrenList[activeStep]?.childContent.props.nextTitle : 'Next'}
-          buttonClass={`border py-[6px] border-red !text-red !w-32 ${
+          buttonClass={`border py-[6px] border-red !text-red !w-32 !font-medium ${
             !isStepValid && 'opacity-50 cursor-not-allowed'
           }`}
         />

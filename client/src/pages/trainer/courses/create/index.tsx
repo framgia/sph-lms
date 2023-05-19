@@ -85,7 +85,11 @@ const Create: FC = () => {
         />
       </div>
       <Container>
-        <Stepper title="Create course" onNext={onNext}>
+        <Stepper
+          title="Create course"
+          onNext={onNext}
+          contentClass={activeStep === 2 ? 'border-none p-0' : ''}
+        >
           <Step title="Define your course">
             <InitialSection register={register} errors={errors} control={control} />
           </Step>

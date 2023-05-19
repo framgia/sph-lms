@@ -11,10 +11,11 @@ interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   register?: UseFormRegisterReturn;
   error?: string | boolean;
   className?: string;
+  labelClass?: string;
 }
 
 const RFTextField = forwardRef((props: Props, ref: LegacyRef<HTMLTextAreaElement>) => {
-  const { label, register, error, className, ...rest } = props;
+  const { label, register, error, className, labelClass, ...rest } = props;
 
   const errorAlert = (error: string | boolean): string => {
     return error ? ' border-red-500' : ' border-gray-300';
@@ -23,7 +24,9 @@ const RFTextField = forwardRef((props: Props, ref: LegacyRef<HTMLTextAreaElement
   return (
     <div className="mb-4">
       {label !== '' && (
-        <label className="block text-gray-700 text-sm font-semibold mb-2">{label}</label>
+        <label className={`block text-gray-700 text-sm font-semibold mb-2 ${labelClass}`}>
+          {label}
+        </label>
       )}
       <textarea
         ref={ref}
@@ -47,6 +50,7 @@ RFTextField.defaultProps = {
   placeholder: '',
   id: '',
   className: '',
+  labelClass: '',
 };
 
 export default RFTextField;

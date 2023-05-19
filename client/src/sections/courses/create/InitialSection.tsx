@@ -37,12 +37,10 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
   return (
     <Fragment>
       <div className="space-y-1 mb-4">
-        {editMode && (
-          <div className="flex items-center space-x-1">
-            <h3 className="font-semibold text-sm">Preview Image</h3>
-            <ExclamationPointIcon />
-          </div>
-        )}
+        <div className="flex items-center space-x-1">
+          <h3 className="font-medium text-sm">Preview Image</h3>
+          <ExclamationPointIcon />
+        </div>
 
         {course.image ? (
           <Image
@@ -81,6 +79,7 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
       </div>
       <RFInputField
         label="Course Name"
+        labelClass="!font-medium"
         className={`min-w-[70%] ${!editMode && 'border-transparent bg-transparent'}`}
         readOnly={!editMode}
         defaultValue={course.name}
@@ -96,6 +95,7 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
         error={errors && (errors.name?.message as string)}
       />
       <RFTextField
+        labelClass="!font-medium"
         label="Description"
         className={`min-w-[70%] max-w-[100%] ${
           !editMode ? 'border-transparent bg-transparent resize-none h-max' : 'resize'
@@ -114,7 +114,7 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
         error={errors && (errors.description?.message as string)}
       />
       <div className="mb-10">
-        <h3 className="text-gray-700 text-sm font-semibold mb-2">Category</h3>
+        <h3 className="text-gray-700 text-sm font-medium mb-2">Category</h3>
         {control ? (
           <Controller
             control={control}

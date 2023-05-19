@@ -58,7 +58,7 @@ const AddLessonSection: FC = () => {
 
       {editMode && (
         <Button
-          buttonClass="flex items-center space-x-1 border border-textGray !py-[5px] !px-2 text-[12px]"
+          buttonClass="flex items-center space-x-1 border border-textGray !py-[5px] !px-2 text-[12px] !font-medium"
           text="Add lesson"
           onClick={() => dispatch(openModal({ type: lessonModalEnum.ADD }))}
         >

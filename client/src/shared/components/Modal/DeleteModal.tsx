@@ -21,7 +21,7 @@ const DeleteModal: FC<DeleteModalProps> = ({
   return (
     <Modal className="p-4 !w-[30%]" isOpen={state}>
       <div className="flex items-center justify-between pb-4 mb-4">
-        <h2 className="text-[16px] font-bold">Delete confirmation</h2>
+        <h2 className="text-[16px] font-medium">Delete confirmation</h2>
         <XmarkIcon
           className="cursor-pointer"
           onClick={() => {
@@ -29,7 +29,7 @@ const DeleteModal: FC<DeleteModalProps> = ({
           }}
         />
       </div>
-      <p>
+      <p className="font-normal">
         You are about to delete a {type}. Are you sure you want to delete{' '}
         <span className="text-red">{title}</span>?
       </p>
@@ -38,7 +38,7 @@ const DeleteModal: FC<DeleteModalProps> = ({
           onClick={() => {
             closeModal();
           }}
-          buttonClass="border border-textGray py-[6px] !px-4"
+          buttonClass="border border-textGray py-[6px] !px-4 !font-medium"
           text="Cancel"
         />
         <Button
@@ -46,7 +46,7 @@ const DeleteModal: FC<DeleteModalProps> = ({
             onDelete();
           }}
           type="submit"
-          buttonClass="border border-red !text-red py-[6px] !w-36"
+          buttonClass="border border-red !text-red py-[6px] !w-36 !font-medium"
           text="Delete"
         />
       </div>

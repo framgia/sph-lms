@@ -55,18 +55,20 @@ const LessonModal: FC<LessonModalProps> = ({
   return (
     <Modal className="p-4 !w-[40%]" isOpen={state}>
       <div className="flex items-center justify-between pb-4 mb-4">
-        <h2 className="text-[16px] font-bold">{title}</h2>
+        <h2 className="text-[16px] font-medium">{title}</h2>
         <XmarkIcon className="cursor-pointer" onClick={handleClose} />
       </div>
       <form onSubmit={handleSubmit(formSubmit)}>
         <div className="space-y-8">
           <RFInputField
+            labelClass="!font-medium"
             className="w-full"
             label="Title"
             register={register('title')}
             error={errors.title?.message as string}
           />
           <RFInputField
+            labelClass="!font-medium"
             className="w-full"
             label="Lesson Link"
             register={register('link')}
@@ -76,12 +78,12 @@ const LessonModal: FC<LessonModalProps> = ({
         <div className="flex mt-[48px] justify-end space-x-2 text-[14px]">
           <Button
             onClick={handleClose}
-            buttonClass="border border-textGray py-[6px] !px-4"
+            buttonClass="border border-textGray py-[6px] !px-4 !font-medium"
             text="Cancel"
           />
           <Button
             type="submit"
-            buttonClass="border border-red !text-red py-[6px] !w-36"
+            buttonClass="border border-red !text-red py-[6px] !w-36 !font-medium"
             text={submitButtonTitle}
           />
         </div>
