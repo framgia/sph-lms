@@ -127,6 +127,7 @@ export interface ModalProps {
   children?: any;
   isOpen: boolean;
   className?: string;
+  width?: number;
 }
 
 export interface TabButtonProps {
@@ -150,4 +151,11 @@ export interface LessonForm {
 
 export interface Lesson extends LessonForm {
   id: string;
+}
+
+export interface Learner {
+  id: number;
+  progress: number;
+  firstname: string;
+  lastname: string;
 }

@@ -1,4 +1,5 @@
 import ContentSection from '@/src/sections/courses/ContentSection';
+import LearningSection from '@/src/sections/courses/LearningSection/index';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
@@ -19,19 +20,19 @@ const CourseContent: React.FC = () => {
 
   return (
     <Fragment>
-      <div className='ml-5 mt-5'>
-        <Breadcrumbs paths={paths}/>
-        <Container className='px-28'>
-          <div className='text-[20px] font-semibold my-5 text-textGray'>Vue Introduction</div>
+      <div className="ml-5 mt-5">
+        <Breadcrumbs paths={paths} />
+        <Container className="px-28">
+          <div className="text-[20px] font-semibold my-5 text-textGray">Vue Introduction</div>
           <Tabs>
-            <Tab title='Content' >
-                <ContentSection />
+            <Tab title="Content">
+              <ContentSection />
             </Tab>
-            <Tab title='Learning' >
-                <div>Insert Learning here</div>
+            <Tab title="Learners">
+              <LearningSection />
             </Tab>
-            <Tab title='Settings' >
-                <div>Insert Setting here</div>
+            <Tab title="Settings">
+              <div>Insert Setting here</div>
             </Tab>
           </Tabs>
         </Container>

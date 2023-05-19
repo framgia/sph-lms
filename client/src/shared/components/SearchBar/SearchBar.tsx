@@ -24,7 +24,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
   };
   const containerClasses =
-    'pr-3 pl-10 py-2 font-bold placeholder-gray-400 text-black rounded border-none ring-1 ring-gray-300 focus:ring-gray-500 focus:ring-2';
+    'pr-3 pl-10 py-2 font-normal placeholder-gray-400 text-black rounded border-none ring-1 ring-gray-300 focus:ring-gray-500 focus:ring-2';
 
   return (
     <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
