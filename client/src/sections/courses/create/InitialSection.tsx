@@ -37,10 +37,12 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
   return (
     <Fragment>
       <div className="space-y-1 mb-4">
-        <div className="flex items-center space-x-1">
-          <h3 className="font-semibold text-sm">Preview Image</h3>
-          <ExclamationPointIcon />
-        </div>
+        {editMode && (
+          <div className="flex items-center space-x-1">
+            <h3 className="font-semibold text-sm">Preview Image</h3>
+            <ExclamationPointIcon />
+          </div>
+        )}
 
         {course.image ? (
           <Image

@@ -21,9 +21,12 @@ export const stepperSlice = createSlice({
     setIsStepValid: (state, action: PayloadAction<boolean>) => {
       state.isStepValid = action.payload;
     },
+    reset: (state) => {
+      return state = initialState;
+    },
   },
 });
 
-export const { setActiveStep, setIsStepValid } = stepperSlice.actions;
+export const { setActiveStep, setIsStepValid, reset } = stepperSlice.actions;
 
 export default stepperSlice.reducer;

@@ -4,7 +4,7 @@ import type { ChildElementObject } from '../../utils';
 import Button from '../Button';
 import ProgressBar from '../ProgressBar';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { setActiveStep } from '@/features/stepper/stepperSlice';
+import { reset, setActiveStep } from '@/features/stepper/stepperSlice';
 
 interface StepperProps {
   title: string;
@@ -25,6 +25,9 @@ const Stepper: FC<StepperProps> = ({ title, onNext, children }) => {
     }
     if (activeStep + 1 < childListLength && validated) {
       dispatch(setActiveStep(activeStep + 1));
+    }
+    if (activeStep + 1 === childListLength) {
+      dispatch(reset());
     }
   };
 
