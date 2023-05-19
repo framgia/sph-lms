@@ -120,7 +120,7 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
             render={({ field }) => (
               <MultiSelect
                 options={categoriesOption}
-                className="w-[70%]"
+                className={`w-[70%] ${errors?.category && 'border border-red rounded-md'}`}
                 labelledBy="Select"
                 value={field.value}
                 onChange={(items: MultiSelectOptionData[]) => {
@@ -140,6 +140,11 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
         ) : (
           <div className="text-[14px] p-2 mb-2">
             {course.category?.map((m) => m.name).join(', ')}
+          </div>
+        )}
+        {errors?.category && (
+          <div className="text-red rounded relative" role="alert">
+            <span className="block sm:inline text-sm">{errors?.category?.message as string}</span>
           </div>
         )}
       </div>

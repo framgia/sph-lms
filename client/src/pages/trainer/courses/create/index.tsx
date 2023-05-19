@@ -53,7 +53,10 @@ const Create: FC = () => {
   const onNext = async (): Promise<boolean> => {
     switch (activeStep) {
       case 0:
-        return (await trigger('name')) && (await trigger('category'));
+        if (values.image) {
+          return await trigger(['image']);
+        }
+        return await trigger(['name', 'category']);
       case 2:
         /*
             Please collect the form inputs in here, since user is at the preview section, crouseSlice should have all the necessary info we need to save in db
