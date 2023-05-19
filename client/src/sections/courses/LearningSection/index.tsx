@@ -1,4 +1,3 @@
-import Button from '@/src/shared/components/Button';
 import React, { Fragment, useState } from 'react';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
 import UnShowIcon from '@/src/shared/icons/UnShowIcon';
@@ -10,7 +9,6 @@ import FilterIcon from '@/src/shared/icons/FilterIcon';
 import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
 
 const LearningSection: React.FC = (): JSX.Element => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState('');
 
@@ -35,10 +33,6 @@ const LearningSection: React.FC = (): JSX.Element => {
     { id: 18, progress: 57, firstname: 'Francis2', lastname: 'Delos Santos' },
     { id: 19, progress: 23, firstname: 'Elyric2', lastname: 'Manatad' }
   ];
-
-  const handleModalClose = (): void => {
-    setIsModalOpen(false);
-  };
 
   const handleSeeMore = (): void => {
     setShowMore(!showMore);
@@ -86,12 +80,14 @@ const LearningSection: React.FC = (): JSX.Element => {
       <div>
         <div className="w-full flex items-center justify-between mb-8">
           <div className="font-semibold text-sm">List of Learners</div>
-          <Button
-            text="Add learner"
-            buttonClass="px-4 py-2 text-sm bg-white text-blue-500 border-2 border-red"
-            textColor="text-red"
-            onClick={() => { setIsModalOpen(true); } }
+
+        {/* ADD LEARNER MODAL  */}
+        <div>
+          <AddLearnerModal
+            learners={learners}
           />
+        </div>
+
         </div>
         <div className="mx-4">
           {/* SORT BUTTON  */}
@@ -124,14 +120,6 @@ const LearningSection: React.FC = (): JSX.Element => {
           </div>
         </div>
 
-        {/* ADD LEARNER MODAL  */}
-        <div>
-          <AddLearnerModal
-            isOpen={isModalOpen}
-            handleModalClose={handleModalClose}
-            learners={learners}
-          />
-        </div>
       </div>
     </Fragment>
   );

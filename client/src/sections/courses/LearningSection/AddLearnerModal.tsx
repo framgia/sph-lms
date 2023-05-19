@@ -7,16 +7,19 @@ import { type Learner } from '@/src/shared/utils';
 import React, { useState } from 'react';
 
 interface AddLearnerModalProps {
-  isOpen: boolean;
-  handleModalClose: () => void;
   learners: Learner[];
 }
 
-const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ isOpen, handleModalClose, learners }: AddLearnerModalProps): JSX.Element => {
+const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ learners }: AddLearnerModalProps): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddLearners = (): void => {
     alert('Add Learners');
+  };
+
+  const handleModalClose = (): void => {
+    setIsModalOpen(false);
   };
 
   const handleSearch = (search: string): void => {
@@ -36,7 +39,13 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ isOpen, handleModalCl
 
   return (
     <div>
-    <Modal isOpen={isOpen} className="w-[521px]">
+      <Button
+            text="Add learner"
+            buttonClass="px-4 py-2 text-sm bg-white text-blue-500 border-2 border-red"
+            textColor="text-red"
+            onClick={() => { setIsModalOpen(true); } }
+          />
+    <Modal isOpen={isModalOpen} className="w-[521px]">
       <div className="p-4">
         <div className="flex justify-between mb-6">
           <span className="text-gray-600 font-bold">Add Learner</span>
