@@ -8,17 +8,21 @@ export const courseSchema = yup.object().shape({
     .required('Course name is required'),
   description: yup.string(),
   image: yup
-    .mixed<FileList>()
+    .mixed<FileList | File>()
     .test('is-valid-type', 'Invalid image type', (value) => {
-      if (value && value?.length > 0) {
-        return isValidFileType(value[0].name.toLowerCase() ?? '', 'image');
+      if (value) {
+        return isValidFileType(
+          value instanceof FileList ? value[0].name.toLowerCase() : value.name.toLowerCase(),
+          'image'
+        );
       }
     })
-    .test(
-      'is-valid-size',
-      'Maximum allowed image size is 3MB',
-      (picture) => picture && picture.length > 0 && picture[0].size <= MAX_FILE_SIZE
-    ),
+    .test('is-valid-size', 'Maximum allowed image size is 3MB', (picture) => {
+      if (picture) {
+        const size = picture instanceof FileList ? picture[0].size : picture.size;
+        return size <= MAX_FILE_SIZE;
+      }
+    }),
   category: yup
     .array()
     .min(1, 'At least 1 category required')
