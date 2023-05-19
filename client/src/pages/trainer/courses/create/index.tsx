@@ -54,7 +54,7 @@ const Create: FC = () => {
     switch (activeStep) {
       case 0:
         if (values.image) {
-          return await trigger(['image']);
+          return await trigger(['image', 'name', 'category']);
         }
         return await trigger(['name', 'category']);
       case 2:
