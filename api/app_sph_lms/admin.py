@@ -1,17 +1,7 @@
+from app_sph_lms.models import (Category, Class, Company, Course,
+                                CourseCategory, CourseTag, Lesson, Status, Tag,
+                                Trainee, Trainer, User, UserRole)
 from django.contrib import admin
-from app_sph_lms.models import (Company, 
-                                Course, 
-                                Category, 
-                                CourseCategory,
-                                Tag,
-                                CourseTag,
-                                Class,
-                                User,
-                                UserRole,
-                                Status,
-                                Trainee,
-                                Trainer
-                                ) 
 
 # Register your models here.
 admin.site.register(User)
@@ -26,3 +16,4 @@ admin.site.register(UserRole)
 admin.site.register(Status)
 admin.site.register(Trainer)
 admin.site.register(Trainee)
+admin.site.register(Lesson)

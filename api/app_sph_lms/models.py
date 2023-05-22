@@ -1,12 +1,11 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
-from django.db import models
-from django.utils import timezone
-from django.contrib.auth.models import UserManager
-from django.core.validators import MinLengthValidator
 import random
 import string
+
+from django.contrib.auth.models import AbstractUser, User, UserManager
+from django.core.validators import MinLengthValidator
+from django.db import models
+from django.utils import timezone
+
 
 def generate_code(length=10):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
@@ -20,7 +19,7 @@ class UserRole(models.Model):
         db_table = "app_sph_lms_user_roles"
     def __str__(self):
         return str(self.title)
-    
+
 class Status(models.Model):
     name = models.CharField(max_length=255, unique=True, validators=[MinLengthValidator(5)])
     class Meta:
@@ -59,7 +58,7 @@ class Company(models.Model):
     country = models.CharField(max_length=255, null=True, validators=[MinLengthValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    class Meta: 
+    class Meta:
         verbose_name = "Company"
         verbose_name_plural = "Company"
         db_table = "app_sph_lms_companies"
@@ -71,24 +70,24 @@ class Category(models.Model):
     name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    class Meta: 
+    class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Category"
         db_table = "app_sph_lms_categories"
     def __str__(self):
-        return str(self.name)     
-    
+        return str(self.name)
+
 class Tag(models.Model):
     name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    class Meta: 
+    class Meta:
         verbose_name = "Tag"
         verbose_name_plural = "Tag"
         db_table = "app_sph_lms_tags"
     def __str__(self):
         return str(self.name)
-    
+
 class Class(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     code = models.CharField(max_length=10, unique=True, default=generate_code)
@@ -116,7 +115,7 @@ class Trainer(models.Model):
         db_table = "app_sph_lms_trainers"
     def __str__(self):
         return "Company: " + str(self.company) + " | " + "Trainer: " + str(self.trainer) + " | " + "Class: " + str(self.class_id)
-    
+
 class Trainee(models.Model):
     class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True)
     trainee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
@@ -143,12 +142,12 @@ class Course(models.Model):
     preview_vid_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    class Meta: 
+    class Meta:
         verbose_name = "Course"
         verbose_name_plural = "Course"
         db_table = "app_sph_lms_courses"
     def __str__(self):
-        return str(self.name)   
+        return str(self.name)
 
 class CourseCategory(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -175,3 +174,15 @@ class CourseTag(models.Model):
         db_table = "app_sph_lms_course_tags"
     def __str__(self):
         return "Course: " + str(self.course) + " | " + "Tag: " + str(self.tag)
+
+class Lesson(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
+    link = models.URLField(max_length=200)
+    description = models.TextField(max_length=65000, null=True, validators=[MinLengthValidator(5)])
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        return self.title

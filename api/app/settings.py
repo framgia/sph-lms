@@ -10,10 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
-import environ
-
 from pathlib import Path
 
+import environ
 
 env = environ.Env(
   # set casting, default value
@@ -47,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    
+
     'app_sph_lms',
     'django_filters'
 ]
@@ -61,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -105,7 +104,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -120,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Login Using  Email
 AUTHENTICATION_BACKENDS = [
-    'app_sph_lms.api.views.AuthViaEmail',
+    'app_sph_lms.api.view.auth_view.AuthViaEmail',
 ]
 
 
@@ -163,4 +162,4 @@ REST_FRAMEWORK = {
 }
 
 # Permission
-AUTH_USER_MODEL = "app_sph_lms.User" 
+AUTH_USER_MODEL = "app_sph_lms.User"
