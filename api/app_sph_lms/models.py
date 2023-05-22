@@ -176,7 +176,7 @@ class CourseTag(models.Model):
         return "Course: " + str(self.course) + " | " + "Tag: " + str(self.tag)
 
 class Lesson(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="lessons")
     title = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     link = models.URLField(max_length=200)
     description = models.TextField(max_length=65000, null=True, validators=[MinLengthValidator(5)])

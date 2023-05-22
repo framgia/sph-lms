@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getUserToken } from '@/src/shared/utils';
 
-export const lessonApi = createApi({
-  reducerPath: 'lessonApi',
+export const getCourse = createApi({
+  reducerPath: 'getCourse',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: (headers) => {
@@ -11,10 +11,10 @@ export const lessonApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getLessonByCourseID: builder.query({
-      query: (courseID) => `course/${courseID}/lesson`,
+    getCourse: builder.query({
+      query: (courseID) => `course/${courseID}`,
     }),
-  }),
+  })
 });
 
-export const { useGetLessonByCourseIDQuery } = lessonApi;
+export const { useGetCourseQuery } = getCourse;

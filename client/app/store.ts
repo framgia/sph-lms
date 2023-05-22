@@ -4,7 +4,7 @@ import counterReducer from '../features/counter/counterSlice';
 import courseReducer from '../features/course/courseSlice';
 import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
-import { lessonApi } from '@/services/lessonApi';
+import { getCourse } from '@/services/getCourseAPI';
 
 export const store = configureStore({
   reducer: {
@@ -12,16 +12,16 @@ export const store = configureStore({
     course: courseReducer,
     lessonModals: lessonModalsReducer,
     stepper: stepperReducer,
-    [lessonApi.reducerPath]: lessonApi.reducer,
+    [getCourse.reducerPath]: getCourse.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['course/updateForm'],
+        ignoredActions: ['course/updateForm', 'getCourse/executeQuery/fulfilled'],
         ignoredActionPaths: ['payload.image'],
         ignoredPaths: ['course.values.image'],
       },
-    }).concat(lessonApi.middleware),
+    }).concat(getCourse.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

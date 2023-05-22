@@ -1,4 +1,4 @@
-import { useGetLessonByCourseIDQuery } from '@/services/lessonApi';
+import { useGetCourseQuery } from '@/services/getCourseAPI';
 import ContentSection from '@/src/sections/courses/ContentSection';
 import LearningSection from '@/src/sections/courses/LearningSection/index';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
@@ -12,7 +12,7 @@ const CourseContent: React.FC = () => {
   const router = useRouter();
   const params = router.query;
 
-  const { data: course } = useGetLessonByCourseIDQuery(params.id, {
+  const { data: course } = useGetCourseQuery(params.id, {
     skip: params.id === undefined,
   });
 
@@ -42,6 +42,7 @@ const CourseContent: React.FC = () => {
             </Tab>
             <Tab title="Settings">
               <div>Insert Setting here</div>
+            </Tab>
             <Tab title="Settings">
               <div>Insert Setting here</div>
             </Tab>
