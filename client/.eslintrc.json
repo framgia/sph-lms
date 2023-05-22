@@ -3,7 +3,14 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "standard-with-typescript", "next"],
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@next/next/recommended",
+    "standard-with-typescript"
+    // "next",
+    // "next/babel",
+    // "next/core-web-vitals"
+  ],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -11,8 +18,17 @@
     "project": ["**/tsconfig.json"],
     "tsconfigRootDir": "./"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "react-hooks"],
+  "settings": {
+    "react": {
+      "version": "18.2" // Replace with your actual React version
+    }
+  },
   "rules": {
+    "react-hooks/exhaustive-deps": "off",
+    "semi": "off",
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/restrict-plus-operand": "off",
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",

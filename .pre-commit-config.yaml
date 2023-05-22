@@ -34,6 +34,7 @@ repos:
       - id: eslint
         additional_dependencies:
           - eslint
+          - '@next/eslint-plugin-next'
           - eslint-config-standard-with-typescript
           - eslint-config-react-app
           - typescript
@@ -41,10 +42,13 @@ repos:
           - '@typescript-eslint/eslint-plugin'
           - eslint-config-prettier
           - eslint-plugin-jsx-a11y
+          - eslint-plugin-import
           - eslint-plugin-prettier
+          - eslint-plugin-react
           - eslint-plugin-react-hooks
           - eslint-plugin-n
           - eslint-plugin-promise
+          # - next/babel
         files: ^client/.*\.(ts|tsx|js|css|html)$
         types: [file]
         args:
