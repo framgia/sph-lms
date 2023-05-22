@@ -4,7 +4,7 @@ import counterReducer from '../features/counter/counterSlice';
 import courseReducer from '../features/course/courseSlice';
 import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
-import { getCourse } from '@/services/getCourseAPI';
+import { getCourse } from '@/services/courseAPI';
 
 export const store = configureStore({
   reducer: {

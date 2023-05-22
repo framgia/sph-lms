@@ -1,4 +1,4 @@
-import { useGetCourseQuery } from '@/services/getCourseAPI';
+import { useGetCourseQuery } from '@/services/courseAPI';
 import ContentSection from '@/src/sections/courses/ContentSection';
 import LearningSection from '@/src/sections/courses/LearningSection/index';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
