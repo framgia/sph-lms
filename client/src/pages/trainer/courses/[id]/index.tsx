@@ -43,9 +43,6 @@ const CourseContent: React.FC = () => {
             <Tab title="Settings">
               <div>Insert Setting here</div>
             </Tab>
-            <Tab title="Settings">
-              <div>Insert Setting here</div>
-            </Tab>
           </Tabs>
         </Container>
       </div>
