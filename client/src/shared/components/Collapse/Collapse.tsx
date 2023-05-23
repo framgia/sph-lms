@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import ChevronDown from '../../icons/ChevronDownIcon';
 
@@ -27,29 +28,23 @@ const Collapse: React.FC<collapseProps> = ({ label, subLabel, children }) => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="w-6 h-6 absolute ml-4 mt-1"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
             />
           </svg>
 
           <label className="ml-14 text-base">{label}</label>
           {subLabel != null && (
-            <p className="text-xs ml-16 mt-8 absolute text-slate-400">
-              {subLabel}
-            </p>
+            <p className="text-xs ml-16 mt-8 absolute text-slate-400">{subLabel}</p>
           )}
           <div>
-            <ChevronDown
-              height={4}
-              width={4}
-              className={`w-5 h-5 ml-2 mr-5 ${arrowClasses} `}
-            />
+            <ChevronDown height={4} width={4} className={`w-5 h-5 ml-2 mr-5 ${arrowClasses} `} />
           </div>
         </div>
       </div>
@@ -64,7 +59,7 @@ const Collapse: React.FC<collapseProps> = ({ label, subLabel, children }) => {
 };
 
 Collapse.defaultProps = {
-  label: 'Install XAMPP'
+  label: 'Install XAMPP',
 };
 
 export default Collapse;

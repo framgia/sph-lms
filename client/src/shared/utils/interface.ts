@@ -151,6 +151,7 @@ export interface LessonForm {
 
 export interface Lesson extends LessonForm {
   id: string;
+  order: number;
 }
 
 export interface Learner {
@@ -158,4 +159,13 @@ export interface Learner {
   progress: number;
   firstname: string;
   lastname: string;
+}
+
+export interface DBCourse {
+  id: number;
+  name: string;
+  description: string;
+  categories: CourseCategory[];
+  lessons: Lesson[];
+  img_path: string | null;
 }

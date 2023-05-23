@@ -15,7 +15,7 @@ const LessonItem: FC<LessonItemProps> = ({ lesson }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex items-center min-w-[70%] w-fit p-[17px] border rounded-md space-x-1">
+    <div className="flex items-center min-w-[70%] w-fit p-[17px] border rounded-md space-x-1 bg-white">
       <FourDotsIcon />
       <h3 className="flex-grow text-[14px]">{lesson.title}</h3>
       {editMode && (

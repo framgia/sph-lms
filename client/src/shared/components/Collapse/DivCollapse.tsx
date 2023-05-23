@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import ChevronDown from '../../icons/ChevronDownIcon';
 import { type DivCollapseProps } from '../../utils';
@@ -11,11 +12,7 @@ const DivCollapse: React.FC<DivCollapseProps> = ({ label, children }) => {
 
   return (
     <div className="mb-4">
-      <a
-        href="#"
-        className="flex text-blue-600 text-sm mb-4"
-        onClick={handleAdvanceOption}
-      >
+      <a href="#" className="flex text-blue-600 text-sm mb-4" onClick={handleAdvanceOption}>
         {label}
         <ChevronDown
           height={1}

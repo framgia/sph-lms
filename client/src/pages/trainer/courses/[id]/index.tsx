@@ -1,15 +1,20 @@
 import { useGetCourseQuery } from '@/services/courseAPI';
 import ContentSection from '@/src/sections/courses/ContentSection';
+import SettingsSection from '@/src/sections/courses/SettingsSection';
+import EditSettingsButton from '@/src/sections/courses/SettingsSection/EditSettingsButton';
 import LearningSection from '@/src/sections/courses/LearningSection/index';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Container from '@/src/shared/layouts/Container';
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { useAppDispatch } from '@/app/hooks';
+import { reset } from '@/features/course/courseSlice';
 
 const CourseContent: React.FC = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const params = router.query;
 
   const { data: course } = useGetCourseQuery(params.id, {
@@ -27,12 +32,25 @@ const CourseContent: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    if (course) {
+      dispatch(reset(course));
+    }
+  }, [course]);
+
+  useEffect(() => {
+    router.events?.on('routeChangeComplete', () => dispatch(reset()));
+  }, []);
+
   return (
     <Fragment>
       <div className="ml-5 mt-5">
         <Breadcrumbs paths={paths} />
         <Container className="px-28">
-          <div className="text-[20px] font-semibold my-5 text-textGray">{course?.name}</div>
+          <div className="text-[20px] font-semibold my-5 text-textGray flex justify-between line-clamp-1">
+            <h1>{course?.name}</h1>
+            <EditSettingsButton />
+          </div>
           <Tabs>
             <Tab title="Content">
               <ContentSection course={course} />
@@ -41,7 +59,7 @@ const CourseContent: React.FC = () => {
               <LearningSection />
             </Tab>
             <Tab title="Settings">
-              <div>Insert Setting here</div>
+              <SettingsSection />
             </Tab>
           </Tabs>
         </Container>

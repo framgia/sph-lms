@@ -47,7 +47,7 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
             height={200}
             width={300}
             className="w-[70%] h-[200px] object-cover"
-            src={URL.createObjectURL(course.image)}
+            src={course.image instanceof File ? URL.createObjectURL(course.image) : course.image}
             alt="preview image"
           />
         ) : (
@@ -115,7 +115,7 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
       />
       <div className="mb-10">
         <h3 className="text-gray-700 text-sm font-medium mb-2">Category</h3>
-        {control ? (
+        {control && editMode ? (
           <Controller
             control={control}
             name="category"

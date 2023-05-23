@@ -4,6 +4,7 @@ import counterReducer from '../features/counter/counterSlice';
 import courseReducer from '../features/course/courseSlice';
 import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
+import tabReducer from '../features/tab/tabSlice';
 import { getCourse } from '@/services/courseAPI';
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     course: courseReducer,
     lessonModals: lessonModalsReducer,
     stepper: stepperReducer,
+    tab: tabReducer,
     [getCourse.reducerPath]: getCourse.reducer,
   },
   middleware: (getDefaultMiddleware) =>

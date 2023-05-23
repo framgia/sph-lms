@@ -1,12 +1,13 @@
-import type { CourseCategory, Lesson } from '@/src/shared/utils';
+import type { CourseCategory, DBCourse, Lesson } from '@/src/shared/utils';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { type DropResult } from 'react-beautiful-dnd';
 
 export interface CourseState {
   values: {
     name: string;
     description: string;
-    image: File | null;
+    image: File | string | null;
     category: CourseCategory[];
     lessons: Lesson[];
   };
@@ -25,8 +26,11 @@ export const courseSlice = createSlice({
     updateForm: (state, action) => {
       state.values = { ...state.values, ...action.payload };
     },
-    addLesson: (state, action: PayloadAction<Lesson>) => {
-      state.values.lessons = [...state.values.lessons, action.payload];
+    addLesson: (state, action: PayloadAction<Omit<Lesson, 'order'>>) => {
+      state.values.lessons = [
+        ...state.values.lessons,
+        { ...action.payload, order: state.values.lessons.length },
+      ];
     },
     addCategory: (state, action: PayloadAction<CourseCategory[]>) => {
       state.values.category = action.payload;
@@ -37,15 +41,50 @@ export const courseSlice = createSlice({
       );
     },
     deleteLesson: (state, action: PayloadAction<string>) => {
-      state.values.lessons = state.values.lessons.filter((lesson) => lesson.id !== action.payload);
+      const lessons = state.values.lessons.filter((lesson) => lesson.id !== action.payload);
+      state.values.lessons = lessons.map((lesson, index) => ({ ...lesson, order: index }));
     },
     changeEditMode: (state, action: PayloadAction<boolean>) => {
       state.editMode = action.payload;
     },
+    reorderLessons: (state, action: PayloadAction<DropResult>) => {
+      const lessons = state.values.lessons;
+      if (action.payload.destination) {
+        lessons.splice(
+          action.payload.destination?.index,
+          0,
+          lessons.splice(action.payload.source?.index, 1)[0]
+        );
+      }
+      state.values.lessons = lessons.map((lesson, index) => ({ ...lesson, order: index }));
+    },
+    /* eslint-disable @typescript-eslint/naming-convention */
+    reset: (state, action: PayloadAction<DBCourse | undefined>) => {
+      if (action.payload !== undefined) {
+        const { categories, img_path, lessons, name, description } = action.payload;
+        state.values = {
+          name,
+          description,
+          category: categories,
+          image: img_path,
+          lessons,
+        };
+      } else {
+        state.values = initialState.values;
+      }
+    },
   },
 });
 
-export const { updateForm, addLesson, addCategory, updateLesson, deleteLesson, changeEditMode } =
-  courseSlice.actions;
+export const {
+  updateForm,
+  addLesson,
+  addCategory,
+  updateLesson,
+  deleteLesson,
+  changeEditMode,
+  reorderLessons,
+  reset,
+} = courseSlice.actions;
 
 export default courseSlice.reducer;

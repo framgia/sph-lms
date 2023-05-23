@@ -11,6 +11,7 @@ export const courseSchema = yup.object().shape({
     .mixed<FileList | File>()
     .test('is-valid-type', 'Invalid image type', (value) => {
       if (value) {
+        if (typeof value === 'string') return true;
         return isValidFileType(
           value instanceof FileList ? value[0].name.toLowerCase() : value.name.toLowerCase(),
           'image'
