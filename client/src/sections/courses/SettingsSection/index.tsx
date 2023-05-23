@@ -77,8 +77,8 @@ const SettingsSection: FC = () => {
       <h3 className="font-medium text-[14px] mb-2 text-textGray">List of lessons</h3>
       <AddLessonSection />
       <div className="mt-4 mb-[146px] space-y-2 w-[70%]">
-        <h3 className="text-red text-[14px] font-medium">Danger Zone</h3>
-        <div className="flex justify-between items-center border border-red p-4 rounded-md text-[12px]">
+        <h3 className="text-danger text-[14px] font-medium">Danger Zone</h3>
+        <div className="flex justify-between items-center border border-danger p-4 rounded-md text-[12px]">
           <div className="text-textGray">
             <h3 className="font-medium">Delete course</h3>
             <p className="font-normal">
@@ -90,7 +90,7 @@ const SettingsSection: FC = () => {
               setIsDeleteModalOpen(true);
             }}
             text="Delete"
-            buttonClass="border border-red text-red py-1 px-[18px] rounded-md"
+            buttonClass="border border-danger text-danger py-1 px-[18px] rounded-md"
           />
         </div>
       </div>

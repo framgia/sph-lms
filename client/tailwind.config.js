@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -27,6 +28,7 @@ module.exports = {
         textGray: '#2F302C',
         borderBottomColor: 'neutral/700',
         green: '#86BB9A',
+        danger: '#B21D1D',
       },
     },
   },
