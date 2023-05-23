@@ -13,14 +13,11 @@ import { useAppDispatch } from '@/app/hooks';
 import { reset } from '@/features/course/courseSlice';
 
 const CourseContent: React.FC = () => {
-  const router = useRouter();
+  const { query } = useRouter();
   const dispatch = useAppDispatch();
-  const params = router.query;
-
-  const { data: course } = useGetCourseQuery(params.id, {
-    skip: params.id === undefined,
+  const { data: course } = useGetCourseQuery(query.id, {
+    skip: query.id === undefined,
   });
-
   const paths = [
     {
       text: 'Course',
@@ -37,10 +34,6 @@ const CourseContent: React.FC = () => {
       dispatch(reset(course));
     }
   }, [course]);
-
-  useEffect(() => {
-    router.events?.on('routeChangeComplete', () => dispatch(reset()));
-  }, []);
 
   return (
     <Fragment>

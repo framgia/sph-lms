@@ -20,6 +20,7 @@ export const courseSchema = yup.object().shape({
     })
     .test('is-valid-size', 'Maximum allowed image size is 3MB', (picture) => {
       if (picture) {
+        if (typeof picture === 'string') return true;
         const size = picture instanceof FileList ? picture[0].size : picture.size;
         return size <= MAX_FILE_SIZE;
       }

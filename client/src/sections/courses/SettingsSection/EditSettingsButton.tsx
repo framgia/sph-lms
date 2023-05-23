@@ -1,16 +1,23 @@
 /* eslint-disable multiline-ternary */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { changeEditMode } from '@/features/course/courseSlice';
+import { changeEditMode, reset as courseReset } from '@/features/course/courseSlice';
 import { setIsTabValid } from '@/features/tab/tabSlice';
+import { useGetCourseQuery } from '@/services/courseAPI';
 import Button from '@/src/shared/components/Button';
 import { courseSchema } from '@/src/shared/utils/validationSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
 import { type FC, Fragment, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 const EditSettingsButton: FC = () => {
+  const { query } = useRouter();
   const { activeTab } = useAppSelector((state) => state.tab);
   const { editMode, values } = useAppSelector((state) => state.course);
+  const { data: course } = useGetCourseQuery(query.id, {
+    skip: query.id === undefined,
+  });
+
   const dispatch = useAppDispatch();
   const defaultValues = {
     ...values,
@@ -25,6 +32,11 @@ const EditSettingsButton: FC = () => {
     mode: 'onChange',
     defaultValues,
   });
+
+  const handleCancel = (): void => {
+    dispatch(courseReset(course));
+    dispatch(changeEditMode(false));
+  };
 
   const onSave = async (): Promise<void> => {
     let areInputsValid = true;
@@ -47,6 +59,7 @@ const EditSettingsButton: FC = () => {
   useEffect(() => {
     reset(defaultValues);
   }, [values]);
+
   return (
     <Fragment>
       {activeTab === 2 && (
@@ -54,7 +67,7 @@ const EditSettingsButton: FC = () => {
           {editMode ? (
             <div className="flex space-x-1">
               <Button
-                onClick={() => dispatch(changeEditMode(false))}
+                onClick={handleCancel}
                 text="Cancel"
                 buttonClass="border border-textGray !font-medium text-[14px] py-[6px] !px-4 "
               />

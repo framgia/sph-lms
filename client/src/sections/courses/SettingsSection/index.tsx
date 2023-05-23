@@ -3,35 +3,40 @@ import AddLessonSection from '../create/AddLessonSection';
 import InitialSection from '../create/InitialSection';
 import Button from '@/src/shared/components/Button';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { changeEditMode } from '@/features/course/courseSlice';
+import { changeEditMode, reset as courseReset } from '@/features/course/courseSlice';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { courseSchema } from '@/src/shared/utils/validationSchemas';
 import DeleteModal from '@/src/shared/components/Modal/DeleteModal';
 import { useConfirmBeforeLeave } from '@/src/shared/hooks/useConfirmBeforeLeave';
+import { useRouter } from 'next/router';
 
 const SettingsSection: FC = () => {
   const { values, editMode } = useAppSelector((state) => state.course);
   const { isTabValid } = useAppSelector((state) => state.tab);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const { asPath, events } = useRouter();
   const dispatch = useAppDispatch();
   useConfirmBeforeLeave(editMode);
+
+  const defaultValues = {
+    ...values,
+    category: values.category.map(({ name, id }) => ({
+      label: name,
+      value: id,
+    })),
+  };
 
   const {
     register,
     trigger,
+    reset,
     control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(courseSchema),
     mode: 'onChange',
-    defaultValues: {
-      ...values,
-      category: values.category.map(({ name, id }) => ({
-        label: name,
-        value: id,
-      })),
-    },
+    defaultValues,
   });
 
   const handleDelete = (): void => {
@@ -54,6 +59,18 @@ const SettingsSection: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    reset(defaultValues);
+  }, [editMode]);
+
+  useEffect(() => {
+    const prevPath = asPath;
+    events?.on('routeChangeComplete', (newPath) => {
+      if (newPath !== prevPath) {
+        dispatch(courseReset());
+      }
+    });
+  }, []);
   return (
     <Fragment>
       <InitialSection register={register} errors={errors} control={control} />
