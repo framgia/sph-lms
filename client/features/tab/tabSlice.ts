@@ -12,7 +12,7 @@ const initialState: TabState = {
 };
 
 export const tabSlice = createSlice({
-  name: 'stepper',
+  name: 'tab',
   initialState,
   reducers: {
     setActiveTab: (state, action: PayloadAction<number>) => {
