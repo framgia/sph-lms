@@ -33,12 +33,12 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
     <div className="relative border border-gray-500 rounded-md">
       <button
         type="button"
-        className="flex items-center justify-between w-[219px] py-[3px] text-sm"
+        className="flex items-center justify-between w-[219px] text-sm"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
       >
-        <span className="flex  border-gray-500 px-2 py-[2px] rounded">
+        <span className="flex  border-gray-500 text-[14px] px-2 rounded">
           {selectedOption ? (
             <>
               {selectedOption.label}
