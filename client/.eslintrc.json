@@ -42,6 +42,7 @@
         "unnamedComponents": "arrow-function"
       }
     ],
-    "@typescript-eslint/semi": ["error", "always", { "omitLastInOneLineBlock": false }]
+    "@typescript-eslint/semi": ["error", "always", { "omitLastInOneLineBlock": false }],
+    "multiline-ternary": "off"
   }
 }
