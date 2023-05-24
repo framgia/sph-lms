@@ -189,11 +189,9 @@ export interface CourseCollection {
   id: number;
   categories: CourseCategory[];
   lessons: Lesson[];
-  code: string;
   name: string;
-  preview_vid_path: string | null;
-  company: number;
-  status: number;
+  description: string | null;
+  img_path: string | null;
 }
 
 export interface CourseData {
