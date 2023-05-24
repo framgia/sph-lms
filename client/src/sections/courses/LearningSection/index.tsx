@@ -1,7 +1,6 @@
 /* eslint-disable multiline-ternary */
 import React, { Fragment, useState } from 'react';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
-import UnShowIcon from '@/src/shared/icons/UnShowIcon';
 import type { CourseLearner, Learner } from '@/src/shared/utils';
 import SortDropdown, {
   type SortOption,
@@ -14,7 +13,7 @@ import { useGetLearnerQuery } from '@/services/traineeAPI';
 import { useRouter } from 'next/router';
 
 const LearningSection: React.FC = () => {
-  const [showMore, setShowMore] = useState(false);
+  const [dataLimiter, setDataLimiter] = useState(10);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedSortOption, setSelectedSortOption] = useState('');
 
@@ -22,7 +21,7 @@ const LearningSection: React.FC = () => {
   const params = router.query;
   const courseID = params.id;
 
-  const { data: trainee } = useGetLearnerQuery({ courseID, seeMore: showMore });
+  const { data: trainee } = useGetLearnerQuery({ courseID, maxEntries: dataLimiter });
   const learners = trainee?.learners;
 
   const staticLearners: Learner[] = [
@@ -46,10 +45,6 @@ const LearningSection: React.FC = () => {
     { id: 18, progress: 57, firstname: 'Francis2', lastname: 'Delos Santos' },
     { id: 19, progress: 23, firstname: 'Elyric2', lastname: 'Manatad' },
   ];
-
-  const handleSeeMore = (): void => {
-    setShowMore(!showMore);
-  };
 
   const handleSortOptionChange = (value: string): void => {
     setSelectedSortOption(value);
@@ -124,15 +119,15 @@ const LearningSection: React.FC = () => {
               ))}
             </div>
 
-            <div className="flex items-center mt-2 mb-5 cursor-pointer">
-              {showMore ? <UnShowIcon className="mt-[3px]" /> : <ShowIcon className="mt-[3px]" />}
-              <p
-                className="text-[0.77rem] text-gray-600 font-semibold ml-1 underline underline-offset-[3px]"
-                onClick={handleSeeMore}
-              >
-                {showMore ? 'See less learners' : 'See more learners'}
-              </p>
-            </div>
+                <div className="flex items-center mt-2 mb-5 cursor-pointer">
+                  <ShowIcon className="mt-[3px]" />
+                  <p
+                    className="text-[0.77rem] text-gray-600 font-semibold ml-1 underline underline-offset-[3px]"
+                    onClick={() => { setDataLimiter(prevDataLimiter => prevDataLimiter + 10); }}
+                  >
+                    See More Learners
+                  </p>
+                </div>
           </div>
         ) : (
           <div className="flex items-center justify-center h-full w-full">

@@ -53,16 +53,10 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
         fields = ['learners']
 
     def get_learners(self, obj):
-        see_more = self.context['request'].query_params.get('see_more')
+        max_entries = self.context['request'].query_params.get('max_entries', 10)
         course_trainees = CourseTrainee.objects.filter(course=obj)
+        course_trainees = course_trainees[:int(max_entries)]
 
-        if see_more == 'true':
-            course_trainees = course_trainees
-        else:
-            course_trainees = course_trainees[:8]
-
-        # for progress, it needs update
-        # if `start lesson` and `progress` is alredy implemented
         return [
             {
                 "tainee_id": trainee.id,

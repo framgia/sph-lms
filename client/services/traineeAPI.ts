@@ -12,8 +12,8 @@ export const getCourseTrainee = createApi({
   }),
   endpoints: (builder) => ({
     getLearner: builder.query({
-      query: ({ courseID, seeMore }) => {
-        return `course/${courseID}/trainee?see_more=${seeMore}`;
+      query: ({ courseID, maxEntries }) => {
+        return `course/${courseID}/trainee?max_entries=${maxEntries}`;
       },
     }),
   }),
