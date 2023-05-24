@@ -4,13 +4,14 @@ export interface SearchBarProps {
   height?: string;
   searchClass?: string;
   placeholder?: string;
+  className?: string;
   onSearchEvent: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearchEvent,
   placeholder = '',
-  searchClass
+  className,
 }: SearchBarProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -23,11 +24,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
       handleSearch();
     }
   };
-  const containerClasses =
-    'pr-3 pl-10 py-2 font-normal placeholder-gray-400 text-black rounded border-none ring-1 ring-gray-300 focus:ring-gray-500 focus:ring-2';
 
   return (
-    <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
+    <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 mb-4">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -49,7 +48,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           setSearchTerm(e.target.value);
         }}
         placeholder={placeholder}
-        className={`${containerClasses} ${searchClass}`}
+        className={`pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-black rounded ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2 ${className}`}
         onKeyUp={handleKeyUp}
       />
     </div>

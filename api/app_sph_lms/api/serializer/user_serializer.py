@@ -1,4 +1,3 @@
-from app_sph_lms.api.serializer.course_serializer import CourseSerializer
 from app_sph_lms.models import Company, Trainee, Trainer, User
 from app_sph_lms.utils.enum import UserRoleEnum
 from django.contrib.auth.hashers import make_password
@@ -83,27 +82,3 @@ class UserSerializer(serializers.ModelSerializer):
         user.is_active = False
         user.save()
         return user
-
-
-class TraineeSerializer(serializers.ModelSerializer):
-    trainee = UserSerializer()
-
-    class Meta:
-        model = Trainee
-        fields = "__all__"
-
-
-class TrainerSerializer(serializers.ModelSerializer):
-    details = serializers.SerializerMethodField()
-    author = CourseSerializer(many=True, read_only=True)
-    course_count = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Trainer
-        fields = "__all__"
-
-    def get_details(self, obj):
-        return UserSerializer(obj.trainer).data
-
-    def get_course_count(self, obj):
-        return len(obj.author.all())

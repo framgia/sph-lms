@@ -1,5 +1,5 @@
-from app_sph_lms.api.serializer.user_serializer import (TraineeSerializer,
-                                                        TrainerSerializer)
+from app_sph_lms.api.serializer.trainee_serializer import TraineeSerializer
+from app_sph_lms.api.serializer.trainer_serializer import TrainerSerializer
 from app_sph_lms.models import Company
 from rest_framework import serializers
 from rest_framework.pagination import PageNumberPagination

@@ -1,4 +1,5 @@
-from app_sph_lms.api.serializer.user_serializer import TrainerSerializer
+
+from app_sph_lms.api.serializer.trainer_serializer import TrainerSerializer
 from app_sph_lms.models import Class
 from rest_framework import serializers
 

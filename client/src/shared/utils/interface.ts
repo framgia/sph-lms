@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/array-type */
 import { type ReactElement } from 'react';
 
-/* eslint-disable @typescript-eslint/array-type */
 export interface CourseDetails {
   id: string;
   title: string;
@@ -136,6 +136,11 @@ export interface TabButtonProps {
   onClick?: () => void;
 }
 
+export interface TabProps {
+  title: string;
+  children?: ReactElement;
+}
+
 export interface ChildElement {
   id: number;
   title: string;
@@ -168,4 +173,29 @@ export interface DBCourse {
   categories: CourseCategory[];
   lessons: Lesson[];
   img_path: string | null;
+}
+
+export interface CourseLearner {
+  trainee_id: number;
+  user_id: number;
+  fullname: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  progress: number;
+}
+
+export interface CourseCollection {
+  id: number;
+  categories: CourseCategory[];
+  lessons: Lesson[];
+  code: string;
+  name: string;
+  preview_vid_path: string | null;
+  company: number;
+  status: number;
+}
+
+export interface CourseData {
+  course: CourseCollection;
 }

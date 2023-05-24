@@ -1,6 +1,6 @@
 from app_sph_lms.api.serializer.company_serializer import CompanySerializer
-from app_sph_lms.api.serializer.user_serializer import (TraineeSerializer,
-                                                        UserSerializer)
+from app_sph_lms.api.serializer.trainee_serializer import TraineeSerializer
+from app_sph_lms.api.serializer.user_serializer import UserSerializer
 from app_sph_lms.models import Company, Trainee, User
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q

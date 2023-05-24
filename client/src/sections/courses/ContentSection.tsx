@@ -3,29 +3,9 @@ import React, { Fragment } from 'react';
 import Iframe from '@/src/shared/components/Iframe';
 import SidebarContent from '@/src/shared/components/SidebarContent';
 import SideBar from '@/src/shared/components/SidebarContent/SideBar';
+import type { CourseData } from '@/src/shared/utils';
 
-export interface Lesson {
-  id: string;
-  title: string;
-  link: string;
-  description: string;
-}
-
-export interface Course {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  lessons: Lesson[];
-}
-
-export interface ContentSectionProps {
-  course: Course;
-}
-
-const ContentSection: React.FunctionComponent<ContentSectionProps> = ({
-  course,
-}: ContentSectionProps) => {
+const ContentSection: React.FunctionComponent<CourseData> = ({ course }: CourseData) => {
   return (
     <Fragment>
       <div className="flex">
