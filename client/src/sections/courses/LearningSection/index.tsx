@@ -125,7 +125,7 @@ const LearningSection: React.FC = () => {
                     className="text-[0.77rem] text-gray-600 font-semibold ml-1 underline underline-offset-[3px]"
                     onClick={() => { setDataLimiter(prevDataLimiter => prevDataLimiter + 10); }}
                   >
-                    See More Learners
+                    Show More Learners
                   </p>
                 </div>
           </div>
