@@ -114,20 +114,24 @@ const LearningSection: React.FC = () => {
               {learners?.map((col: any) => (
                 <div className="grid gap-1 w-full py-2" key={col.trainee_id}>
                   <ProgressPercentage progress={col.progress} />
-                  <div className="text-sm text-gray-500 font-semibold">{col.fullname}</div>
+                  <div className="text-sm text-gray-500 font-semibold">
+                    {col.firstname} {col.lastname}
+                  </div>
                 </div>
               ))}
             </div>
 
-                <div className="flex items-center mt-2 mb-5 cursor-pointer">
-                  <ShowIcon className="mt-[3px]" />
-                  <p
-                    className="text-[0.77rem] text-gray-600 font-semibold ml-1 underline underline-offset-[3px]"
-                    onClick={() => { setDataLimiter(prevDataLimiter => prevDataLimiter + 10); }}
-                  >
-                    Show More Learners
-                  </p>
-                </div>
+            <div className="flex items-center mt-2 mb-5 cursor-pointer">
+              <ShowIcon className="mt-[3px]" />
+              <p
+                className="text-[0.77rem] text-gray-600 font-semibold ml-1 underline underline-offset-[3px]"
+                onClick={() => {
+                  setDataLimiter((prevDataLimiter) => prevDataLimiter + 10);
+                }}
+              >
+                Show More Learners
+              </p>
+            </div>
           </div>
         ) : (
           <div className="flex items-center justify-center h-full w-full">

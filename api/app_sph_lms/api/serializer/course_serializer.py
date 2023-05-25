@@ -53,15 +53,19 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
         fields = ['learners']
 
     def get_learners(self, obj):
-        max_entries = self.context['request'].query_params.get('max_entries', 10)
+        max_entries = self.context[
+            'request'
+            ].query_params.get(
+                'max_entries',
+                10
+                )
         course_trainees = CourseTrainee.objects.filter(course=obj)
         course_trainees = course_trainees[:int(max_entries)]
 
         return [
             {
-                "tainee_id": trainee.id,
+                "trainee_id": trainee.id,
                 "user_id": trainee.trainee.trainee.id,
-                "fullname": trainee.trainee.trainee.get_full_name(),
                 "firstname": trainee.trainee.trainee.first_name,
                 "lastname": trainee.trainee.trainee.last_name,
                 "email": trainee.trainee.trainee.email,

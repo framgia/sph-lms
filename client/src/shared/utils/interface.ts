@@ -136,11 +136,6 @@ export interface TabButtonProps {
   onClick?: () => void;
 }
 
-export interface TabProps {
-  title: string;
-  children?: ReactElement;
-}
-
 export interface ChildElement {
   id: number;
   title: string;
