@@ -173,7 +173,6 @@ export interface DBCourse {
 export interface CourseLearner {
   trainee_id: number;
   user_id: number;
-  fullname: string;
   firstname: string;
   lastname: string;
   email: string;
