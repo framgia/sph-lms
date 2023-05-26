@@ -12,6 +12,7 @@ export interface ButtonProps {
   hover?: string;
   buttonClass?: string;
   children?: ReactElement;
+  disabled?: boolean;
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -24,13 +25,15 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   hover,
   buttonClass,
   children,
+  disabled,
 }: ButtonProps) => {
   return (
     <div className="flex flex-row">
       <button
-        className={`font-semibold rounded ${textColor} ${color} ${hover} ${width} ${buttonClass}`}
+        className={`font-semibold rounded disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none ${textColor} ${color} ${hover} ${width} ${buttonClass}`}
         onClick={onClick}
         type={type}
+        disabled={disabled}
       >
         {children} <span>{text}</span>
       </button>

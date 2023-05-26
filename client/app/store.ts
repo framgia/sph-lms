@@ -7,11 +7,13 @@ import courseReducer from '../features/course/courseSlice';
 import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
 import tabReducer from '../features/tab/tabSlice';
+import learnerReducer from '../features/course/learnerSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     course: courseReducer,
+    courseLearner: learnerReducer,
     lessonModals: lessonModalsReducer,
     stepper: stepperReducer,
     tab: tabReducer,
@@ -25,6 +27,8 @@ export const store = configureStore({
           'course/updateForm',
           'getCourse/executeQuery/fulfilled',
           'getCourseTrainee/executeQuery/fulfilled',
+          'getCourseTrainee/executeMutation/fulfilled',
+          'getCourseTrainee/executeQuery/rejected',
         ],
         ignoredActionPaths: ['payload.image'],
         ignoredPaths: ['course.values.image'],

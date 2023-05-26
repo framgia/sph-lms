@@ -1,8 +1,10 @@
 import random
 
 from app_sph_lms.api.serializer.trainee_serializer import TraineeSerializer
-from app_sph_lms.models import Course, CourseCategory, CourseTrainee, Lesson
+from app_sph_lms.models import (Course, CourseCategory, CourseTrainee, Lesson,
+                                Trainee)
 from rest_framework import serializers
+from rest_framework.pagination import PageNumberPagination
 
 
 class CourseCategorySerializer(serializers.ModelSerializer):
@@ -45,6 +47,11 @@ class CourseSerializer(serializers.ModelSerializer):
             } for category in categories]
 
 
+class CustomPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+
+
 class CourseTraineeSerializer(serializers.ModelSerializer):
     learners = serializers.SerializerMethodField()
 
@@ -53,26 +60,61 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
         fields = ['learners']
 
     def get_learners(self, obj):
-        max_entries = self.context[
-            'request'
+        is_enrolled = self.context[
+                'request'
             ].query_params.get(
-                'max_entries',
-                10
+                    'is_enrolled',
+                    "true"
                 )
-        course_trainees = CourseTrainee.objects.filter(course=obj)
-        course_trainees = course_trainees[:int(max_entries)]
 
-        return [
-            {
-                "trainee_id": trainee.id,
-                "user_id": trainee.trainee.trainee.id,
-                "firstname": trainee.trainee.trainee.first_name,
-                "lastname": trainee.trainee.trainee.last_name,
-                "email": trainee.trainee.trainee.email,
-                "progress": random.randint(
-                    0,
-                    100
-                    ),
-            }
-            for trainee in course_trainees
-        ]
+        if is_enrolled == "true":
+            course_trainees = CourseTrainee.objects.filter(course=obj)
+            data = [
+                {
+                    "trainee_id": trainee.id,
+                    "user_id": trainee.trainee.trainee.id,
+                    "firstname": trainee.trainee.trainee.first_name,
+                    "lastname": trainee.trainee.trainee.last_name,
+                    "email": trainee.trainee.trainee.email,
+                    "progress": random.randint(0, 100),
+                }
+                for trainee in course_trainees
+            ]
+        else:
+            trainees = Trainee.objects.exclude(trainee_detail__course=obj)
+            data = [
+                {
+                    "trainee_id": trainee.id,
+                    "user_id": trainee.trainee.id,
+                    "firstname": trainee.trainee.first_name,
+                    "lastname": trainee.trainee.last_name,
+                    "email": trainee.trainee.email,
+                    "progress": 0,
+                }
+                for trainee in trainees
+            ]
+
+        search = self.context['request'].query_params.get('search')
+        if search:
+            search = search.lower()
+            data = [
+                user
+                for user in data
+                if search in user["email"].lower()
+                or search in user["firstname"].lower()
+                or search in user[
+                        "lastname"
+                    ].lower()
+            ]
+
+        paginator = CustomPagination()
+        paginated_data = paginator.paginate_queryset(
+                data,
+                self.context['request']
+            )
+        total_pages = paginator.page.paginator.num_pages
+
+        return {
+            'data': paginated_data,
+            'total_pages': total_pages,
+        }

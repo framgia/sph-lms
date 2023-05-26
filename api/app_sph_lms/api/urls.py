@@ -42,6 +42,7 @@ urlpatterns = [
         CourseTraineeViewSet.as_view(),
         name="course-trainee"
     ),
+
     path(
         'course-category/',
         CourseCategoryList.as_view(),

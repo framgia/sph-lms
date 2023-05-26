@@ -1,6 +1,7 @@
 from django.contrib.admin.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 
+
 class EmailAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
