@@ -6,44 +6,31 @@ import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import CloseIcon from '@/src/shared/icons/CloseIcon';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import { useEnrollLearnerMutation, useGetLearnerQuery } from '@/services/traineeAPI';
-import { type Trainee, addTrainees, toggleLearner } from '@/features/course/learnerSlice';
-import { useAppDispatch } from '@/app/hooks';
-import { type RootState } from '@/app/store';
+import { alertError, alertSuccess } from '@/src/shared/utils';
 
-const AddLearnerModal: React.FC = (): JSX.Element => {
+interface AddLearnerModalProps {
+  closeModal: () => void;
+}
+
+const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ closeModal }): JSX.Element => {
   const router = useRouter();
   const params = router.query;
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [selectedEnrollees, setSelectedEnrollees] = useState<Trainee[]>([]);
   const courseID = params.id;
-  const dispatch = useAppDispatch();
-
-  const { isEnrollee } = useSelector((state: RootState) => state.courseLearner);
-
-  const [mutateAsync] = useEnrollLearnerMutation();
-
-  const { data: trainee, refetch } = useGetLearnerQuery({
+  const [enrollTrainees] = useEnrollLearnerMutation();
+  const { data: trainee } = useGetLearnerQuery({
     courseId: courseID,
-    isEnrolled: isEnrollee,
+    isEnrolled: false,
     pageNumber: page,
     searchQuery: search,
   });
   const enrollees = trainee?.learners.data;
 
   const handleAddMaterialModal = (): void => {
-    setSelectedIds([]);
-    setSearch('');
-    setPage(1);
-    setIsModalOpen(!isModalOpen);
-    dispatch(toggleLearner());
-    if (!isEnrollee) {
-      void refetch();
-    }
+    closeModal();
   };
 
   const handleSearch = (search: string): void => {
@@ -58,13 +45,8 @@ const AddLearnerModal: React.FC = (): JSX.Element => {
   const handleCheckboxChange = (id: number): void => {
     if (selectedIds.includes(id)) {
       setSelectedIds(selectedIds.filter((selectedId) => selectedId !== id));
-      setSelectedEnrollees(selectedEnrollees.filter((enrollee) => enrollee.trainee_id !== id));
     } else {
       setSelectedIds([...selectedIds, id]);
-      const selectedEnrollee = enrollees.find((enrollee: Trainee) => enrollee.trainee_id === id);
-      if (selectedEnrollee) {
-        setSelectedEnrollees([...selectedEnrollees, selectedEnrollee]);
-      }
     }
   };
 
@@ -73,26 +55,22 @@ const AddLearnerModal: React.FC = (): JSX.Element => {
       trainee: selectedIds.join(','),
     };
     try {
-      await mutateAsync({
+      const res = await enrollTrainees({
         courseId: courseID,
         postData,
       });
-      dispatch(addTrainees(selectedEnrollees));
       handleAddMaterialModal();
+      if ('data' in res) {
+        alertSuccess(res.data.message);
+      }
     } catch (error) {
-      console.error('An error occurred while enrolling learners:', error);
+      alertError('An error occurred while enrolling learners');
     }
   };
 
   return (
     <div>
-      <Button
-        text="Add learner"
-        buttonClass="px-4 py-2 text-sm bg-white text-blue-500 border-2 border-red"
-        textColor="text-red"
-        onClick={handleAddMaterialModal}
-      />
-      <Modal isOpen={isModalOpen} className="w-[521px]">
+      <Modal isOpen={true} className="w-[521px]">
         <div className="p-4">
           <div className="flex justify-between mb-6">
             <span className="text-gray-600 font-bold">Add Learner</span>

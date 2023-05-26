@@ -13,13 +13,11 @@ export interface Trainee {
 interface TraineeData {
   trainees: Trainee[];
   page: number;
-  isEnrollee: boolean;
 }
 
 const initialState: TraineeData = {
   trainees: [],
   page: 1,
-  isEnrollee: true,
 };
 
 const learnerSlice = createSlice({
@@ -36,19 +34,13 @@ const learnerSlice = createSlice({
       });
       state.trainees.push(...newTrainees);
     },
-    resetTrainees: (state) => {
-      state.trainees = [];
-      state.page = 1;
-    },
-    toggleLearner: (state) => {
-      state.isEnrollee = !state.isEnrollee;
-    },
+
     seeMoreTrainees: (state) => {
       state.page += 1;
     },
   },
 });
 
-export const { addTrainees, resetTrainees, toggleLearner, seeMoreTrainees } = learnerSlice.actions;
+export const { addTrainees, seeMoreTrainees } = learnerSlice.actions;
 
 export default learnerSlice.reducer;
