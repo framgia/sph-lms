@@ -11,6 +11,7 @@ export interface SortDropdownProps {
   buttonIcon?: React.ReactNode;
   options: SortOption[];
   onChange: (value: string) => void;
+  buttonClass?: string;
 }
 
 const SortDropdown: React.FC<SortDropdownProps> = ({
@@ -18,6 +19,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
   buttonIcon,
   options,
   onChange,
+  buttonClass,
 }: SortDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<SortOption | null>(null);
@@ -33,7 +35,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
     <div className="relative border border-gray-500 rounded-md">
       <button
         type="button"
-        className="flex items-center justify-between w-[219px] text-sm"
+        className={`flex items-center justify-between w-[219px] py-[3px] text-sm ${buttonClass}`}
         onClick={() => {
           setIsOpen(!isOpen);
         }}

@@ -8,8 +8,8 @@ const FilterIcon: React.FC<Props> = ({ className }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="25px"
-      height="25px"
+      width="24px"
+      height="24px"
       viewBox="0 0 35 20"
       fill="none"
     >
