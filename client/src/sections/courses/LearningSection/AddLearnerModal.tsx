@@ -59,12 +59,17 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ closeModal }): JSX.El
         courseId: courseID,
         postData,
       });
-      handleAddMaterialModal();
-      if ('data' in res) {
+
+      if ('data' in res && 'message' in res) {
         alertSuccess(res.data.message);
+      } else {
+        if ('data' in res) {
+          throw new Error(res.data.error);
+        }
       }
-    } catch (error) {
-      alertError('An error occurred while enrolling learners');
+      handleAddMaterialModal();
+    } catch (error: any) {
+      alertError(error.message);
     }
   };
 
