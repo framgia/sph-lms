@@ -64,9 +64,7 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ closeModal }): JSX.El
       if ('data' in res) {
         alertSuccess(res.data.message);
       } else {
-        if ('data' in res.error) {
-          throw new Error((res.error.data as any).error);
-        }
+        throw new Error('Something went wrong');
       }
       handleAddMaterialModal();
     } catch (error: any) {
