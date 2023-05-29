@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-import React, { Children, type FC, Fragment, type ReactElement, useEffect, useState } from 'react';
-import { type ChildElementObject } from '../../utils/interface';
-import { type TabProps } from './Tab';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { setActiveTab } from '@/features/tab/tabSlice';
+import { Children, Fragment, useEffect, useState, type FC, type ReactElement } from 'react';
+import { type ChildElementObject } from '../../utils/interface';
+import { type TabProps } from './Tab';
 
 interface TabsProps {
   children: ReactElement<TabProps> | Array<ReactElement<TabProps>>;
@@ -38,13 +38,13 @@ const Tabs: FC<TabsProps> = ({ children }) => {
   return (
     <Fragment>
       <div className="hidden md:flex mb-4 border-b">
-        <div className="flex space-x-[12px] font-medium text-[14px] text-textGray capitalize items-center">
+        <div className="flex space-x-3 font-medium text-sm text-dark capitalize items-center">
           {Object.values(childrenList).map(({ title, id }) => (
             <div
               key={id}
               className={`${
-                activeTab !== id ? 'p-2' : ' bg-lightRed border-red p-2 border-b-[2px]'
-              } cursor-pointer flex pointer-events-auto`}
+                activeTab !== id ? '' : ' bg-primary-400 border-base border-b-[2px]'
+              } p-2.5 cursor-pointer flex pointer-events-auto`}
               onClick={() => {
                 dispatch(setActiveTab(id));
               }}

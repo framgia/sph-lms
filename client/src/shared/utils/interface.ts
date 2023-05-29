@@ -191,3 +191,14 @@ export interface CourseCollection {
 export interface CourseData {
   course: CourseCollection;
 }
+
+export interface LearningPath {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  ratings: number;
+  courses: Course[];
+  categories: CourseCategory[];
+  is_active: boolean;
+}
