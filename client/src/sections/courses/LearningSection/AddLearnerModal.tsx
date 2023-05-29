@@ -65,7 +65,6 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ closeModal }): JSX.El
         alertSuccess(res.data.message);
       } else {
         if ('data' in res.error) {
-          console.log((res.error.data as any).error);
           throw new Error((res.error.data as any).error);
         }
       }
