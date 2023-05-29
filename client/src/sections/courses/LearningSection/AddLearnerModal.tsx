@@ -54,17 +54,19 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({ closeModal }): JSX.El
     const postData = {
       trainee: selectedIds.join(','),
     };
+
     try {
       const res = await enrollTrainees({
         courseId: courseID,
         postData,
       });
 
-      if ('data' in res && 'message' in res) {
+      if ('data' in res) {
         alertSuccess(res.data.message);
       } else {
-        if ('data' in res) {
-          throw new Error(res.data.error);
+        if ('data' in res.error) {
+          console.log((res.error.data as any).error);
+          throw new Error((res.error.data as any).error);
         }
       }
       handleAddMaterialModal();
