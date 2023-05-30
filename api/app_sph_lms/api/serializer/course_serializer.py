@@ -56,9 +56,10 @@ class CourseSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
 
-        if not user.is_authenticated or user.role.title != 'Trainer':
+        if not user.is_authenticated or \
+        user.role.title not in ['Trainer', 'Admin']:
             raise PermissionDenied(
-                "Only authenticated Trainers can create a course."
+                "Only authenticated Trainers and Admins can create a course."
             )
 
         categories_data = validated_data.pop('category')
