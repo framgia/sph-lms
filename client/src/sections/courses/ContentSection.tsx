@@ -18,10 +18,6 @@ const ContentSection: React.FunctionComponent<CourseData> = ({ course }: CourseD
                   <div className="py-3">
                     <Iframe src={col.link} className="border w-full" />
                   </div>
-                  <div className="text-14 font-semibold py-2">Description:</div>
-                  <div className="text-14 pb-24">
-                    {col.description ?? 'No description available'}
-                  </div>
                 </div>
               </SideBar>
             ))}
