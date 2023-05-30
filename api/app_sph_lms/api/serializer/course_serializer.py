@@ -57,7 +57,7 @@ class CourseSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
 
         if not user.is_authenticated or \
-        user.role.title not in ['Trainer', 'Admin']:
+                user.role.title not in ['Trainer', 'Admin']:
             raise PermissionDenied(
                 "Only authenticated Trainers and Admins can create a course."
             )
