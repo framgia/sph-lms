@@ -1,7 +1,6 @@
 import React from 'react';
-import NextIcon from '@/src/shared/icons/NextIcon';
-import PreviousIcon from '@/src/shared/icons/PreviousIcon';
 import Sidebar from '@/src/shared/layouts/LayoutLearning/Sidebar';
+import ArrowIcon from '../../icons/ArrowIcon';
 
 interface Props {
   children: React.ReactNode;
@@ -16,26 +15,18 @@ const LayoutLearning: React.FC<Props> = ({ children }: Props) => {
           <div className="b-4">
             <div className="justify-center flex flex-row pt-8 ">
               <div className="p-2">
-                <PreviousIcon
-                  height={20}
-                  width={20}
-                  className={''}
-                ></PreviousIcon>
+                <ArrowIcon />
               </div>
-              <div className="  text-blue-600 text-2xl font-bold">
-                Assessment 1
-              </div>
+              <div className="  text-blue-600 text-2xl font-bold">Assessment 1</div>
               <div className="p-2">
-                <NextIcon height={20} width={20} className={''}></NextIcon>
+                <ArrowIcon className="rotate-180" />
               </div>
             </div>
             <div className="text-center text-gray-500">Module 3/381</div>
           </div>
         </div>
         <div className="px-10 pt-4 flex justify-end">
-          <div className="w-24  pl-100 h-6 bg-white  rounded-md text-center">
-            toggle switch
-          </div>
+          <div className="w-24  pl-100 h-6 bg-white  rounded-md text-center">toggle switch</div>
         </div>
         <div className="pt-20 pl-32 pb-1 font-bold">Assessment Overview</div>
         <div className="pl-32 px-32">

@@ -6,15 +6,9 @@ export interface GridCardProps {
   courseTitle: string;
   imageSource: string;
   category: string;
-  date: string;
 }
 
-const GridCard: FC<GridCardProps> = ({
-  courseTitle,
-  imageSource,
-  category,
-  date
-}: GridCardProps) => {
+const GridCard: FC<GridCardProps> = ({ courseTitle, imageSource, category }: GridCardProps) => {
   return (
     <Fragment>
       <div className=" bg-white flex flex-col ">
@@ -34,9 +28,6 @@ const GridCard: FC<GridCardProps> = ({
           <div className="space-y-2 pb-4">
             <div className="inline-block bg-blueGray rounded-lg mx-8 text-lightBlue pl-2 pr-2">
               {category}
-            </div>
-            <div className="inline-block bg-blueGray rounded-lg mx-8 text-lightBlue pl-2 pr-2">
-              {date}
             </div>
           </div>
         </div>

@@ -6,15 +6,9 @@ export interface ListCardProps {
   courseTitle: string;
   imageSource: string;
   category: string;
-  date: string;
 }
 
-const ListCard: FC<ListCardProps> = ({
-  courseTitle,
-  imageSource,
-  category,
-  date
-}: ListCardProps) => {
+const ListCard: FC<ListCardProps> = ({ courseTitle, imageSource, category }: ListCardProps) => {
   return (
     <Fragment>
       <div className=" flex flex-row h-36 w-auto bg-white drop-shadow-lg space-x-20 ">
@@ -37,11 +31,6 @@ const ListCard: FC<ListCardProps> = ({
             <div className="flex-wrap">
               <div className="inline-block bg-blueGray text-lightBlue rounded-lg  pl-2 pr-2">
                 {category}
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className=" bg-blueGray text-lightBlue rounded-lg  pl-2 pr-2">
-                {date}
               </div>
             </div>
           </div>

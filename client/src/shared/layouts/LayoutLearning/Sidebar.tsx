@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
 import MenuLogo from '@/src/shared/icons/MenuIcon';
-import PreviousIcon from '@/src/shared/icons/PreviousIcon';
 
 interface Props {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const Sidebar: React.FC<Props> = ({ children }: Props) => {
@@ -12,18 +11,18 @@ const Sidebar: React.FC<Props> = ({ children }: Props) => {
     {
       id: 1,
       title: 'learning',
-      content: 'a'
+      content: 'a',
     },
     {
       id: 2,
       title: 'learning',
-      content: 'b'
+      content: 'b',
     },
     {
       id: 3,
       title: 'learning',
-      content: 'c'
-    }
+      content: 'c',
+    },
   ];
 
   return (
@@ -35,9 +34,6 @@ const Sidebar: React.FC<Props> = ({ children }: Props) => {
         <div className="pl-4 ">Mongo DB, React</div>
       </div>
       <div className="pt-10 pb-10 text-blue-500 flex flex-row">
-        <div className="pt-1 px-1">
-          <PreviousIcon height={18} width={18} className={''}></PreviousIcon>
-        </div>
         <div>
           <Link href="/"> Dashboard</Link>
         </div>

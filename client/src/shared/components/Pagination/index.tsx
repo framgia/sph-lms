@@ -15,14 +15,14 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onChangePage,
 }) => {
-  const startIndex = Math.max(currentPage - Math.floor(maxPages / 2), 0);
-  const endIndex = Math.min(startIndex + parseInt(maxPages), totalPages);
+  const startIndex = Math.max(currentPage - Math.floor(Number(maxPages) / 2), 0);
+  const endIndex = Math.min(startIndex + Number(maxPages), totalPages);
   const pages = Array.from({ length: endIndex - startIndex }, (_, i) => startIndex + i + 1);
-  const prevPage: number = parseInt(currentPage) - 1;
-  const nextPage: number = parseInt(currentPage) + 1;
-  const isFirstPage: boolean = parseInt(currentPage) === 1;
+  const prevPage: number = currentPage - 1;
+  const nextPage: number = currentPage + 1;
+  const isFirstPage: boolean = currentPage === 1;
   const firstPage: number = 1;
-  const isLastPage: boolean = parseInt(currentPage) === totalPages;
+  const isLastPage: boolean = currentPage === totalPages;
   const lastPage: number = totalPages;
 
   const handlePageChange = (page: number): void => {
