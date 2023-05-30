@@ -23,7 +23,7 @@ export interface Course {
   name: string;
   description: string;
   ratings: number;
-  categories: CourseCategory[];
+  category: CourseCategory[];
   is_active: boolean;
 }
 
@@ -165,7 +165,7 @@ export interface DBCourse {
   id: number;
   name: string;
   description: string;
-  categories: CourseCategory[];
+  category: CourseCategory[];
   lessons: Lesson[];
   img_path: string | null;
 }

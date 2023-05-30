@@ -43,6 +43,6 @@ export const lessonSchema = yup.object().shape({
     .required('Lesson title is required'),
   link: yup
     .string()
-    .min(5, 'Lesson link must be at least 5 character long')
+    .url('Lesson link must be a valid URL')
     .required('Lesson link is required'),
 });

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { addCategory, changeEditMode, updateForm } from '@/features/course/courseSlice';
+import { useGetCategoryQuery } from '@/services/courseAPI';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
 import RFTextField from '@/src/shared/components/ReactForm/RFTextField';
 import ExclamationPointIcon from '@/src/shared/icons/ExclamationPointIcon';
@@ -25,15 +26,21 @@ interface InitialSectionProps {
 const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) => {
   const { values: course, editMode } = useAppSelector((state) => state.course);
   const dispatch = useAppDispatch();
-  const categoriesOption: MultiSelectOptionData[] = categories.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
 
   useEffect(() => {
     dispatch(changeEditMode(true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const {
+    data: categoryData,
+  } = useGetCategoryQuery(undefined);
+
+  const categoriesOption: MultiSelectOptionData[] = categoryData?.results.map(({ id, name }: { id: number, name: string }) => ({
+    value: id,
+    label: name,
+  })) || [];
+
   return (
     <Fragment>
       <div className="space-y-1 mb-4">
@@ -155,31 +162,3 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
 };
 
 export default InitialSection;
-
-// Please delete this during integration and fetch it from db
-const categories = [
-  {
-    id: 1,
-    name: 'category 1',
-  },
-  {
-    id: 2,
-    name: 'category 2',
-  },
-  {
-    id: 3,
-    name: 'category 3',
-  },
-  {
-    id: 4,
-    name: 'category 1',
-  },
-  {
-    id: 5,
-    name: 'category 2',
-  },
-  {
-    id: 6,
-    name: 'category 3',
-  },
-];

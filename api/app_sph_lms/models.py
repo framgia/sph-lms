@@ -1,7 +1,7 @@
 import random
 import string
 
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.db import models
 
@@ -252,21 +252,26 @@ class Course(models.Model):
     company = models.ForeignKey(
             Company,
             on_delete=models.CASCADE,
-            related_name="company"
+            related_name="company",
+            null=True,
+            blank=True
         )
     author = models.ForeignKey(
             Trainer,
             on_delete=models.CASCADE,
-            related_name="author"
+            related_name="author",
+            null=True,
+            blank=True
         )
     code = models.CharField(max_length=10, unique=True, default=generate_code)
+    category = models.ManyToManyField(Category, related_name='categories')
     name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     description = models.TextField(
             max_length=65000,
             null=True,
             validators=[MinLengthValidator(5)]
         )
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
+    is_active = models.BooleanField(default=True)
     img_path = models.CharField(max_length=255, null=True)
     preview_vid_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -336,6 +341,7 @@ class Lesson(models.Model):
             validators=[MinLengthValidator(5)]
         )
     is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 

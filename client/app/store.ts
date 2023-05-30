@@ -22,17 +22,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [
-          'course/updateForm',
-          'getCourse/executeQuery/fulfilled',
-          'getCourseTrainee/executeQuery/fulfilled',
-          'getCourseTrainee/executeMutation/fulfilled',
-          'getCourseTrainee/executeQuery/rejected',
-        ],
-        ignoredActionPaths: ['payload.image'],
-        ignoredPaths: ['course.values.image'],
-      },
+      serializableCheck: false
     })
       .concat(getCourse.middleware)
       .concat(getCourseTrainee.middleware),

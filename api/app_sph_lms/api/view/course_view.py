@@ -1,6 +1,6 @@
 from app_sph_lms.api.serializer.course_serializer import (
     CourseCategorySerializer, CourseSerializer)
-from app_sph_lms.models import Category, Course, CourseCategory
+from app_sph_lms.models import Course, CourseCategory
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -37,17 +37,6 @@ class CourseList(generics.ListCreateAPIView):
             queryset = queryset.filter(name__icontains=name)
 
         return queryset
-
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        course_id = response.data.get('id')
-
-        for category in request.data['category'].split(','):
-            CourseCategory.objects.create(
-                course=Course.objects.get(id=course_id),
-                category=Category.objects.get(id=category)
-            )
-        return response
 
 
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):

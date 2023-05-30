@@ -1,9 +1,10 @@
 import random
 
 from app_sph_lms.api.serializer.trainee_serializer import TraineeSerializer
-from app_sph_lms.models import (Course, CourseCategory, CourseTrainee, Lesson,
-                                Trainee)
+from app_sph_lms.models import (Category, Course, CourseCategory,
+                                CourseTrainee, Lesson, Trainee)
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 
 
@@ -16,7 +17,7 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = "__all__"
+        fields = ('id', 'title', 'link')
 
 
 class CourseEnrolleeSerializer(serializers.ModelSerializer):
@@ -31,20 +32,47 @@ class CourseEnrolleeSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    categories = serializers.SerializerMethodField()
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        many=True
+    )
+
     lessons = LessonSerializer(many=True)
 
     class Meta:
         model = Course
         fields = "__all__"
 
-    def get_categories(self, obj):
-        categories = obj.coursecategory_set.all()
-        return [
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['category'] = [
             {
-                "id": category.category.id,
-                "name": category.category.name
-            } for category in categories]
+                'id': category.id,
+                'name': category.name
+            } for category in instance.category.all()
+        ]
+        return representation
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+
+        if not user.is_authenticated or user.role.title != 'Trainer':
+            raise PermissionDenied(
+                "Only authenticated Trainers can create a course."
+            )
+
+        categories_data = validated_data.pop('category')
+        lessons_data = validated_data.pop('lessons')
+
+        course = Course.objects.create(**validated_data)
+
+        for index, lesson_data in enumerate(lessons_data):
+            lesson_data['course'] = course
+            lesson_data['order'] = index + 1
+            Lesson.objects.create(**lesson_data)
+
+        course.category.set(categories_data)
+        return course
 
 
 class CustomPagination(PageNumberPagination):
