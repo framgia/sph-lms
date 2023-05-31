@@ -53,7 +53,7 @@ const Create: FC = () => {
     }
   };
 
-  const [mutateAsync] = useCreateCourseMutation();
+  const [createCourse] = useCreateCourseMutation();
 
   const onNext = async (): Promise<boolean> => {
     switch (activeStep) {
@@ -68,10 +68,16 @@ const Create: FC = () => {
             ...values,
             category: values.category.map(({ id }) => id),
           };
-          await push('/trainer/courses');
-          dispatch(reset());
-          alertSuccess('Created courses successfully');
-          await mutateAsync(data);
+          const res = await createCourse(data);
+
+          if ('error' in res) {
+            alertError('Failed to create course');
+          } else {
+            alertSuccess('Created courses successfully');
+            await push('/trainer/courses');
+            dispatch(reset());
+            return true;
+          }
         } catch (error) {
           alertError('Error saving course data. Please try again.');
         }
@@ -79,6 +85,7 @@ const Create: FC = () => {
       default:
         return validateSteps();
     }
+
     return false;
   };
 

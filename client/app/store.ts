@@ -8,6 +8,7 @@ import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
 import tabReducer from '../features/tab/tabSlice';
 import learnerReducer from '../features/course/learnerSlice';
+import { getCategory } from '@/services/categoryAPI';
 
 export const store = configureStore({
   reducer: {
@@ -19,13 +20,15 @@ export const store = configureStore({
     tab: tabReducer,
     [getCourse.reducerPath]: getCourse.reducer,
     [getCourseTrainee.reducerPath]: getCourseTrainee.reducer,
+    [getCategory.reducerPath]: getCategory.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false
     })
       .concat(getCourse.middleware)
-      .concat(getCourseTrainee.middleware),
+      .concat(getCourseTrainee.middleware)
+      .concat(getCategory.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

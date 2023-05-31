@@ -334,7 +334,7 @@ class Lesson(models.Model):
             max_length=255,
             validators=[MinLengthValidator(3)]
         )
-    link = models.URLField(max_length=200)
+    link = models.URLField(max_length=600)
     description = models.TextField(
             max_length=65000,
             null=True,

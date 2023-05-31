@@ -28,10 +28,7 @@ export const getCourse = createApi({
         body: courseData,
       }),
     }),
-    getCategory: builder.query({
-      query: () => 'category/',
-    }),
   }),
 });
 
-export const { useGetCourseQuery, useGetCoursesQuery, useCreateCourseMutation, useGetCategoryQuery } = getCourse;
+export const { useGetCourseQuery, useGetCoursesQuery, useCreateCourseMutation } = getCourse;

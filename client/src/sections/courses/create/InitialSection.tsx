@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { addCategory, changeEditMode, updateForm } from '@/features/course/courseSlice';
-import { useGetCategoryQuery } from '@/services/courseAPI';
+import { useGetCategoryQuery } from '@/services/categoryAPI';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
 import RFTextField from '@/src/shared/components/ReactForm/RFTextField';
 import ExclamationPointIcon from '@/src/shared/icons/ExclamationPointIcon';
@@ -36,7 +36,7 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
     data: categoryData,
   } = useGetCategoryQuery(undefined);
 
-  const categoriesOption: MultiSelectOptionData[] = categoryData?.results.map(({ id, name }: { id: number, name: string }) => ({
+  const categoriesOption: MultiSelectOptionData[] = categoryData?.map(({ id, name }: { id: number, name: string }) => ({
     value: id,
     label: name,
   })) || [];
