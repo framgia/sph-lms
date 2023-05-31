@@ -7,7 +7,7 @@ import SortDropdown, {
   type SortOption,
 } from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import ArrowIcon from '@/src/shared/icons/ArrowIcon';
-import Button from '@/src/shared/components/Button';
+import AddLearnerModal from './AddLearnerModal';
 
 const LearningPathLearnersSection: React.FC = () => {
   const staticLearners: Learner[] = [
@@ -67,14 +67,7 @@ const LearningPathLearnersSection: React.FC = () => {
         <div className="w-full flex items-center justify-between mb-8">
           <div className="font-semibold text-sm">List of Learners</div>
           <div>
-            <Button
-              text="Add learner"
-              buttonClass="px-4 py-2 text-sm bg-white text-blue-500 border-2 border-red"
-              textColor="text-red"
-              onClick={() => {
-                alert('Showing Add Learner Modal');
-              }}
-            />
+            <AddLearnerModal learners={staticLearners} />
           </div>
         </div>
 
