@@ -17,7 +17,7 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ('id', 'title', 'link')
+        fields = ('id', 'title', 'link', 'order')
 
 
 class CourseEnrolleeSerializer(serializers.ModelSerializer):
@@ -67,9 +67,8 @@ class CourseSerializer(serializers.ModelSerializer):
 
         course = Course.objects.create(**validated_data)
 
-        for index, lesson_data in enumerate(lessons_data):
+        for lesson_data in lessons_data:
             lesson_data['course'] = course
-            lesson_data['order'] = index
             Lesson.objects.create(**lesson_data)
 
         course.category.set(categories_data)
