@@ -9,7 +9,7 @@ export interface SortOption {
 export interface DropdownProps {
   buttonText: string;
   buttonIcon?: React.ReactNode;
-  isEditMode?: boolean;
+  disabled?: boolean;
   options: SortOption[];
   onChange: (value: string) => void;
 }
@@ -17,7 +17,7 @@ export interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({
   buttonText,
   buttonIcon,
-  isEditMode = true,
+  disabled = false,
   options,
   onChange,
 }: DropdownProps) => {
@@ -34,19 +34,19 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div
       className={`relative border ${
-        !isEditMode && 'border-transparent bg-transparent'
+        disabled && 'border-transparent bg-transparent'
       } border-neutral-200 rounded-md`}
     >
       <button
         type="button"
-        disabled={!isEditMode}
+        disabled={disabled}
         className="flex items-center justify-between w-full p-2 text-sm"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
       >
         <span className="text-dark text-sm">{selectedOption?.label ?? buttonText}</span>
-        {isEditMode && <span className="">{buttonIcon}</span>}
+        {!disabled && <span className="">{buttonIcon}</span>}
       </button>
 
       {isOpen && (

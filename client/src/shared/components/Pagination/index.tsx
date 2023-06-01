@@ -45,6 +45,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <li>
           <button
             className={prevArrowClass}
+            type="button"
             onClick={() => {
               handlePageChange(firstPage);
             }}
@@ -56,6 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <li>
           <button
             className={prevArrowClass}
+            type="button"
             onClick={() => {
               handlePageChange(currentPage === firstPage ? firstPage : prevPage);
             }}
@@ -75,6 +77,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <li key={page}>
               <button
                 className={isSelected}
+                type="button"
                 onClick={() => {
                   handlePageChange(page);
                 }}
@@ -89,6 +92,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <li>
           <button
             className={nextArrowClass}
+            type="button"
             onClick={() => {
               handlePageChange(currentPage === lastPage ? lastPage : nextPage);
             }}
@@ -100,6 +104,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <li>
           <button
             className={nextArrowClass}
+            type="button"
             onClick={() => {
               handlePageChange(lastPage);
             }}

@@ -14,7 +14,7 @@ const LearningPathCourseCard = ({ imgPath, courseTitle, lessonsCount }: Props): 
       <div className="w-full p-4 flex flex-col gap-2">
         <h3>{courseTitle}</h3>
         <div className="flex flex-col text-xs">
-          <span className="text-disabled">{lessonsCount} {lessonsCount === 1 ? 'course' : 'courses'} available</span>
+          <span className="text-disabled">{lessonsCount} {lessonsCount === 1 ? 'lesson' : 'lessons'} available</span>
         </div>
       </div>
     </div>

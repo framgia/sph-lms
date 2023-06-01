@@ -165,7 +165,7 @@ const InitialSection = ({ register, errors, control }: InitialSectionProps): JSX
         <h3 className="text-gray-700 text-sm font-medium mb-2">Status</h3>
         <div className="w-[111px]">
           <Dropdown
-            isEditMode={editMode}
+            disabled={!editMode}
             buttonText={learningPath.isActive ? 'Active' : 'Inactive'}
             buttonIcon={<ChevronDown height={16} width={16} color="#172826" />}
             options={[

@@ -46,7 +46,7 @@ export const ListItem: any = <T extends Data>({
               },
             })}
             value={JSON.stringify(data)}
-            className="h-5 w-5 cursor-pointer"
+            className="h-5 w-5 cursor-pointer accent-checkbox"
           />
         </td>
       )}

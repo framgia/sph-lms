@@ -36,6 +36,7 @@ const CourseModal = ({
   closeModal,
 }: CourseModalProps): JSX.Element => {
   const { courses } = useAppSelector((state) => state.learningPath.values);
+  const [page, setPage] = useState(1);
   const [newCourses, setNewCourses] = useState<Course[]>([]);
 
   const dispatch = useAppDispatch();
@@ -58,9 +59,28 @@ const CourseModal = ({
     } else setNewCourses([...newCourses, newData]);
   };
 
-  const onSubmit = ({ courses }: CourseModalForm): void => {
-    const parsedCourses = courses.map((course, index) => {
-      return { ...JSON.parse(course), order: index };
+  const updateCoursesOrder = (courses: Course[]): Course[] => {
+    return courses.map((course, index) => ({ ...course, order: index }));
+  };
+
+  const removeUncheckedCourses = (courses: Course[], serializedCourses: Course[]): Course[] => {
+    return updateCoursesOrder(
+      courses.filter((course) => serializedCourses.some((c) => c.id === course.id))
+    );
+  };
+
+  const onSubmit = ({ courses: courseList }: CourseModalForm): void => {
+    const serializedCourses: Course[] = courseList.map((c) => JSON.parse(c));
+    let parsedCourses = [...courses];
+
+    if (parsedCourses.length) {
+      parsedCourses = removeUncheckedCourses(courses, serializedCourses);
+    }
+
+    serializedCourses.forEach((course) => {
+      if (!parsedCourses.some((c) => c.id === course.id)) {
+        parsedCourses.push({ ...course, order: parsedCourses.length });
+      }
     });
 
     dispatch(updateForm({ courses: parsedCourses }));
@@ -105,7 +125,14 @@ const CourseModal = ({
               })}
             </Table>
             <div className="flex justify-center items-center h-14">
-              <Pagination currentPage={1} maxPages={5} totalPages={10} onChangePage={() => {}} />
+              <Pagination
+                currentPage={page}
+                maxPages={5}
+                totalPages={10}
+                onChangePage={(page) => {
+                  setPage(page);
+                }}
+              />
             </div>
             <div className="flex gap-2 mt-4">
               <Button

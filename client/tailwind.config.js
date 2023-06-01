@@ -35,6 +35,7 @@ module.exports = {
         success: '#86BB9A',
         base: '#FF0000',
         danger: '#B21D1D',
+        checkbox: '#373737',
         primary: {
           900: '#311D1D',
           800: '#7D473F',
