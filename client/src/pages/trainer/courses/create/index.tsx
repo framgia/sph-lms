@@ -71,12 +71,11 @@ const Create: FC = () => {
           const res = await createCourse(data);
 
           if ('error' in res) {
-            alertError('Failed to create course');
+            throw new Error('Failed to create course');
           } else {
             alertSuccess('Created courses successfully');
             await push('/trainer/courses');
             dispatch(reset());
-            return true;
           }
         } catch (error) {
           alertError('Error saving course data. Please try again.');

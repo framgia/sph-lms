@@ -69,7 +69,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
         for index, lesson_data in enumerate(lessons_data):
             lesson_data['course'] = course
-            lesson_data['order'] = index + 1
+            lesson_data['order'] = index
             Lesson.objects.create(**lesson_data)
 
         course.category.set(categories_data)
