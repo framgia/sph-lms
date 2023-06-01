@@ -1,14 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import ChevronDown from '../../icons/ChevronDownIcon';
+import FourDotsIcon from '../../icons/FourDotsIcon';
+import TrashIcon from '../../icons/TrashIcon';
 
 export interface collapseProps {
   label: string;
-  subLabel?: string;
   children: React.ReactNode;
+  onDelete?: () => void;
 }
 
-const Collapse: React.FC<collapseProps> = ({ label, subLabel, children }) => {
+const Collapse: React.FC<collapseProps> = ({ label, children, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleCollapse = (): void => {
@@ -18,48 +20,24 @@ const Collapse: React.FC<collapseProps> = ({ label, subLabel, children }) => {
   const arrowClasses = isOpen ? 'rotate-180 order-last' : 'order-last';
 
   return (
-    <div>
-      <div>
-        <div
-          className="bg-neutral-100 pb-2 pt-3 pb-4 rounded relative flex place-items-center justify-between"
-          onClick={toggleCollapse}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6 absolute ml-4 mt-1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-            />
-          </svg>
-
-          <label className="ml-14 text-base">{label}</label>
-          {subLabel != null && (
-            <p className="text-xs ml-16 mt-8 absolute text-slate-400">{subLabel}</p>
-          )}
-          <div>
-            <ChevronDown height={4} width={4} className={`w-5 h-5 ml-2 mr-5 ${arrowClasses} `} />
-          </div>
+    <div className="flex flex-col divide-y border border-neutral-200 rounded-[5px]">
+      <div className="flex p-4 items-center" onClick={toggleCollapse}>
+        <div className="flex gap-1 items-center w-full mr-4">
+          <FourDotsIcon />
+          <span className="text-sm flex-1">{label}</span>
+          {!!onDelete && <TrashIcon
+            className="opacity-50 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+          />}
         </div>
+        <ChevronDown height={16} width={16} className={`${arrowClasses} `} />
       </div>
-      {isOpen && (
-        <div className="bg-neutral-100 ">
-          <hr className="border mx-7" />
-          <div>{children}</div>
-        </div>
-      )}
+      {isOpen && <div className="bg-neutral-50 divide-y divide-neutral-200">{children}</div>}
     </div>
   );
-};
-
-Collapse.defaultProps = {
-  label: 'Install XAMPP',
 };
 
 export default Collapse;

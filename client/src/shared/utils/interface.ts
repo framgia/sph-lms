@@ -24,7 +24,9 @@ export interface Course {
   description: string;
   ratings: number;
   category: CourseCategory[];
+  lessons: Lesson[];
   is_active: boolean;
+  order: number;
 }
 
 export interface CourseCategory {

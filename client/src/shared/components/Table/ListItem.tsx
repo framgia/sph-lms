@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
+import type { FieldValues, UseFormRegister } from 'react-hook-form';
 import EditIcon from '../../icons/EditIcon';
 import TrashIcon from '../../icons/TrashIcon';
 import Icon, { type IconData } from './Icon';
@@ -14,6 +15,10 @@ interface ListItemProps<T> {
   columnWithIcons?: string[];
   editable?: boolean;
   deletable?: boolean;
+  isChecked?: boolean;
+  checkboxName?: string;
+  onCheckboxChange?: (data: T) => void;
+  register?: UseFormRegister<FieldValues>;
 }
 
 export const ListItem: any = <T extends Data>({
@@ -22,13 +27,27 @@ export const ListItem: any = <T extends Data>({
   headerEnum,
   columnWithIcons = [],
   editable = true,
-  deletable = true
+  deletable = true,
+  isChecked = false,
+  checkboxName = '',
+  onCheckboxChange,
+  register,
 }: ListItemProps<T>) => {
   return (
-    <tr className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5 hover:shadow-md group transition-all ease-out duration-200">
+    <tr className="even:bg-neutral-50 whitespace-nowrap text-sm text-black1 font-sans h-5 group transition-all ease-out duration-200">
       {showCheckbox && (
         <td className="p-4">
-          <input type="checkbox" className="h-5 w-5 cursor-pointer" />
+          <input
+            type="checkbox"
+            checked={isChecked}
+            {...register?.(checkboxName, {
+              onChange: (e) => {
+                onCheckboxChange?.(e.target.value);
+              },
+            })}
+            value={JSON.stringify(data)}
+            className="h-5 w-5 cursor-pointer"
+          />
         </td>
       )}
 
@@ -56,7 +75,7 @@ export const ListItem: any = <T extends Data>({
                   )}
                 </div>
               )}
-              <p>
+              <p className="text-neutral-900">
                 {item instanceof Date
                   ? item.toLocaleDateString()
                   : (item as string)}

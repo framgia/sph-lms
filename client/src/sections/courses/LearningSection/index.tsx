@@ -1,9 +1,6 @@
 /* eslint-disable multiline-ternary */
 import React, { Fragment, useEffect, useState } from 'react';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
-import SortDropdown, {
-  type SortOption,
-} from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import ArrowIcon from '@/src/shared/icons/ArrowIcon';
 import AddLearnerModal from './AddLearnerModal';
 import FilterIcon from '@/src/shared/icons/FilterIcon';
@@ -13,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { type Trainee, addTrainees, seeMoreTrainees } from '@/features/course/learnerSlice';
 import Button from '@/src/shared/components/Button';
+import Dropdown, { type SortOption } from '@/src/shared/components/Dropdown';
 
 const LearningSection: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -81,7 +79,7 @@ const LearningSection: React.FC = () => {
           <div className="mx-4 mb-4">
             {/* SORT BUTTON  */}
             <div className="flex text-[15px] my-2 cursor-pointer">
-              <SortDropdown
+              <Dropdown
                 options={sortOptions}
                 onChange={handleSortOptionChange}
                 buttonText="Sort by Increasing progress"

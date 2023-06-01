@@ -7,6 +7,7 @@ interface HeaderTitleProps {
   item: TableHeader;
   index: number;
   sort: { index: number; sortBy: TableSortEnum };
+  sortable?: boolean;
   handleSortChange: (uid: number) => void;
 }
 
@@ -14,7 +15,8 @@ const HeaderTitle: FC<HeaderTitleProps> = ({
   item,
   index,
   sort,
-  handleSortChange
+  sortable = true,
+  handleSortChange,
 }) => {
   const arrowClasses =
     sort.index === index && sort.sortBy === TableSortEnum.DESC
@@ -28,21 +30,24 @@ const HeaderTitle: FC<HeaderTitleProps> = ({
           type="button"
           className="flex space-x-2"
           onClick={() => {
+            if (!sortable) return;
             if (item?.onClick !== null && item?.onClick !== undefined) {
               item.onClick();
               handleSortChange(index);
             }
           }}
         >
-          <p>{item.text}</p>
+          <p className="text-sm font-medium">{item.text}</p>
 
-          <ChevronDown
-            height={4}
-            width={4}
-            className={`w-5 h-5 ${arrowClasses} ${
-              sort.index === index ? 'text-sky-900' : 'text-gray-400'
-            } `}
-          />
+          {sortable && (
+            <ChevronDown
+              height={4}
+              width={4}
+              className={`w-5 h-5 ${arrowClasses} ${
+                sort.index === index ? 'text-sky-900' : 'text-gray-400'
+              } `}
+            />
+          )}
         </button>
       ) : (
         <span>{item.text}</span>

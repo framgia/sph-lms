@@ -1,121 +1,76 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React, { useState, useRef, useEffect, type ReactElement } from 'react';
-import ChevronDownIcon from '@/src/shared/icons/ChevronDownIcon';
-import { useOutsideClick } from '@/src/shared/hooks/useOutsideClick';
-import { useSignOut } from '@/src/shared/hooks/useSignOut';
-import Link from 'next/link';
+import React, { useState } from 'react';
 
-export interface Option {
-  text: string;
-  url: string;
+export interface SortOption {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
 }
 
 export interface DropdownProps {
-  options: Option[];
-  classNames?: string;
-  showLogoutButton?: boolean;
-  children?: ReactElement;
-  showArrowIcon?: boolean;
+  buttonText: string;
+  buttonIcon?: React.ReactNode;
+  isEditMode?: boolean;
+  options: SortOption[];
+  onChange: (value: string) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
+  buttonText,
+  buttonIcon,
+  isEditMode = true,
   options,
-  classNames,
-  showLogoutButton,
-  showArrowIcon = false,
-  children
+  onChange,
 }: DropdownProps) => {
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(
-    undefined
-  );
   const [isOpen, setIsOpen] = useState(false);
-  const [showLogoutButtonState, setShowLogoutButton] = useState<boolean | undefined>(showLogoutButton);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [selectedOption, setSelectedOption] = useState<SortOption | null>(null);
+  const optionsCount: number = options.length - 1;
 
-  useOutsideClick(dropdownRef, () => {
-    setIsOpen(false);
-  });
-
-  const handleOptionSelectEvent = (option: string): void => {
+  const handleOptionSelect = (option: SortOption): void => {
     setSelectedOption(option);
+    onChange(option.value);
     setIsOpen(false);
   };
 
-  const { onSignOutEvent } = useSignOut();
-
-  useEffect(() => {
-    if (showLogoutButton !== undefined) {
-      setShowLogoutButton(showLogoutButton);
-    }
-  }, [showLogoutButton]);
-
   return (
     <div
-      className="relative inline-block text-left z-10 h-10"
-      ref={dropdownRef}
+      className={`relative border ${
+        !isEditMode && 'border-transparent bg-transparent'
+      } border-neutral-200 rounded-md`}
     >
       <button
         type="button"
-        className={`inline-flex justify-between w-full rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none ${
-          classNames !== undefined ? classNames : ''
-        }`}
-        id="options-menu"
-        aria-haspopup="true"
-        aria-expanded="true"
+        disabled={!isEditMode}
+        className="flex items-center justify-between w-full p-2 text-sm"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
       >
-        <span>{children}</span>
-        {showArrowIcon && (
-          <div className="-mr-1 ml-2 h-5 w-5" aria-hidden="true">
-            <ChevronDownIcon height={20} width={20} />
-          </div>
-        )}
+        <span className="text-dark text-sm">{selectedOption?.label ?? buttonText}</span>
+        {isEditMode && <span className="">{buttonIcon}</span>}
       </button>
 
       {isOpen && (
-        <div
-          className="origin-top-right absolute mt-2 -right-4 w-56 rounded-md shadow-lg bg-white ring-black ring-opacity-5 focus:outline-none"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="options-menu"
-        >
-          <div className="py-1" role="none">
-            {options.map((option) => (
-              <Link
-                key={option.url}
-                href={`${option.url}`}
-                className={`${
-                  selectedOption === option.url
-                    ? 'bg-gray-100 text-gray-900'
-                    : 'text-gray-700'
-                } block px-4 py-2 text-sm w-full text-left hover:bg-gray-100`}
-                role="menuitem"
+        <div className="absolute z-[2] mt-1">
+          <div className="w-[177px] shadow-md rounded-lg">
+            {options.map((option, index) => (
+              <button
+                key={option.value}
+                className={`flex items-center w-[177px] h-[37px] text-sm text-left pl-2 text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-900 border border-b-gray-200 ${
+                  index === 0 ? 'rounded-tl-lg rounded-tr-lg' : ''
+                } ${index === optionsCount ? 'rounded-bl-lg rounded-br-lg' : ''}`}
                 onClick={() => {
-                  handleOptionSelectEvent(option.url);
+                  handleOptionSelect(option);
                 }}
               >
-                {option.text}
-              </Link>
-            ))}
-            {showLogoutButtonState && (
-              <button
-                className="block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 border-t border-gray-200"
-                onClick={onSignOutEvent}
-              >
-                Logout
+                {option.label}
+                {option.icon}
               </button>
-            )}
+            ))}
           </div>
         </div>
       )}
     </div>
   );
-};
-
-Dropdown.defaultProps = {
-  showLogoutButton: false
 };
 
 export default Dropdown;

@@ -17,12 +17,14 @@ export interface TableProps {
   header: TableHeader[];
   checkbox?: boolean;
   children: ReactNode;
+  sortable?: boolean;
 }
 
 const Table: React.FC<TableProps> = ({
   header,
   children,
-  checkbox
+  checkbox = true,
+  sortable = true,
 }: TableProps) => {
   const [sort, setSort] = useState({
     index: -1,
@@ -37,29 +39,25 @@ const Table: React.FC<TableProps> = ({
           ? curr.sortBy === TableSortEnum.ASC
             ? TableSortEnum.DESC
             : TableSortEnum.ASC
-          : TableSortEnum.ASC
+          : TableSortEnum.ASC,
     }));
   };
 
   return (
-    <div className="overflow-auto flex justify-center">
-      <table className="text-left text-gray-500 dark:text-gray-400 w-full">
-        <thead>
-          <tr className="bg-blueGray">
-            {checkbox !== false && (
-              <th className="p-4 ">
-                <input type="checkbox" className="h-5 w-5 hover:bg-sky-700" />
-              </th>
-            )}
+    <div className="overflow-auto text-neutral-900 flex justify-center rounded-[5px]">
+      <table className="text-left w-full">
+        <thead className="bg-neutral-200">
+          <tr>
+            <th className="p-4">
+              {checkbox && <input type="checkbox" className="h-5 w-5 hover:bg-sky-700" />}
+            </th>
             {header.map((item, index) => (
-              <th
-                className="px-4 py-3 w-auto  whitespace-nowrap text-sm text-lightBlue"
-                key={index}
-              >
+              <th className="px-4 py-3 w-auto whitespace-nowrap text-sm" key={index}>
                 <HeaderTitle
                   item={item}
                   index={index}
                   sort={sort}
+                  sortable={sortable}
                   handleSortChange={handleSortChange}
                 />
               </th>

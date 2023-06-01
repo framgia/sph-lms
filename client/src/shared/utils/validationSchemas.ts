@@ -1,12 +1,15 @@
 import * as yup from 'yup';
 import { MAX_FILE_SIZE, isValidFileType } from './helpers';
 
-export const courseSchema = yup.object().shape({
+const baseFormSchema = (fieldName: string): yup.ObjectShape => ({
   name: yup
     .string()
-    .min(5, 'Course name must be at least 5 character long')
-    .required('Course name is required'),
-  description: yup.string(),
+    .min(5, `${fieldName} name must be at least 5 character long`)
+    .required(`${fieldName} name is required`),
+  description: yup
+    .string()
+    .min(5, `${fieldName} description must be at least 5 characters long`)
+    .required(`${fieldName} description is required`),
   image: yup
     .mixed<FileList | File>()
     .test('is-valid-type', 'Invalid image type', (value) => {
@@ -35,6 +38,10 @@ export const courseSchema = yup.object().shape({
       })
     ),
 });
+
+export const courseSchema = yup.object().shape(baseFormSchema('Course'));
+
+export const learningPathSchema = yup.object().shape(baseFormSchema('Learning Path'));
 
 export const lessonSchema = yup.object().shape({
   title: yup

@@ -4,6 +4,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import counterReducer from '../features/counter/counterSlice';
 import courseReducer from '../features/course/courseSlice';
+import learningPathReducer from '../features/learning-path/learningPathSlice';
+import courseModalsReducer from '../features/learning-path/courseModalsSlice';
 import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
 import tabReducer from '../features/tab/tabSlice';
@@ -16,6 +18,8 @@ export const store = configureStore({
     course: courseReducer,
     courseLearner: learnerReducer,
     lessonModals: lessonModalsReducer,
+    learningPath: learningPathReducer,
+    courseModals: courseModalsReducer,
     stepper: stepperReducer,
     tab: tabReducer,
     [getCourse.reducerPath]: getCourse.reducer,

@@ -18,7 +18,7 @@ const RFTextField = forwardRef((props: Props, ref: LegacyRef<HTMLTextAreaElement
   const { label, register, error, className, labelClass, ...rest } = props;
 
   const errorAlert = (error: string | boolean): string => {
-    return error ? ' border-red-500' : ' border-gray-300';
+    return error ? ' border-red' : ' border-gray-300';
   };
 
   return (
@@ -37,7 +37,7 @@ const RFTextField = forwardRef((props: Props, ref: LegacyRef<HTMLTextAreaElement
         {...rest}
       ></textarea>
       {error !== undefined && (
-        <div className="text-red-700 rounded relative" role="alert">
+        <div className="text-red rounded relative" role="alert">
           <span className="block sm:inline text-sm">{error}</span>
         </div>
       )}

@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, className = '' }: Modal
           ></span>
 
           <div
-            className={`inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle w-2/4 ${className ?? ''}`}
+            className={`inline-block bg-white rounded-[5px] text-left overflow-hidden shadow-xl transform transition-all align-middle w-2/4 ${className ?? ''}`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-headline"
