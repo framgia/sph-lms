@@ -131,10 +131,12 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
             />
             <Button
               text="Add Learners"
-              buttonClass="bg-white px-6 border-2 border-red rounded-md"
-              textColor="text-red"
+              buttonClass={`!bg-white px-6 border-2 !border-red rounded-md ${
+                !selectedIds.length ? 'opacity-50' : ''
+              }`}
+              textColor="!text-red"
               onClick={handleAddLearners}
-              disabled={!(selectedIds.length > 0)}
+              disabled={!selectedIds.length}
             />
           </div>
         </div>
