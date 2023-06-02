@@ -107,7 +107,7 @@ const InitialSection = ({ register, errors, control }: InitialSectionProps): JSX
       />
       <RFTextField
         labelClass="!font-medium"
-        label="Description"
+        label={`${editMode ? 'Description' : 'Description:'}`}
         className={`min-w-[70%] max-w-[100%] ${
           !editMode ? 'border-transparent bg-transparent resize-none h-max' : 'resize'
         }`}
