@@ -23,7 +23,7 @@ export interface Course {
   name: string;
   description: string;
   ratings: number;
-  category: CourseCategory[];
+  categories: CourseCategory[];
   lessons: Lesson[];
   is_active: boolean;
   order: number;

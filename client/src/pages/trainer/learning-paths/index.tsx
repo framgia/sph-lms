@@ -3,10 +3,11 @@ import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
+import type { LearningPath } from '@/src/shared/utils';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const learningPaths = [
+const learningPaths: LearningPath[] = [
   {
     id: 1,
     image: '/image1.jpg',
@@ -21,6 +22,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
       {
         id: 2,
@@ -30,6 +33,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
     ],
     ratings: 2.2,
@@ -54,6 +59,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
     ],
     ratings: 3.5,
@@ -78,6 +85,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
       {
         id: 2,
@@ -87,6 +96,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
     ],
     ratings: 4.5,
@@ -111,6 +122,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
       {
         id: 2,
@@ -120,6 +133,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
     ],
     ratings: 4.5,
@@ -144,6 +159,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
       {
         id: 2,
@@ -153,6 +170,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
     ],
     ratings: 4.5,
@@ -177,6 +196,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
       {
         id: 2,
@@ -186,6 +207,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
       {
         id: 3,
@@ -195,6 +218,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
     ],
     ratings: 4.5,
@@ -219,6 +244,8 @@ const learningPaths = [
         ratings: 3.1,
         categories: [{ id: 1, name: 'JavaScript' }],
         is_active: true,
+        lessons: [],
+        order: 1,
       },
     ],
     ratings: 4.5,
