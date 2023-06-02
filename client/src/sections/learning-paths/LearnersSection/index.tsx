@@ -7,7 +7,7 @@ import SortDropdown, {
   type SortOption,
 } from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import ArrowIcon from '@/src/shared/icons/ArrowIcon';
-import AddLearnerModal from './AddLearnerModal';
+import AddLearnerModal from '../../../shared/components/Modal/AddLearnerModal';
 
 const LearningPathLearnersSection: React.FC = () => {
   const staticLearners: Learner[] = [
@@ -30,6 +30,14 @@ const LearningPathLearnersSection: React.FC = () => {
     { id: 17, progress: 85, firstname: 'Vali2', lastname: 'Ruziboev' },
     { id: 18, progress: 57, firstname: 'Francis2', lastname: 'Delos Santos' },
     { id: 19, progress: 23, firstname: 'Elyric2', lastname: 'Manatad' },
+    { id: 20, progress: 85, firstname: 'Alice', lastname: 'Smith' },
+    { id: 22, progress: 63, firstname: 'Bob', lastname: 'Johnson' },
+    { id: 23, progress: 92, firstname: 'Charlie', lastname: 'Davis' },
+    { id: 24, progress: 76, firstname: 'Ella', lastname: 'Brown' },
+    { id: 25, progress: 45, firstname: 'Frank', lastname: 'Miller' },
+    { id: 26, progress: 67, firstname: 'Grace', lastname: 'Wilson' },
+    { id: 27, progress: 54, firstname: 'Henry', lastname: 'Anderson' },
+    { id: 28, progress: 80, firstname: 'Isabella', lastname: 'Lee' },
   ];
 
   const [, setSelectedSortOption] = useState('');
@@ -84,7 +92,7 @@ const LearningPathLearnersSection: React.FC = () => {
               />
             </div>
 
-            <div className={'transition-all duration-500'}>
+            <div className={'px-4 transition-all duration-500'}>
               {learnersToShow?.map((col: any) => (
                 <div className="grid gap-1 w-full py-2" key={col.id}>
                   <ProgressPercentage progress={col.progress} />
