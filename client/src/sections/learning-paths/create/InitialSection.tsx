@@ -133,7 +133,9 @@ const InitialSection = ({ register, errors, control }: InitialSectionProps): JSX
             render={({ field }) => (
               <MultiSelect
                 options={categoriesOption}
-                className={`w-[70%] ${errors?.category && 'border border-red rounded-md'}`}
+                className={`w-[70%] accent-checkbox ${
+                  errors?.category && 'border border-red rounded-md'
+                }`}
                 labelledBy="Select"
                 value={field.value}
                 onChange={(items: MultiSelectOptionData[]) => {

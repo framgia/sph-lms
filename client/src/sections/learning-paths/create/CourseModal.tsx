@@ -98,7 +98,7 @@ const CourseModal = ({
         <div className="p-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
-              <SearchBar onSearchEvent={() => {}} />
+              <SearchBar placeholder='Search' onSearchEvent={() => {}} />
             </div>
             <Table
               checkbox={false}
