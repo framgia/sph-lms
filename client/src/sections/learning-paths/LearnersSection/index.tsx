@@ -8,6 +8,7 @@ import SortDropdown, {
 } from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import ArrowIcon from '@/src/shared/icons/ArrowIcon';
 import AddLearnerModal from '../../../shared/components/Modal/AddLearnerModal';
+import Button from '@/src/shared/components/Button';
 
 const LearningPathLearnersSection: React.FC = () => {
   const staticLearners: Learner[] = [
@@ -44,6 +45,9 @@ const LearningPathLearnersSection: React.FC = () => {
   const [visibleLearners, setVisibleLearners] = useState(6);
   const learnersToShow = staticLearners.slice(0, visibleLearners);
   const isShowMoreDisabled = visibleLearners >= staticLearners.length;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
 
   const sortOptions: SortOption[] = [
     { label: 'A - Z', value: 'A - Z' },
@@ -69,13 +73,26 @@ const LearningPathLearnersSection: React.FC = () => {
     setVisibleLearners(newVisibleLearners);
   };
 
+  const handleShowModal = (): void => {
+    setIsModalOpen(true);
+  };
+
+  const handleHideModal = (): void => {
+    setIsModalOpen(false);
+  };
+
   return (
     <Fragment>
       <div>
         <div className="w-full flex items-center justify-between mb-8">
           <div className="font-semibold text-sm">List of Learners</div>
           <div>
-            <AddLearnerModal learners={staticLearners} />
+            <Button
+              text="Add learner"
+              buttonClass="px-4 py-2 text-sm bg-white text-blue-500 border-2 border-red"
+              textColor="text-red"
+              onClick={handleShowModal}
+            />
           </div>
         </div>
 
@@ -120,6 +137,10 @@ const LearningPathLearnersSection: React.FC = () => {
           <div className="flex items-center justify-center h-full w-full">
             <h1 className="text-center font-semibold text-xl">No Learners Available</h1>
           </div>
+        )}
+        {/* THE MODAL */}
+        {isModalOpen && (
+          <AddLearnerModal learners={staticLearners} handleHideModal={handleHideModal} />
         )}
       </div>
     </Fragment>

@@ -8,23 +8,18 @@ import React, { useState } from 'react';
 
 interface AddLearnerModalProps {
   learners: Learner[];
+  handleHideModal: () => void;
 }
 
 const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
   learners,
+  handleHideModal,
 }: AddLearnerModalProps): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-
-  document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
 
   const handleAddLearners = (): void => {
     alert('Add Learners');
-  };
-
-  const handleModalClose = (): void => {
-    setIsModalOpen(false);
   };
 
   const handleSearch = (search: string): void => {
@@ -52,19 +47,11 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
 
   return (
     <div>
-      <Button
-        text="Add learner"
-        buttonClass="px-4 py-2 text-sm bg-white text-blue-500 border-2 border-red"
-        textColor="text-red"
-        onClick={() => {
-          setIsModalOpen(true);
-        }}
-      />
-      <Modal isOpen={isModalOpen} className="w-[521px]">
+      <Modal className="w-[521px]" isOpen={true}>
         <div className="p-4 overflow-y-auto ">
           <div className="flex justify-between mb-6">
             <span className="text-gray-600 font-bold">Add Learner</span>
-            <div onClick={handleModalClose}>
+            <div onClick={handleHideModal}>
               <CloseIcon className="cursor-pointer w-[30px] h-[30px]" />
             </div>
           </div>
@@ -127,7 +114,7 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
               text="Cancel"
               buttonClass="bg-white px-[14px] py-[5px] border-2 border-gray-500 rounded-md mr-2"
               textColor="text-gray-600"
-              onClick={handleModalClose}
+              onClick={handleHideModal}
             />
             <Button
               text="Add Learners"
