@@ -23,6 +23,7 @@ const PreviewSection = (): JSX.Element => {
           courses.map((course, index) => (
             <div key={course.id} className="flex flex-col items-center">
               <LearningPathCourseCard
+                courseId={course.id}
                 courseTitle={course.name}
                 imgPath={course.img_path}
                 lessonsCount={5}

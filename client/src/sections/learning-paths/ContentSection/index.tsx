@@ -18,6 +18,7 @@ const LearningPathContentSection = (): JSX.Element => {
         {courses.map((course, index) => (
           <div key={course.id} className="flex flex-col items-center">
             <LearningPathCourseCard
+              courseId={course.id}
               courseTitle={course.title}
               imgPath={course.img_path}
               lessonsCount={course.lessonsCount}
