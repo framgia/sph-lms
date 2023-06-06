@@ -391,6 +391,12 @@ class LearningPath(models.Model):
         )
     image = models.CharField(max_length=255, null=True)
     is_active = models.BooleanField(default=True)
+    courses = models.ManyToManyField(
+        Course,
+        related_name="learning_path",
+        through='LearningPathCourse'
+        )
+    category = models.ManyToManyField(Category, related_name="category")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -423,26 +429,4 @@ class LearningPathCourse(models.Model):
             " | " +
             "Course: " +
             str(self.course)
-        )
-
-
-class LearningPathCategory(models.Model):
-    learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    class Meta:
-        unique_together = ('learning_path', 'category')
-        verbose_name = "LearningPathCategory"
-        verbose_name_plural = "LearningPathCategory"
-        db_table = "app_sph_lms_learning_path_categories"
-
-    def __str__(self):
-        return (
-            "Learning Path: " +
-            str(self.learning_path) +
-            " | " +
-            "Category: " +
-            str(self.category)
         )

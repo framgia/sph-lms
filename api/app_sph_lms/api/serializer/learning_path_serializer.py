@@ -1,5 +1,5 @@
 from app_sph_lms.models import (Category, Course, LearningPath,
-                                LearningPathCategory, LearningPathCourse)
+                                LearningPathCourse)
 from rest_framework import serializers
 
 
@@ -7,12 +7,6 @@ class LearningPathCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearningPathCourse
         fields = ('course', 'course_order')
-
-
-class LearningPathCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LearningPathCategory
-        fields = ('id', 'learning_path', 'category')
 
 
 class LearningPathSerializer(serializers.ModelSerializer):
@@ -23,12 +17,21 @@ class LearningPathSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         many=True,
-        write_only=True
     )
 
     class Meta:
         model = LearningPath
         exclude = ['author']
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['category'] = [
+            {
+                'id': category.id,
+                'name': category.name
+            } for category in instance.category.all()
+        ]
+        return representation
 
     def validate(self, attrs):
         user = self.context['request'].user
@@ -65,12 +68,7 @@ class LearningPathSerializer(serializers.ModelSerializer):
 
         learning_path = LearningPath.objects.create(**validated_data)
 
-        for category in categories:
-            category_obj = Category.objects.get(id=category.id)
-            LearningPathCategory.objects.create(
-              learning_path=learning_path,
-              category=category_obj
-            )
+        learning_path.category.set(categories)
 
         for course in courses:
             course_obj = Course.objects.get(id=course['course'].id)

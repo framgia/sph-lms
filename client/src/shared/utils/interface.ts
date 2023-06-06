@@ -19,7 +19,7 @@ export interface UserDetails {
 
 export interface Course {
   id: number;
-  img_path: string;
+  image: string;
   name: string;
   description: string;
   ratings: number;
@@ -169,7 +169,7 @@ export interface DBCourse {
   description: string;
   category: CourseCategory[];
   lessons: Lesson[];
-  img_path: string | null;
+  image: string | null;
 }
 
 export interface CourseLearner {
@@ -187,7 +187,7 @@ export interface CourseCollection {
   lessons: Lesson[];
   name: string;
   description: string | null;
-  img_path: string | null;
+  image: string | null;
 }
 
 export interface CourseData {

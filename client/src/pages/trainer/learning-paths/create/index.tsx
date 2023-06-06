@@ -1,3 +1,5 @@
+/* eslint-disable multiline-ternary */
+/* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { reset } from '@/features/learning-path/learningPathSlice';
 import { setIsStepValid } from '@/features/stepper/stepperSlice';
@@ -63,21 +65,26 @@ const LearningPathCreate = (): JSX.Element => {
               };
             }),
             is_active: values.isActive,
-            image: typeof values.image === 'string' ? values.image : values.image?.name ?? null,
+            image:
+              typeof values.image === 'string'
+                ? '/' + values.image
+                : values.image?.name
+                ? '/' + values.image.name
+                : null,
           };
 
           const res: any = await createLearningPath(formData);
           if ('error' in res) {
             const { data } = res.error;
             const property = Object.keys(data)[0];
-            alertError(data[property][0]);
+            throw new Error(data[property][0]);
           } else {
             alertSuccess('Learning path created successfully!');
             await push('/trainer/learning-paths');
-            dispatch(reset(null));
+            dispatch(reset());
           }
-        } catch (e) {
-          alertError('An error has occurred.');
+        } catch (e: any) {
+          alertError(e.message);
         }
         break;
 

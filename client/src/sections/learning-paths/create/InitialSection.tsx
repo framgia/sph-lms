@@ -39,7 +39,7 @@ const InitialSection = ({
   const { values: learningPath, editMode } = useAppSelector((state) => state.learningPath);
   const dispatch = useAppDispatch();
 
-  const { data: categories = [] } = useGetCategoryQuery(null);
+  const { data: categories = [] } = useGetCategoryQuery();
   const categoriesOption: MultiSelectOptionData[] = categories.map(
     ({ id, name }: { id: number; name: string }) => ({
       value: id,

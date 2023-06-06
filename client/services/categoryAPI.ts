@@ -1,6 +1,11 @@
 import { getUserToken } from '@/src/shared/utils';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+interface CategoryType {
+  id: number;
+  name: string;
+}
+
 export const getCategory = createApi({
   reducerPath: 'getCategory',
   baseQuery: fetchBaseQuery({
@@ -11,7 +16,8 @@ export const getCategory = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getCategory: builder.query({
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+    getCategory: builder.query<CategoryType[], void>({
       query: () => 'category/',
     }),
   }),
