@@ -40,7 +40,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <button
         type="button"
         disabled={disabled}
-        className="flex items-center justify-between w-full p-2 text-sm"
+        className="flex items-center justify-between w-[219px] py-[3px] p-2 text-sm"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
@@ -55,7 +55,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             {options.map((option, index) => (
               <button
                 key={option.value}
-                className={`flex items-center w-[177px] h-[37px] text-sm text-left pl-2 text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-900 border border-b-gray-200 ${
+                className={`flex text-left items-center w-[177px] h-[37px] text-sm pl-2 text-gray-700 bg-white hover:bg-gray-100 hover:text-gray-900 border border-b-gray-200 ${
                   index === 0 ? 'rounded-tl-lg rounded-tr-lg' : ''
                 } ${index === optionsCount ? 'rounded-bl-lg rounded-br-lg' : ''}`}
                 onClick={() => {

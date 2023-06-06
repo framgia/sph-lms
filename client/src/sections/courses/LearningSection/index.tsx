@@ -1,30 +1,39 @@
 /* eslint-disable multiline-ternary */
 import React, { Fragment, useEffect, useState } from 'react';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
-import ArrowIcon from '@/src/shared/icons/ArrowIcon';
 import AddLearnerModal from './AddLearnerModal';
 import FilterIcon from '@/src/shared/icons/FilterIcon';
 import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
 import { useGetLearnerQuery } from '@/services/traineeAPI';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { type Trainee, addTrainees, seeMoreTrainees } from '@/features/course/learnerSlice';
+import {
+  type Trainee,
+  addTrainees,
+  seeMoreTrainees,
+  resetTraineesList,
+} from '@/features/course/learnerSlice';
 import Button from '@/src/shared/components/Button';
 import Dropdown, { type SortOption } from '@/src/shared/components/Dropdown';
 
 const LearningSection: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedSortOption, setSelectedSortOption] = useState('');
+  const [selectedSortOption, setSelectedSortOption] = useState('A - Z');
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = router.query;
   const courseID = params.id;
-  const { trainees, page } = useAppSelector((state) => state.courseLearner);
+  const {
+    trainees,
+    page,
+    selectedSortOption: sortOption,
+  } = useAppSelector((state) => state.courseLearner);
   const { data: trainee, isLoading } = useGetLearnerQuery({
     courseId: courseID,
     isEnrolled: true,
     pageNumber: page,
+    selectedSortOption,
   });
   const learners = trainees;
   const totalPages = trainee?.learners.total_pages;
@@ -35,23 +44,23 @@ const LearningSection: React.FC = () => {
     }
   }, [trainee, isLoading, dispatch]);
 
-  const handleSortOptionChange = (value: string): void => {
-    setSelectedSortOption(value);
+  const handleSortOptionChange = (option: string): void => {
+    setSelectedSortOption(option);
+    setSelectedOption(option);
+    if (sortOption !== option) {
+      dispatch(resetTraineesList(option));
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetTraineesList(sortOption));
+    };
+  }, []);
 
   const sortOptions: SortOption[] = [
     { label: 'A - Z', value: 'A - Z' },
     { label: 'Z - A', value: 'Z - A' },
-    {
-      label: 'Progress',
-      value: 'progress-high',
-      icon: <ArrowIcon className="transform rotate-90" />,
-    },
-    {
-      label: 'Progress',
-      value: 'progress-low',
-      icon: <ArrowIcon className="transform -rotate-90" />,
-    },
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,7 +91,7 @@ const LearningSection: React.FC = () => {
               <Dropdown
                 options={sortOptions}
                 onChange={handleSortOptionChange}
-                buttonText="Sort by Increasing progress"
+                buttonText={selectedOption ?? 'Sort by Increasing progress'}
                 buttonIcon={<FilterIcon />}
               />
             </div>
