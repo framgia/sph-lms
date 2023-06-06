@@ -3,25 +3,31 @@ import Modal from '@/src/shared/components/Modal/Modal';
 import XmarkIcon from '../../icons/XmarkIcon';
 import Button from '../Button';
 
-interface DeleteModalProps {
+interface ConfirmationModalProps {
   state: boolean;
-  type: string;
-  title: string;
+  item: string;
+  action?: string;
+  itemTitle: string;
+  confirmTitle?: string;
   closeModal: () => void;
-  onDelete: () => void;
+  onConfirm: () => void;
 }
 
-const DeleteModal: FC<DeleteModalProps> = ({
+const ConfirmationModal: FC<ConfirmationModalProps> = ({
   state,
-  type = '',
-  title = '',
+  item = '',
+  itemTitle = '',
+  action = 'delete',
+  confirmTitle = 'Delete',
   closeModal,
-  onDelete,
+  onConfirm,
 }) => {
   return (
     <Modal className="p-4 !w-[30%]" isOpen={state}>
       <div className="flex items-center justify-between pb-4 mb-4">
-        <h2 className="text-[16px] font-medium">Delete confirmation</h2>
+        <h2 className="text-[16px] font-medium">
+          <span className="capitalize">{action}</span> confirmation
+        </h2>
         <XmarkIcon
           className="cursor-pointer"
           onClick={() => {
@@ -30,8 +36,8 @@ const DeleteModal: FC<DeleteModalProps> = ({
         />
       </div>
       <p className="font-normal">
-        You are about to delete a {type}. Are you sure you want to delete{' '}
-        <span className="text-red">{title}</span>?
+        You are about to {action} a {item}. Are you sure you want to {action}{' '}
+        <span className="text-red">{itemTitle}</span>?
       </p>
       <div className="flex mt-[48px] justify-center space-x-2 text-[14px]">
         <Button
@@ -43,15 +49,15 @@ const DeleteModal: FC<DeleteModalProps> = ({
         />
         <Button
           onClick={() => {
-            onDelete();
+            onConfirm();
           }}
           type="submit"
           buttonClass="border border-red !text-red py-[6px] !w-36 !font-medium"
-          text="Delete"
+          text={confirmTitle}
         />
       </div>
     </Modal>
   );
 };
 
-export default DeleteModal;
+export default ConfirmationModal;

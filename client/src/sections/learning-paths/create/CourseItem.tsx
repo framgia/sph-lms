@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { courseModalEnum, openModal } from '@/features/learning-path/courseModalsSlice';
 import Collapse from '@/src/shared/components/Collapse/Collapse';
 import FourDotsIcon from '@/src/shared/icons/FourDotsIcon';
@@ -9,13 +9,18 @@ interface CourseItemProps {
 }
 
 const CourseItem = ({ course }: CourseItemProps): JSX.Element => {
+  const { editMode } = useAppSelector((state) => state.learningPath);
   const dispatch = useAppDispatch();
   return (
     <Collapse
       label={course.name}
-      onDelete={() => {
-        dispatch(openModal({ type: courseModalEnum.DELETE, course }));
-      }}
+      onDelete={
+        editMode
+          ? () => {
+              dispatch(openModal({ type: courseModalEnum.DELETE, course }));
+            }
+          : undefined
+      }
     >
       {/* Change to `course.lessons` during integration */}
       {lessons.length > 0 &&

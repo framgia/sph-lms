@@ -1,22 +1,15 @@
-/* eslint-disable multiline-ternary */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { changeEditMode, reset as courseReset } from '@/features/course/courseSlice';
+import { changeEditMode } from '@/features/learning-path/learningPathSlice';
 import { setIsTabValid } from '@/features/tab/tabSlice';
-import { useGetCourseQuery } from '@/services/courseAPI';
 import EditModeButtons from '@/src/shared/components/Button/EditModeButtons';
-import { courseSchema } from '@/src/shared/utils/validationSchemas';
+import { learningPathSchema } from '@/src/shared/utils/validationSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/router';
-import { type FC, Fragment, useEffect } from 'react';
+import { useEffect, type FC, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 
 const EditSettingsButton: FC = () => {
-  const { query } = useRouter();
   const { activeTab } = useAppSelector((state) => state.tab);
-  const { editMode, values } = useAppSelector((state) => state.course);
-  const { data: course } = useGetCourseQuery(query.id, {
-    skip: query.id === undefined,
-  });
+  const { editMode, values } = useAppSelector((state) => state.learningPath);
 
   const dispatch = useAppDispatch();
   const defaultValues = {
@@ -28,13 +21,13 @@ const EditSettingsButton: FC = () => {
   };
 
   const { trigger, reset } = useForm({
-    resolver: yupResolver(courseSchema),
+    resolver: yupResolver(learningPathSchema),
     mode: 'onChange',
     defaultValues,
   });
 
   const handleCancel = (): void => {
-    dispatch(courseReset(course));
+    // Please reset the learing path with previously fetched data from BE in the integration
     dispatch(setIsTabValid(true));
     dispatch(changeEditMode(false));
   };
@@ -42,17 +35,17 @@ const EditSettingsButton: FC = () => {
   const onSave = async (): Promise<void> => {
     let areInputsValid = true;
     if (values.image) {
-      areInputsValid = await trigger(['image', 'name', 'category']);
+      areInputsValid = await trigger(['image', 'description', 'name', 'category']);
     } else {
-      areInputsValid = await trigger(['name', 'category']);
+      areInputsValid = await trigger(['name', 'description', 'category']);
     }
 
-    const isValidated = areInputsValid && values.lessons.length > 0;
+    const isValidated = areInputsValid && values.courses.length > 0;
     dispatch(setIsTabValid(isValidated));
 
     if (isValidated) {
       dispatch(changeEditMode(false));
-      // Please place the logic for saving the course edit form here
+      // Please place the logic for saving the learning path edit form here
       alert('The information provided has been saved');
     }
   };

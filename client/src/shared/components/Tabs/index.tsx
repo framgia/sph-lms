@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { setActiveTab } from '@/features/tab/tabSlice';
+import { reset, setActiveTab } from '@/features/tab/tabSlice';
 import { Children, Fragment, useEffect, useState, type FC, type ReactElement } from 'react';
 import { type ChildElementObject } from '../../utils/interface';
 import { type TabProps } from './Tab';
+import { useRouter } from 'next/router';
 
 interface TabsProps {
   children: ReactElement<TabProps> | Array<ReactElement<TabProps>>;
@@ -13,6 +14,7 @@ const Tabs: FC<TabsProps> = ({ children }) => {
   const { activeTab } = useAppSelector((state) => state.tab);
   const dispatch = useAppDispatch();
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
+  const { events } = useRouter();
 
   useEffect(() => {
     let tab = 0;
@@ -35,6 +37,11 @@ const Tabs: FC<TabsProps> = ({ children }) => {
     setChildrenList(childrenListObj);
   }, [children, activeTab]);
 
+  useEffect(() => {
+    events.on('routeChangeComplete', () => {
+      dispatch(reset());
+    });
+  }, []);
   return (
     <Fragment>
       <div className="hidden md:flex mb-4 border-b">

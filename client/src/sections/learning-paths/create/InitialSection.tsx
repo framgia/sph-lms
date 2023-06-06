@@ -26,9 +26,15 @@ interface InitialSectionProps {
   register?: UseFormRegister<any>;
   errors?: FieldErrors<FieldValues>;
   control?: any;
+  showStatus?: boolean;
 }
 
-const InitialSection = ({ register, errors, control }: InitialSectionProps): JSX.Element => {
+const InitialSection = ({
+  register,
+  errors,
+  control,
+  showStatus = true,
+}: InitialSectionProps): JSX.Element => {
   const { values: learningPath, editMode } = useAppSelector((state) => state.learningPath);
   const dispatch = useAppDispatch();
   const categoriesOption: MultiSelectOptionData[] = categories.map(({ id, name }) => ({
@@ -163,26 +169,28 @@ const InitialSection = ({ register, errors, control }: InitialSectionProps): JSX
           </div>
         )}
       </div>
-      <div className="my-4">
-        <h3 className="text-gray-700 text-sm font-medium mb-2">Status</h3>
-        <div className="w-[111px]">
-          <Dropdown
-            disabled={!editMode}
-            buttonText={learningPath.isActive ? 'Active' : 'Inactive'}
-            buttonIcon={<ChevronDown height={16} width={16} color="#172826" />}
-            options={[
-              { label: 'Active', value: 'Active' },
-              {
-                label: 'Inactive',
-                value: 'Inactive',
-              },
-            ]}
-            onChange={(val) => {
-              dispatch(updateForm({ isActive: val === 'Active' }));
-            }}
-          />
+      {showStatus && (
+        <div className="my-4">
+          <h3 className="text-gray-700 text-sm font-medium mb-2">Status</h3>
+          <div className="w-[111px]">
+            <Dropdown
+              disabled={!editMode}
+              buttonText={learningPath.isActive ? 'Active' : 'Inactive'}
+              buttonIcon={<ChevronDown height={16} width={16} color="#172826" />}
+              options={[
+                { label: 'Active', value: 'Active' },
+                {
+                  label: 'Inactive',
+                  value: 'Inactive',
+                },
+              ]}
+              onChange={(val) => {
+                dispatch(updateForm({ isActive: val === 'Active' }));
+              }}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </Fragment>
   );
 };

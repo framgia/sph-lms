@@ -20,18 +20,20 @@ const Collapse: React.FC<collapseProps> = ({ label, children, onDelete }) => {
   const arrowClasses = isOpen ? 'rotate-180 order-last' : 'order-last';
 
   return (
-    <div className="flex flex-col divide-y border border-neutral-200 rounded-[5px]">
+    <div className="flex flex-col divide-y border border-neutral-200 rounded-[5px] cursor-pointer">
       <div className="flex p-4 items-center" onClick={toggleCollapse}>
         <div className="flex gap-1 items-center w-full mr-4">
           <FourDotsIcon />
           <span className="text-sm flex-1">{label}</span>
-          {!!onDelete && <TrashIcon
-            className="opacity-50 cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-          />}
+          {!!onDelete && (
+            <TrashIcon
+              className="opacity-50 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+            />
+          )}
         </div>
         <ChevronDown height={16} width={16} className={`${arrowClasses} `} />
       </div>
