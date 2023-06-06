@@ -1,5 +1,6 @@
 import LearningPathCourseCard from '@/src/shared/components/Card/LearningPathCourseCard';
 import ChevronDown from '@/src/shared/icons/ChevronDownIcon';
+import type { Course } from '@/src/shared/utils';
 import React from 'react';
 
 const LearningPathContentSection = (): JSX.Element => {
@@ -17,12 +18,7 @@ const LearningPathContentSection = (): JSX.Element => {
       <div>
         {courses.map((course, index) => (
           <div key={course.id} className="flex flex-col items-center">
-            <LearningPathCourseCard
-              courseId={course.id}
-              courseTitle={course.title}
-              imgPath={course.img_path}
-              lessonsCount={course.lessonsCount}
-            />
+            <LearningPathCourseCard course={course} />
             {courses.length - 1 !== index && <ChevronDown height={40} width={40} />}
           </div>
         ))}
@@ -33,8 +29,59 @@ const LearningPathContentSection = (): JSX.Element => {
 
 export default LearningPathContentSection;
 
-const courses = [
-  { id: 1, title: 'HTML Crash Course', img_path: '/image1.jpg', lessonsCount: 5 },
-  { id: 2, title: 'CSS Crash Course', img_path: '/image1.jpg', lessonsCount: 5 },
-  { id: 3, title: 'JavaScript Crash Course', img_path: '/image1.jpg', lessonsCount: 5 },
+const courses: Course[] = [
+  {
+    id: 1,
+    name: 'HTML Crash Course',
+    img_path: '/image1.jpg',
+    lessons: [
+      {
+        id: '1',
+        link: '',
+        order: 1,
+        title: 'Section 1',
+      },
+    ],
+    categories: [],
+    description: 'Description',
+    is_active: true,
+    order: 1,
+    ratings: 5,
+  },
+  {
+    id: 2,
+    name: 'CSS Crash Course',
+    img_path: '/image1.jpg',
+    lessons: [
+      {
+        id: '1',
+        link: '',
+        order: 1,
+        title: 'Section 1',
+      },
+    ],
+    categories: [],
+    description: 'Description',
+    is_active: true,
+    order: 1,
+    ratings: 5,
+  },
+  {
+    id: 3,
+    name: 'JavaScript Crash Course',
+    img_path: '/image1.jpg',
+    lessons: [
+      {
+        id: '1',
+        link: '',
+        order: 1,
+        title: 'Section 1',
+      },
+    ],
+    categories: [],
+    description: 'Description',
+    is_active: true,
+    order: 1,
+    ratings: 5,
+  },
 ];
