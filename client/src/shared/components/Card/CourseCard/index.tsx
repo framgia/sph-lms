@@ -25,7 +25,6 @@ const CourseCard: React.FC<Props> = ({ course }: Props) => {
           <div className="text-xs text-gray-400 mb-3">
             {course.description ?? 'No description to show'}
           </div>
-
           <div className="text-sm font-semibold mb-1">Categories:</div>
           <div className="relative flex justify-between">
             {course.category.map((category, index) => (

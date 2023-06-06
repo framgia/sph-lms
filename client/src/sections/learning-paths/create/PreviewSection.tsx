@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { changeEditMode } from '@/features/learning-path/learningPathSlice';
-import React, { useEffect } from 'react';
-import InitialSection from './InitialSection';
 import LearningPathCourseCard from '@/src/shared/components/Card/LearningPathCourseCard';
 import ChevronDown from '@/src/shared/icons/ChevronDownIcon';
+import { useEffect } from 'react';
+import InitialSection from './InitialSection';
 
 const PreviewSection = (): JSX.Element => {
   const {

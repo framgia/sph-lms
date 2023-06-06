@@ -6,6 +6,7 @@ import {
   changeEditMode,
   updateForm,
 } from '@/features/learning-path/learningPathSlice';
+import { useGetCategoryQuery } from '@/services/categoryAPI';
 import Dropdown from '@/src/shared/components/Dropdown';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
 import RFTextField from '@/src/shared/components/ReactForm/RFTextField';
@@ -37,10 +38,14 @@ const InitialSection = ({
 }: InitialSectionProps): JSX.Element => {
   const { values: learningPath, editMode } = useAppSelector((state) => state.learningPath);
   const dispatch = useAppDispatch();
-  const categoriesOption: MultiSelectOptionData[] = categories.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
+
+  const { data: categories = [] } = useGetCategoryQuery(null);
+  const categoriesOption: MultiSelectOptionData[] = categories.map(
+    ({ id, name }: { id: number; name: string }) => ({
+      value: id,
+      label: name,
+    })
+  );
 
   useEffect(() => {
     dispatch(changeEditMode(true));
@@ -196,31 +201,3 @@ const InitialSection = ({
 };
 
 export default InitialSection;
-
-// Please delete this during integration and fetch it from db
-const categories = [
-  {
-    id: 1,
-    name: 'category 1',
-  },
-  {
-    id: 2,
-    name: 'category 2',
-  },
-  {
-    id: 3,
-    name: 'category 3',
-  },
-  {
-    id: 4,
-    name: 'category 1',
-  },
-  {
-    id: 5,
-    name: 'category 2',
-  },
-  {
-    id: 6,
-    name: 'category 3',
-  },
-];

@@ -15,10 +15,11 @@ export const getCourse = createApi({
       query: (courseID) => `course/${courseID}`,
     }),
     getCourses: builder.query({
-      query: ({ search, page }) => {
+      query: ({ search, page, pageSize }) => {
         const pageParam = page ? `page=${page}` : '';
         const searchParam = search ? `&search=${search}` : '';
-        return `course?${pageParam}${searchParam}`;
+        const pageSizeParam = pageSize ? `&page_size=${pageSize}` : '';
+        return `course/?${pageParam}${searchParam}${pageSizeParam}`;
       },
     }),
     createCourse: builder.mutation({
