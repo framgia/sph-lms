@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Container from '@/src/shared/layouts/Container';
 import { courseSchema } from '@/src/shared/utils/validationSchemas';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import Stepper from '@/src/shared/components/Stepper';
 import Step from '@/src/shared/components/Stepper/Step';
 import InitialSection from '@/src/sections/courses/create/InitialSection';

@@ -3,7 +3,7 @@ import { useEffect, type FC } from 'react';
 import Button from '@/src/shared/components/Button';
 import PlusIcon from '@/src/shared/icons/PlusIcon';
 import LessonModal from './LessonModal';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { closeModal, lessonModalEnum, openModal } from '@/features/course/lessonModalsSlice';
 import { type LessonForm } from '@/src/shared/utils';
 import {

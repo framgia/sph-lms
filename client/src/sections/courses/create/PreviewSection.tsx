@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch } from '@/rtk/hooks';
 import { changeEditMode } from '@/features/course/courseSlice';
 import { Fragment, type FC, useEffect } from 'react';
 import InitialSection from './InitialSection';

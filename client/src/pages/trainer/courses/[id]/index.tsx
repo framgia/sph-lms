@@ -9,7 +9,7 @@ import Tab from '@/src/shared/components/Tabs/Tab';
 import Container from '@/src/shared/layouts/Container';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect } from 'react';
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch } from '@/rtk/hooks';
 import { reset } from '@/features/course/courseSlice';
 
 const CourseContent: React.FC = () => {

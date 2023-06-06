@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { setActiveTab } from '@/features/tab/tabSlice';
 import { Children, Fragment, useEffect, useState, type FC, type ReactElement } from 'react';
 import { type ChildElementObject } from '../../utils/interface';

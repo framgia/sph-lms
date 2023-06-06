@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { useStrictDroppable } from '@/src/shared/hooks/useStrictDroppable';
 import React from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';

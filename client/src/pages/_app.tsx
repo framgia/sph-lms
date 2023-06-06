@@ -8,7 +8,7 @@ import Navbar from '../shared/components/Navbar';
 import { isSignedIn } from '../shared/utils';
 import { useRouter } from 'next/router';
 import { Provider } from 'react-redux';
-import { store } from '@/app/store';
+import { store } from '@/rtk/store';
 
 const App: React.FunctionComponent<AppProps> = ({
   Component,

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Courses from './Courses';
 import Button from '@/src/shared/components/Button';
 import PlusIcon from '@/src/shared/icons/PlusIcon';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { closeModal, courseModalEnum, openModal } from '@/features/learning-path/courseModalsSlice';
 import CourseModal from './CourseModal';
 import { changeEditMode, deleteCourse } from '@/features/learning-path/learningPathSlice';

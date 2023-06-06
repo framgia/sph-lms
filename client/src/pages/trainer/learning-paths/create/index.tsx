@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { setIsStepValid } from '@/features/stepper/stepperSlice';
 import AddCourseSection from '@/src/sections/learning-paths/create/AddCourseSection';
 import InitialSection from '@/src/sections/learning-paths/create/InitialSection';

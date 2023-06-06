@@ -3,7 +3,7 @@ import type { StepProps } from './Step';
 import type { ChildElementObject } from '../../utils';
 import Button from '../Button';
 import ProgressBar from '../ProgressBar';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { reset, setActiveStep } from '@/features/stepper/stepperSlice';
 
 interface StepperProps {

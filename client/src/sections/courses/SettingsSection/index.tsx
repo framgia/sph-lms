@@ -2,7 +2,7 @@ import { Fragment, type FC, useEffect, useState } from 'react';
 import AddLessonSection from '../create/AddLessonSection';
 import InitialSection from '../create/InitialSection';
 import Button from '@/src/shared/components/Button';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { changeEditMode, reset as courseReset } from '@/features/course/courseSlice';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';

@@ -7,7 +7,7 @@ import FilterIcon from '@/src/shared/icons/FilterIcon';
 import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
 import { useGetLearnerQuery } from '@/services/traineeAPI';
 import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { type Trainee, addTrainees, seeMoreTrainees } from '@/features/course/learnerSlice';
 import Button from '@/src/shared/components/Button';
 import Dropdown, { type SortOption } from '@/src/shared/components/Dropdown';

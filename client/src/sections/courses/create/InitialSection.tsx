@@ -1,6 +1,6 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/indent */
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { addCategory, changeEditMode, updateForm } from '@/features/course/courseSlice';
 import { useGetCategoryQuery } from '@/services/categoryAPI';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';

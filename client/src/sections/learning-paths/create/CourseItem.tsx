@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch } from '@/rtk/hooks';
 import { courseModalEnum, openModal } from '@/features/learning-path/courseModalsSlice';
 import Collapse from '@/src/shared/components/Collapse/Collapse';
 import FourDotsIcon from '@/src/shared/icons/FourDotsIcon';

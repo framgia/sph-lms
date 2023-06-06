@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { lessonModalEnum, openModal } from '@/features/course/lessonModalsSlice';
 import EditIcon from '@/src/shared/icons/EditIcon';
 import FourDotsIcon from '@/src/shared/icons/FourDotsIcon';

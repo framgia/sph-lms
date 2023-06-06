@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { changeEditMode } from '@/features/learning-path/learningPathSlice';
 import React, { useEffect } from 'react';
 import InitialSection from './InitialSection';

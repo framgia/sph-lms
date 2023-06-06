@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { ListItem } from '@/src/shared/components/Table/ListItem';
 import Pagination from '@/src/shared/components/Pagination';
 import Button from '@/src/shared/components/Button';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/rtk/hooks';
 import { updateForm } from '@/features/learning-path/learningPathSlice';
 import { type Course } from '../../../shared/utils/interface';
 
