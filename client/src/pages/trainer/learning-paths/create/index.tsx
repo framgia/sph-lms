@@ -91,6 +91,8 @@ const LearningPathCreate = (): JSX.Element => {
       default:
         return validateSteps();
     }
+
+    return false;
   };
 
   const validateSteps = (): boolean => {

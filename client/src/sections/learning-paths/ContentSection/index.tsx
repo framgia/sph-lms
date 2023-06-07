@@ -1,7 +1,6 @@
 import LearningPathCourseCard from '@/src/shared/components/Card/LearningPathCourseCard';
 import ChevronDown from '@/src/shared/icons/ChevronDownIcon';
 import type { Course } from '@/src/shared/utils';
-import React from 'react';
 
 const LearningPathContentSection = (): JSX.Element => {
   return (
@@ -33,7 +32,7 @@ const courses: Course[] = [
   {
     id: 1,
     name: 'HTML Crash Course',
-    img_path: '/image1.jpg',
+    image: '/image1.jpg',
     lessons: [
       {
         id: '1',
@@ -51,7 +50,7 @@ const courses: Course[] = [
   {
     id: 2,
     name: 'CSS Crash Course',
-    img_path: '/image1.jpg',
+    image: '/image1.jpg',
     lessons: [
       {
         id: '1',
@@ -69,7 +68,7 @@ const courses: Course[] = [
   {
     id: 3,
     name: 'JavaScript Crash Course',
-    img_path: '/image1.jpg',
+    image: '/image1.jpg',
     lessons: [
       {
         id: '1',

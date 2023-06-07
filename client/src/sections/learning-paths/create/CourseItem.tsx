@@ -14,7 +14,7 @@ const CourseItem = ({ course }: CourseItemProps): JSX.Element => {
   const { name, lessons } = course;
   return (
     <Collapse
-      label={course.name}
+      label={name}
       onDelete={
         editMode
           ? () => {
