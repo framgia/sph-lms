@@ -13,7 +13,7 @@ import {
   updateLesson,
 } from '@/features/course/courseSlice';
 import { v4 as uuidv4 } from 'uuid';
-import DeleteModal from '@/src/shared/components/Modal/DeleteModal';
+import ConfirmationModal from '@/src/shared/components/Modal/ConfirmationModal';
 import Lessons from './Lessons';
 
 const AddLessonSection: FC = () => {
@@ -71,12 +71,12 @@ const AddLessonSection: FC = () => {
         initialValues={edit}
         onSubmit={handleEditSubmit}
       />
-      <DeleteModal
+      <ConfirmationModal
         state={deleteL !== null}
         closeModal={() => dispatch(closeModal(lessonModalEnum.DELETE))}
-        type="lesson"
-        title={deleteL?.title ?? ''}
-        onDelete={handleDeleteLesson}
+        item="lesson"
+        itemTitle={deleteL?.title ?? ''}
+        onConfirm={handleDeleteLesson}
       />
     </div>
   );

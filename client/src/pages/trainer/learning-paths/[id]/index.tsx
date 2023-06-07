@@ -5,6 +5,8 @@ import Container from '@/src/shared/layouts/Container';
 import { Fragment } from 'react';
 import LearningPathLearnersSection from '@/src/sections/learning-paths/LearnersSection';
 import LearningPathContentSection from '@/src/sections/learning-paths/ContentSection';
+import SettingsSection from '@/src/sections/learning-paths/settingsSection';
+import EditSettingsButton from '@/src/sections/learning-paths/settingsSection/EditSettingsButton';
 
 interface LearningPath {
   id: number;
@@ -35,6 +37,7 @@ const LearningPathContent: React.FC = () => {
         <Container className="px-28">
           <div className="text-[20px] font-semibold my-5 text-textGray flex justify-between line-clamp-1">
             <h1>{learningPath?.name}</h1>
+            <EditSettingsButton />
           </div>
           <Tabs>
             <Tab title="Content">
@@ -44,7 +47,7 @@ const LearningPathContent: React.FC = () => {
               <LearningPathLearnersSection />
             </Tab>
             <Tab title="Settings">
-              <div>Learning Path Settings</div>
+              <SettingsSection />
             </Tab>
           </Tabs>
         </Container>

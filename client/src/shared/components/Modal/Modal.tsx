@@ -1,7 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { type ModalProps } from '../../utils';
 
 const Modal: React.FC<ModalProps> = ({ children, isOpen, className = '' }: ModalProps) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (

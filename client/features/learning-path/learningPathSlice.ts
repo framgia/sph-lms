@@ -47,10 +47,13 @@ export const learningPathSlice = createSlice({
       }
       state.values.courses = courses.map((course, index) => ({ ...course, order: index }));
     },
+    reset: (state) => {
+      state.values = initialState.values;
+    },
   },
 });
 
-export const { addCategory, deleteCourse, changeEditMode, reorderCourses, updateForm } =
+export const { addCategory, deleteCourse, changeEditMode, reorderCourses, updateForm, reset } =
   learningPathSlice.actions;
 
 export default learningPathSlice.reducer;

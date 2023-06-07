@@ -7,7 +7,7 @@ import { changeEditMode, reset as courseReset } from '@/features/course/courseSl
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { courseSchema } from '@/src/shared/utils/validationSchemas';
-import DeleteModal from '@/src/shared/components/Modal/DeleteModal';
+import ConfirmationModal from '@/src/shared/components/Modal/ConfirmationModal';
 import { useConfirmBeforeLeave } from '@/src/shared/hooks/useConfirmBeforeLeave';
 import { useRouter } from 'next/router';
 
@@ -94,14 +94,14 @@ const SettingsSection: FC = () => {
           />
         </div>
       </div>
-      <DeleteModal
+      <ConfirmationModal
         state={isDeleteModalOpen}
         closeModal={() => {
           setIsDeleteModalOpen(false);
         }}
-        type="course"
-        title="Vue introduction"
-        onDelete={handleDelete}
+        item="course"
+        itemTitle="Vue introduction"
+        onConfirm={handleDelete}
       />
     </Fragment>
   );

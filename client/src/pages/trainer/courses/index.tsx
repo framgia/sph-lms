@@ -1,7 +1,7 @@
 import { useGetCoursesQuery } from '@/services/courseAPI';
 import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
-import type { Course } from '@/src/shared/utils';
+import type { DBCourse } from '@/src/shared/utils';
 import { alertError } from '@/src/shared/utils';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -80,7 +80,7 @@ const CoursesListPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {courses.map((course: Course) => (
+                  {courses.map((course: DBCourse) => (
                     <CourseCard key={course.id} course={course} />
                   ))}
                 </div>

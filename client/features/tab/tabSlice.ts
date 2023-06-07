@@ -21,9 +21,12 @@ export const tabSlice = createSlice({
     setIsTabValid: (state, action: PayloadAction<boolean>) => {
       state.isTabValid = action.payload;
     },
+    reset: (state) => {
+      return (state = initialState);
+    },
   },
 });
 
-export const { setActiveTab, setIsTabValid } = tabSlice.actions;
+export const { setActiveTab, setIsTabValid, reset } = tabSlice.actions;
 
 export default tabSlice.reducer;
