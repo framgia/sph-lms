@@ -94,9 +94,19 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
                     'is_enrolled',
                     "true"
                 )
+        sortingOption = self.context[
+                'request'
+            ].query_params.get(
+                    'selectedSortOption',
+                    "A - Z",
+                )
 
         if is_enrolled == "true":
-            course_trainees = CourseTrainee.objects.filter(course=obj)
+            if sortingOption == "A - Z":
+                course_trainees = CourseTrainee.objects.order_by('trainee__trainee__first_name').filter(course=obj)
+            if sortingOption == "Z - A":
+                course_trainees = CourseTrainee.objects.order_by('-trainee__trainee__first_name').filter(course=obj)
+
             data = [
                 {
                     "trainee_id": trainee.id,

@@ -13,12 +13,13 @@ export const getCourseTrainee = createApi({
   tagTypes: ['CourseTrainee'],
   endpoints: (builder) => ({
     getLearner: builder.query({
-      query: ({ courseId, isEnrolled, searchQuery, pageNumber }) => ({
+      query: ({ courseId, isEnrolled, searchQuery, pageNumber, selectedSortOption }) => ({
         url: `course/${courseId}/trainee`,
         params: {
           is_enrolled: isEnrolled,
           search: searchQuery,
           page: pageNumber,
+          selectedSortOption: selectedSortOption,
         },
       }),
       providesTags: ['CourseTrainee'],
