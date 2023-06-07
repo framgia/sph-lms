@@ -1,5 +1,5 @@
-from app_sph_lms.models import (Category, Course, LearningPath,
-                                LearningPathCourse)
+from app_sph_lms.api.serializer.category_serializer import CategorySerializer
+from app_sph_lms.models import Course, LearningPath, LearningPathCourse
 from rest_framework import serializers
 
 
@@ -10,28 +10,15 @@ class LearningPathCourseSerializer(serializers.ModelSerializer):
 
 
 class LearningPathSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True, read_only=True)
     courses = serializers.ListField(
       child=LearningPathCourseSerializer(),
       write_only=True
-    )
-    category = serializers.PrimaryKeyRelatedField(
-        queryset=Category.objects.all(),
-        many=True,
     )
 
     class Meta:
         model = LearningPath
         exclude = ['author']
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['category'] = [
-            {
-                'id': category.id,
-                'name': category.name
-            } for category in instance.category.all()
-        ]
-        return representation
 
     def validate(self, attrs):
         user = self.context['request'].user

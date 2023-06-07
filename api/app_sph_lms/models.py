@@ -383,7 +383,11 @@ class LearningPath(models.Model):
         unique=True,
         validators=[MinLengthValidator(3)]
     )
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+            User,
+            on_delete=models.CASCADE,
+            related_name='learning_path'
+        )
     description = models.TextField(
             max_length=65000,
             null=True,
