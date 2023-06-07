@@ -84,7 +84,7 @@ const LearningPathCreate = (): JSX.Element => {
             dispatch(reset());
           }
         } catch (e: any) {
-          alertError(e.message);
+          alertError('Something went wrong');
         }
         break;
 
