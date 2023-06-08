@@ -200,7 +200,8 @@ export interface LearningPath {
   description: string;
   image: string;
   ratings: number;
+  course_count: number;
   courses: Course[];
-  categories: CourseCategory[];
+  category: CourseCategory[];
   is_active: boolean;
 }
