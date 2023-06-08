@@ -6,7 +6,7 @@ import { alertError } from '@/src/shared/utils';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import CourseCard from '../../../shared/components/Card/CourseCard';
 
 const CoursesListPage: React.FC = () => {
@@ -52,7 +52,7 @@ const CoursesListPage: React.FC = () => {
   };
 
   return (
-    <>
+    <Fragment>
       <Head>
         <title>Courses</title>
       </Head>
@@ -97,7 +97,7 @@ const CoursesListPage: React.FC = () => {
           />
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

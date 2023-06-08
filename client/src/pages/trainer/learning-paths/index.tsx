@@ -3,7 +3,7 @@ import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Link from 'next/link';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 const LearningPathListPage: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
@@ -26,7 +26,7 @@ const LearningPathListPage: React.FC = () => {
   };
 
   return (
-    <>
+    <Fragment>
       <div className="flex flex-col justify-center items-center gap-4 w-full pt-4">
         <div className="flex flex-col gap-4 container">
           <div className="flex justify-between items-center mb-3 md:mx-28 lg:mx-24 xl:52 2xl:mx-[13.5rem]">
@@ -46,7 +46,7 @@ const LearningPathListPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

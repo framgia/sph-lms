@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Image from 'next/image';
 import type { FC } from 'react';
 
 const HeroSection: FC = () => {
   return (
-    <>
+    <Fragment>
       <div className="flex flex-wrap container p-8 mx-auto xl:px-0">
         <div className="flex items-center w-full lg:w-1/2">
           <div className="max-w-2xl mb-8">
@@ -40,7 +40,7 @@ const HeroSection: FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 export default HeroSection;

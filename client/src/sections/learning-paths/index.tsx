@@ -2,6 +2,7 @@ import { useGetLearningPathsQuery } from '@/services/learningPathAPI';
 import LearningPathCard from '@/src/shared/components/Card/LearningPathCard';
 import Pagination from '@/src/shared/components/Pagination';
 import { alertError, type LearningPath } from '@/src/shared/utils';
+import { Fragment } from 'react';
 
 interface LearningPathListProps {
   isActive: boolean;
@@ -31,7 +32,7 @@ const LearningPathList = ({
   return (
     <div className="flex flex-col justify-center w-full">
       {results.length ? (
-        <>
+        <Fragment>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {results.map((learningPath: LearningPath) => (
               <LearningPathCard key={learningPath.id} learningPath={learningPath} />
@@ -45,7 +46,7 @@ const LearningPathList = ({
               onChangePage={handleChangePageEvent}
             />
           </div>
-        </>
+        </Fragment>
       ) : (
         <div className="flex items-center justify-center text-sm text-gray-400 h-24">
           No learning paths to show
