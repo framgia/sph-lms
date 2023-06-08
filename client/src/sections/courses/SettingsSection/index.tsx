@@ -10,14 +10,19 @@ import { courseSchema } from '@/src/shared/utils/validationSchemas';
 import ConfirmationModal from '@/src/shared/components/Modal/ConfirmationModal';
 import { useConfirmBeforeLeave } from '@/src/shared/hooks/useConfirmBeforeLeave';
 import { useRouter } from 'next/router';
+import { useDeleteCourseMutation } from '@/services/courseAPI';
+import { alertError, alertSuccess } from '@/src/shared/utils';
 
 const SettingsSection: FC = () => {
+  const { query } = useRouter();
+  const { push } = useRouter();
   const { values, editMode } = useAppSelector((state) => state.course);
   const { isTabValid } = useAppSelector((state) => state.tab);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { asPath, events } = useRouter();
   const dispatch = useAppDispatch();
   useConfirmBeforeLeave(editMode);
+  const [deleteCourseMutation] = useDeleteCourseMutation();
 
   const defaultValues = {
     ...values,
@@ -39,11 +44,23 @@ const SettingsSection: FC = () => {
     defaultValues,
   });
 
-  const handleDelete = (): void => {
-    // Deleting crouse logic goes here
-    alert('The course has been deleted');
+  const handleDelete = async (): Promise<void> => {
+    try {
+      const data = {
+        ...values,
+        category: values.category.map(({ id }) => id),
+      };
+      const res = await deleteCourseMutation({ courseID: query.id, courseData: data });
+      if ('error' in res) {
+        throw new Error('Failed to delete course');
+      } else {
+        await push('/trainer/courses');
+        alertSuccess('The course has been deleted');
+      }
+    } catch (error) {
+      alertError('Failed to delete course:');
+    }
   };
-
   useEffect(() => {
     if (!isTabValid) {
       if (values.image) {

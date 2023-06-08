@@ -2,8 +2,9 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { changeEditMode, reset as courseReset } from '@/features/course/courseSlice';
 import { setIsTabValid } from '@/features/tab/tabSlice';
-import { useGetCourseQuery } from '@/services/courseAPI';
 import EditModeButtons from '@/src/shared/components/Button/EditModeButtons';
+import { useGetCourseQuery, useUpdateCourseMutation } from '@/services/courseAPI';
+import { alertError, alertSuccess } from '@/src/shared/utils';
 import { courseSchema } from '@/src/shared/utils/validationSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ const EditSettingsButton: FC = () => {
   const { query } = useRouter();
   const { activeTab } = useAppSelector((state) => state.tab);
   const { editMode, values } = useAppSelector((state) => state.course);
+  const [updateCourse] = useUpdateCourseMutation();
   const { data: course } = useGetCourseQuery(query.id, {
     skip: query.id === undefined,
   });
@@ -51,9 +53,22 @@ const EditSettingsButton: FC = () => {
     dispatch(setIsTabValid(isValidated));
 
     if (isValidated) {
-      dispatch(changeEditMode(false));
-      // Please place the logic for saving the course edit form here
-      alert('The information provided has been saved');
+      try {
+        const data = {
+          ...values,
+          category: values.category.map(({ id }) => id),
+        };
+
+        const res = await updateCourse({ courseID: query.id, courseData: data });
+        if ('error' in res) {
+          throw new Error('Failed to update course');
+        } else {
+          alertSuccess('Course updated successfully');
+        }
+        dispatch(changeEditMode(false));
+      } catch (error) {
+        alertError('Failed to update the course. Please try again later.');
+      }
     }
   };
 

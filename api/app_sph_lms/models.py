@@ -263,7 +263,11 @@ class Course(models.Model):
             null=True,
             blank=True
         )
-    category = models.ManyToManyField(Category, related_name='categories')
+    category = models.ManyToManyField(
+            Category,
+            related_name='categories',
+            through="CourseCategory"
+            )
     name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     description = models.TextField(
             max_length=65000,

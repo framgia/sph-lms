@@ -2,6 +2,7 @@ from app_sph_lms.api.serializer.course_serializer import (
     CourseCategorySerializer, CourseSerializer)
 from app_sph_lms.models import Course, CourseCategory
 from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
@@ -42,6 +43,18 @@ class CourseList(generics.ListCreateAPIView):
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
+    def delete(self, request, *args, **kwargs, ):
+        user = self.request.user
+
+        if not user.is_authenticated or \
+                user.role.title not in ['Trainer', 'Admin']:
+            raise PermissionDenied(
+                "Only authenticated Trainers and Admins can update a course."
+            )
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "Course deleted successfully."})
 
 
 class CourseCategoryList(generics.ListCreateAPIView):
