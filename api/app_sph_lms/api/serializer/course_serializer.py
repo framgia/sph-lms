@@ -1,15 +1,19 @@
 import random
 
+from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.datetime_serializer import DateTimeSerializer
 from app_sph_lms.api.serializer.trainee_serializer import TraineeSerializer
 from app_sph_lms.models import (Category, Course, CourseCategory,
                                 CourseTrainee, Lesson, Trainee)
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 
 
 class CourseCategorySerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+
     class Meta:
         model = CourseCategory
         fields = "__all__"
@@ -35,9 +39,12 @@ class CourseEnrolleeSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
-        many=True
+        many=True,
+        required=False
     )
-    lessons = LessonSerializer(many=True)
+
+    lessons = LessonSerializer(many=True, required=False)
+    name = serializers.CharField(required=False)
     author = serializers.SerializerMethodField(read_only=True)
     created_at = DateTimeSerializer(read_only=True)
     updated_at = DateTimeSerializer(read_only=True)
@@ -70,16 +77,60 @@ class CourseSerializer(serializers.ModelSerializer):
 
         validated_data['author'] = user
         categories_data = validated_data.pop('category')
+
         lessons_data = validated_data.pop('lessons')
 
-        course = Course.objects.create(**validated_data)
+        with transaction.atomic():
+            course = Course.objects.create(**validated_data)
 
-        for lesson_data in lessons_data:
-            lesson_data['course'] = course
-            Lesson.objects.create(**lesson_data)
+            for lesson_data in lessons_data:
+                lesson_data['course'] = course
+                Lesson.objects.create(**lesson_data)
 
-        course.category.set(categories_data)
+            for category in categories_data:
+                category_id = category.id
+                CourseCategory.objects.create(
+                    course=course,
+                    category_id=category_id
+                )
+
         return course
+
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+
+        if not user.is_authenticated or \
+                user.role.title not in ['Trainer', 'Admin']:
+            raise PermissionDenied(
+                "Only authenticated Trainers and Admins can update a course."
+            )
+
+        categories_data = validated_data.pop('category', [])
+        lessons_data = validated_data.pop('lessons', [])
+
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+
+        CourseCategory.objects.filter(course=instance).delete()
+        for category in categories_data:
+            category_id = category.id
+            CourseCategory.objects.create(
+                course=instance, category_id=category_id
+            )
+
+        existing_lesson_ids = [lesson.id for lesson in instance.lessons.all()]
+        for lesson_data in lessons_data:
+            lesson_id = lesson_data.get('id')
+            if lesson_id in existing_lesson_ids:
+                Lesson.objects.filter(id=lesson_id).update(**lesson_data)
+                existing_lesson_ids.remove(lesson_id)
+            else:
+                lesson_data['course'] = instance
+                Lesson.objects.create(**lesson_data)
+
+        Lesson.objects.filter(id__in=existing_lesson_ids).delete()
+
+        return instance
 
 
 class CustomPagination(PageNumberPagination):
@@ -110,9 +161,11 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
 
         if is_enrolled == "true":
             if sortingOption == "A - Z":
-                course_trainees = CourseTrainee.objects.order_by('trainee__trainee__first_name').filter(course=obj)
+                course_trainees = CourseTrainee.objects.order_by(
+                    'trainee__trainee__first_name').filter(course=obj)
             if sortingOption == "Z - A":
-                course_trainees = CourseTrainee.objects.order_by('-trainee__trainee__first_name').filter(course=obj)
+                course_trainees = CourseTrainee.objects.order_by(
+                    '-trainee__trainee__first_name').filter(course=obj)
 
             data = [
                 {

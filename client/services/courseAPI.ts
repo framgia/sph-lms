@@ -29,7 +29,27 @@ export const getCourse = createApi({
         body: courseData,
       }),
     }),
+    deleteCourse: builder.mutation({
+      query: ({ courseID, courseData }) => ({
+        url: `course/${courseID}`,
+        method: 'DELETE',
+        body: courseData,
+      }),
+    }),
+    updateCourse: builder.mutation({
+      query: ({ courseID, courseData }) => ({
+        url: `course/${courseID}`,
+        method: 'PUT',
+        body: courseData,
+      }),
+    }),
   }),
 });
 
-export const { useGetCourseQuery, useGetCoursesQuery, useCreateCourseMutation } = getCourse;
+export const {
+  useGetCourseQuery,
+  useGetCoursesQuery,
+  useCreateCourseMutation,
+  useUpdateCourseMutation,
+  useDeleteCourseMutation,
+} = getCourse;
