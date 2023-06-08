@@ -1,20 +1,22 @@
-import { type FC, useEffect } from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
-import Container from '@/src/shared/layouts/Container';
-import { courseSchema } from '@/src/shared/utils/validationSchemas';
+/* eslint-disable multiline-ternary */
+/* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { reset } from '@/features/course/courseSlice';
+import { setIsStepValid } from '@/features/stepper/stepperSlice';
+import { useCreateCourseMutation } from '@/services/courseAPI';
+import AddLessonSection from '@/src/sections/courses/create/AddLessonSection';
+import InitialSection from '@/src/sections/courses/create/InitialSection';
+import PreviewSection from '@/src/sections/courses/create/PreviewSection';
+import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Stepper from '@/src/shared/components/Stepper';
 import Step from '@/src/shared/components/Stepper/Step';
-import InitialSection from '@/src/sections/courses/create/InitialSection';
-import AddLessonSection from '@/src/sections/courses/create/AddLessonSection';
-import PreviewSection from '@/src/sections/courses/create/PreviewSection';
-import { setIsStepValid } from '@/features/stepper/stepperSlice';
-import { useRouter } from 'next/router';
-import { reset } from '@/features/course/courseSlice';
-import { useCreateCourseMutation } from '@/services/courseAPI';
+import Container from '@/src/shared/layouts/Container';
 import { alertError, alertSuccess } from '@/src/shared/utils/toastify';
+import { courseSchema } from '@/src/shared/utils/validationSchemas';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
+import { useEffect, type FC } from 'react';
+import { useForm } from 'react-hook-form';
 
 const Create: FC = () => {
   const { activeStep } = useAppSelector((state) => state.stepper);
@@ -66,6 +68,12 @@ const Create: FC = () => {
         try {
           const data = {
             ...values,
+            image:
+              typeof values.image === 'string'
+                ? '/' + values.image
+                : values.image?.name
+                ? '/' + values.image.name
+                : null,
             category: values.category.map(({ id }) => id),
           };
           const res = await createCourse(data);

@@ -1,9 +1,8 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { reorderCourses } from '@/features/learning-path/learningPathSlice';
 import { useStrictDroppable } from '@/src/shared/hooks/useStrictDroppable';
-import React from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import CourseItem from './CourseItem';
-import { reorderCourses } from '@/features/learning-path/learningPathSlice';
 
 const Courses = (): JSX.Element => {
   const {
@@ -23,9 +22,8 @@ const Courses = (): JSX.Element => {
         <Droppable droppableId="courses" isDropDisabled={!editMode}>
           {(droppableprovided, _) => (
             <div ref={droppableprovided.innerRef} {...droppableprovided.droppableProps}>
-              {courses.length > 0
-                ? (
-                    courses.map((course, index) => (
+              {courses.length > 0 ? (
+                courses.map((course, index) => (
                   <Draggable
                     isDragDisabled={!editMode}
                     key={course.id}
@@ -43,13 +41,12 @@ const Courses = (): JSX.Element => {
                       </div>
                     )}
                   </Draggable>
-                    ))
-                  )
-                : (
+                ))
+              ) : (
                 <p className="text-[14px] text-center w-[70%]">
                   No courses yet, at least one course is required!
                 </p>
-                  )}
+              )}
               {droppableprovided.placeholder}
             </div>
           )}

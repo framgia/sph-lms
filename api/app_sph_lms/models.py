@@ -257,13 +257,12 @@ class Course(models.Model):
             blank=True
         )
     author = models.ForeignKey(
-            Trainer,
+            User,
             on_delete=models.CASCADE,
             related_name="author",
             null=True,
             blank=True
         )
-    code = models.CharField(max_length=10, unique=True, default=generate_code)
     category = models.ManyToManyField(Category, related_name='categories')
     name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
     description = models.TextField(
@@ -272,8 +271,7 @@ class Course(models.Model):
             validators=[MinLengthValidator(5)]
         )
     is_active = models.BooleanField(default=True)
-    img_path = models.CharField(max_length=255, null=True)
-    preview_vid_path = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -376,4 +374,63 @@ class CourseTrainee(models.Model):
             + " | "
             + "Course: "
             + str(self.course)
+        )
+
+
+class LearningPath(models.Model):
+    name = models.CharField(
+        max_length=255,
+        unique=True,
+        validators=[MinLengthValidator(3)]
+    )
+    author = models.ForeignKey(
+            User,
+            on_delete=models.CASCADE,
+            related_name='learning_path'
+        )
+    description = models.TextField(
+            max_length=65000,
+            null=True,
+            validators=[MinLengthValidator(5)]
+        )
+    image = models.CharField(max_length=255, null=True)
+    is_active = models.BooleanField(default=True)
+    courses = models.ManyToManyField(
+        Course,
+        related_name="learning_path",
+        through='LearningPathCourse'
+        )
+    category = models.ManyToManyField(Category, related_name="category")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        verbose_name = "LearningPath"
+        verbose_name_plural = "LearningPaths"
+        db_table = "app_sph_lms_learning_paths"
+
+    def __str__(self):
+        return self.name
+
+
+class LearningPathCourse(models.Model):
+    learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_order = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        unique_together = ('learning_path', 'course')
+        verbose_name = "LearningPathCourse"
+        verbose_name_plural = "LearningPathCourse"
+        db_table = "app_sph_lms_learning_path_courses"
+
+    def __str__(self):
+        return (
+            "Learning Path: " +
+            str(self.learning_path) +
+            " | " +
+            "Course: " +
+            str(self.course)
         )

@@ -14,7 +14,7 @@ const CourseCard: React.FC<Props> = ({ course }: Props) => {
         <div className="relative overflow-hidden">
           <Image
             className="w-full h-[128px] rounded-tl-lg rounded-tr-lg object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
-            src={course.img_path ?? '/image1.jpg'}
+            src={course.image ?? '/image1.jpg'}
             alt={course.name}
             width={720}
             height={128}
@@ -25,7 +25,6 @@ const CourseCard: React.FC<Props> = ({ course }: Props) => {
           <div className="text-xs text-gray-400 mb-3">
             {course.description ?? 'No description to show'}
           </div>
-
           <div className="text-sm font-semibold mb-1">Categories:</div>
           <div className="relative flex justify-between">
             {course.category.map((category, index) => (

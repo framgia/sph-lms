@@ -1,19 +1,20 @@
-import Modal from '@/src/shared/components/Modal/Modal';
-import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
-import Table from '@/src/shared/components/Table';
-import XmarkIcon from '@/src/shared/icons/XmarkIcon';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { ListItem } from '@/src/shared/components/Table/ListItem';
-import Pagination from '@/src/shared/components/Pagination';
-import Button from '@/src/shared/components/Button';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { updateForm } from '@/features/learning-path/learningPathSlice';
+import { useGetCoursesQuery } from '@/services/courseAPI';
+import Button from '@/src/shared/components/Button';
+import Modal from '@/src/shared/components/Modal/Modal';
+import Pagination from '@/src/shared/components/Pagination';
+import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
+import Table from '@/src/shared/components/Table';
+import { ListItem } from '@/src/shared/components/Table/ListItem';
+import XmarkIcon from '@/src/shared/icons/XmarkIcon';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { type Course } from '../../../shared/utils/interface';
 
 enum HeaderEnum {
   Name = 'name',
-  Uploaded_By = 'uploaded_by',
+  Uploaded_By = 'author',
   Data_Uploaded = 'created_at',
   Date_Modified = 'updated_at',
 }
@@ -37,26 +38,39 @@ const CourseModal = ({
 }: CourseModalProps): JSX.Element => {
   const { courses } = useAppSelector((state) => state.learningPath.values);
   const [page, setPage] = useState(1);
-  const [newCourses, setNewCourses] = useState<Course[]>([]);
+  const [search, setSearch] = useState('');
+  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
 
   const dispatch = useAppDispatch();
   const { register, reset, handleSubmit } = useForm<CourseModalForm>();
 
+  const { data: { results: courseData = [], totalPages, current_page_number: currentPage } = {} } =
+    useGetCoursesQuery({ search, page, pageSize: 5 });
+
   useEffect(() => {
-    setNewCourses(courses);
+    setSelectedCourses(courses);
   }, [courses]);
 
+  const handleSearch = (search: string): void => {
+    setSearch(search);
+    setPage(1);
+  };
+
+  const handleChangePageEvent = (page: number): void => {
+    setPage(page);
+  };
+
   const handleClose = (): void => {
-    setNewCourses(courses);
+    setSelectedCourses(courses);
     closeModal();
     reset();
   };
 
   const handleCheckboxChange = (data: string): void => {
     const newData: Course = JSON.parse(data);
-    if (newCourses.some((course) => course.id === newData.id)) {
-      setNewCourses(newCourses.filter((course) => course.id !== newData.id));
-    } else setNewCourses([...newCourses, newData]);
+    if (selectedCourses.some((course) => course.id === newData.id)) {
+      setSelectedCourses(selectedCourses.filter((course) => course.id !== newData.id));
+    } else setSelectedCourses([...selectedCourses, newData]);
   };
 
   const updateCoursesOrder = (courses: Course[]): Course[] => {
@@ -69,15 +83,14 @@ const CourseModal = ({
     );
   };
 
-  const onSubmit = ({ courses: courseList }: CourseModalForm): void => {
-    const serializedCourses: Course[] = courseList.map((c) => JSON.parse(c));
+  const onSubmit = (): void => {
     let parsedCourses = [...courses];
 
     if (parsedCourses.length) {
-      parsedCourses = removeUncheckedCourses(courses, serializedCourses);
+      parsedCourses = removeUncheckedCourses(courses, selectedCourses);
     }
 
-    serializedCourses.forEach((course) => {
+    selectedCourses.forEach((course) => {
       if (!parsedCourses.some((c) => c.id === course.id)) {
         parsedCourses.push({ ...course, order: parsedCourses.length });
       }
@@ -86,6 +99,8 @@ const CourseModal = ({
     dispatch(updateForm({ courses: parsedCourses }));
     closeModal();
     reset();
+    setSearch('');
+    setPage(1);
   };
 
   return (
@@ -96,10 +111,10 @@ const CourseModal = ({
           <XmarkIcon className="cursor-pointer" onClick={handleClose} />
         </div>
         <div className="p-4">
+          <div className="mb-4">
+            <SearchBar placeholder="Search" onSearchEvent={handleSearch} />
+          </div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4">
-              <SearchBar placeholder='Search' onSearchEvent={() => {}} />
-            </div>
             <Table
               checkbox={false}
               sortable={false}
@@ -110,7 +125,7 @@ const CourseModal = ({
                 { text: 'Date modified' },
               ]}
             >
-              {dummyData.map((data) => {
+              {courseData.map((data: Course) => {
                 return (
                   <ListItem<Course>
                     key={data.id}
@@ -118,7 +133,7 @@ const CourseModal = ({
                     headerEnum={HeaderEnum}
                     register={register}
                     checkboxName="courses"
-                    isChecked={newCourses.some((course) => course.id === data.id)}
+                    isChecked={selectedCourses.some((course) => course.id === data.id)}
                     onCheckboxChange={handleCheckboxChange}
                   />
                 );
@@ -126,12 +141,10 @@ const CourseModal = ({
             </Table>
             <div className="flex justify-center items-center h-14">
               <Pagination
-                currentPage={page}
                 maxPages={5}
-                totalPages={10}
-                onChangePage={(page) => {
-                  setPage(page);
-                }}
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onChangePage={handleChangePageEvent}
               />
             </div>
             <div className="flex gap-2 mt-4">
@@ -142,9 +155,9 @@ const CourseModal = ({
               />
               <Button
                 type="submit"
-                disabled={!newCourses.length}
+                disabled={!selectedCourses.length}
                 buttonClass={`border border-red !text-red py-[6px] !w-36 !font-medium ${
-                  !newCourses.length ? 'opacity-50 !border-red' : ''
+                  !selectedCourses.length ? 'opacity-50 !border-red' : ''
                 }`}
                 text={submitButtonTitle}
               />
@@ -157,46 +170,3 @@ const CourseModal = ({
 };
 
 export default CourseModal;
-
-const dummyData = [
-  {
-    id: 1,
-    name: 'HTML Crash Course',
-    img_path: '/image1.jpg',
-    uploaded_by: 'John Doe',
-    created_at: '04-27-2023',
-    updated_at: '04-30-2023',
-  },
-  {
-    id: 2,
-    name: 'CSS Crash Course',
-    img_path: '/image1.jpg',
-    uploaded_by: 'Jane Dough',
-    created_at: '04-15-2023',
-    updated_at: '04-23-2023',
-  },
-  {
-    id: 3,
-    name: 'JavaScript Crash Course',
-    img_path: '/image1.jpg',
-    uploaded_by: 'James Bow',
-    created_at: '04-02-2023',
-    updated_at: '05-13-2023',
-  },
-  {
-    id: 4,
-    name: 'React Crash Course',
-    img_path: '/image1.jpg',
-    uploaded_by: 'Jon Bro',
-    created_at: '04-27-2023',
-    updated_at: '04-27-2023',
-  },
-  {
-    id: 5,
-    name: 'Django Crash Course',
-    img_path: '/image1.jpg',
-    uploaded_by: 'Jen Yo',
-    created_at: '04-27-2023',
-    updated_at: '04-27-2023',
-  },
-];

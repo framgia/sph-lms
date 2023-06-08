@@ -1,5 +1,9 @@
+/* eslint-disable multiline-ternary */
+/* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { reset } from '@/features/learning-path/learningPathSlice';
 import { setIsStepValid } from '@/features/stepper/stepperSlice';
+import { useCreateLearningPathMutation } from '@/services/learningPathAPI';
 import AddCourseSection from '@/src/sections/learning-paths/create/AddCourseSection';
 import InitialSection from '@/src/sections/learning-paths/create/InitialSection';
 import PreviewSection from '@/src/sections/learning-paths/create/PreviewSection';
@@ -7,10 +11,11 @@ import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Stepper from '@/src/shared/components/Stepper';
 import Step from '@/src/shared/components/Stepper/Step';
 import Container from '@/src/shared/layouts/Container';
+import { alertError, alertSuccess } from '@/src/shared/utils';
 import { learningPathSchema } from '@/src/shared/utils/validationSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 const LearningPathCreate = (): JSX.Element => {
@@ -39,6 +44,8 @@ const LearningPathCreate = (): JSX.Element => {
   const errorsLength = Object.keys(errors).length;
   const courseLength = values.courses.length;
 
+  const [createLearningPath] = useCreateLearningPathMutation();
+
   const onNext = async (): Promise<boolean> => {
     switch (activeStep) {
       case 0:
@@ -47,10 +54,45 @@ const LearningPathCreate = (): JSX.Element => {
         }
         return await trigger(['name', 'description', 'category']);
       case 2:
-        return await push('/trainer/learning-paths');
+        try {
+          const formData = {
+            ...values,
+            category: values.category.map(({ id }) => id),
+            courses: values.courses.map(({ id, order }) => {
+              return {
+                course: id,
+                course_order: order,
+              };
+            }),
+            is_active: values.isActive,
+            image:
+              typeof values.image === 'string'
+                ? '/' + values.image
+                : values.image?.name
+                ? '/' + values.image.name
+                : null,
+          };
+
+          const res: any = await createLearningPath(formData);
+          if ('error' in res) {
+            const { data } = res.error;
+            const property = Object.keys(data)[0];
+            throw new Error(data[property][0]);
+          } else {
+            alertSuccess('Learning path created successfully!');
+            await push('/trainer/learning-paths');
+            dispatch(reset());
+          }
+        } catch (e: any) {
+          alertError('Something went wrong');
+        }
+        break;
+
       default:
         return validateSteps();
     }
+
+    return false;
   };
 
   const validateSteps = (): boolean => {

@@ -61,12 +61,12 @@ export const courseSlice = createSlice({
     /* eslint-disable @typescript-eslint/naming-convention */
     reset: (state, action: PayloadAction<DBCourse | undefined>) => {
       if (action.payload !== undefined) {
-        const { category, img_path, lessons, name, description } = action.payload;
+        const { category, image, lessons, name, description } = action.payload;
         state.values = {
           name,
           description,
           category,
-          image: img_path,
+          image,
           lessons,
         };
       } else {

@@ -1,5 +1,6 @@
 import random
 
+from app_sph_lms.api.serializer.datetime_serializer import DateTimeSerializer
 from app_sph_lms.api.serializer.trainee_serializer import TraineeSerializer
 from app_sph_lms.models import (Category, Course, CourseCategory,
                                 CourseTrainee, Lesson, Trainee)
@@ -36,12 +37,17 @@ class CourseSerializer(serializers.ModelSerializer):
         queryset=Category.objects.all(),
         many=True
     )
-
     lessons = LessonSerializer(many=True)
+    author = serializers.SerializerMethodField(read_only=True)
+    created_at = DateTimeSerializer(read_only=True)
+    updated_at = DateTimeSerializer(read_only=True)
 
     class Meta:
         model = Course
         fields = "__all__"
+
+    def get_author(self, obj):
+        return f"{obj.author.first_name} {obj.author.last_name}"
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -62,6 +68,7 @@ class CourseSerializer(serializers.ModelSerializer):
                 "Only authenticated Trainers and Admins can create a course."
             )
 
+        validated_data['author'] = user
         categories_data = validated_data.pop('category')
         lessons_data = validated_data.pop('lessons')
 

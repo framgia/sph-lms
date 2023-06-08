@@ -1,5 +1,5 @@
 import type { Course, CourseCategory } from '@/src/shared/utils';
-import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { DropResult } from 'react-beautiful-dnd';
 
 interface LearningPathState {

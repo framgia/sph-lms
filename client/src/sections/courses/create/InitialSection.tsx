@@ -8,7 +8,7 @@ import RFTextField from '@/src/shared/components/ReactForm/RFTextField';
 import ExclamationPointIcon from '@/src/shared/icons/ExclamationPointIcon';
 import type { MultiSelectOptionData } from '@/src/shared/utils';
 import Image from 'next/image';
-import { type FC, Fragment, useEffect } from 'react';
+import { Fragment, useEffect, type FC } from 'react';
 import {
   Controller,
   type FieldErrors,
@@ -32,14 +32,13 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const {
-    data: categoryData,
-  } = useGetCategoryQuery(undefined);
+  const { data: categoryData } = useGetCategoryQuery(undefined);
 
-  const categoriesOption: MultiSelectOptionData[] = categoryData?.map(({ id, name }: { id: number, name: string }) => ({
-    value: id,
-    label: name,
-  })) || [];
+  const categoriesOption: MultiSelectOptionData[] =
+    categoryData?.map(({ id, name }: { id: number; name: string }) => ({
+      value: id,
+      label: name,
+    })) ?? [];
 
   return (
     <Fragment>

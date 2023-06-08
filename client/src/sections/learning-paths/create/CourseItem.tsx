@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { courseModalEnum, openModal } from '@/features/learning-path/courseModalsSlice';
 import Collapse from '@/src/shared/components/Collapse/Collapse';
 import FourDotsIcon from '@/src/shared/icons/FourDotsIcon';
-import type { Course, Lesson } from '@/src/shared/utils';
+import type { Course } from '@/src/shared/utils';
 
 interface CourseItemProps {
   course: Course;
@@ -11,9 +11,10 @@ interface CourseItemProps {
 const CourseItem = ({ course }: CourseItemProps): JSX.Element => {
   const { editMode } = useAppSelector((state) => state.learningPath);
   const dispatch = useAppDispatch();
+  const { name, lessons } = course;
   return (
     <Collapse
-      label={course.name}
+      label={name}
       onDelete={
         editMode
           ? () => {
@@ -22,7 +23,6 @@ const CourseItem = ({ course }: CourseItemProps): JSX.Element => {
           : undefined
       }
     >
-      {/* Change to `course.lessons` during integration */}
       {lessons.length > 0 &&
         lessons.map((lesson) => {
           return (
@@ -37,36 +37,3 @@ const CourseItem = ({ course }: CourseItemProps): JSX.Element => {
 };
 
 export default CourseItem;
-
-const lessons: Lesson[] = [
-  {
-    id: '1',
-    order: 1,
-    title: 'Section 1',
-    link: '#',
-  },
-  {
-    id: '2',
-    order: 2,
-    title: 'Section 2',
-    link: '#',
-  },
-  {
-    id: '3',
-    order: 3,
-    title: 'Section 3',
-    link: '#',
-  },
-  {
-    id: '4',
-    order: 4,
-    title: 'Section 4',
-    link: '#',
-  },
-  {
-    id: '5',
-    order: 5,
-    title: 'Section 5',
-    link: '#',
-  },
-];

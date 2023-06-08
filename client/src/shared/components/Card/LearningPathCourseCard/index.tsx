@@ -1,7 +1,6 @@
 import type { Course } from '@/src/shared/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
 interface Props {
   course: Course;
@@ -13,7 +12,7 @@ const LearningPathCourseCard = ({ course }: Props): JSX.Element => {
     <Link href={`/trainer/courses/${course.id}`}>
       <div className="flex w-fit min-w-[420px] min-h-[128px] overflow-hidden bg-white border rounded-[5px] border-neutral-100">
         <Image
-          src={course.img_path}
+          src={course.image ?? '/image1.jpg'}
           width={150}
           height={150}
           alt={course.name}
