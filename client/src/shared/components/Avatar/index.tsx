@@ -8,7 +8,7 @@ const Avatar: React.FC = () => {
   return (
     <div className="rounded-full bg-gray-300 w-10 h-10 flex items-center justify-center relative overflow-hidden">
       <Image
-        src={profilePic ?? '/default_profile_pic.webp'}
+        src={profilePic ?? '/default-icon.webp'}
         height={100}
         width={100}
         alt="profile_picture"
