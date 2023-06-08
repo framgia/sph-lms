@@ -1,10 +1,10 @@
-import { type FC } from 'react';
-import Link from 'next/link';
 import Avatar from '@/src/shared/components/Avatar';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { type FC } from 'react';
 import { dropdownItems, navItems } from '../../utils/navBarList';
 import Logo from './Logo';
-import { useRouter } from 'next/router';
-import NotificationIcon from '../../icons/NotificationIcon';
+// import NotificationIcon from '../../icons/NotificationIcon';
 import NavBarDropdown from '../Dropdown/NavBarDropdown';
 export interface NavItemProps {
   url: string;
@@ -44,7 +44,7 @@ const Navbar: FC<NavbarProps> = ({ navLinks = navItems }) => {
       </nav>
 
       <div className="flex items-center space-x-2">
-        <NotificationIcon />
+        {/* <NotificationIcon /> */}
         <NavBarDropdown options={dropdownItems} showLogoutButton={true}>
           <Avatar />
         </NavBarDropdown>
