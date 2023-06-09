@@ -31,7 +31,7 @@ export default LearningPathContentSection;
 const courses: Course[] = [
   {
     id: 1,
-    name: 'HTML Crash Course',
+    name: 'The Everlasting Pursuit: Unveiling the Mysteries of Human Existence',
     image: '/image1.jpg',
     lessons: [
       {

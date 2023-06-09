@@ -21,15 +21,15 @@ const CourseCard: React.FC<Props> = ({ course }: Props) => {
           />
         </div>
         <div className="p-3">
-          <div className="text-lg font-semibold">{course.name}</div>
-          <div className="text-xs text-gray-400 mb-3">
+          <div className="text-dark font-medium truncate" title={course.name}>{course.name}</div>
+          <div className="text-xs h-12 text-gray-400 mb-3 line-clamp-3">
             {course.description ?? 'No description to show'}
           </div>
-          <div className="text-sm font-semibold mb-1">Categories:</div>
-          <div className="relative flex justify-between">
+          <div className="text-xs text-dark  font-semibold mb-1">Categories:</div>
+          <div className="flex flex-wrap gap-1">
             {course?.category?.map((category, index) => (
               <span
-                className="text-xs font-semibold text-gray-400 border-2 border-gray-400 px-2 py-1 my-1 rounded-full transition-color duration-300 hover:bg-gray-50"
+                className="text-xs font-semibold text-gray-400 border border-gray-400 px-2 py-1 rounded-full transition-color duration-300 hover:bg-gray-50"
                 key={index}
               >
                 {category.name}
