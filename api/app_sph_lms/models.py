@@ -28,22 +28,6 @@ class UserRole(models.Model):
         return str(self.title)
 
 
-class Status(models.Model):
-    name = models.CharField(
-        max_length=255,
-        unique=True,
-        validators=[MinLengthValidator(5)]
-     )
-
-    class Meta:
-        verbose_name = "Status"
-        verbose_name_plural = "Status"
-        db_table = "app_sph_lms_statuses"
-
-    def __str__(self):
-        return str(self.name)
-
-
 class User(AbstractUser):
     first_name = models.CharField(
             max_length=255,
@@ -63,11 +47,6 @@ class User(AbstractUser):
             validators=[MinLengthValidator(5)]
         )
     role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
-    status = models.ForeignKey(
-            Status,
-            on_delete=models.CASCADE,
-            default=1
-        )
     img_path = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -186,7 +165,6 @@ class Trainer(models.Model):
             on_delete=models.CASCADE,
             related_name="trainer"
         )
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -225,7 +203,6 @@ class Trainee(models.Model):
             on_delete=models.CASCADE,
             related_name="trainee"
         )
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -405,6 +382,10 @@ class LearningPath(models.Model):
         through='LearningPathCourse'
         )
     category = models.ManyToManyField(Category, related_name="category")
+    trainee = models.ManyToManyField(
+            User,
+            related_name='enrolled_learning_paths'
+        )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 

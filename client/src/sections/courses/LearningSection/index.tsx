@@ -1,7 +1,6 @@
 /* eslint-disable multiline-ternary */
 import React, { Fragment, useEffect, useState } from 'react';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
-import AddLearnerModal from './AddLearnerModal';
 import FilterIcon from '@/src/shared/icons/FilterIcon';
 import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
 import { useGetLearnerQuery } from '@/services/traineeAPI';
@@ -15,6 +14,7 @@ import {
 } from '@/features/course/learnerSlice';
 import Button from '@/src/shared/components/Button';
 import Dropdown, { type SortOption } from '@/src/shared/components/Dropdown';
+import AddLearnerModal from './AddLearnerModal';
 
 const LearningSection: React.FC = () => {
   const [selectedSortOption, setSelectedSortOption] = useState('A - Z');
@@ -82,6 +82,9 @@ const LearningSection: React.FC = () => {
               onClick={handleAddMaterialModal}
             />
             {isModalOpen && <AddLearnerModal closeModal={handleAddMaterialModal} />}
+
+            {/* use this if the reusable add learner modal has working add learner functionality */}
+            {/* {isModalOpen && <AddLearnerModal handleHideModal={handleAddMaterialModal} useGetLearnerQuery={useGetLearnerQuery}/>} */}
           </div>
         </div>
         {learners && learners.length > 0 ? (

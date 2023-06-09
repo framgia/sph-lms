@@ -9,7 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True, min_length=5)
     role = serializers.SerializerMethodField()
-    status = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -25,9 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_role(self, obj):
         return {"id": obj.role.id, "title": obj.role.title}
-
-    def get_status(self, obj):
-        return {"id": obj.status.id, "name": obj.status.name}
 
     def create(self, validated_data):
         company_id = self.context["company_id"]

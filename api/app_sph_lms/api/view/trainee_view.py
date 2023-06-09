@@ -1,6 +1,8 @@
 from app_sph_lms.api.serializer.course_serializer import \
     CourseTraineeSerializer
-from app_sph_lms.models import Course, CourseTrainee, Trainee
+from app_sph_lms.api.serializer.learning_path_serializer import \
+    LearningPathTraineeSerializer
+from app_sph_lms.models import Course, CourseTrainee, LearningPath, Trainee
 from rest_framework import generics, status
 from rest_framework.response import Response
 
@@ -42,4 +44,17 @@ class CourseTraineeViewSet(generics.RetrieveAPIView, generics.CreateAPIView):
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
+        return Response({"message": "Trainees Enrolled Successfully"})
+
+
+class LearningPathTraineeViewSet(
+    generics.RetrieveAPIView,
+    generics.CreateAPIView
+):
+
+    queryset = LearningPath.objects.all()
+    serializer_class = LearningPathTraineeSerializer
+
+    def create(self, request, *args, **kwargs):
+        # Add Create Logic Here
         return Response({"message": "Trainees Enrolled Successfully"})

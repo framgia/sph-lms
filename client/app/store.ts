@@ -6,18 +6,20 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import counterReducer from '../features/counter/counterSlice';
 import courseReducer from '../features/course/courseSlice';
-import learnerReducer from '../features/course/learnerSlice';
 import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import courseModalsReducer from '../features/learning-path/courseModalsSlice';
 import learningPathReducer from '../features/learning-path/learningPathSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
 import tabReducer from '../features/tab/tabSlice';
+import courseLearnerReducer from '../features/course/learnerSlice';
+import learningPathLearnerReducer from '../features/learning-path/learnerSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     course: courseReducer,
-    courseLearner: learnerReducer,
+    courseLearner: courseLearnerReducer,
+    learningPathLearner: learningPathLearnerReducer,
     lessonModals: lessonModalsReducer,
     learningPath: learningPathReducer,
     courseModals: courseModalsReducer,

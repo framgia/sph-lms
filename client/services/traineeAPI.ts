@@ -10,7 +10,7 @@ export const getCourseTrainee = createApi({
       return headers;
     },
   }),
-  tagTypes: ['CourseTrainee'],
+  tagTypes: ['CourseTrainee', 'LearningPathTrainee'],
   endpoints: (builder) => ({
     getLearner: builder.query({
       query: ({ courseId, isEnrolled, searchQuery, pageNumber, selectedSortOption }) => ({
@@ -23,6 +23,17 @@ export const getCourseTrainee = createApi({
         },
       }),
       providesTags: ['CourseTrainee'],
+    }),
+    getLearningPathLearner: builder.query({
+      query: ({ courseId, isEnrolled, searchQuery, pageNumber }) => ({
+        url: `learning-path/${courseId}/trainee`,
+        params: {
+          is_enrolled: isEnrolled,
+          search: searchQuery,
+          page: pageNumber,
+        },
+      }),
+      providesTags: ['LearningPathTrainee'],
     }),
     enrollLearner: builder.mutation({
       query: ({ courseId, postData }) => ({
@@ -38,4 +49,5 @@ export const getCourseTrainee = createApi({
   }),
 });
 
-export const { useGetLearnerQuery, useEnrollLearnerMutation } = getCourseTrainee;
+export const { useGetLearnerQuery, useGetLearningPathLearnerQuery, useEnrollLearnerMutation } =
+  getCourseTrainee;
