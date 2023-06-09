@@ -9,14 +9,15 @@ interface CourseItemProps {
 }
 
 const CourseItem = ({ course }: CourseItemProps): JSX.Element => {
-  const { editMode } = useAppSelector((state) => state.learningPath);
+  const { editMode: courseEditMode } = useAppSelector((state) => state.course);
+  const { editMode: learningPathEditMode } = useAppSelector((state) => state.learningPath);
   const dispatch = useAppDispatch();
   const { name, lessons } = course;
   return (
     <Collapse
       label={name}
       onDelete={
-        editMode
+        learningPathEditMode
           ? () => {
               dispatch(openModal({ type: courseModalEnum.DELETE, course }));
             }
@@ -27,7 +28,7 @@ const CourseItem = ({ course }: CourseItemProps): JSX.Element => {
         lessons.map((lesson) => {
           return (
             <div key={lesson.id} className="flex gap-1 items-center w-full py-4 px-6">
-              <FourDotsIcon />
+              {courseEditMode && <FourDotsIcon />}
               <h3 className="text-xs">{lesson.title}</h3>
             </div>
           );

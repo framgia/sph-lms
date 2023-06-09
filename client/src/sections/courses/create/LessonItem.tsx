@@ -16,7 +16,7 @@ const LessonItem: FC<LessonItemProps> = ({ lesson }) => {
 
   return (
     <div className="flex items-center min-w-[70%] w-fit p-[17px] border rounded-md space-x-1 bg-white">
-      <FourDotsIcon />
+      {editMode && <FourDotsIcon />}
       <h3 className="flex-grow text-[14px]">{lesson.title}</h3>
       {editMode && (
         <div className="flex space-x-[10px]">
