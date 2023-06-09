@@ -11,6 +11,14 @@ export const getLearningPath = createApi({
     },
   }),
   endpoints: (builder) => ({
+    getLearningPaths: builder.query<any, { page: number; pageSize?: number; isActive?: boolean }>({
+      query: ({ page, pageSize, isActive }) => {
+        const pageParam = `page=${page}`;
+        const pageSizeParam = pageSize ? `&page_size=${pageSize}` : '';
+        const statusParam = isActive !== undefined ? `&is_active=${isActive}` : '';
+        return `learning-path?${pageParam}${pageSizeParam}${statusParam}`;
+      },
+    }),
     createLearningPath: builder.mutation({
       query: (data) => ({
         url: 'learning-path/',
@@ -21,4 +29,4 @@ export const getLearningPath = createApi({
   }),
 });
 
-export const { useCreateLearningPathMutation } = getLearningPath;
+export const { useGetLearningPathsQuery, useCreateLearningPathMutation } = getLearningPath;

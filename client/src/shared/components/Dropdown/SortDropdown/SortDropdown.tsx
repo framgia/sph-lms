@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 export interface SortOption {
   label: string;
@@ -42,10 +42,10 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
       >
         <span className="flex  border-gray-500 text-[14px] px-2 rounded">
           {selectedOption ? (
-            <>
+            <Fragment>
               {selectedOption.label}
               {selectedOption.icon && <span>{selectedOption.icon}</span>}
-            </>
+            </Fragment>
           ) : (
             buttonText
           )}

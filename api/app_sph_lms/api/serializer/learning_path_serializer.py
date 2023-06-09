@@ -26,10 +26,14 @@ class LearningPathSerializer(serializers.ModelSerializer):
       child=LearningPathCourseSerializer(),
       write_only=True
     )
+    course_count = serializers.SerializerMethodField()
 
     class Meta:
         model = LearningPath
         exclude = ['author']
+
+    def get_course_count(self, instance):
+      return instance.courses.all().count()
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
