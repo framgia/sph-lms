@@ -1,7 +1,7 @@
 from app_sph_lms.models import (Category, Class, Company, Course,
                                 CourseCategory, CourseTag, CourseTrainee,
-                                LearningPath, LearningPathCourse, Lesson,
-                                Status, Tag, Trainee, Trainer, User, UserRole)
+                                LearningPath, LearningPathCourse, Lesson, Tag,
+                                Trainee, Trainer, User, UserRole)
 from django.contrib import admin
 
 # Register your models here.
@@ -14,7 +14,6 @@ admin.site.register(Tag)
 admin.site.register(CourseTag)
 admin.site.register(Class)
 admin.site.register(UserRole)
-admin.site.register(Status)
 admin.site.register(Trainer)
 admin.site.register(Trainee)
 admin.site.register(Lesson)

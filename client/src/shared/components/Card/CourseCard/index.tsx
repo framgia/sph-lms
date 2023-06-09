@@ -27,7 +27,7 @@ const CourseCard: React.FC<Props> = ({ course }: Props) => {
           </div>
           <div className="text-sm font-semibold mb-1">Categories:</div>
           <div className="relative flex justify-between">
-            {course.category.map((category, index) => (
+            {course?.category?.map((category, index) => (
               <span
                 className="text-xs font-semibold text-gray-400 border-2 border-gray-400 px-2 py-1 my-1 rounded-full transition-color duration-300 hover:bg-gray-50"
                 key={index}

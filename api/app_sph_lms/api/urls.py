@@ -6,7 +6,8 @@ from app_sph_lms.api.view.course_view import (CourseCategoryDetail,
                                               CourseCategoryList, CourseDetail,
                                               CourseList)
 from app_sph_lms.api.view.learning_path_view import LearningPathList
-from app_sph_lms.api.view.trainee_view import CourseTraineeViewSet
+from app_sph_lms.api.view.trainee_view import (CourseTraineeViewSet,
+                                               LearningPathTraineeViewSet)
 from app_sph_lms.api.view.user_view import (CompanyUsersViewSet, TraineeList,
                                             UserDetail)
 from django.urls import path
@@ -92,5 +93,10 @@ urlpatterns = [
         'learning-path/',
         LearningPathList.as_view(),
         name="learning-path-list"
-    )
+    ),
+    path(
+        'learning-path/<int:pk>/trainee',
+        LearningPathTraineeViewSet.as_view(),
+        name="learning-path-trainee"
+    ),
 ]

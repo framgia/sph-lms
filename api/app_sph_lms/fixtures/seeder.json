@@ -1,15 +1,5 @@
 [
   {
-      "model": "app_sph_lms.Status",
-      "pk": 1,
-      "fields": { "name": "Active"}
-  },
-  {
-      "model": "app_sph_lms.Status",
-      "pk": 2,
-      "fields": { "name": "Inactive"}
-  },
-  {
       "model": "app_sph_lms.UserRole",
       "pk": 1,
       "fields": { "title": "Admin"}
