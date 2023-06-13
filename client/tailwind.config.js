@@ -15,6 +15,10 @@ module.exports = {
       inter: ['Inter'],
     },
     extend: {
+      fontFamily: {
+        lora: ['Lora', 'serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
       colors: {
         blueGray: '#E0E5ED',
         lightBlue: '#325184',
