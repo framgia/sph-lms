@@ -6,11 +6,14 @@ import Link from 'next/link';
 import { Fragment, useState } from 'react';
 
 const LearningPathListPage: React.FC = () => {
+  const [search, setSearch] = useState('');
   const [activePage, setActivePage] = useState(1);
   const [inactivePage, setInactivePage] = useState(1);
 
-  const handleSearch = (value: string): void => {
-    console.log(value);
+  const handleSearch = (search: string): void => {
+    setSearch(search);
+    setActivePage(1);
+    setInactivePage(1);
   };
 
   const renderTabContent = (status: boolean): JSX.Element => {
@@ -18,6 +21,7 @@ const LearningPathListPage: React.FC = () => {
       <LearningPathList
         isActive={status}
         page={status ? activePage : inactivePage}
+        search={search}
         handleChangePageEvent={(page) => {
           status ? setActivePage(page) : setInactivePage(page);
         }}
