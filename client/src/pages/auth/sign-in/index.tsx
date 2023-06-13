@@ -1,47 +1,43 @@
-import React, { Fragment } from 'react';
-import Container from '@/src/shared/layouts/Container';
-import { useAuthSignIn } from '@/src/shared/hooks/useAuthSignIn';
-import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
-import Logo from '@/src/shared/components/Logo';
+import React from 'react';
+import SunBearLogo from '@/src/shared/icons/SunBear';
+import Button from '@/src/shared/components/Button';
+import GoogleIcon from '@/src/shared/icons/GoogleIcon';
 
 const SignIn: React.FC = () => {
-  const { onSubmit, handleSubmit, register, errors } = useAuthSignIn();
-
   return (
-    <Fragment>
-      <div className="flex justify-center items-center h-screen bg-gray-200">
-        <Container>
-          <Logo />
-          <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
-            <h1 className="flex justify-center text-3xl font-medium mb-4 mb-5 text-sky-800">
-              Sign in
-            </h1>
-            <hr className="mb-5 pb-8" />
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <RFInputField
-                label="Email"
-                {...register('email', { required: true, pattern: /@/ })}
-                error={
-                  errors.email !== undefined &&
-                  'This field is required and must be an email address.'
-                }
-              />
-              <RFInputField
-                label="Password"
-                type="password"
-                {...register('password', { required: true })}
-                error={
-                  errors.password !== undefined && 'This field is required'
-                }
-              />
-              <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mt-5">
-                Log in
-              </button>
-            </form>
+    <div className="bg-[#FDFBFB] h-screen flex justify-center items-center">
+      <div
+        className="w-[25rem] h-[34rem] bg-white rounded-[5px] gap-12 px-8 flex justify-center flex-col items-center border border-[#E9E2E2] bg-gradient-to-b"
+        style={{
+          backgroundImage:
+            'linear-gradient(180deg, rgba(245, 211, 207, 0) 0%, rgba(245, 211, 207, 0.337423) 58.85%, #F5D3CF 84.9%)',
+        }}
+      >
+        <div className="flex flex-col w-full items-center">
+          <SunBearLogo width={104} height={104} />
+          <div className="text-[2rem] mb-2 font-lora font-semibold tracking-[-0.04em]">
+            <span className="text-primary-base spacing font-semibold">Sun</span>
+            <span className="text-neutral-900">Learning</span>
           </div>
-        </Container>
+          <p className="text-base font-normal font-inter text-neutral-700 tracking-[0.11em]">
+            Training and facilitating growth.
+          </p>
+        </div>
+        <div className="w-full">
+          <Button
+            text="Sign in with Google"
+            buttonClass="text-primary-base border border-primary-base font-inter !font-normal text-sm flex items-center justify-center gap-[10px] py-2 px-4 w-full"
+            onClick={() => {
+              alert('Google Sign In');
+            }}
+          >
+            <div className="self-end pb-[1px]">
+              <GoogleIcon />
+            </div>
+          </Button>
+        </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

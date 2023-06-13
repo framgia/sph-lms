@@ -2,22 +2,20 @@ import { type FC } from 'react';
 
 interface SunBearProps {
   className?: string;
+  width?: number;
+  height?: number;
 }
 
-const SunBear: FC<SunBearProps> = ({ className }) => {
+const SunBear: FC<SunBearProps> = ({ className, width = 184.2, height = 184.2 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="184.2"
-      height="184.2"
+      width={width}
+      height={height}
       viewBox="0 0 184.2 184.2"
       className={className}
     >
-      <g
-        id="グループ_262"
-        data-name="グループ 262"
-        transform="translate(416.485 37.21)"
-      >
+      <g id="グループ_262" data-name="グループ 262" transform="translate(416.485 37.21)">
         <path
           id="パス_1467"
           data-name="パス 1467"

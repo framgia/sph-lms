@@ -10,6 +10,10 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    fontFamily: {
+      lora: ['Lora', 'serif'],
+      inter: ['Inter'],
+    },
     extend: {
       colors: {
         blueGray: '#E0E5ED',
@@ -37,6 +41,7 @@ module.exports = {
         danger: '#B21D1D',
         checkbox: '#373737',
         primary: {
+          base: '#FF0000',
           900: '#311D1D',
           800: '#7D473F',
           700: '#B35547',
