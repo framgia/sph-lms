@@ -15,19 +15,6 @@ def generate_code(length=10):
 
 
 # Create your models here.
-class UserRole(models.Model):
-
-    title = models.CharField(max_length=255, unique=True)
-
-    class Meta:
-        verbose_name = "UserRole"
-        verbose_name_plural = "UserRole"
-        db_table = "app_sph_lms_user_roles"
-
-    def __str__(self):
-        return str(self.title)
-
-
 class User(AbstractUser):
     first_name = models.CharField(
             max_length=255,
@@ -39,15 +26,15 @@ class User(AbstractUser):
             null=False,
             validators=[MinLengthValidator(2)]
         )
-    is_active = models.BooleanField(default=1)
     email = models.EmailField(
             unique=True,
             null=False,
             db_index=True,
             validators=[MinLengthValidator(5)]
         )
-    role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
     img_path = models.CharField(max_length=255, null=True)
+    is_active = models.BooleanField(default=1)
+    is_trainer = models.BooleanField(default=1)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -57,6 +44,13 @@ class User(AbstractUser):
         db_table = "app_sph_lms_users"
 
     def __str__(self):
+        return (
+            "email: " +
+            str(self.email) +
+            " | " +
+            "Is_trainer: " +
+            str(self.is_trainer)
+        )
         return str(self.email)
 
 
