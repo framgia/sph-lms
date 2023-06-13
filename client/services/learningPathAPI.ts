@@ -10,6 +10,7 @@ export const getLearningPath = createApi({
       return headers;
     },
   }),
+  tagTypes: ['LearningPath'],
   endpoints: (builder) => ({
     getLearningPaths: builder.query<any, { page: number; pageSize?: number; isActive?: boolean }>({
       query: ({ page, pageSize, isActive }) => {
@@ -18,6 +19,7 @@ export const getLearningPath = createApi({
         const statusParam = isActive !== undefined ? `&is_active=${isActive}` : '';
         return `learning-path?${pageParam}${pageSizeParam}${statusParam}`;
       },
+      providesTags: ['LearningPath'],
     }),
     createLearningPath: builder.mutation({
       query: (data) => ({
@@ -25,6 +27,7 @@ export const getLearningPath = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['LearningPath'],
     }),
   }),
 });

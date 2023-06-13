@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getUserToken } from '@/src/shared/utils';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const getCourseTrainee = createApi({
   reducerPath: 'getCourseTrainee',
@@ -46,8 +46,23 @@ export const getCourseTrainee = createApi({
       }),
       invalidatesTags: ['CourseTrainee'],
     }),
+    enrollLearningPathLearner: builder.mutation({
+      query: ({ courseId, postData }) => ({
+        url: `learning-path/${courseId}/trainee`,
+        method: 'POST',
+        body: postData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      invalidatesTags: ['LearningPathTrainee'],
+    }),
   }),
 });
 
-export const { useGetLearnerQuery, useGetLearningPathLearnerQuery, useEnrollLearnerMutation } =
-  getCourseTrainee;
+export const {
+  useGetLearnerQuery,
+  useGetLearningPathLearnerQuery,
+  useEnrollLearnerMutation,
+  useEnrollLearningPathLearnerMutation,
+} = getCourseTrainee;
