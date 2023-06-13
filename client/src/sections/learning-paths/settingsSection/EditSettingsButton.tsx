@@ -14,7 +14,7 @@ const EditSettingsButton: FC = () => {
   const dispatch = useAppDispatch();
   const defaultValues = {
     ...values,
-    category: values.category.map(({ name, id }) => ({
+    category: values.category?.map(({ name, id }) => ({
       label: name,
       value: id,
     })),
@@ -40,7 +40,7 @@ const EditSettingsButton: FC = () => {
       areInputsValid = await trigger(['name', 'description', 'category']);
     }
 
-    const isValidated = areInputsValid && values.courses.length > 0;
+    const isValidated = areInputsValid && values?.courses.length > 0;
     dispatch(setIsTabValid(isValidated));
 
     if (isValidated) {

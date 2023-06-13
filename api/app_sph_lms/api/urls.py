@@ -5,7 +5,8 @@ from app_sph_lms.api.view.class_view import ClassList
 from app_sph_lms.api.view.course_view import (CourseCategoryDetail,
                                               CourseCategoryList, CourseDetail,
                                               CourseList)
-from app_sph_lms.api.view.learning_path_view import LearningPathList
+from app_sph_lms.api.view.learning_path_view import (LearningPathList,
+                                                     LearningPathDetail)
 from app_sph_lms.api.view.trainee_view import (CourseTraineeViewSet,
                                                LearningPathTraineeViewSet)
 from app_sph_lms.api.view.user_view import (CompanyUsersViewSet, TraineeList,
@@ -99,4 +100,9 @@ urlpatterns = [
         LearningPathTraineeViewSet.as_view(),
         name="learning-path-trainee"
     ),
+    path(
+        'learning-paths/<int:pk>',
+        LearningPathDetail.as_view(),
+        name="learning-path-detail"
+    )
 ]

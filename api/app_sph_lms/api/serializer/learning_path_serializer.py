@@ -3,6 +3,8 @@ import random
 from app_sph_lms.models import (Category, Course, LearningPath,
                                 LearningPathCourse, User)
 from rest_framework import serializers
+from app_sph_lms.api.serializer.course_serializer import CourseSerializer
+from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from rest_framework.pagination import PageNumberPagination
 
 
@@ -33,7 +35,7 @@ class LearningPathSerializer(serializers.ModelSerializer):
         exclude = ['author']
 
     def get_course_count(self, instance):
-      return instance.courses.all().count()
+        return instance.courses.all().count()
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -91,6 +93,25 @@ class LearningPathSerializer(serializers.ModelSerializer):
             )
 
         return learning_path
+
+
+class ExtendedCourse(CourseSerializer):
+    order = serializers.SerializerMethodField()
+
+    def get_order(self, course):
+        return course.learning_path_course.first().course_order
+
+    class Meta(CourseSerializer.Meta):
+        fields = CourseSerializer.Meta.fields
+
+
+class LearningPathDetailSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(many=True, read_only=True)
+    courses = ExtendedCourse(many=True, read_only=True)
+
+    class Meta:
+        model = LearningPath
+        fields = "__all__"
 
 
 class LearningPathTraineeSerializer(serializers.ModelSerializer):
