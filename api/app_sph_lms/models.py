@@ -44,13 +44,6 @@ class User(AbstractUser):
         db_table = "app_sph_lms_users"
 
     def __str__(self):
-        return (
-            "email: " +
-            str(self.email) +
-            " | " +
-            "Is_trainer: " +
-            str(self.is_trainer)
-        )
         return str(self.email)
 
 
