@@ -34,7 +34,7 @@ export const useAuthMiddleware = (): void => {
       if (router.asPath === '/' || router.asPath === '/auth/sign-in') {
         router.push('/home');
       }
-    } else if (router.asPath !== '/' && router.asPath !== '/auth/sign-in') {
+    } else if (router.asPath !== '/' && router.asPath !== '/auth/sign-in' && router.asPath !== '/auth/old') { //! Remove `router.asPath !== '/auth/old'` after google sign in integration
       router.push('/');
     }
   }, [router]);
