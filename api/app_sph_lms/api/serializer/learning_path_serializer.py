@@ -49,7 +49,7 @@ class LearningPathSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         user = self.context['request'].user
-        if user.role.title not in ['Admin', 'Trainer']:
+        if not user.is_trainer:
             raise serializers.ValidationError(
                 {
                   'message':
@@ -150,7 +150,7 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
 
             # with filter, get every user, will update base from model refactor
             trainees = User.objects.filter(
-                    role__title='trainee'
+                    is_trainer=False
                 ).exclude(
                         enrolled_learning_paths=obj
                     )

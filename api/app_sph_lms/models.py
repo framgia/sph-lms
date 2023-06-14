@@ -15,19 +15,6 @@ def generate_code(length=10):
 
 
 # Create your models here.
-class UserRole(models.Model):
-
-    title = models.CharField(max_length=255, unique=True)
-
-    class Meta:
-        verbose_name = "UserRole"
-        verbose_name_plural = "UserRole"
-        db_table = "app_sph_lms_user_roles"
-
-    def __str__(self):
-        return str(self.title)
-
-
 class User(AbstractUser):
     first_name = models.CharField(
             max_length=255,
@@ -40,14 +27,21 @@ class User(AbstractUser):
             validators=[MinLengthValidator(2)]
         )
     is_active = models.BooleanField(default=1)
+    is_trainer = models.BooleanField(default=0)
     email = models.EmailField(
             unique=True,
             null=False,
             db_index=True,
             validators=[MinLengthValidator(5)]
         )
-    role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
-    img_path = models.CharField(max_length=255, null=True)
+    image = models.CharField(max_length=255, null=True)
+    trainer_id = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='trainees'
+    )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -384,7 +378,8 @@ class LearningPath(models.Model):
     category = models.ManyToManyField(Category, related_name="category")
     trainee = models.ManyToManyField(
             User,
-            related_name='enrolled_learning_paths'
+            related_name='enrolled_learning_paths',
+            limit_choices_to={'is_trainer': False},
         )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)

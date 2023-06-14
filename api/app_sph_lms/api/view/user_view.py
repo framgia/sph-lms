@@ -8,6 +8,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.response import Response
 
+# ROLE RELATED LOGICS in this file is not updated/adjusted
+# This file might be undergo an overall refactor
+# due to new authentication implementations
+# ill just comment it out to prevent further errors
+
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
@@ -51,7 +56,7 @@ class CompanyUsersViewSet(generics.CreateAPIView, generics.RetrieveAPIView):
             context={
                 "company_id": self.kwargs.get(self.lookup_url_kwarg),
                 "password": encypted_password,
-                "role": request.data["role"],
+                # "role": request.data["role"],
             },
         )
         serializer.is_valid(raise_exception=True)
@@ -63,6 +68,7 @@ class CompanyUsersViewSet(generics.CreateAPIView, generics.RetrieveAPIView):
                 "message": "Successfully created new user",
             }
         )
+
 
 class TraineeList(generics.ListAPIView):
     queryset = Trainee.objects.all()
