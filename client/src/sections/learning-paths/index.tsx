@@ -8,16 +8,19 @@ interface LearningPathListProps {
   isActive: boolean;
   page: number;
   handleChangePageEvent: (page: number) => void;
+  search?: string;
 }
 
 const LearningPathList = ({
   isActive,
   page,
   handleChangePageEvent,
+  search = '',
 }: LearningPathListProps): JSX.Element => {
   const { data, error, isLoading } = useGetLearningPathsQuery({
     page,
     isActive,
+    search,
   });
 
   if (isLoading) {

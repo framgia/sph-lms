@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { getUserToken } from '@/src/shared/utils';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
@@ -10,14 +11,20 @@ export const getLearningPath = createApi({
       return headers;
     },
   }),
+  tagTypes: ['LearningPath'],
   endpoints: (builder) => ({
-    getLearningPaths: builder.query<any, { page: number; pageSize?: number; isActive?: boolean }>({
-      query: ({ page, pageSize, isActive }) => {
+    getLearningPaths: builder.query<
+      any,
+      { page: number; pageSize?: number; isActive?: boolean; search?: string }
+    >({
+      query: ({ page, pageSize, isActive, search }) => {
         const pageParam = `page=${page}`;
         const pageSizeParam = pageSize ? `&page_size=${pageSize}` : '';
         const statusParam = isActive !== undefined ? `&is_active=${isActive}` : '';
-        return `learning-path?${pageParam}${pageSizeParam}${statusParam}`;
+        const searchParam = search ? `&search=${search}` : '';
+        return `learning-path?${pageParam}${pageSizeParam}${statusParam}${searchParam}`;
       },
+      providesTags: ['LearningPath'],
     }),
     createLearningPath: builder.mutation({
       query: (data) => ({
@@ -25,6 +32,7 @@ export const getLearningPath = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['LearningPath'],
     }),
   }),
 });

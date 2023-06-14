@@ -30,10 +30,10 @@ class LearningPathSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LearningPath
-        exclude = ['author']
+        exclude = ['author', 'trainee']
 
     def get_course_count(self, instance):
-      return instance.courses.all().count()
+        return instance.courses.all().count()
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
