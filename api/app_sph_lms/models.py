@@ -399,8 +399,16 @@ class LearningPath(models.Model):
 
 
 class LearningPathCourse(models.Model):
-    learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    learning_path = models.ForeignKey(
+        LearningPath,
+        on_delete=models.CASCADE,
+        related_name='learning_path_course'
+        )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name='learning_path_course'
+        )
     course_order = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)

@@ -29,7 +29,7 @@ const SettingsSection: FC = () => {
 
   const defaultValues = {
     ...values,
-    category: values.category.map(({ name, id }) => ({
+    category: values.category?.map(({ name, id }) => ({
       label: name,
       value: id,
     })),

@@ -1,5 +1,5 @@
 from app_sph_lms.api.serializer.learning_path_serializer import \
-    LearningPathSerializer
+    (LearningPathSerializer, LearningPathDetailSerializer)
 from app_sph_lms.api.view.course_view import LargeResultsSetPagination
 from app_sph_lms.models import LearningPath
 from rest_framework import generics, serializers
@@ -27,3 +27,8 @@ class LearningPathList(generics.ListCreateAPIView):
                 raise serializers.ValidationError("Invalid value for is_active. Should either be 'true' or 'false'.")
 
         return queryset
+
+
+class LearningPathDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = LearningPath.objects.all()
+    serializer_class = LearningPathDetailSerializer

@@ -1,5 +1,5 @@
-import type { Course, CourseCategory } from '@/src/shared/utils';
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { Course, CourseCategory, LearningPath } from '@/src/shared/utils';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import type { DropResult } from 'react-beautiful-dnd';
 
 interface LearningPathState {
@@ -47,8 +47,21 @@ export const learningPathSlice = createSlice({
       }
       state.values.courses = courses.map((course, index) => ({ ...course, order: index }));
     },
-    reset: (state) => {
-      state.values = initialState.values;
+    /* eslint-disable @typescript-eslint/naming-convention */
+    reset: (state, action: PayloadAction<LearningPath | undefined>) => {
+      if (action.payload !== undefined) {
+        const { category, image, courses, description, is_active, name } = action.payload;
+        state.values = {
+          name,
+          description,
+          category,
+          image,
+          courses,
+          isActive: is_active,
+        };
+      } else {
+        state.values = initialState.values;
+      }
     },
   },
 });

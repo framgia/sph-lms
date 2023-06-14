@@ -2,22 +2,22 @@ import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Container from '@/src/shared/layouts/Container';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import LearningPathLearnersSection from '@/src/sections/learning-paths/LearnersSection';
 import LearningPathContentSection from '@/src/sections/learning-paths/ContentSection';
 import SettingsSection from '@/src/sections/learning-paths/settingsSection';
 import EditSettingsButton from '@/src/sections/learning-paths/settingsSection/EditSettingsButton';
-
-interface LearningPath {
-  id: number;
-  name: string;
-}
+import { useGetLearningPathQuery } from '@/services/learningPathAPI';
+import { useRouter } from 'next/router';
+import { useAppDispatch } from '@/app/hooks';
+import { reset } from '@/features/learning-path/learningPathSlice';
 
 const LearningPathContent: React.FC = () => {
-  const learningPath: LearningPath = {
-    id: 1,
-    name: 'Learning Path 1',
-  };
+  const { query } = useRouter();
+  const dispatch = useAppDispatch();
+  const { data: learningPath } = useGetLearningPathQuery(query.id, {
+    skip: query.id === undefined,
+  });
 
   const paths = [
     {
@@ -26,10 +26,15 @@ const LearningPathContent: React.FC = () => {
     },
     {
       text: learningPath?.name,
-      url: `/trainer/learning-paths/${learningPath.id}`,
+      url: `/trainer/learning-paths/${learningPath?.id}`,
     },
   ];
 
+  useEffect(() => {
+    if (learningPath) {
+      dispatch(reset(learningPath));
+    }
+  }, [learningPath]);
   return (
     <Fragment>
       <div className="ml-5 mt-5">
@@ -41,7 +46,7 @@ const LearningPathContent: React.FC = () => {
           </div>
           <Tabs>
             <Tab title="Content">
-              <LearningPathContentSection />
+              <LearningPathContentSection learningPath={learningPath} />
             </Tab>
             <Tab title="Learners">
               <LearningPathLearnersSection />

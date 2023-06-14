@@ -1,24 +1,26 @@
 import LearningPathCourseCard from '@/src/shared/components/Card/LearningPathCourseCard';
 import ChevronDown from '@/src/shared/icons/ChevronDownIcon';
-import type { Course } from '@/src/shared/utils';
+import type { LearningPath } from '@/src/shared/utils';
+import React, { type FC } from 'react';
 
-const LearningPathContentSection = (): JSX.Element => {
+interface LearningPathContentSectionProp {
+  learningPath: LearningPath;
+}
+
+const LearningPathContentSection: FC<LearningPathContentSectionProp> = ({
+  learningPath,
+}): JSX.Element => {
   return (
     <div className="flex flex-col gap-4 mb-16">
       <div className="flex flex-col gap-2">
         <span className="text-sm text-dark font-medium">Description:</span>
-        <p className="text-sm">
-          Lorem ipsum dolor sit amet consectetur. Lectus sed interdum euismod rhoncus quis eu
-          elementum. Sapien eu faucibus nisl tristique ultricies morbi pellentesque volutpat
-          egestas. Sapien eu faucibus nisl tristique ultricies morbi pellentesque volutpat egestas.
-          Sapien eu faucibus nisl tristique ultricies morbi pellentesque volutpat egestas.
-        </p>
+        <p className="text-sm">{learningPath?.description}</p>
       </div>
       <div>
-        {courses.map((course, index) => (
+        {learningPath?.courses.map((course, index) => (
           <div key={course.id} className="flex flex-col items-center">
             <LearningPathCourseCard course={course} />
-            {courses.length - 1 !== index && <ChevronDown height={40} width={40} />}
+            {learningPath?.courses.length - 1 !== index && <ChevronDown height={40} width={40} />}
           </div>
         ))}
       </div>
@@ -27,60 +29,3 @@ const LearningPathContentSection = (): JSX.Element => {
 };
 
 export default LearningPathContentSection;
-
-const courses: Course[] = [
-  {
-    id: 1,
-    name: 'The Everlasting Pursuit: Unveiling the Mysteries of Human Existence',
-    image: '/image1.jpg',
-    lessons: [
-      {
-        id: '1',
-        link: '',
-        order: 1,
-        title: 'Section 1',
-      },
-    ],
-    categories: [],
-    description: 'Description',
-    is_active: true,
-    order: 1,
-    ratings: 5,
-  },
-  {
-    id: 2,
-    name: 'CSS Crash Course',
-    image: '/image1.jpg',
-    lessons: [
-      {
-        id: '1',
-        link: '',
-        order: 1,
-        title: 'Section 1',
-      },
-    ],
-    categories: [],
-    description: 'Description',
-    is_active: true,
-    order: 1,
-    ratings: 5,
-  },
-  {
-    id: 3,
-    name: 'JavaScript Crash Course',
-    image: '/image1.jpg',
-    lessons: [
-      {
-        id: '1',
-        link: '',
-        order: 1,
-        title: 'Section 1',
-      },
-    ],
-    categories: [],
-    description: 'Description',
-    is_active: true,
-    order: 1,
-    ratings: 5,
-  },
-];
