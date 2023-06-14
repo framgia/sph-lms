@@ -5,24 +5,35 @@ import FilterIcon from '@/src/shared/icons/FilterIcon';
 import SortDropdown, {
   type SortOption,
 } from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
-import ArrowIcon from '@/src/shared/icons/ArrowIcon';
+// import ArrowIcon from '@/src/shared/icons/ArrowIcon';
 import AddLearnerModal from '../../../shared/components/Modal/AddLearnerModal';
 import Button from '@/src/shared/components/Button';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { useRouter } from 'next/router';
-import { addTrainees, seeMoreTrainees } from '@/features/learning-path/learnerSlice';
+import {
+  addTrainees,
+  resetTraineesList,
+  seeMoreTrainees,
+} from '@/features/learning-path/learnerSlice';
 import { useGetLearningPathLearnerQuery } from '@/services/traineeAPI';
 
 const LearningPathLearnersSection: React.FC = () => {
+  const [selectedSortOption, setSelectedSortOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = router.query;
   const courseID = params.id;
-  const { trainees, page } = useAppSelector((state) => state.learningPathLearner);
+  const {
+    trainees,
+    page,
+    selectedSortOption: sortOption,
+  } = useAppSelector((state) => state.learningPathLearner);
   const { data: trainee, isLoading } = useGetLearningPathLearnerQuery({
     courseId: courseID,
     isEnrolled: true,
     pageNumber: page,
+    selectedSortOption,
   });
   const learners = trainees;
   const totalPages = trainee?.learners.total_pages;
@@ -33,33 +44,41 @@ const LearningPathLearnersSection: React.FC = () => {
     }
   }, [trainee, isLoading, dispatch]);
 
-  const [, setSelectedSortOption] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
 
   const sortOptions: SortOption[] = [
     { label: 'A - Z', value: 'A - Z' },
     { label: 'Z - A', value: 'Z - A' },
-    {
-      label: 'Progress',
-      value: 'progress-high',
-      icon: <ArrowIcon className="transform rotate-90" />,
-    },
-    {
-      label: 'Progress',
-      value: 'progress-low',
-      icon: <ArrowIcon className="transform -rotate-90" />,
-    },
+    // {
+    //   label: 'Progress',
+    //   value: 'progress-high',
+    //   icon: <ArrowIcon className="transform rotate-90" />,
+    // },
+    // {
+    //   label: 'Progress',
+    //   value: 'progress-low',
+    //   icon: <ArrowIcon className="transform -rotate-90" />,
+    // },
   ];
 
-  const handleSortOptionChange = (value: string): void => {
-    setSelectedSortOption(value);
+  const handleSortOptionChange = (option: string): void => {
+    setSelectedSortOption(option);
+    setSelectedOption(option);
+    if (sortOption !== option) {
+      dispatch(resetTraineesList(option));
+    }
   };
 
   const handleAddLernerModal = (): void => {
     setIsModalOpen(!isModalOpen);
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetTraineesList(sortOption));
+    };
+  }, []);
 
   return (
     <Fragment>
@@ -78,12 +97,11 @@ const LearningPathLearnersSection: React.FC = () => {
 
         {learners?.length > 0 ? (
           <div className="mx-4">
-            <div className="flex items-center justify-between text-[15px] my-2 cursor-pointer">
-              <div className="text-gray2 text-[12px] font-[400]">Ranked by progress %</div>
+            <div className="flex items-center ml-3 text-[15px] my-2 cursor-pointer">
               <SortDropdown
                 options={sortOptions}
                 onChange={handleSortOptionChange}
-                buttonText="Filter"
+                buttonText={selectedOption ?? 'A - Z'}
                 buttonIcon={<FilterIcon />}
                 buttonClass="w-auto h-[25px] text-[14px]"
               />
@@ -99,21 +117,20 @@ const LearningPathLearnersSection: React.FC = () => {
                 </div>
               ))}
             </div>
-
-            <div className="flex items-center mt-2 mb-5">
-              <ShowIcon className="mt-[3px]" />
-              <button
-                className={`text-[0.77rem] text-gray-600 font-semibold ml-1 underline underline-offset-[3px] ${
-                  page === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'
-                }`}
-                onClick={() => {
-                  dispatch(seeMoreTrainees());
-                }}
-                disabled={page === totalPages}
-              >
-                Show More Learners
-              </button>
-            </div>
+            {page !== totalPages && (
+              <div className="flex items-center mt-2 mb-5">
+                <ShowIcon className="mt-[3px]" />
+                <button
+                  className="text-[0.77rem] text-gray-600 font-semibold ml-1 underline underline-offset-[3px]"
+                  onClick={() => {
+                    dispatch(seeMoreTrainees());
+                  }}
+                >
+                  Show More Learners
+                </button>
+              </div>
+            )}
+            <div></div>
           </div>
         ) : (
           <div className="flex items-center justify-center h-full w-full">

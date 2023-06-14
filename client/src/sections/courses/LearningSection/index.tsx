@@ -13,8 +13,10 @@ import {
   resetTraineesList,
 } from '@/features/course/learnerSlice';
 import Button from '@/src/shared/components/Button';
-import Dropdown, { type SortOption } from '@/src/shared/components/Dropdown';
 import AddLearnerModal from './AddLearnerModal';
+import SortDropdown, {
+  type SortOption,
+} from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 
 const LearningSection: React.FC = () => {
   const [selectedSortOption, setSelectedSortOption] = useState('A - Z');
@@ -91,11 +93,12 @@ const LearningSection: React.FC = () => {
           <div className="mx-4 mb-4">
             {/* SORT BUTTON  */}
             <div className="flex text-[15px] my-2 cursor-pointer">
-              <Dropdown
+              <SortDropdown
                 options={sortOptions}
                 onChange={handleSortOptionChange}
-                buttonText={selectedOption ?? 'Sort by Increasing progress'}
+                buttonText={selectedOption ?? 'A - Z'}
                 buttonIcon={<FilterIcon />}
+                buttonClass="w-auto h-[25px] text-[14px]"
               />
             </div>
 
