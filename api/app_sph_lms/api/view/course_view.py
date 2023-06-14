@@ -48,7 +48,7 @@ class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
 
         if not user.is_authenticated or \
-                user.role.title not in ['Trainer', 'Admin']:
+                not user.is_trainer:
             raise PermissionDenied(
                 "Only authenticated Trainers and Admins can update a course."
             )

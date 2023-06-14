@@ -1,14 +1,18 @@
-from app_sph_lms.models import Company, Trainee, Trainer, User
-from app_sph_lms.utils.enum import UserRoleEnum
+from app_sph_lms.models import User
 from django.contrib.auth.hashers import make_password
 from django.db import models
 from rest_framework import serializers
+
+# ROLE RELATED LOGICS in this file is not updated/adjusted
+# This file might be undergo an overall refactor
+# due to new authentication implementations
+# ill just comment it out to prevent further errors
 
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True, min_length=5)
-    role = serializers.SerializerMethodField()
+    # role = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -22,24 +26,24 @@ class UserSerializer(serializers.ModelSerializer):
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
 
-    def get_role(self, obj):
-        return {"id": obj.role.id, "title": obj.role.title}
+    # def get_role(self, obj):
+    #     return {"id": obj.role.id, "title": obj.role.title}
 
     def create(self, validated_data):
-        company_id = self.context["company_id"]
+        # company_id = self.context["company_id"]
         validated_data["is_active"] = True
         validated_data["password"] = self.context["password"]
-        validated_data["role_id"] = self.context["role"]
+        # validated_data["role_id"] = self.context["role"]
         user = super().create(validated_data)
 
-        if self.context["role"] == str(UserRoleEnum.TRAINEE.value):
-            Trainee.objects.create(
-                trainee=user, company=Company.objects.get(id=company_id)
-            )
-        elif self.context["role"] == str(UserRoleEnum.TRAINER.value):
-            Trainer.objects.create(
-                trainer=user, company=Company.objects.get(id=company_id)
-            )
+        # if self.context["role"] == str(UserRoleEnum.TRAINEE.value):
+        #     Trainee.objects.create(
+        #         trainee=user, company=Company.objects.get(id=company_id)
+        #     )
+        # elif self.context["role"] == str(UserRoleEnum.TRAINER.value):
+        #     Trainer.objects.create(
+        #         trainer=user, company=Company.objects.get(id=company_id)
+        #     )
 
         return user
 

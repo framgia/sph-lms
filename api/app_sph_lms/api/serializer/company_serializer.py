@@ -34,7 +34,6 @@ class CompanySerializer(serializers.ModelSerializer):
                 if search in user["email"].lower()
                 or search in user["first_name"].lower()
                 or search in user["last_name"].lower()
-                or search in user["role"]["title"].lower()
             ]
         return data
 
