@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/indent */
+/* eslint-disable multiline-ternary */
 import {
+  useEnrollLearnerMutation,
+  useEnrollLearningPathLearnerMutation,
   type useGetLearnerQuery,
   type useGetLearningPathLearnerQuery,
 } from '@/services/traineeAPI';
@@ -8,7 +11,7 @@ import Modal from '@/src/shared/components/Modal/Modal';
 import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import CloseIcon from '@/src/shared/icons/CloseIcon';
-import { type Learner } from '@/src/shared/utils';
+import { alertError, alertSuccess, type Learner } from '@/src/shared/utils';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
@@ -24,7 +27,6 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
   handleModal,
 }: AddLearnerModalProps): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -45,8 +47,26 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
   const enrollees = trainee?.learners.data;
   const totalPages = trainee?.learners.total_pages;
 
-  const handleAddLearners = (): void => {
-    alert('Add Learners');
+  const [enrollLearner] = useGetLearnerQuery
+    ? useEnrollLearnerMutation()
+    : useEnrollLearningPathLearnerMutation();
+
+  const handleAddLearners = async (): Promise<void> => {
+    const postData = {
+      trainees: selectedIds,
+    };
+
+    try {
+      const res: any = await enrollLearner({ courseId: courseID, postData });
+      if ('error' in res) {
+        throw new Error(res.error.data.error);
+      } else {
+        alertSuccess(res.data.message);
+        handleModal();
+      }
+    } catch (e: any) {
+      alertError('Something went wrong');
+    }
   };
 
   const handleSearch = (search: string): void => {
@@ -83,42 +103,48 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
               searchClass="w-[400px] text-[14px] text-lightGray3"
             />
             <div className="grid">
-              <table className="mt-4">
-                <thead>
-                  <tr>
-                    <th className="bg-lightGray2 rounded-tl-md"></th>
-                    <th className="bg-lightGray2 py-[16px] text-[14px] text-lightGray3 font-[500] leading-[21px] text-start">
-                      First Name
-                    </th>
-                    <th className="bg-lightGray2 py-[16px] text-[14px] text-lightGray3 font-[500] leading-[21px] text-start rounded-tr-md">
-                      Last Name
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* TABLE ROW  */}
-                  {enrollees?.map((col: Learner) => (
-                    <tr
-                      className={` ${col.id % 2 === 0 ? '' : 'bg-gray-100'} align-middle `}
-                      key={col.id}
-                    >
-                      <td className="grid place-items-center py-3">
-                        <input
-                          className="w-[15px] h-[15px] accent-black"
-                          type="checkbox"
-                          value={col.id}
-                          checked={selectedIds.includes(col.id)}
-                          onChange={() => {
-                            handleCheckboxChange(col.id);
-                          }}
-                        />
-                      </td>
-                      <td className="text-[13px] py-2">{col.firstname}</td>
-                      <td className="text-[13px] py-2">{col.lastname}</td>
+              {!enrollees?.length ? (
+                <div className="flex justify-center mt-4 text-disabled text-sm">
+                  No trainees to show
+                </div>
+              ) : (
+                <table className="mt-4">
+                  <thead>
+                    <tr>
+                      <th className="bg-lightGray2 rounded-tl-md"></th>
+                      <th className="bg-lightGray2 py-[16px] text-[14px] text-lightGray3 font-[500] leading-[21px] text-start">
+                        First Name
+                      </th>
+                      <th className="bg-lightGray2 py-[16px] text-[14px] text-lightGray3 font-[500] leading-[21px] text-start rounded-tr-md">
+                        Last Name
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {/* TABLE ROW  */}
+                    {enrollees?.map((col: Learner) => (
+                      <tr
+                        className={` ${col.id % 2 === 0 ? '' : 'bg-gray-100'} align-middle `}
+                        key={col.id}
+                      >
+                        <td className="grid place-items-center py-3">
+                          <input
+                            className="w-[15px] h-[15px] accent-black"
+                            type="checkbox"
+                            value={col.id}
+                            checked={selectedIds.includes(col.id)}
+                            onChange={() => {
+                              handleCheckboxChange(col.id);
+                            }}
+                          />
+                        </td>
+                        <td className="text-[13px] py-2">{col.firstname}</td>
+                        <td className="text-[13px] py-2">{col.lastname}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
             {/* LEARNERS FULLNAME PAGINATION */}
             <div className="flex justify-center my-5">
