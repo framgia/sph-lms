@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'Inter', sans-serif;
+}
+
 progress[value]::-webkit-progress-bar {
   background-color: theme('colors.lightGray2');
   border-radius: theme('borderRadius.lg');

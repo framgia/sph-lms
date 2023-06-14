@@ -1,5 +1,5 @@
+import { Head, Html, Main, NextScript } from 'next/document';
 import React from 'react';
-import { Html, Head, Main, NextScript } from 'next/document';
 
 const Document: React.FunctionComponent = () => {
   return (
