@@ -22,7 +22,6 @@ const TraineeList: React.FC = () => {
       id: i,
       firstName: 'Jonathan',
       lastName: 'Doeriski',
-      role: 'Trainee',
       email: `johndoe${i}@gmail.com`,
     });
   }
@@ -38,13 +37,7 @@ const TraineeList: React.FC = () => {
 
   data.slice(startIndex, endIndex);
 
-  const header = [
-    { text: 'First Name' },
-    { text: 'Last Name' },
-    { text: 'Role' },
-    { text: 'Email' },
-    { text: 'Actions' },
-  ];
+  const header = [{ text: 'First Name' }, { text: 'Last Name' }, { text: 'Email' }];
 
   const handleTableClick = (): void => {
     // Manage Redirection to Traiee Detail here
@@ -59,13 +52,8 @@ const TraineeList: React.FC = () => {
         headerEnum={{
           'First Name': 'firstName',
           'Last Name': 'lastName',
-          Role: 'role',
           Email: 'email',
-          Actions: 'action',
         }}
-        columnWithIcons={['Actions']}
-        editable={false}
-        deletable={false}
         showCheckbox={false}
         isAction={true}
         isClickable={handleTableClick}

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 import type { FieldValues, UseFormRegister } from 'react-hook-form';
 import EditIcon from '../../icons/EditIcon';
-import EyeIcon from '../../icons/EyeIcon';
 import TrashIcon from '../../icons/TrashIcon';
 import Icon, { type IconData } from './Icon';
 
@@ -18,7 +17,6 @@ interface ListItemProps<T> {
   deletable?: boolean;
   isChecked?: boolean;
   checkboxName?: string;
-  isAction?: boolean;
   onCheckboxChange?: (data: T) => void;
   register?: UseFormRegister<FieldValues>;
   isClickable: () => void;
@@ -33,7 +31,6 @@ export const ListItem: any = <T extends Data>({
   deletable = true,
   isChecked = false,
   checkboxName = '',
-  isAction = false,
   onCheckboxChange,
   isClickable,
   register,
@@ -72,10 +69,9 @@ export const ListItem: any = <T extends Data>({
             <div className="flex items-center space-x-2">
               {showIcon && <Icon item={data} className="h-6 w-6 text-lightBlue" />}
               {column === headerEnum.Actions && (
-                <div className="flex items-center">
+                <div className="flex invisible items-center group-hover:visible">
                   {editable && <EditIcon className="w-5 h-5 mx-1 cursor-pointer" />}
                   {deletable && <TrashIcon className="w-5 h-5 mx-1 text-red-600 cursor-pointer" />}
-                  {isAction && <EyeIcon width={20} height={20} />}
                 </div>
               )}
               <p className="text-neutral-900">
