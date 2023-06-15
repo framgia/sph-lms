@@ -19,6 +19,8 @@ interface ListItemProps<T> {
   checkboxName?: string;
   onCheckboxChange?: (data: T) => void;
   register?: UseFormRegister<FieldValues>;
+  isClickable: boolean;
+  handleClick: () => void;
 }
 
 export const ListItem: any = <T extends Data>({
@@ -31,10 +33,17 @@ export const ListItem: any = <T extends Data>({
   isChecked = false,
   checkboxName = '',
   onCheckboxChange,
+  isClickable,
   register,
+  handleClick,
 }: ListItemProps<T>) => {
   return (
-    <tr className="even:bg-neutral-50 whitespace-nowrap text-sm text-black1 font-sans h-5 group transition-all ease-out duration-200">
+    <tr
+      className={`even:bg-neutral-50 whitespace-nowrap text-[13px] text-lightGray3 font-sans h-[49px] group transition-all ease-out duration-200 ${
+        isClickable && 'cursor-pointer'
+      }`}
+      onClick={isClickable ? handleClick : undefined}
+    >
       {showCheckbox && (
         <td className="p-4">
           <input
@@ -62,23 +71,15 @@ export const ListItem: any = <T extends Data>({
         return (
           <td key={index} className="px-6 py-4">
             <div className="flex items-center space-x-2">
-              {showIcon && (
-                <Icon item={data} className="h-6 w-6 text-lightBlue" />
-              )}
+              {showIcon && <Icon item={data} className="h-6 w-6 text-lightBlue" />}
               {column === headerEnum.Actions && (
                 <div className="flex invisible items-center group-hover:visible">
-                  {editable && (
-                    <EditIcon className="w-5 h-5 mx-1 cursor-pointer" />
-                  )}
-                  {deletable && (
-                    <TrashIcon className="w-5 h-5 mx-1 text-red-600 cursor-pointer" />
-                  )}
+                  {editable && <EditIcon className="w-5 h-5 mx-1 cursor-pointer" />}
+                  {deletable && <TrashIcon className="w-5 h-5 mx-1 text-red-600 cursor-pointer" />}
                 </div>
               )}
               <p className="text-neutral-900">
-                {item instanceof Date
-                  ? item.toLocaleDateString()
-                  : (item as string)}
+                {item instanceof Date ? item.toLocaleDateString() : (item as string)}
               </p>
             </div>
           </td>

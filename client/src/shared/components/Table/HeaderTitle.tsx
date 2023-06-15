@@ -37,7 +37,7 @@ const HeaderTitle: FC<HeaderTitleProps> = ({
             }
           }}
         >
-          <p className="text-sm font-medium">{item.text}</p>
+          <p className="text-[14px] font-semibold">{item.text}</p>
 
           {sortable && (
             <ChevronDown
