@@ -54,9 +54,11 @@ class Command(BaseCommand):
             )
 
         if not course and not learning_path:
-            self.stdout.write("Can insert both course [ -c | --course ] \
-                and learning path [ -lp | --learning-path ] \
-                    at the same time.")
+            self.stdout.write(
+                    "Can insert both course [ -c | --course ] "
+                    "and learning path [ -lp | --learning-path ] "
+                    "at the same time."
+                )
             self.stdout.write("Use help [ -h ] for more information.")
             return self.stdout.write(
                 self.style.ERROR(
@@ -95,8 +97,8 @@ class Command(BaseCommand):
                 if check_learning_path.trainee.filter(email=email).exists():
                     self.stdout.write(
                         self.style.WARNING(
-                            f'{email} is already enrolled \
-                                in "{check_learning_path}".'
+                            f'{email} is already '
+                            f'enrolled in "{learning_path}".'
                         )
                     )
                     is_valid = False
@@ -108,7 +110,7 @@ class Command(BaseCommand):
             except LearningPath.DoesNotExist:
                 self.stdout.write(
                     self.style.WARNING(
-                        f'{course} does not exist.'
+                        f'{learning_path} does not exist.'
                     )
                 )
                 is_valid = False
@@ -116,8 +118,8 @@ class Command(BaseCommand):
         if is_valid:
             return self.stdout.write(
                     self.style.SUCCESS(
-                            f'{email} successfully enrolled to \
-                                course and/or learning path'
+                            f'{email} successfully enrolled to '
+                            'course and/or learning path'
                         )
                 )
         else:

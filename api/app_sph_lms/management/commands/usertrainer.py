@@ -42,9 +42,9 @@ class Command(BaseCommand):
 
         if not assign_trainee:
             raise CommandError(
-                    '--assign-trainee (-at) option is \
-                    required. Run help for more information.'
-                )
+                '--assign-trainee (-at) option is required. '
+                'Run help for more information.'
+            )
 
         if assign_trainee:
             is_valid = True
@@ -52,8 +52,8 @@ class Command(BaseCommand):
             for trainee_email in assign_trainee:
                 if ',' in trainee_email:
                     raise CommandError(
-                            f'Comma is not allowed in \
-                                trainee emails: {trainee_email}.'
+                            'Comma is not allowed in'
+                            f' trainee emails: {trainee_email}.'
                         )
 
                 try:
@@ -63,8 +63,8 @@ class Command(BaseCommand):
                             or check_user.is_trainer:
                         self.stdout.write(
                             self.style.WARNING(
-                                f'User with email {trainee_email} \
-                                    is trainee already.'
+                                f'User with email {trainee_email}'
+                                ' is trainee already.'
                             )
                         )
                         is_valid = False
