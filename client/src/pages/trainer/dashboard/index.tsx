@@ -1,3 +1,4 @@
+import TraineesSection from '@/src/sections/dashboard/TraineesSection';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import ArrowIcon from '@/src/shared/icons/ArrowIcon';
@@ -32,7 +33,7 @@ const DashboardPage: React.FC = () => {
             <span className="text-dark font-semibold text-2xl font-lora">Overview</span>
             <Tabs>
               <Tab title="My Trainees">
-                <div>Trainees Section</div>
+                <TraineesSection />
               </Tab>
               <Tab title="My Courses">
                 <div>Courses Section</div>
