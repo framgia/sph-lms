@@ -1,13 +1,13 @@
 /* eslint-disable multiline-ternary */
 import React, { Fragment } from 'react';
 import AddClassModal from '@/src/sections/classes/AddClassModal';
-import Table from '@/src/shared/components/Table';
 import Container from '@/src/shared/layouts/Container';
 import Searchbar from '@/src/shared/components/SearchBar/SearchBar';
 import Select from '@/src/shared/components/Select';
 import Pagination from '@/src/shared/components/Pagination';
 import useShowClassList from '@/src/shared/hooks/useShowClassList';
 import type { FC } from 'react';
+import Table from '@/src/shared/components/Table';
 
 const ClassList: FC = () => {
   const {
@@ -21,7 +21,7 @@ const ClassList: FC = () => {
     limiter,
     tableHeader,
     numberOfClasses,
-    searchHandler
+    searchHandler,
   } = useShowClassList();
 
   return (
@@ -32,9 +32,7 @@ const ClassList: FC = () => {
       <Container>
         <div className=" flex flex-col">
           <div className="flex flex-row justify-between">
-            <div className="text-3xl flex justify-start pb-10 pt-5 text-lightBlue">
-              Classes
-            </div>
+            <div className="text-3xl flex justify-start pb-10 pt-5 text-lightBlue">Classes</div>
             <div className="flex justify-start pb-10 pt-5">
               <AddClassModal />
             </div>
@@ -62,24 +60,18 @@ const ClassList: FC = () => {
                   className="border-b whitespace-nowrap text-sm text-black1 font-sans h-5"
                   key={col.id}
                 >
-                  <td className="px-6 py-4 text-lightBlue underline">
-                    {col.name}
-                  </td>
+                  <td className="px-6 py-4 text-lightBlue underline">{col.name}</td>
                   <td className="px-6 py-4 text-lightBlue underline">
                     {col.trainer[0].details.full_name}
                   </td>
-                  <td className="px-6 py-4 text-lightBlue underline">
-                    {col.total_trainees}
-                  </td>
+                  <td className="px-6 py-4 text-lightBlue underline">{col.total_trainees}</td>
                   <td className="px-6 py-4">{col.trainer[0].course_count}</td>
                 </tr>
               ))}
               {listOfClass.length === 0 && (
                 <tr>
                   <td colSpan={5} className="text-center pt-10 font-bold">
-                    <div className="flex justify-center w-full">
-                      No data found
-                    </div>
+                    <div className="flex justify-center w-full">No data found</div>
                   </td>
                 </tr>
               )}
@@ -88,8 +80,7 @@ const ClassList: FC = () => {
             <div></div>
             <div className="flex flex-row justify-end pt-10 pb-10">
               <div className="flex items-center">
-                Showing {startingIndex} to {lastIndex} of {numberOfClasses}{' '}
-                entries
+                Showing {startingIndex} to {lastIndex} of {numberOfClasses} entries
               </div>
             </div>
             <div className="flex justify-center pb-20">

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 import type { FieldValues, UseFormRegister } from 'react-hook-form';
 import EditIcon from '../../icons/EditIcon';
+import EyeIcon from '../../icons/EyeIcon';
 import TrashIcon from '../../icons/TrashIcon';
 import Icon, { type IconData } from './Icon';
 
@@ -17,8 +18,10 @@ interface ListItemProps<T> {
   deletable?: boolean;
   isChecked?: boolean;
   checkboxName?: string;
+  isAction?: boolean;
   onCheckboxChange?: (data: T) => void;
   register?: UseFormRegister<FieldValues>;
+  isClickable: () => void;
 }
 
 export const ListItem: any = <T extends Data>({
@@ -30,11 +33,16 @@ export const ListItem: any = <T extends Data>({
   deletable = true,
   isChecked = false,
   checkboxName = '',
+  isAction = false,
   onCheckboxChange,
+  isClickable,
   register,
 }: ListItemProps<T>) => {
   return (
-    <tr className="even:bg-neutral-50 whitespace-nowrap text-sm text-black1 font-sans h-5 group transition-all ease-out duration-200">
+    <tr
+      className="even:bg-neutral-50 whitespace-nowrap text-[13px] text-lightGray3 font-sans h-[49px] group transition-all ease-out duration-200 cursor-pointer"
+      onClick={isClickable}
+    >
       {showCheckbox && (
         <td className="p-4">
           <input
@@ -62,23 +70,16 @@ export const ListItem: any = <T extends Data>({
         return (
           <td key={index} className="px-6 py-4">
             <div className="flex items-center space-x-2">
-              {showIcon && (
-                <Icon item={data} className="h-6 w-6 text-lightBlue" />
-              )}
+              {showIcon && <Icon item={data} className="h-6 w-6 text-lightBlue" />}
               {column === headerEnum.Actions && (
-                <div className="flex invisible items-center group-hover:visible">
-                  {editable && (
-                    <EditIcon className="w-5 h-5 mx-1 cursor-pointer" />
-                  )}
-                  {deletable && (
-                    <TrashIcon className="w-5 h-5 mx-1 text-red-600 cursor-pointer" />
-                  )}
+                <div className="flex items-center">
+                  {editable && <EditIcon className="w-5 h-5 mx-1 cursor-pointer" />}
+                  {deletable && <TrashIcon className="w-5 h-5 mx-1 text-red-600 cursor-pointer" />}
+                  {isAction && <EyeIcon width={20} height={20} />}
                 </div>
               )}
               <p className="text-neutral-900">
-                {item instanceof Date
-                  ? item.toLocaleDateString()
-                  : (item as string)}
+                {item instanceof Date ? item.toLocaleDateString() : (item as string)}
               </p>
             </div>
           </td>

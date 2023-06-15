@@ -6,7 +6,7 @@ import HeaderTitle from './HeaderTitle';
 
 export enum TableSortEnum {
   ASC,
-  DESC
+  DESC,
 }
 export interface TableHeader {
   text: string;
@@ -28,7 +28,7 @@ const Table: React.FC<TableProps> = ({
 }: TableProps) => {
   const [sort, setSort] = useState({
     index: -1,
-    sortBy: TableSortEnum.ASC
+    sortBy: TableSortEnum.ASC,
   });
 
   const handleSortChange = (uid: number): void => {
@@ -44,15 +44,17 @@ const Table: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="overflow-auto text-neutral-900 flex justify-center rounded-[5px]">
-      <table className="text-left w-full">
-        <thead className="bg-neutral-200">
+    <div className="grid">
+      <table className="rounded-t-lg overflow-hidden">
+        <thead>
           <tr>
-            <th className="p-4">
-              {checkbox && <input type="checkbox" className="h-5 w-5 hover:bg-sky-700" />}
-            </th>
+            {checkbox && (
+              <th className="bg-lightGray2 h-[49px]">
+                <input type="checkbox" className="h-5 w-5 hover:bg-sky-700" />
+              </th>
+            )}
             {header.map((item, index) => (
-              <th className="px-4 py-3 w-auto whitespace-nowrap text-sm" key={index}>
+              <th className="bg-lightGray2 h-[49px] text-left pl-5 pr-20" key={index}>
                 <HeaderTitle
                   item={item}
                   index={index}
