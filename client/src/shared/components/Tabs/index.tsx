@@ -40,7 +40,7 @@ const Tabs: FC<TabsProps> = ({ children }) => {
             <div
               key={id}
               className={`${
-                activeTab !== id ? '' : ' bg-primary-400 border-base border-b-[2px]'
+                activeTab !== id ? '' : ' bg-primary-400 border-primary-base border-b-[2px]'
               } p-2.5 cursor-pointer flex pointer-events-auto`}
               onClick={() => {
                 dispatch(setActiveTab(id));

@@ -41,7 +41,6 @@ module.exports = {
         white: '#FFFFFF',
         blue: '#3B8CD7',
         success: '#86BB9A',
-        base: '#FF0000',
         danger: '#B21D1D',
         checkbox: '#373737',
         primary: {
@@ -55,6 +54,7 @@ module.exports = {
           50: '#FCFAFA',
         },
         neutral: {
+          disabled: '#17282680',
           900: '#333333',
           700: '#635E5E',
           500: '#969494',
