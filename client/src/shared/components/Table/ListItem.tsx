@@ -19,7 +19,8 @@ interface ListItemProps<T> {
   checkboxName?: string;
   onCheckboxChange?: (data: T) => void;
   register?: UseFormRegister<FieldValues>;
-  isClickable: () => void;
+  isClickable: boolean;
+  handleClick: () => void;
 }
 
 export const ListItem: any = <T extends Data>({
@@ -34,11 +35,14 @@ export const ListItem: any = <T extends Data>({
   onCheckboxChange,
   isClickable,
   register,
+  handleClick,
 }: ListItemProps<T>) => {
   return (
     <tr
-      className="even:bg-neutral-50 whitespace-nowrap text-[13px] text-lightGray3 font-sans h-[49px] group transition-all ease-out duration-200 cursor-pointer"
-      onClick={isClickable}
+      className={`even:bg-neutral-50 whitespace-nowrap text-[13px] text-lightGray3 font-sans h-[49px] group transition-all ease-out duration-200 ${
+        isClickable && 'cursor-pointer'
+      }`}
+      onClick={isClickable ? handleClick : undefined}
     >
       {showCheckbox && (
         <td className="p-4">

@@ -40,7 +40,7 @@ const TraineeList: React.FC = () => {
   const header = [{ text: 'First Name' }, { text: 'Last Name' }, { text: 'Email' }];
 
   const handleTableClick = (): void => {
-    // Manage Redirection to Traiee Detail here
+    // Manage Redirection to Trainee Detail here
     console.log('clicked!');
   };
 
@@ -56,7 +56,8 @@ const TraineeList: React.FC = () => {
         }}
         showCheckbox={false}
         isAction={true}
-        isClickable={handleTableClick}
+        isClickable={true}
+        handleClick={handleTableClick}
       />
     ));
   };
@@ -67,7 +68,7 @@ const TraineeList: React.FC = () => {
         <div className="flex justify-end my-5">
           <SearchBar onSearchEvent={handleSearch} placeholder="Search" />
         </div>
-        <Table header={header} sortable={false} checkbox={false}>
+        <Table header={header} sortable={false} checkbox={false} selectableRows={false}>
           {renderTraineeListItems()}
         </Table>
         <div className="flex justify-center my-5">

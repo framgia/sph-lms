@@ -18,6 +18,7 @@ export interface TableProps {
   checkbox?: boolean;
   children: ReactNode;
   sortable?: boolean;
+  selectableRows?: boolean;
 }
 
 const Table: React.FC<TableProps> = ({
@@ -25,6 +26,7 @@ const Table: React.FC<TableProps> = ({
   children,
   checkbox = true,
   sortable = true,
+  selectableRows = true,
 }: TableProps) => {
   const [sort, setSort] = useState({
     index: -1,
@@ -48,9 +50,9 @@ const Table: React.FC<TableProps> = ({
       <table className="rounded-t-lg overflow-hidden">
         <thead>
           <tr>
-            {checkbox && (
+            {selectableRows && (
               <th className="bg-lightGray2 h-[49px]">
-                <input type="checkbox" className="h-5 w-5 hover:bg-sky-700" />
+                {checkbox && <input type="checkbox" className="h-5 w-5 hover:bg-sky-700" />}
               </th>
             )}
             {header.map((item, index) => (
