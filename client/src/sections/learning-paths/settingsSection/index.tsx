@@ -1,8 +1,8 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import {
   changeEditMode,
   reset as learningPathReset,
-} from '@/features/learning-path/learningPathSlice';
+} from '@/src/features/learning-path/learningPathSlice';
 import { type FC, Fragment, useEffect, useState } from 'react';
 import InitialSection from '../create/InitialSection';
 import Button from '@/src/shared/components/Button';

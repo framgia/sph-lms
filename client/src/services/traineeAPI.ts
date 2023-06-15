@@ -19,7 +19,7 @@ export const getCourseTrainee = createApi({
           is_enrolled: isEnrolled,
           search: searchQuery,
           page: pageNumber,
-          selectedSortOption: selectedSortOption,
+          selectedSortOption,
         },
       }),
       providesTags: ['CourseTrainee'],

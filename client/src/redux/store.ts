@@ -1,7 +1,7 @@
-import { getCategory } from '@/services/categoryAPI';
-import { getCourse } from '@/services/courseAPI';
-import { getLearningPath } from '@/services/learningPathAPI';
-import { getCourseTrainee } from '@/services/traineeAPI';
+import { getCategory } from '@/src/services/categoryAPI';
+import { getCourse } from '@/src/services/courseAPI';
+import { getLearningPath } from '@/src/services/learningPathAPI';
+import { getCourseTrainee } from '@/src/services/traineeAPI';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import counterReducer from '../features/counter/counterSlice';

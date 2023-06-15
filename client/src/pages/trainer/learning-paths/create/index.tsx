@@ -1,9 +1,9 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/indent */
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { reset } from '@/features/learning-path/learningPathSlice';
-import { setIsStepValid } from '@/features/stepper/stepperSlice';
-import { useCreateLearningPathMutation } from '@/services/learningPathAPI';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { reset } from '@/src/features/learning-path/learningPathSlice';
+import { setIsStepValid } from '@/src/features/stepper/stepperSlice';
+import { useCreateLearningPathMutation } from '@/src/services/learningPathAPI';
 import AddCourseSection from '@/src/sections/learning-paths/create/AddCourseSection';
 import InitialSection from '@/src/sections/learning-paths/create/InitialSection';
 import PreviewSection from '@/src/sections/learning-paths/create/PreviewSection';

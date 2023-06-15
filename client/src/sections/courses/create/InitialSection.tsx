@@ -1,8 +1,8 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/indent */
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { addCategory, changeEditMode, updateForm } from '@/features/course/courseSlice';
-import { useGetCategoryQuery } from '@/services/categoryAPI';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { addCategory, changeEditMode, updateForm } from '@/src/features/course/courseSlice';
+import { useGetCategoryQuery } from '@/src/services/categoryAPI';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
 import RFTextField from '@/src/shared/components/ReactForm/RFTextField';
 import ExclamationPointIcon from '@/src/shared/icons/ExclamationPointIcon';

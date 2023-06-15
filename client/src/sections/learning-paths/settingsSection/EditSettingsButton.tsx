@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { changeEditMode } from '@/features/learning-path/learningPathSlice';
-import { setIsTabValid } from '@/features/tab/tabSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { changeEditMode } from '@/src/features/learning-path/learningPathSlice';
+import { setIsTabValid } from '@/src/features/tab/tabSlice';
 import EditModeButtons from '@/src/shared/components/Button/EditModeButtons';
 import { learningPathSchema } from '@/src/shared/utils/validationSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';

@@ -1,4 +1,4 @@
-import { useGetLearningPathsQuery } from '@/services/learningPathAPI';
+import { useGetLearningPathsQuery } from '@/src/services/learningPathAPI';
 import LearningPathCard from '@/src/shared/components/Card/LearningPathCard';
 import Pagination from '@/src/shared/components/Pagination';
 import { alertError, type LearningPath } from '@/src/shared/utils';

@@ -1,9 +1,9 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/indent */
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { reset } from '@/features/course/courseSlice';
-import { setIsStepValid } from '@/features/stepper/stepperSlice';
-import { useCreateCourseMutation } from '@/services/courseAPI';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { reset } from '@/src/features/course/courseSlice';
+import { setIsStepValid } from '@/src/features/stepper/stepperSlice';
+import { useCreateCourseMutation } from '@/src/services/courseAPI';
 import AddLessonSection from '@/src/sections/courses/create/AddLessonSection';
 import InitialSection from '@/src/sections/courses/create/InitialSection';
 import PreviewSection from '@/src/sections/courses/create/PreviewSection';

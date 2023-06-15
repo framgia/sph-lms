@@ -1,4 +1,4 @@
-import { useGetCoursesQuery } from '@/services/courseAPI';
+import { useGetCoursesQuery } from '@/src/services/courseAPI';
 import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import type { DBCourse } from '@/src/shared/utils';

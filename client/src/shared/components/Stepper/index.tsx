@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { type ReactElement, type FC, useState, useEffect, Children } from 'react';
 import type { StepProps } from './Step';
 import type { ChildElementObject } from '../../utils';
 import Button from '../Button';
 import ProgressBar from '../ProgressBar';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { reset, setActiveStep } from '@/features/stepper/stepperSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { reset, setActiveStep } from '@/src/features/stepper/stepperSlice';
 
 interface StepperProps {
   title: string;
@@ -42,17 +43,12 @@ const Stepper: FC<StepperProps> = ({ title, contentClass = '', onNext, children 
     let step = 0;
     const childrenListObj: ChildElementObject = {};
     Children.map(children, (child) => {
-      if (
-        Object.hasOwnProperty.call(child.type, 'name') &&
-        Object.getOwnPropertyDescriptors(child.type).name?.value === 'Step'
-      ) {
-        childrenListObj[step] = {
-          id: step,
-          childContent: child,
-          ...child.props,
-        };
-        step++;
-      }
+      childrenListObj[step] = {
+        id: step,
+        childContent: child,
+        ...child.props,
+      };
+      step++;
     });
 
     setChildrenList(childrenListObj);
