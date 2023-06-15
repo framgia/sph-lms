@@ -60,7 +60,7 @@ class LearningPathTraineeViewSet(
         learning_path_id = self.kwargs['pk']
         trainees = request.data.get('trainees')
 
-        if request.user.role.title not in ['Admin', 'Trainer']:
+        if not request.user.is_trainer:
             return Response(
                     {
                         "error":
@@ -87,7 +87,7 @@ class LearningPathTraineeViewSet(
 
             try:
                 trainee = User.objects.get(id=trainee_id)
-                if trainee.role.title not in ['Trainee']:
+                if trainee.is_trainer:
                     return Response(
                             {"error": "Only trainees can be enrolled."},
                             status=status.HTTP_400_BAD_REQUEST

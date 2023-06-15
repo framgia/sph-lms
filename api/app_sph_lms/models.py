@@ -220,13 +220,6 @@ class Trainee(models.Model):
 
 
 class Course(models.Model):
-    company = models.ForeignKey(
-            Company,
-            on_delete=models.CASCADE,
-            related_name="company",
-            null=True,
-            blank=True
-        )
     author = models.ForeignKey(
             User,
             on_delete=models.CASCADE,
@@ -247,6 +240,11 @@ class Course(models.Model):
         )
     is_active = models.BooleanField(default=True)
     image = models.CharField(max_length=255, null=True)
+    trainee = models.ManyToManyField(
+        User,
+        related_name='enrolled_course',
+        limit_choices_to={'is_trainer': False},
+    )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -381,7 +379,7 @@ class LearningPath(models.Model):
             related_name='enrolled_learning_paths',
             limit_choices_to={'is_trainer': False},
         )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
