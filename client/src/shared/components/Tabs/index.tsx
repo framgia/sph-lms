@@ -1,10 +1,10 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { reset, setActiveTab } from '@/features/tab/tabSlice';
-import { Children, Fragment, useEffect, useState, type FC, type ReactElement } from 'react';
+import { Fragment, useEffect, useState, type FC, type ReactElement } from 'react';
 import { type ChildElementObject } from '../../utils/interface';
 import { type TabProps } from './Tab';
-import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { setActiveTab } from '@/src/features/tab/tabSlice';
 
 interface TabsProps {
   children: ReactElement<TabProps> | Array<ReactElement<TabProps>>;
@@ -14,34 +14,24 @@ const Tabs: FC<TabsProps> = ({ children }) => {
   const { activeTab } = useAppSelector((state) => state.tab);
   const dispatch = useAppDispatch();
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
-  const { events } = useRouter();
 
   useEffect(() => {
     let tab = 0;
     const childrenListObj: ChildElementObject = {};
+    const childrenArr = children instanceof Array ? children : Array(children);
 
-    Children.map(children, (child) => {
-      if (
-        Object.hasOwnProperty.call(child.type, 'name') &&
-        Object.getOwnPropertyDescriptors(child.type).name?.value === 'Tab'
-      ) {
-        childrenListObj[tab] = {
-          id: tab,
-          title: child.props.title,
-          childContent: child,
-        };
-        tab++;
-      }
+    childrenArr.map((child) => {
+      childrenListObj[tab] = {
+        id: tab,
+        title: child.props.title,
+        childContent: child,
+      };
+      tab++;
     });
 
     setChildrenList(childrenListObj);
   }, [children, activeTab]);
 
-  useEffect(() => {
-    events.on('routeChangeComplete', () => {
-      dispatch(reset());
-    });
-  }, []);
   return (
     <Fragment>
       <div className="hidden md:flex mb-4 border-b">

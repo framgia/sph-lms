@@ -2,15 +2,15 @@ import { Fragment, type FC, useEffect, useState } from 'react';
 import AddLessonSection from '../create/AddLessonSection';
 import InitialSection from '../create/InitialSection';
 import Button from '@/src/shared/components/Button';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { changeEditMode, reset as courseReset } from '@/features/course/courseSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { changeEditMode, reset as courseReset } from '@/src/features/course/courseSlice';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { courseSchema } from '@/src/shared/utils/validationSchemas';
 import ConfirmationModal from '@/src/shared/components/Modal/ConfirmationModal';
 import { useConfirmBeforeLeave } from '@/src/shared/hooks/useConfirmBeforeLeave';
 import { useRouter } from 'next/router';
-import { useDeleteCourseMutation } from '@/services/courseAPI';
+import { useDeleteCourseMutation } from '@/src/services/courseAPI';
 import { alertError, alertSuccess } from '@/src/shared/utils';
 
 const SettingsSection: FC = () => {

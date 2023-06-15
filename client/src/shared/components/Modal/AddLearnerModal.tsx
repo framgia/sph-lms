@@ -5,7 +5,7 @@ import {
   useEnrollLearningPathLearnerMutation,
   type useGetLearnerQuery,
   type useGetLearningPathLearnerQuery,
-} from '@/services/traineeAPI';
+} from '@/src/services/traineeAPI';
 import Button from '@/src/shared/components/Button';
 import Modal from '@/src/shared/components/Modal/Modal';
 import Pagination from '@/src/shared/components/Pagination';

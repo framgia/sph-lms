@@ -7,10 +7,10 @@ import LearningPathLearnersSection from '@/src/sections/learning-paths/LearnersS
 import LearningPathContentSection from '@/src/sections/learning-paths/ContentSection';
 import SettingsSection from '@/src/sections/learning-paths/settingsSection';
 import EditSettingsButton from '@/src/sections/learning-paths/settingsSection/EditSettingsButton';
-import { useGetLearningPathQuery } from '@/services/learningPathAPI';
+import { useGetLearningPathQuery } from '@/src/services/learningPathAPI';
 import { useRouter } from 'next/router';
-import { useAppDispatch } from '@/app/hooks';
-import { reset } from '@/features/learning-path/learningPathSlice';
+import { useAppDispatch } from '@/src/redux/hooks';
+import { reset } from '@/src/features/learning-path/learningPathSlice';
 
 const LearningPathContent: React.FC = () => {
   const { query } = useRouter();

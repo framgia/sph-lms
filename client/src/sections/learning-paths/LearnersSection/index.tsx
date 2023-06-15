@@ -8,14 +8,14 @@ import SortDropdown, {
 // import ArrowIcon from '@/src/shared/icons/ArrowIcon';
 import AddLearnerModal from '../../../shared/components/Modal/AddLearnerModal';
 import Button from '@/src/shared/components/Button';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { useRouter } from 'next/router';
 import {
   addTrainees,
   resetTraineesList,
   seeMoreTrainees,
-} from '@/features/learning-path/learnerSlice';
-import { useGetLearningPathLearnerQuery } from '@/services/traineeAPI';
+} from '@/src/features/learning-path/learnerSlice';
+import { useGetLearningPathLearnerQuery } from '@/src/services/traineeAPI';
 
 const LearningPathLearnersSection: React.FC = () => {
   const [selectedSortOption, setSelectedSortOption] = useState('');

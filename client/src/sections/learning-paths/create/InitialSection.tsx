@@ -1,12 +1,12 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/indent */
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import {
   addCategory,
   changeEditMode,
   updateForm,
-} from '@/features/learning-path/learningPathSlice';
-import { useGetCategoryQuery } from '@/services/categoryAPI';
+} from '@/src/features/learning-path/learningPathSlice';
+import { useGetCategoryQuery } from '@/src/services/categoryAPI';
 import Dropdown from '@/src/shared/components/Dropdown';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
 import RFTextField from '@/src/shared/components/ReactForm/RFTextField';

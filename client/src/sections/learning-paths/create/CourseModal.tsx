@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { updateForm } from '@/features/learning-path/learningPathSlice';
-import { useGetCoursesQuery } from '@/services/courseAPI';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { updateForm } from '@/src/features/learning-path/learningPathSlice';
+import { useGetCoursesQuery } from '@/src/services/courseAPI';
 import Button from '@/src/shared/components/Button';
 import Modal from '@/src/shared/components/Modal/Modal';
 import Pagination from '@/src/shared/components/Pagination';
