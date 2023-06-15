@@ -1,24 +1,24 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import ShowIcon from '@/src/shared/icons/ShowIcon';
-import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
-import FilterIcon from '@/src/shared/icons/FilterIcon';
 import SortDropdown, {
   type SortOption,
 } from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
+import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
+import FilterIcon from '@/src/shared/icons/FilterIcon';
+import ShowIcon from '@/src/shared/icons/ShowIcon';
+import React, { Fragment, useEffect, useState } from 'react';
 // import ArrowIcon from '@/src/shared/icons/ArrowIcon';
-import AddLearnerModal from '../../../shared/components/Modal/AddLearnerModal';
-import Button from '@/src/shared/components/Button';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
-import { useRouter } from 'next/router';
 import {
   addTrainees,
   resetTraineesList,
   seeMoreTrainees,
 } from '@/src/features/learning-path/learnerSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { useGetLearningPathLearnerQuery } from '@/src/services/traineeAPI';
+import Button from '@/src/shared/components/Button';
+import { useRouter } from 'next/router';
+import AddLearnerModal from '../../../shared/components/Modal/AddLearnerModal';
 
 const LearningPathLearnersSection: React.FC = () => {
-  const [selectedSortOption, setSelectedSortOption] = useState('');
+  const [selectedSortOption, setSelectedSortOption] = useState('A - Z');
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
