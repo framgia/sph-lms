@@ -1,10 +1,10 @@
 import random
 
+from app_sph_lms.api.serializer.category_serializer import CategorySerializer
+from app_sph_lms.api.serializer.course_serializer import CourseSerializer
 from app_sph_lms.models import (Category, Course, LearningPath,
                                 LearningPathCourse, User)
 from rest_framework import serializers
-from app_sph_lms.api.serializer.course_serializer import CourseSerializer
-from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from rest_framework.pagination import PageNumberPagination
 
 
@@ -129,8 +129,19 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
                     "true"
                 )
 
+        sortingOption = self.context[
+                'request'
+            ].query_params.get(
+                    'sort_by',
+                    "A - Z",
+                )
+
         if is_enrolled == "true":
-            course_trainees = obj.trainee.all()
+            if sortingOption == "A - Z":
+                learning_path_trainees = obj.trainee.order_by('first_name')
+            elif sortingOption == "Z - A":
+                learning_path_trainees = obj.trainee.order_by('-first_name')
+
             data = [
                         {
                             "id": trainee.id,
@@ -139,7 +150,7 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
                             "email": trainee.email,
                             "progress": random.randint(0, 100),
                         }
-                        for trainee in course_trainees
+                        for trainee in learning_path_trainees
                     ]
         else:
             # no filters, base logic to get all trainees,

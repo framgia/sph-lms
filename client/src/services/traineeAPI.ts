@@ -25,12 +25,13 @@ export const getCourseTrainee = createApi({
       providesTags: ['CourseTrainee'],
     }),
     getLearningPathLearner: builder.query({
-      query: ({ courseId, isEnrolled, searchQuery, pageNumber }) => ({
+      query: ({ courseId, isEnrolled, searchQuery, pageNumber, selectedSortOption }) => ({
         url: `learning-path/${courseId}/trainee`,
         params: {
           is_enrolled: isEnrolled,
           search: searchQuery,
           page: pageNumber,
+          sort_by: selectedSortOption,
         },
       }),
       providesTags: ['LearningPathTrainee'],
