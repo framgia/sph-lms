@@ -19,7 +19,7 @@ const LearningPathSection = (): JSX.Element => {
 
   return (
     <Fragment>
-      <span className="text-xs text-neutral-disabled p-4">Ranked by Progress %</span>
+      <span className="text-xs text-neutral-disabled pl-5">Ranked by Progress %</span>
       <div className="grid grid-cols-3 gap-4 mx-5 mt-5">
         {cardsData.map((card: any) => (
           <DashboardCard
