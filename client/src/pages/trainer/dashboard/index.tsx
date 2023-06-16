@@ -1,3 +1,4 @@
+import LearningPathSection from '@/src/sections/dashboard/LearninPathSection';
 import TraineesSection from '@/src/sections/dashboard/TraineesSection';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
@@ -39,7 +40,7 @@ const DashboardPage: React.FC = () => {
                 <div>Courses Section</div>
               </Tab>
               <Tab title="My Learning Paths">
-                <div>Learning Paths Section</div>
+                <LearningPathSection />
               </Tab>
             </Tabs>
           </div>
