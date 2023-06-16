@@ -1,20 +1,25 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface Props {
   title: string;
   subText: string;
-  onClick?: () => void;
+  link: string;
 }
 
-const DashboardCard: React.FC<Props> = ({ title, subText, onClick }: Props) => {
+const DashboardCard: React.FC<Props> = ({ title, subText, link }: Props) => {
   return (
-    <div
-      className="border-2 w-[288px] h-[106px] border-neutral-200 rounded-[5px] hover:border-slate-400 cursor-pointer"
-      onClick={onClick}
-    >
-      <h3 className="text-[14px] pl-4 pt-4 text-neutral-900 font-medium">{title}</h3>
-      <p className="pl-4 pt-1 text-[12px] text-neutral-disabled">{subText}</p>
-    </div>
+    <Link href={link}>
+      <div className="flex flex-col p-4 border w-auto h-[107px] border-neutral-200 rounded-md hover:border-slate-400 cursor-pointer">
+        <span
+          className="text-sm leading-[21px] text-neutral-900 font-medium line-clamp-2"
+          title={title}
+        >
+          {title}
+        </span>
+        <span className="text-xs leading-[18px] text-neutral-disabled font-normal">{subText}</span>
+      </div>
+    </Link>
   );
 };
 
