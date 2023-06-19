@@ -6,13 +6,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import counterReducer from '../features/counter/counterSlice';
 import courseReducer from '../features/course/courseSlice';
+import courseLearnerReducer from '../features/course/learnerSlice';
 import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import courseModalsReducer from '../features/learning-path/courseModalsSlice';
+import learningPathLearnerReducer from '../features/learning-path/learnerSlice';
 import learningPathReducer from '../features/learning-path/learningPathSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
 import tabReducer from '../features/tab/tabSlice';
-import courseLearnerReducer from '../features/course/learnerSlice';
-import learningPathLearnerReducer from '../features/learning-path/learnerSlice';
+import trainerCourseReducer from '../features/trainer/trainerCourseSlice';
+import { getTrainer } from '../services/trainerAPI';
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +22,7 @@ export const store = configureStore({
     course: courseReducer,
     courseLearner: courseLearnerReducer,
     learningPathLearner: learningPathLearnerReducer,
+    trainerCourse: trainerCourseReducer,
     lessonModals: lessonModalsReducer,
     learningPath: learningPathReducer,
     courseModals: courseModalsReducer,
@@ -29,6 +32,7 @@ export const store = configureStore({
     [getCourseTrainee.reducerPath]: getCourseTrainee.reducer,
     [getCategory.reducerPath]: getCategory.reducer,
     [getLearningPath.reducerPath]: getLearningPath.reducer,
+    [getTrainer.reducerPath]: getTrainer.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -37,7 +41,8 @@ export const store = configureStore({
       .concat(getCourse.middleware)
       .concat(getCourseTrainee.middleware)
       .concat(getCategory.middleware)
-      .concat(getLearningPath.middleware),
+      .concat(getLearningPath.middleware)
+      .concat(getTrainer.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
