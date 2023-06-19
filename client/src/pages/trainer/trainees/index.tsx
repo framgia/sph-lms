@@ -7,6 +7,7 @@ import Table from '@/src/shared/components/Table';
 import { ListItem } from '@/src/shared/components/Table/ListItem';
 import { useGetTrainerTraineesQuery } from '@/src/services/traineeAPI';
 import { useRouter } from 'next/router';
+import type { User } from '@/src/shared/utils';
 
 const TraineeList: React.FC = () => {
   const router = useRouter();
@@ -33,21 +34,29 @@ const TraineeList: React.FC = () => {
   };
 
   const renderTraineeListItems = () => {
-    return data?.results.map((trainee: any) => (
-      <ListItem
-        key={trainee.id}
-        data={trainee}
-        headerEnum={{
-          'First Name': 'first_name',
-          'Last Name': 'last_name',
-          Email: 'email',
-        }}
-        showCheckbox={false}
-        isAction={true}
-        isClickable={true}
-        handleClick={handleTableClick}
-      />
-    ));
+    return data?.results.length ? (
+      data.results.map((trainee: User) => (
+        <ListItem
+          key={trainee.id}
+          data={trainee}
+          headerEnum={{
+            'First Name': 'first_name',
+            'Last Name': 'last_name',
+            Email: 'email',
+          }}
+          showCheckbox={false}
+          isAction={true}
+          isClickable={true}
+          handleClick={handleTableClick}
+        />
+      ))
+    ) : (
+      <tr>
+        <td colSpan={4} className="text-center py-4 text-gray-400">
+          No trainees to show
+        </td>
+      </tr>
+    );
   };
 
   return (
