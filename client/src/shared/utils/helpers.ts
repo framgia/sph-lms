@@ -12,3 +12,9 @@ export const isValidFileType = (fileName: string, fileType: string): boolean => 
     )
   );
 };
+
+const publicRoutes = ['/auth/sign-in', '/404', '/500'];
+
+export const isPublicRoute = (path: string): boolean => {
+  return publicRoutes.some((route) => route === path);
+};

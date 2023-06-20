@@ -1,9 +1,19 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/space-before-function-paren */
+import React, { type FC } from 'react';
 import SunBearLogo from '@/src/shared/icons/SunBear';
 import Button from '@/src/shared/components/Button';
 import GoogleIcon from '@/src/shared/icons/GoogleIcon';
+import { signIn, getProviders } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
+import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
+import { settings } from '@/src/pages/api/auth/[...nextauth]';
 
-const SignIn: React.FC = () => {
+interface SingInProp {
+  providers: Array<{ id: string; name: string }>;
+}
+
+const SignIn: FC<SingInProp> = ({ providers }) => {
   return (
     <div className="bg-[#FDFBFB] h-screen flex justify-center items-center">
       <div
@@ -24,17 +34,18 @@ const SignIn: React.FC = () => {
           </p>
         </div>
         <div className="w-full">
-          <Button
-            text="Sign in with Google"
-            buttonClass="text-primary-base border border-primary-base font-inter !font-normal text-sm flex items-center justify-center gap-[10px] py-2 px-4 w-full"
-            onClick={() => {
-              alert('Google Sign In');
-            }}
-          >
-            <div className="self-end pb-[1px]">
-              <GoogleIcon />
-            </div>
-          </Button>
+          {Object.values(providers).map((provider) => (
+            <Button
+              key={provider.name}
+              text="Sign in with Google"
+              buttonClass="text-primary-base border border-primary-base font-inter !font-normal text-sm flex items-center justify-center gap-[10px] py-2 px-4 w-full"
+              onClick={async () => await signIn(provider.id)}
+            >
+              <div className="self-end pb-[1px]">
+                <GoogleIcon />
+              </div>
+            </Button>
+          ))}
         </div>
       </div>
     </div>
@@ -42,3 +53,22 @@ const SignIn: React.FC = () => {
 };
 
 export default SignIn;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(
+    context.req,
+    context.res,
+    settings(context.req as NextApiRequest, context.res as NextApiResponse)
+  );
+
+  if (session) {
+    const route = session.user.is_trainer ? '/trainer/dashboard' : '/trainee/dashboard';
+    return { redirect: { destination: route } };
+  }
+
+  const providers = await getProviders();
+
+  return {
+    props: { providers: providers ?? [] },
+  };
+}

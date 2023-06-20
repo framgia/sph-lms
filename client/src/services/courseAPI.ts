@@ -1,14 +1,10 @@
-import { getUserToken } from '@/src/shared/utils';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const getCourse = createApi({
   reducerPath: 'getCourse',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
-    prepareHeaders: (headers) => {
-      headers.set('Authorization', `Token ${getUserToken() ?? ''}`);
-      return headers;
-    },
+    credentials: 'include',
   }),
   endpoints: (builder) => ({
     getCourse: builder.query({

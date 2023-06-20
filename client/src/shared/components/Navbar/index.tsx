@@ -6,6 +6,7 @@ import { dropdownItems, navItems } from '../../utils/navBarList';
 import Logo from './Logo';
 // import NotificationIcon from '../../icons/NotificationIcon';
 import NavBarDropdown from '../Dropdown/NavBarDropdown';
+import { useSession } from 'next-auth/react';
 export interface NavItemProps {
   url: string;
   text: string;
@@ -17,6 +18,7 @@ interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ navLinks = navItems }) => {
   const { asPath } = useRouter();
+  const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-10 px-[64px] flex shadow-sm bg-white text-textGray items-center text-[14px]">
@@ -46,7 +48,7 @@ const Navbar: FC<NavbarProps> = ({ navLinks = navItems }) => {
       <div className="flex items-center space-x-2">
         {/* <NotificationIcon /> */}
         <NavBarDropdown options={dropdownItems} showLogoutButton={true}>
-          <Avatar />
+          <Avatar src={session?.user?.image} />
         </NavBarDropdown>
       </div>
     </header>

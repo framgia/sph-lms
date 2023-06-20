@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/indent */
-import { getUserToken } from '@/src/shared/utils';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const getLearningPath = createApi({
   reducerPath: 'getLearningPath',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
-    prepareHeaders: (headers) => {
-      headers.set('Authorization', `Token ${getUserToken() ?? ''}`);
-      return headers;
-    },
+    credentials: 'include',
   }),
   tagTypes: ['LearningPath'],
   endpoints: (builder) => ({

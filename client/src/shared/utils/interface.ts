@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/array-type */
 import { type ReactElement } from 'react';
+import type { User as NextAuthUser } from 'next-auth';
 
 export interface CourseDetails {
   id: string;
@@ -214,4 +215,9 @@ export interface TrainerCourse {
   id: number;
   name: string;
   lesson_count: number;
+}
+
+export interface AuthenticatedUser extends NextAuthUser {
+  accessToken?: string;
+  refreshToken?: string;
 }

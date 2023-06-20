@@ -12,6 +12,9 @@ markdown = "*"
 mysqlclient = "*"
 django-cors-headers = "*"
 environ = "*"
+dj-rest-auth = "*"
+django-allauth = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
