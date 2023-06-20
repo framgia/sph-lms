@@ -15,6 +15,7 @@ import stepperReducer from '../features/stepper/stepperSlice';
 import tabReducer from '../features/tab/tabSlice';
 import trainerCourseReducer from '../features/trainer/trainerCourseSlice';
 import { getTrainer } from '../services/trainerAPI';
+import dashboardTraineeReducer from '../features/trainer/dashboard/traineeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     courseModals: courseModalsReducer,
     stepper: stepperReducer,
     tab: tabReducer,
+    trainerDashboard: dashboardTraineeReducer,
     [getCourse.reducerPath]: getCourse.reducer,
     [getCourseTrainee.reducerPath]: getCourseTrainee.reducer,
     [getCategory.reducerPath]: getCategory.reducer,

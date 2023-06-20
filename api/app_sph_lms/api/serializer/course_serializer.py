@@ -2,9 +2,7 @@ import random
 
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.datetime_serializer import DateTimeSerializer
-from app_sph_lms.api.serializer.trainee_serializer import TraineeSerializer
-from app_sph_lms.models import (Category, Course, CourseCategory,
-                                CourseTrainee, Lesson, Trainee)
+from app_sph_lms.models import Category, Course, CourseCategory, Lesson, User
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
@@ -23,17 +21,6 @@ class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ('id', 'title', 'link', 'order')
-
-
-class CourseEnrolleeSerializer(serializers.ModelSerializer):
-    trainee = serializers.SerializerMethodField()
-
-    class Meta:
-        model = CourseTrainee
-        fields = "__all__"
-
-    def get_trainee(self, obj):
-        return TraineeSerializer(obj.trainee).data
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -161,32 +148,34 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
 
         if is_enrolled == "true":
             if sortingOption == "A - Z":
-                course_trainees = CourseTrainee.objects.order_by(
-                    'trainee__trainee__first_name').filter(course=obj)
-            if sortingOption == "Z - A":
-                course_trainees = CourseTrainee.objects.order_by(
-                    '-trainee__trainee__first_name').filter(course=obj)
+                course_trainees = obj.trainee.order_by('first_name')
+            elif sortingOption == "Z - A":
+                course_trainees = obj.trainee.order_by('-first_name')
 
             data = [
                 {
                     "trainee_id": trainee.id,
-                    "user_id": trainee.trainee.trainee.id,
-                    "firstname": trainee.trainee.trainee.first_name,
-                    "lastname": trainee.trainee.trainee.last_name,
-                    "email": trainee.trainee.trainee.email,
+                    "user_id": trainee.id,
+                    "firstname": trainee.first_name,
+                    "lastname": trainee.last_name,
+                    "email": trainee.email,
                     "progress": random.randint(0, 100),
                 }
                 for trainee in course_trainees
             ]
         else:
-            trainees = Trainee.objects.exclude(trainee_detail__course=obj)
+            trainees = User.objects.filter(
+                    is_trainer=False
+                ).exclude(
+                    enrolled_course=obj
+                )
             data = [
                 {
                     "trainee_id": trainee.id,
-                    "user_id": trainee.trainee.id,
-                    "firstname": trainee.trainee.first_name,
-                    "lastname": trainee.trainee.last_name,
-                    "email": trainee.trainee.email,
+                    "user_id": trainee.id,
+                    "firstname": trainee.first_name,
+                    "lastname": trainee.last_name,
+                    "email": trainee.email,
                     "progress": 0,
                 }
                 for trainee in trainees

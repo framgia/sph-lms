@@ -320,6 +320,36 @@ class Lesson(models.Model):
         return self.title
 
 
+class CompletedLesson(models.Model):
+    trainee = models.ForeignKey(
+            User,
+            on_delete=models.CASCADE,
+            related_name="trainee",
+            limit_choices_to={'is_trainer': False},
+        )
+    lesson = models.ForeignKey(
+            Lesson,
+            on_delete=models.CASCADE,
+            related_name="lesson"
+        )
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        verbose_name = "CompletedLesson"
+        verbose_name_plural = "CompletedLessons"
+        db_table = "app_sph_lms_completed_lessons"
+
+    def __str__(self):
+        return (
+            "Trainee: "
+            + str(self.trainee)
+            + " | "
+            + "Lesson: "
+            + str(self.lesson)
+        )
+
+
 class CourseTrainee(models.Model):
     trainee = models.ForeignKey(
             Trainee, on_delete=models.CASCADE,
