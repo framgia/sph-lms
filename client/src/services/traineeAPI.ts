@@ -10,7 +10,7 @@ export const getCourseTrainee = createApi({
       return headers;
     },
   }),
-  tagTypes: ['CourseTrainee', 'LearningPathTrainee'],
+  tagTypes: ['CourseTrainee', 'LearningPathTrainee', 'TrainerTrainee'],
   endpoints: (builder) => ({
     getLearner: builder.query({
       query: ({ courseId, isEnrolled, searchQuery, pageNumber, selectedSortOption }) => ({
@@ -36,6 +36,17 @@ export const getCourseTrainee = createApi({
       }),
       providesTags: ['LearningPathTrainee'],
     }),
+    getTrainerTrainees: builder.query<any, { searchQuery: string; pageNumber: number, pageSize?: number }>({
+      query: ({ searchQuery, pageNumber, pageSize }) => ({
+        url: 'trainer/trainees',
+        params: {
+          search: searchQuery,
+          page: pageNumber,
+          page_size: pageSize
+        },
+      }),
+      providesTags: ['TrainerTrainee'],
+    }),
     enrollLearner: builder.mutation({
       query: ({ courseId, postData }) => ({
         url: `course/${courseId}/trainee`,
@@ -45,7 +56,7 @@ export const getCourseTrainee = createApi({
           'Content-Type': 'application/json',
         },
       }),
-      invalidatesTags: ['CourseTrainee'],
+      invalidatesTags: ['CourseTrainee', 'TrainerTrainee'],
     }),
     enrollLearningPathLearner: builder.mutation({
       query: ({ courseId, postData }) => ({
@@ -56,7 +67,7 @@ export const getCourseTrainee = createApi({
           'Content-Type': 'application/json',
         },
       }),
-      invalidatesTags: ['LearningPathTrainee'],
+      invalidatesTags: ['LearningPathTrainee', 'TrainerTrainee'],
     }),
   }),
 });
@@ -64,6 +75,7 @@ export const getCourseTrainee = createApi({
 export const {
   useGetLearnerQuery,
   useGetLearningPathLearnerQuery,
+  useGetTrainerTraineesQuery,
   useEnrollLearnerMutation,
   useEnrollLearningPathLearnerMutation,
 } = getCourseTrainee;

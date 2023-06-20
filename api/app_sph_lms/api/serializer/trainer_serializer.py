@@ -1,6 +1,6 @@
 from app_sph_lms.api.serializer.course_serializer import CourseSerializer
 from app_sph_lms.api.serializer.user_serializer import UserSerializer
-from app_sph_lms.models import Trainer
+from app_sph_lms.models import Trainer, User
 from rest_framework import serializers
 
 
@@ -18,3 +18,9 @@ class TrainerSerializer(serializers.ModelSerializer):
 
     def get_course_count(self, obj):
         return len(obj.author.all())
+
+class TrainerTraineeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email']

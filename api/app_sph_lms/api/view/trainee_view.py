@@ -1,12 +1,14 @@
 from app_sph_lms.api.serializer.course_serializer import \
     CourseTraineeSerializer
+from app_sph_lms.api.serializer.trainer_serializer import TrainerTraineeSerializer
 from app_sph_lms.api.serializer.learning_path_serializer import \
     LearningPathTraineeSerializer
+from app_sph_lms.api.view.course_view import LargeResultsSetPagination
 from app_sph_lms.models import (Course, CourseTrainee, LearningPath, Trainee,
                                 User)
+from django.db.models import Q
 from rest_framework import generics, status
 from rest_framework.response import Response
-
 
 class CourseTraineeViewSet(generics.RetrieveAPIView, generics.CreateAPIView):
     queryset = Course.objects.all()
@@ -101,3 +103,23 @@ class LearningPathTraineeViewSet(
             learning_path.trainee.add(trainee)
 
         return Response({"message": "Trainees Enrolled Successfully"})
+
+
+class TrainerTraineeList(generics.ListCreateAPIView):
+    queryset = User.objects.filter(is_trainer=False)
+    serializer_class = TrainerTraineeSerializer
+    pagination_class = LargeResultsSetPagination
+
+    def get(self, request, *args, **kwargs):
+        self.user_id = request.user.id
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(trainer_id=self.user_id)
+        search = self.request.query_params.get('search', None)
+
+        if search:
+            queryset = queryset.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(email__icontains=search))
+
+        return queryset

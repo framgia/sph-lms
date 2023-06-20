@@ -5,6 +5,7 @@ import TrashIcon from '../../icons/TrashIcon';
 import Icon, { type IconData } from './Icon';
 
 interface Data {
+  id: number;
   type?: string;
 }
 
@@ -20,7 +21,7 @@ interface ListItemProps<T> {
   onCheckboxChange?: (data: T) => void;
   register?: UseFormRegister<FieldValues>;
   isClickable: boolean;
-  handleClick: () => void;
+  handleClick: (traineeId: number) => void;
 }
 
 export const ListItem: any = <T extends Data>({
@@ -40,9 +41,11 @@ export const ListItem: any = <T extends Data>({
   return (
     <tr
       className={`even:bg-neutral-50 whitespace-nowrap text-[13px] text-lightGray3 font-sans h-[49px] group transition-all ease-out duration-200 ${
-        isClickable && 'cursor-pointer'
+        isClickable && 'cursor-pointer hover:bg-neutral-100'
       }`}
-      onClick={isClickable ? handleClick : undefined}
+      onClick={() => {
+        isClickable && handleClick(data.id);
+      }}
     >
       {showCheckbox && (
         <td className="p-4">
