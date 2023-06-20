@@ -53,15 +53,19 @@ export interface ClassList {
   number_of_courses: number;
 }
 
+export interface Progress {
+  name: string;
+  percentage: number;
+}
+
 export interface User {
   id: string;
   first_name: string;
   last_name: string;
   email: string;
-  role: {
-    title: string;
-  };
   status: string;
+  image: string;
+  progress: Progress;
   created_at: string;
   updated_at: string;
 }

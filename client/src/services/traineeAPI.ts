@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { getUserToken } from '@/src/shared/utils';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
@@ -36,13 +37,17 @@ export const getCourseTrainee = createApi({
       }),
       providesTags: ['LearningPathTrainee'],
     }),
-    getTrainerTrainees: builder.query<any, { searchQuery: string; pageNumber: number, pageSize?: number }>({
-      query: ({ searchQuery, pageNumber, pageSize }) => ({
+    getTrainerTrainees: builder.query<
+      any,
+      { searchQuery?: string; pageNumber?: number; pageSize?: number; sort?: string }
+    >({
+      query: ({ searchQuery, pageNumber, pageSize, sort }) => ({
         url: 'trainer/trainees',
         params: {
           search: searchQuery,
           page: pageNumber,
-          page_size: pageSize
+          page_size: pageSize,
+          sort,
         },
       }),
       providesTags: ['TrainerTrainee'],
