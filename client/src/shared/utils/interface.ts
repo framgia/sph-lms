@@ -205,3 +205,9 @@ export interface LearningPath {
   category: CourseCategory[];
   is_active: boolean;
 }
+
+export interface TrainerCourse {
+  id: number;
+  name: string;
+  lesson_count: number;
+}

@@ -1,7 +1,32 @@
+import {
+  addTrainerCourses,
+  resetTrainerCourses,
+  seeMoreCourses,
+} from '@/src/features/trainer/trainerCourseSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { useGetTrainerCourseQuery } from '@/src/services/trainerAPI';
 import DashboardCard from '@/src/shared/components/Card/DashboardCard';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
+import { useEffect } from 'react';
 
 const CoursesSection = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const { courses, page } = useAppSelector((state) => state.trainerCourse);
+  const { data: { results: trainerCourses = [], totalPages } = {}, isLoading } =
+    useGetTrainerCourseQuery(page);
+
+  useEffect(() => {
+    if (!isLoading && trainerCourses) {
+      dispatch(addTrainerCourses(trainerCourses));
+    }
+  }, [trainerCourses, isLoading, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetTrainerCourses());
+    };
+  }, []);
+
   return (
     <div className="p-4 mt-[-1rem]">
       {courses.length ? (
@@ -12,17 +37,26 @@ const CoursesSection = (): JSX.Element => {
               <DashboardCard
                 key={course.id}
                 title={course.name}
-                subText={`${course.lesson_count} lessons`}
+                subText={`${course.lesson_count} ${
+                  course.lesson_count !== 1 ? 'lessons' : 'lesson'
+                }`}
                 link={`/trainer/courses/${course.id}`}
               />
             ))}
           </div>
-          <div className="flex gap-1">
-            <ShowIcon />
-            <span className="text-xs underline underline-offset-4 cursor-pointer">
-              See more courses
-            </span>
-          </div>
+          {page !== totalPages && (
+            <div className="flex gap-1">
+              <ShowIcon />
+              <button
+                className="text-xs underline underline-offset-4"
+                onClick={() => {
+                  dispatch(seeMoreCourses());
+                }}
+              >
+                See more courses
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex items-center justify-center text-sm text-neutral-disabled">
@@ -32,53 +66,5 @@ const CoursesSection = (): JSX.Element => {
     </div>
   );
 };
-
-const courses = [
-  {
-    id: 1,
-    name: 'Vue Mastery 1',
-    lesson_count: 3,
-  },
-  {
-    id: 2,
-    name: 'Vue Mastery 2',
-    lesson_count: 4,
-  },
-  {
-    id: 3,
-    name: 'Advance Vue Mastery Course For Beginners',
-    lesson_count: 3,
-  },
-  {
-    id: 4,
-    name: 'Advance Vue Mastery Course For Beginners, Intermediate Learners and Experts',
-    lesson_count: 3,
-  },
-  {
-    id: 5,
-    name: 'Advance Vue Mastery Course',
-    lesson_count: 4,
-  },
-  {
-    id: 6,
-    name: 'Advance Vue Mastery Course',
-    lesson_count: 3,
-  },
-  {
-    id: 7,
-    name: 'Advance Vue Mastery Course',
-    lesson_count: 3,
-  },
-  {
-    id: 8,
-    name: 'Advance Vue Mastery Course',
-    lesson_count: 4,
-  },
-  {
-    id: 9,
-    name: 'Advance Vue Mastery Course',
-    lesson_count: 3,
-  },
-];
 
 export default CoursesSection;
