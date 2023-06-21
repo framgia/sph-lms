@@ -11,6 +11,7 @@ import lessonModalsReducer from '../features/course/lessonModalsSlice';
 import courseModalsReducer from '../features/learning-path/courseModalsSlice';
 import learningPathLearnerReducer from '../features/learning-path/learnerSlice';
 import learningPathReducer from '../features/learning-path/learningPathSlice';
+import trainerLearningPathReducer from '../features/trainer/trainerLearningPathSlice';
 import stepperReducer from '../features/stepper/stepperSlice';
 import tabReducer from '../features/tab/tabSlice';
 import trainerCourseReducer from '../features/trainer/trainerCourseSlice';
@@ -26,12 +27,14 @@ export const store = configureStore({
     trainerCourse: trainerCourseReducer,
     lessonModals: lessonModalsReducer,
     learningPath: learningPathReducer,
+    trainerLearningPath: trainerLearningPathReducer,
     courseModals: courseModalsReducer,
     stepper: stepperReducer,
     tab: tabReducer,
     trainerDashboard: dashboardTraineeReducer,
     [getCourse.reducerPath]: getCourse.reducer,
     [getCourseTrainee.reducerPath]: getCourseTrainee.reducer,
+    [getTrainer.reducerPath]: getTrainer.reducer,
     [getCategory.reducerPath]: getCategory.reducer,
     [getLearningPath.reducerPath]: getLearningPath.reducer,
     [getTrainer.reducerPath]: getTrainer.reducer,
@@ -42,6 +45,7 @@ export const store = configureStore({
     })
       .concat(getCourse.middleware)
       .concat(getCourseTrainee.middleware)
+      .concat(getTrainer.middleware)
       .concat(getCategory.middleware)
       .concat(getLearningPath.middleware)
       .concat(getTrainer.middleware),

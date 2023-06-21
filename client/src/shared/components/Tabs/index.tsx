@@ -39,6 +39,7 @@ const Tabs: FC<TabsProps> = ({ children }) => {
       dispatch(reset());
     });
   }, []);
+
   return (
     <Fragment>
       <div className="hidden md:flex mb-4 border-b">
