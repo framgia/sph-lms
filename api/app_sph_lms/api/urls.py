@@ -1,5 +1,4 @@
-from app_sph_lms.api.view.auth_view import (AuthToken, SignOutView,
-                                            get_auth_user)
+from app_sph_lms.api.view.auth_view import (GoogleLoginView)
 from app_sph_lms.api.view.category_view import CategoryDetail, CategoryList
 from app_sph_lms.api.view.class_view import ClassList
 from app_sph_lms.api.view.course_view import (CourseCategoryDetail,
@@ -15,6 +14,11 @@ from app_sph_lms.api.view.user_view import (CompanyUsersViewSet, TraineeList,
 from django.urls import path
 
 urlpatterns = [
+    path(
+        'auth/google/',
+        GoogleLoginView.as_view(),
+        name='google'
+    ),
     path(
         'user/<int:company_id>',
         CompanyUsersViewSet.as_view(),
@@ -68,24 +72,6 @@ urlpatterns = [
         CategoryDetail.as_view(),
         name="category-detail"
     ),
-
-
-    path(
-        'auth/sign-in',
-        AuthToken.as_view(),
-        name="login"
-    ),
-    path(
-        'auth/user',
-        get_auth_user,
-        name="auth-user-api-health-check"
-    ),
-    path(
-        'auth/sign-out',
-        SignOutView.as_view(),
-        name="signout"
-    ),
-
     path(
         'classes/<int:company_id>',
         ClassList.as_view(),

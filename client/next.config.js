@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -9,9 +10,10 @@ const nextConfig = {
       'www.simplilearn.com',
       'images.unsplash.com',
       'campustechnology.com',
-      'res.cloudinary.com'
-    ]
-  }
+      'res.cloudinary.com',
+      'lh3.googleusercontent.com',
+    ],
+  },
 };
 
 module.exports = nextConfig;

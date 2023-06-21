@@ -2,8 +2,8 @@
 import React, { useState, useRef, useEffect, type ReactElement } from 'react';
 import ChevronDownIcon from '@/src/shared/icons/ChevronDownIcon';
 import { useOutsideClick } from '@/src/shared/hooks/useOutsideClick';
-import { useSignOut } from '@/src/shared/hooks/useSignOut';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 export interface Option {
   text: string;
@@ -40,8 +40,6 @@ const NavBarDropdown: React.FC<NavBarDropdownProps> = ({
     setSelectedOption(option);
     setIsOpen(false);
   };
-
-  const { onSignOutEvent } = useSignOut();
 
   useEffect(() => {
     if (showLogoutButton !== undefined) {
@@ -97,7 +95,9 @@ const NavBarDropdown: React.FC<NavBarDropdownProps> = ({
             {showLogoutButtonState && (
               <button
                 className="block px-4 py-2 text-sm w-full text-left hover:bg-gray-100 border-t border-gray-200"
-                onClick={onSignOutEvent}
+                onClick={async () => {
+                  await signOut();
+                }}
               >
                 Logout
               </button>

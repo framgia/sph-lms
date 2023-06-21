@@ -20,6 +20,7 @@ from app_sph_lms.forms import EmailAuthenticationForm
 admin.site.login_form = EmailAuthenticationForm
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path('api/', include('app_sph_lms.api.urls')),
+    path("api/auth/", include("dj_rest_auth.urls")),
 ]

@@ -15,7 +15,7 @@ const StudentActivity: React.FC<StudentActivityProps> = ({ trainee }) => {
   return (
     <div className="flex divide-x">
       <div className="flex gap-1 p-4 w-[250px]">
-        <Avatar image={image} />
+        <Avatar src={image} />
         <div className="flex flex-col">
           <span className="text-sm font-medium">
             {first_name} {last_name}
