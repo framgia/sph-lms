@@ -1,8 +1,13 @@
-import type { TrainerCourse } from '@/src/shared/utils';
+import type { TrainerCourse, TrainerLearningPath } from '@/src/shared/utils';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 interface CourseList {
   results: TrainerCourse[];
+  totalPages: number;
+}
+
+interface LearningPathList {
+  results: TrainerLearningPath[];
   totalPages: number;
 }
 
@@ -21,7 +26,16 @@ export const getTrainer = createApi({
         },
       }),
     }),
+    getTrainerLearningPaths: builder.query<LearningPathList, { page: number; pageSize?: number }>({
+      query: ({ page, pageSize }) => ({
+        url: 'trainer/learning-path',
+        params: {
+          page,
+          page_size: pageSize,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetTrainerCourseQuery } = getTrainer;
+export const { useGetTrainerCourseQuery, useGetTrainerLearningPathsQuery } = getTrainer;

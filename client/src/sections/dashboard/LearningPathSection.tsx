@@ -1,41 +1,59 @@
+import {
+  addTrainerLearningPaths,
+  resetTrainerLearningPaths,
+  seeMoreLearningPaths,
+} from '@/src/features/trainer/trainerLearningPathSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { useGetTrainerLearningPathsQuery } from '@/src/services/trainerAPI';
 import DashboardCard from '@/src/shared/components/Card/DashboardCard';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
+import type { TrainerLearningPath } from '@/src/shared/utils';
+import React, { useEffect } from 'react';
 
 const LearningPathSection = (): JSX.Element => {
-  const cardsData: any = [];
-  for (let i = 1; i <= 10; i++) {
-    cardsData.push({
-      id: i,
-      title: `Vue Mastery ${i}`,
-      subText: '3 Courses',
-    });
-  }
+  const dispatch = useAppDispatch();
+  const { learningPaths, page } = useAppSelector((state) => state.trainerLearningPath);
+  const { data: { results: trainerLearningPaths = [], totalPages = 0 } = {}, isLoading } =
+    useGetTrainerLearningPathsQuery({ page, pageSize: 9 });
+
+  useEffect(() => {
+    if (!isLoading && trainerLearningPaths) {
+      dispatch(addTrainerLearningPaths(trainerLearningPaths));
+    }
+  }, [trainerLearningPaths]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetTrainerLearningPaths());
+    };
+  }, []);
 
   return (
-    <div className="p-4 mt-[-1rem]">
-      {cardsData.length ? (
-        <div className="flex flex-col gap-4">
-          <span className="text-xs text-neutral-disabled">Ranked by progress %</span>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {cardsData.map((card: any) => (
-              <DashboardCard
-                key={card.id}
-                title={card.title}
-                subText={card.subText}
-                link={`/trainer/learning-paths/${card.id}`}
-              />
-            ))}
-          </div>
-          <div className="flex gap-1">
-            <ShowIcon />
-            <span className="text-xs underline underline-offset-4 cursor-pointer">
-              See more Learning Paths
-            </span>
-          </div>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center text-sm text-neutral-disabled">
-          No learning paths to show
+    <div className="mb-20">
+      <span className="text-xs text-neutral-disabled pl-5">Ranked by Progress %</span>
+      <div className="grid grid-cols-3 gap-4 mx-5 mt-5">
+        {learningPaths.map((learningPath: TrainerLearningPath) => (
+          <DashboardCard
+            key={learningPath.id}
+            title={learningPath.name}
+            subText={`${learningPath.course_count} ${
+              learningPath.course_count === 1 ? 'course' : 'courses'
+            }`}
+            link={`learning-paths/${learningPath.id}`}
+          />
+        ))}
+      </div>
+      {page < totalPages && (
+        <div className="flex gap-1 pt-4 pl-4">
+          <ShowIcon />
+          <span
+            className="text-xs underline underline-offset-4 cursor-pointer"
+            onClick={() => {
+              dispatch(seeMoreLearningPaths());
+            }}
+          >
+            See more learning paths
+          </span>
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ from app_sph_lms.api.view.learning_path_view import (LearningPathDetail,
                                                      LearningPathList)
 from app_sph_lms.api.view.trainee_view import (CourseTraineeViewSet,
                                                LearningPathTraineeViewSet, TrainerTraineeList)
-from app_sph_lms.api.view.trainer_view import TrainerCoursesList
+from app_sph_lms.api.view.trainer_view import TrainerCoursesList, TrainerLearningPathList
 from app_sph_lms.api.view.user_view import (CompanyUsersViewSet, TraineeList,
                                             UserDetail)
 from django.urls import path
@@ -102,4 +102,9 @@ urlpatterns = [
         TrainerCoursesList.as_view(),
         name="learning-path-detail"
     ),
+    path(
+        'trainer/learning-path',
+        TrainerLearningPathList.as_view(),
+        name="trainer-learning-path-list"
+    )
 ]

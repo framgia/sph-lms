@@ -79,8 +79,8 @@ const LearningPathCreate = (): JSX.Element => {
             const property = Object.keys(data)[0];
             throw new Error(data[property][0]);
           } else {
-            alertSuccess('Learning path created successfully!');
             await push('/trainer/learning-paths');
+            alertSuccess('Learning path created successfully!');
             dispatch(reset());
           }
         } catch (e: any) {

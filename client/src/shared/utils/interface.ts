@@ -199,13 +199,16 @@ export interface CourseData {
   course: CourseCollection;
 }
 
-export interface LearningPath {
+export interface TrainerLearningPath {
   id: number;
   name: string;
+  course_count: number;
+}
+
+export interface LearningPath extends TrainerLearningPath {
   description: string;
   image: string;
   ratings: number;
-  course_count: number;
   courses: Course[];
   category: CourseCategory[];
   is_active: boolean;
