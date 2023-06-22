@@ -24,7 +24,7 @@ export const getLearningPath = createApi({
         const pageSizeParam = pageSize ? `&page_size=${pageSize}` : '';
         const statusParam = isActive !== undefined ? `&is_active=${isActive}` : '';
         const searchParam = search ? `&search=${search}` : '';
-        return `learning-path?${pageParam}${pageSizeParam}${statusParam}${searchParam}`;
+        return `learning-path/?${pageParam}${pageSizeParam}${statusParam}${searchParam}`;
       },
       providesTags: ['LearningPath'],
     }),

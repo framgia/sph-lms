@@ -1,22 +1,22 @@
 /* eslint-disable multiline-ternary */
-import React, { Fragment, useEffect, useState } from 'react';
-import ShowIcon from '@/src/shared/icons/ShowIcon';
-import FilterIcon from '@/src/shared/icons/FilterIcon';
-import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
-import { useGetLearnerQuery } from '@/src/services/traineeAPI';
-import { useRouter } from 'next/router';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import {
-  type Trainee,
   addTrainees,
-  seeMoreTrainees,
   resetTraineesList,
+  seeMoreTrainees,
+  type Trainee,
 } from '@/src/features/course/learnerSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { useGetLearnerQuery } from '@/src/services/traineeAPI';
 import Button from '@/src/shared/components/Button';
-import AddLearnerModal from './AddLearnerModal';
 import SortDropdown, {
   type SortOption,
 } from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
+import AddLearnerModal from '@/src/shared/components/Modal/AddLearnerModal';
+import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
+import FilterIcon from '@/src/shared/icons/FilterIcon';
+import ShowIcon from '@/src/shared/icons/ShowIcon';
+import { useRouter } from 'next/router';
+import React, { Fragment, useEffect, useState } from 'react';
 
 const LearningSection: React.FC = () => {
   const [selectedSortOption, setSelectedSortOption] = useState('A - Z');
@@ -66,6 +66,7 @@ const LearningSection: React.FC = () => {
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
 
   const handleAddMaterialModal = (): void => {
     setIsModalOpen(!isModalOpen);
@@ -83,10 +84,6 @@ const LearningSection: React.FC = () => {
               textColor="text-red"
               onClick={handleAddMaterialModal}
             />
-            {isModalOpen && <AddLearnerModal closeModal={handleAddMaterialModal} />}
-
-            {/* use this if the reusable add learner modal has working add learner functionality */}
-            {/* {isModalOpen && <AddLearnerModal handleHideModal={handleAddMaterialModal} useGetLearnerQuery={useGetLearnerQuery}/>} */}
           </div>
         </div>
         {learners && learners.length > 0 ? (
@@ -104,7 +101,7 @@ const LearningSection: React.FC = () => {
 
             <div className={'transition-all duration-500'}>
               {learners?.map((col: Trainee) => (
-                <div className="grid gap-1 w-full py-2" key={col.trainee_id}>
+                <div className="grid gap-1 w-full py-2" key={col.id}>
                   <ProgressPercentage progress={col.progress} />
                   <div className="text-sm text-gray-500 font-semibold">
                     {col.firstname} {col.lastname}
@@ -131,6 +128,12 @@ const LearningSection: React.FC = () => {
           <div className="flex items-center justify-center h-full w-full">
             <h1 className="text-center font-semibold text-xl">No Learners Available</h1>
           </div>
+        )}
+        {isModalOpen && (
+          <AddLearnerModal
+            handleModal={handleAddMaterialModal}
+            useGetLearnerQuery={useGetLearnerQuery}
+          />
         )}
       </div>
     </Fragment>
