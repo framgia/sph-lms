@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/array-type */
 import { type ReactElement } from 'react';
-import type { User as NextAuthUser } from 'next-auth';
+import type { User as NextAuthUser, Session } from 'next-auth';
 
 export interface CourseDetails {
   id: string;
@@ -223,4 +223,11 @@ export interface TrainerCourse {
 export interface AuthenticatedUser extends NextAuthUser {
   accessToken?: string;
   refreshToken?: string;
+}
+
+export interface CustomSession extends Session {
+  user: {
+    name?: string;
+    first_name?: string;
+  };
 }
