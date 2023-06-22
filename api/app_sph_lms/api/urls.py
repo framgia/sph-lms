@@ -1,16 +1,16 @@
-from app_sph_lms.api.view.auth_view import (GoogleLoginView)
+from app_sph_lms.api.view.auth_view import GoogleLoginView
 from app_sph_lms.api.view.category_view import CategoryDetail, CategoryList
-from app_sph_lms.api.view.class_view import ClassList
 from app_sph_lms.api.view.course_view import (CourseCategoryDetail,
                                               CourseCategoryList, CourseDetail,
                                               CourseList)
 from app_sph_lms.api.view.learning_path_view import (LearningPathDetail,
                                                      LearningPathList)
 from app_sph_lms.api.view.trainee_view import (CourseTraineeViewSet,
-                                               LearningPathTraineeViewSet, TrainerTraineeList)
-from app_sph_lms.api.view.trainer_view import TrainerCoursesList, TrainerLearningPathList
-from app_sph_lms.api.view.user_view import (CompanyUsersViewSet, TraineeList,
-                                            UserDetail)
+                                               LearningPathTraineeViewSet,
+                                               TrainerTraineeList)
+from app_sph_lms.api.view.trainer_view import (TrainerCoursesList,
+                                               TrainerLearningPathList)
+from app_sph_lms.api.view.user_view import UserDetail
 from django.urls import path
 
 urlpatterns = [
@@ -20,18 +20,8 @@ urlpatterns = [
         name='google'
     ),
     path(
-        'user/<int:company_id>',
-        CompanyUsersViewSet.as_view(),
-        name='user-company'
-    ),
-    path(
         'user/<int:company_id>/<int:pk>',
         UserDetail.as_view(),
-        name="user-list"
-    ),
-    path(
-        'user/trainee',
-        TraineeList.as_view(),
         name="user-list"
     ),
 
@@ -71,11 +61,6 @@ urlpatterns = [
         'category/<int:pk>',
         CategoryDetail.as_view(),
         name="category-detail"
-    ),
-    path(
-        'classes/<int:company_id>',
-        ClassList.as_view(),
-        name="classes"
     ),
     path(
         'learning-path/',

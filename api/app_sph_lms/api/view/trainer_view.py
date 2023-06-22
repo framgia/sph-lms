@@ -1,5 +1,5 @@
-from app_sph_lms.api.serializer.trainer_serializer import \
-    TrainerCourseSerializer, TrainerLearningPathSerializer
+from app_sph_lms.api.serializer.trainer_serializer import (
+    TrainerCourseSerializer, TrainerLearningPathSerializer)
 from app_sph_lms.api.view.course_view import LargeResultsSetPagination
 from app_sph_lms.models import Course, LearningPath
 from rest_framework import generics
@@ -15,6 +15,7 @@ class TrainerCoursesList(generics.ListAPIView):
 
     def get_queryset(self):
         return Course.objects.filter(author=self.request.user)
+
 
 class TrainerLearningPathList(generics.ListCreateAPIView):
     queryset = LearningPath.objects.filter(is_active=True)
