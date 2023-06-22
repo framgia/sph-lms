@@ -4,17 +4,10 @@ import TraineesSection from '@/src/sections/dashboard/TraineesSection';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import ArrowIcon from '@/src/shared/icons/ArrowIcon';
-import type { Session } from 'next-auth';
+import { type CustomSession } from '@/src/shared/utils/interface';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Fragment } from 'react';
-
-interface CustomSession extends Session {
-  user: {
-    name?: string;
-    first_name?: string;
-  };
-}
 
 const DashboardPage: React.FC = () => {
   const { data } = useSession();
