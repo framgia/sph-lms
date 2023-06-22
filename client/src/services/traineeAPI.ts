@@ -1,11 +1,17 @@
 /* eslint-disable @typescript-eslint/indent */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getCookie } from '../shared/utils/helpers';
 
 export const getCourseTrainee = createApi({
   reducerPath: 'getCourseTrainee',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     credentials: 'include',
+    prepareHeaders: (headers) => {
+      const csrfToken = getCookie('csrftoken');
+      headers.set('X-CSRFToken', csrfToken ?? '');
+      return headers;
+    },
   }),
   tagTypes: ['CourseTrainee', 'LearningPathTrainee', 'TrainerTrainee'],
   endpoints: (builder) => ({
