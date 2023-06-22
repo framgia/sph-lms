@@ -20,7 +20,7 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ('id', 'title', 'link', 'order')
+        fields = ("id", "title", "link", "order")
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -38,40 +38,39 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = "__all__"
+        exclude = ["trainee"]
 
     def get_author(self, obj):
         return f"{obj.author.first_name} {obj.author.last_name}"
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['category'] = [
+        representation["category"] = [
             {
-                'id': category.id,
-                'name': category.name
+                "id": category.id,
+                "name": category.name
             } for category in instance.category.all()
         ]
         return representation
 
     def create(self, validated_data):
-        user = self.context['request'].user
+        user = self.context["request"].user
 
-        if not user.is_authenticated or \
-                not user.is_trainer:
+        if not user.is_authenticated or not user.is_trainer:
             raise PermissionDenied(
                 "Only authenticated Trainers and Admins can create a course."
             )
 
-        validated_data['author'] = user
-        categories_data = validated_data.pop('category')
+        validated_data["author"] = user
+        categories_data = validated_data.pop("category")
 
-        lessons_data = validated_data.pop('lessons')
+        lessons_data = validated_data.pop("lessons")
 
         with transaction.atomic():
             course = Course.objects.create(**validated_data)
 
             for lesson_data in lessons_data:
-                lesson_data['course'] = course
+                lesson_data["course"] = course
                 Lesson.objects.create(**lesson_data)
 
             for category in categories_data:
@@ -84,35 +83,35 @@ class CourseSerializer(serializers.ModelSerializer):
         return course
 
     def update(self, instance, validated_data):
-        user = self.context['request'].user
+        user = self.context["request"].user
 
-        if not user.is_authenticated or \
-                not user.is_trainer:
+        if not user.is_authenticated or not user.is_trainer:
             raise PermissionDenied(
                 "Only authenticated Trainers and Admins can update a course."
             )
 
-        categories_data = validated_data.pop('category', [])
-        lessons_data = validated_data.pop('lessons', [])
+        categories_data = validated_data.pop("category", [])
+        lessons_data = validated_data.pop("lessons", [])
 
-        instance.name = validated_data.get('name', instance.name)
+        instance.name = validated_data.get("name", instance.name)
         instance.save()
 
         CourseCategory.objects.filter(course=instance).delete()
         for category in categories_data:
             category_id = category.id
             CourseCategory.objects.create(
-                course=instance, category_id=category_id
+                course=instance,
+                category_id=category_id
             )
 
         existing_lesson_ids = [lesson.id for lesson in instance.lessons.all()]
         for lesson_data in lessons_data:
-            lesson_id = lesson_data.get('id')
+            lesson_id = lesson_data.get("id")
             if lesson_id in existing_lesson_ids:
                 Lesson.objects.filter(id=lesson_id).update(**lesson_data)
                 existing_lesson_ids.remove(lesson_id)
             else:
-                lesson_data['course'] = instance
+                lesson_data["course"] = instance
                 Lesson.objects.create(**lesson_data)
 
         Lesson.objects.filter(id__in=existing_lesson_ids).delete()
@@ -122,7 +121,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class CustomPagination(PageNumberPagination):
     page_size = 10
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
 
 
 class CourseTraineeSerializer(serializers.ModelSerializer):
@@ -130,7 +129,7 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['learners']
+        fields = ["learners"]
 
     def get_learners(self, obj):
         is_enrolled = self.context[
@@ -148,14 +147,13 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
 
         if is_enrolled == "true":
             if sortingOption == "A - Z":
-                course_trainees = obj.trainee.order_by('first_name')
+                course_trainees = obj.trainee.order_by("first_name")
             elif sortingOption == "Z - A":
-                course_trainees = obj.trainee.order_by('-first_name')
+                course_trainees = obj.trainee.order_by("-first_name")
 
             data = [
                 {
-                    "trainee_id": trainee.id,
-                    "user_id": trainee.id,
+                    "id": trainee.id,
                     "firstname": trainee.first_name,
                     "lastname": trainee.last_name,
                     "email": trainee.email,
@@ -171,8 +169,7 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
                 )
             data = [
                 {
-                    "trainee_id": trainee.id,
-                    "user_id": trainee.id,
+                    "id": trainee.id,
                     "firstname": trainee.first_name,
                     "lastname": trainee.last_name,
                     "email": trainee.email,
@@ -181,7 +178,7 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
                 for trainee in trainees
             ]
 
-        search = self.context['request'].query_params.get('search')
+        search = self.context["request"].query_params.get("search")
         if search:
             search = search.lower()
             data = [
@@ -189,9 +186,7 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
                 for user in data
                 if search in user["email"].lower()
                 or search in user["firstname"].lower()
-                or search in user[
-                        "lastname"
-                    ].lower()
+                or search in user["lastname"].lower()
             ]
 
         paginator = CustomPagination()
@@ -202,6 +197,6 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
         total_pages = paginator.page.paginator.num_pages
 
         return {
-            'data': paginated_data,
-            'total_pages': total_pages,
+            "data": paginated_data,
+            "total_pages": total_pages,
         }

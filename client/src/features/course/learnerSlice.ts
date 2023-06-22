@@ -1,9 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface Trainee {
-  trainee_id: number;
-  user_id: number;
+  id: number;
   firstname: string;
   lastname: string;
   email: string;
@@ -28,11 +27,7 @@ const learnerSlice = createSlice({
   reducers: {
     addTrainees: (state, action: PayloadAction<Trainee[]>) => {
       const newTrainees = action.payload.filter((trainee) => {
-        return !state.trainees.some(
-          (existingTrainee) =>
-            existingTrainee.trainee_id === trainee.trainee_id ||
-            existingTrainee.user_id === trainee.user_id
-        );
+        return !state.trainees.some((existingTrainee) => existingTrainee.id === trainee.id);
       });
       state.trainees.push(...newTrainees);
     },

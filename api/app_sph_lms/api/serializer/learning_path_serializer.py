@@ -10,13 +10,13 @@ from rest_framework.pagination import PageNumberPagination
 
 class CustomPagination(PageNumberPagination):
     page_size = 10
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
 
 
 class LearningPathCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearningPathCourse
-        fields = ('course', 'course_order')
+        fields = ("course", "course_order")
 
 
 class LearningPathSerializer(serializers.ModelSerializer):
@@ -25,45 +25,43 @@ class LearningPathSerializer(serializers.ModelSerializer):
         many=True,
     )
     courses = serializers.ListField(
-      child=LearningPathCourseSerializer(),
-      write_only=True
+        child=LearningPathCourseSerializer(),
+        write_only=True
     )
     course_count = serializers.SerializerMethodField()
 
     class Meta:
         model = LearningPath
-        exclude = ['author', 'trainee']
+        exclude = ["author", "trainee"]
 
     def get_course_count(self, instance):
         return instance.courses.all().count()
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['category'] = [
+        representation["category"] = [
             {
-                'id': category.id,
-                'name': category.name
+                "id": category.id,
+                "name": category.name
             } for category in instance.category.all()
         ]
         return representation
 
     def validate(self, attrs):
-        user = self.context['request'].user
+        user = self.context["request"].user
         if not user.is_trainer:
             raise serializers.ValidationError(
                 {
-                  'message':
-                      'Unauthorized. Only an admin or trainer \
-                        can create learning paths.'
-                  }
+                    "message": "Unauthorized. Only an admin or trainer \
+                        can create learning paths."
+                }
             )
 
         sorted_courses = sorted(
-          attrs['courses'],
-          key=lambda course: course['course_order']
+            attrs["courses"], key=lambda course: course["course_order"]
         )
         for i, course in enumerate(sorted_courses):
-            if i != course['course_order']:
+            if i != course["course_order"]:
                 raise serializers.ValidationError(
                   {
                     'message':
@@ -74,22 +72,22 @@ class LearningPathSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        request = self.context.get('request')
-        validated_data['author'] = request.user
+        request = self.context.get("request")
+        validated_data["author"] = request.user
 
-        courses = validated_data.pop('courses')
-        categories = validated_data.pop('category')
+        courses = validated_data.pop("courses")
+        categories = validated_data.pop("category")
 
         learning_path = LearningPath.objects.create(**validated_data)
 
         learning_path.category.set(categories)
 
         for course in courses:
-            course_obj = Course.objects.get(id=course['course'].id)
+            course_obj = Course.objects.get(id=course["course"].id)
             LearningPathCourse.objects.create(
-              learning_path=learning_path,
-              course=course_obj,
-              course_order=course['course_order']
+                learning_path=learning_path,
+                course=course_obj,
+                course_order=course["course_order"],
             )
 
         return learning_path
@@ -102,7 +100,7 @@ class ExtendedCourse(CourseSerializer):
         return course.learning_path_course.first().course_order
 
     class Meta(CourseSerializer.Meta):
-        fields = CourseSerializer.Meta.fields
+        exclude = CourseSerializer.Meta.exclude
 
 
 class LearningPathDetailSerializer(serializers.ModelSerializer):
@@ -119,7 +117,7 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LearningPath
-        fields = ['learners']
+        fields = ["learners"]
 
     def get_learners(self, obj):
         is_enrolled = self.context[
@@ -138,20 +136,20 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
 
         if is_enrolled == "true":
             if sortingOption == "A - Z":
-                learning_path_trainees = obj.trainee.order_by('first_name')
+                learning_path_trainees = obj.trainee.order_by("first_name")
             elif sortingOption == "Z - A":
-                learning_path_trainees = obj.trainee.order_by('-first_name')
+                learning_path_trainees = obj.trainee.order_by("-first_name")
 
             data = [
-                        {
-                            "id": trainee.id,
-                            "firstname": trainee.first_name,
-                            "lastname": trainee.last_name,
-                            "email": trainee.email,
-                            "progress": random.randint(0, 100),
-                        }
-                        for trainee in learning_path_trainees
-                    ]
+                {
+                    "id": trainee.id,
+                    "firstname": trainee.first_name,
+                    "lastname": trainee.last_name,
+                    "email": trainee.email,
+                    "progress": random.randint(0, 100),
+                }
+                for trainee in learning_path_trainees
+            ]
         else:
             # no filters, base logic to get all trainees,
             # will update along with user model update
@@ -176,7 +174,7 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
                 for trainee in trainees
             ]
 
-        search = self.context['request'].query_params.get('search')
+        search = self.context["request"].query_params.get("search")
         if search:
             search = search.lower()
             data = [
@@ -184,9 +182,7 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
                 for user in data
                 if search in user["email"].lower()
                 or search in user["firstname"].lower()
-                or search in user[
-                        "lastname"
-                    ].lower()
+                or search in user["lastname"].lower()
             ]
 
         paginator = CustomPagination()
@@ -197,6 +193,6 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
         total_pages = paginator.page.paginator.num_pages
 
         return {
-            'data': paginated_data,
-            'total_pages': total_pages,
+            "data": paginated_data,
+            "total_pages": total_pages,
         }

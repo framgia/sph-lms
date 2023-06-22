@@ -12,6 +12,7 @@ export const getCourse = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Course'],
   endpoints: (builder) => ({
     getCourse: builder.query({
       query: (courseID) => `course/${courseID}`,
@@ -23,6 +24,7 @@ export const getCourse = createApi({
         const pageSizeParam = pageSize ? `&page_size=${pageSize}` : '';
         return `course/?${pageParam}${searchParam}${pageSizeParam}`;
       },
+      providesTags: ['Course'],
     }),
     createCourse: builder.mutation({
       query: (courseData) => ({
@@ -30,6 +32,7 @@ export const getCourse = createApi({
         method: 'POST',
         body: courseData,
       }),
+      invalidatesTags: ['Course'],
     }),
     deleteCourse: builder.mutation({
       query: ({ courseID, courseData }) => ({
@@ -37,6 +40,7 @@ export const getCourse = createApi({
         method: 'DELETE',
         body: courseData,
       }),
+      invalidatesTags: ['Course'],
     }),
     updateCourse: builder.mutation({
       query: ({ courseID, courseData }) => ({

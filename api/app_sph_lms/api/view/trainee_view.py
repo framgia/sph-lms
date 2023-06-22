@@ -17,7 +17,7 @@ class CourseTraineeViewSet(generics.RetrieveAPIView, generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         course_id = self.kwargs['pk']
-        trainees = request.data.get('trainee').split(',')
+        trainees = request.data.get('trainees')
 
         if not request.user.is_trainer:
             return Response(

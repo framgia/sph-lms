@@ -1,6 +1,6 @@
 from app_sph_lms.api.serializer.course_serializer import CourseSerializer
 from app_sph_lms.api.serializer.user_serializer import UserSerializer
-from app_sph_lms.models import Course, Trainer, User, LearningPath
+from app_sph_lms.models import Course, LearningPath, Trainer, User
 from rest_framework import serializers
 
 
@@ -19,6 +19,7 @@ class TrainerSerializer(serializers.ModelSerializer):
     def get_course_count(self, obj):
         return len(obj.author.all())
 
+
 class TrainerCourseSerializer(serializers.ModelSerializer):
     lesson_count = serializers.SerializerMethodField()
 
@@ -28,6 +29,7 @@ class TrainerCourseSerializer(serializers.ModelSerializer):
 
     def get_lesson_count(self, obj):
         return obj.lessons.count()
+
 
 class TrainerTraineeSerializer(serializers.ModelSerializer):
     progress = serializers.SerializerMethodField()
@@ -62,16 +64,7 @@ class TrainerTraineeSerializer(serializers.ModelSerializer):
             }
             return progress
         return None
-    
-class TrainerCourseSerializer(serializers.ModelSerializer):
-    lesson_count = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Course
-        fields = ("id", "name", "lesson_count")
-
-    def get_lesson_count(self, obj):
-        return obj.lessons.count()
 
 class TrainerLearningPathSerializer(serializers.ModelSerializer):
     course_count = serializers.SerializerMethodField()
