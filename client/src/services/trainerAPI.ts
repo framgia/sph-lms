@@ -1,5 +1,6 @@
 import type { TrainerCourse, TrainerLearningPath } from '@/src/shared/utils';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getCookie } from '../shared/utils/helpers';
 
 interface CourseList {
   results: TrainerCourse[];
@@ -16,6 +17,11 @@ export const getTrainer = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     credentials: 'include',
+    prepareHeaders: (headers) => {
+      const csrfToken = getCookie('csrftoken');
+      headers.set('X-CSRFToken', csrfToken ?? '');
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getTrainerCourse: builder.query<CourseList, number>({
