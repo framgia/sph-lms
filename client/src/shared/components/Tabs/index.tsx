@@ -43,7 +43,7 @@ const Tabs: FC<TabsProps> = ({ children }) => {
   return (
     <Fragment>
       <div className="hidden md:flex mb-4 border-b">
-        <div className="flex space-x-3 font-medium text-sm text-dark capitalize items-center">
+        <div className="flex font-medium text-sm text-dark capitalize items-center">
           {Object.values(childrenList).map(({ title, id }) => (
             <div
               key={id}

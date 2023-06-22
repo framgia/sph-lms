@@ -33,7 +33,7 @@ const LearningPathListPage: React.FC = () => {
     <Fragment>
       <div className="flex flex-col justify-center items-center gap-4 w-full pt-4">
         <div className="flex flex-col gap-4 container">
-          <div className="flex justify-between items-center mb-3 md:mx-28 lg:mx-24 xl:52 2xl:mx-[13.5rem]">
+          <div className="flex justify-between items-center md:mx-28 lg:mx-24 xl:52 2xl:mx-[13.5rem]">
             <SearchBar onSearchEvent={handleSearch} placeholder="Search" />
             <Link
               href="/trainer/learning-paths/create"

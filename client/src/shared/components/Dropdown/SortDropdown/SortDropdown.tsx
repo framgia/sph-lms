@@ -10,6 +10,7 @@ export interface SortDropdownProps {
   buttonText: string;
   buttonIcon?: React.ReactNode;
   options: SortOption[];
+  disabled?: boolean;
   onChange: (value: string) => void;
   buttonClass?: string;
 }
@@ -18,6 +19,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
   buttonText,
   buttonIcon,
   options,
+  disabled = false,
   onChange,
   buttonClass,
 }: SortDropdownProps) => {
@@ -32,9 +34,14 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
   };
 
   return (
-    <div className="relative border border-gray-500 rounded-md">
+    <div
+      className={`relative border border-gray-500 rounded-md ${
+        disabled && 'border-transparent bg-transparent'
+      }`}
+    >
       <button
         type="button"
+        disabled={disabled}
         className={`flex items-center justify-between w-[219px] py-[3px] text-sm ${buttonClass}`}
         onClick={() => {
           setIsOpen(!isOpen);
@@ -50,7 +57,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
             buttonText
           )}
         </span>
-        <span>{buttonIcon}</span>
+        {!disabled && <span>{buttonIcon}</span>}
       </button>
 
       {isOpen && (

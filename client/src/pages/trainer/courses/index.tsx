@@ -58,8 +58,8 @@ const CoursesListPage: React.FC = () => {
       </Head>
       <div>
         <div className="flex justify-center">
-          <div className="container mt-4">
-            <div className="flex justify-between items-center mb-3 md:mx-28 lg:mx-24 xl:52 2xl:mx-[13.5rem]">
+          <div className="container mt-4 w-fit">
+            <div className="flex justify-between gap-4 items-center mb-4">
               <SearchBar
                 onSearchEvent={handleSearch}
                 placeholder="Search"
@@ -86,15 +86,15 @@ const CoursesListPage: React.FC = () => {
                 </div>
               )}
             </div>
+            <div className="flex justify-center items-center my-5">
+              <Pagination
+                maxPages={5}
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onChangePage={handleChangePageEvent}
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center items-center my-5">
-          <Pagination
-            maxPages={5}
-            totalPages={totalPages}
-            currentPage={currentPage}
-            onChangePage={handleChangePageEvent}
-          />
         </div>
       </div>
     </Fragment>
