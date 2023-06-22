@@ -7,7 +7,6 @@ import {
   updateForm,
 } from '@/src/features/learning-path/learningPathSlice';
 import { useGetCategoryQuery } from '@/src/services/categoryAPI';
-import Dropdown from '@/src/shared/components/Dropdown';
 import RFInputField from '@/src/shared/components/ReactForm/RFInputField';
 import RFTextField from '@/src/shared/components/ReactForm/RFTextField';
 import ChevronDown from '@/src/shared/icons/ChevronDownIcon';
@@ -22,6 +21,7 @@ import {
   type UseFormRegister,
 } from 'react-hook-form';
 import { MultiSelect } from 'react-multi-select-component';
+import SortDropdown from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 
 interface InitialSectionProps {
   register?: UseFormRegister<any>;
@@ -177,8 +177,8 @@ const InitialSection = ({
       {showStatus && (
         <div className="my-4">
           <h3 className="text-gray-700 text-sm font-medium mb-2">Status</h3>
-          <div className="w-[111px]">
-            <Dropdown
+          <div className="w-fit">
+            <SortDropdown
               disabled={!editMode}
               buttonText={learningPath.isActive ? 'Active' : 'Inactive'}
               buttonIcon={<ChevronDown height={16} width={16} color="#172826" />}
@@ -192,6 +192,7 @@ const InitialSection = ({
               onChange={(val) => {
                 dispatch(updateForm({ isActive: val === 'Active' }));
               }}
+              buttonClass='w-fit pr-2'
             />
           </div>
         </div>
