@@ -1,5 +1,5 @@
-from app_sph_lms.api.serializer.learning_path_serializer import \
-    (LearningPathSerializer, LearningPathDetailSerializer)
+from app_sph_lms.api.serializer.learning_path_serializer import (
+    LearningPathDetailSerializer, LearningPathSerializer)
 from app_sph_lms.api.view.course_view import LargeResultsSetPagination
 from app_sph_lms.models import LearningPath
 from rest_framework import generics, serializers
@@ -24,7 +24,10 @@ class LearningPathList(generics.ListCreateAPIView):
             elif isActive.lower() == 'false':
                 queryset = queryset.filter(is_active=False)
             else:
-                raise serializers.ValidationError("Invalid value for is_active. Should either be 'true' or 'false'.")
+                raise serializers.ValidationError(
+                        "Invalid value for is_active. "
+                        "Should either be 'true' or 'false'."
+                    )
 
         return queryset
 

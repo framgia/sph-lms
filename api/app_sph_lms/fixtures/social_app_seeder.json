@@ -1,0 +1,11 @@
+[
+    {
+        "model": "socialaccount.socialapp",
+        "fields": {
+          "provider": "google",
+          "name": "LMS-Google",
+          "client_id": "__GOOGLE_CLIENT_ID__",
+          "secret": "__GOOGLE_CLIENT_SECRET__"
+        }
+      }
+]
