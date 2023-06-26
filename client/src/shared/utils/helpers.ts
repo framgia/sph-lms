@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 export const MAX_FILE_SIZE = 3145728; // 3MB
 
 export const validFileExtensions = {
@@ -34,4 +36,12 @@ export const getCookie = (cookieName: string): string | undefined => {
   }
 
   return undefined;
+};
+
+export const isAuthorized = (is_trainer: boolean, pathname: string): boolean => {
+  const trainerRegex = /^\/(trainer.+)/;
+  const traineeRegex = /^\/(trainee.+)/;
+  const regex = is_trainer ? trainerRegex : traineeRegex;
+
+  return regex.test(pathname);
 };
