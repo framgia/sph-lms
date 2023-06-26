@@ -12,7 +12,7 @@ const DashboardPage: React.FC = () => {
   return (
     <Fragment>
       <div>
-        <div className="flex flex-col gap-2 py-24 justify-center items-center border-b-[0.5px]">
+        <div className="flex flex-col gap-2 py-24 justify-center items-center">
           <div className="font-semibold text-[32px] leading-[40px] font-lora">
             <span className="text-dark">Welcome back, </span>
             <span className="text-red">Trainee {session?.user?.first_name}</span>
