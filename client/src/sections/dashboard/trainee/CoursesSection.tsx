@@ -14,8 +14,8 @@ const CoursesSection = (): JSX.Element => {
           buttonText="A - Z"
           onChange={() => {}}
           options={[
-            { label: 'A - Z', value: 'A -Z' },
-            { label: 'Z - A', value: 'Z -A' },
+            { label: 'A - Z', value: 'A - Z' },
+            { label: 'Z - A', value: 'Z - A' },
           ]}
           buttonIcon={<FilterIcon />}
           buttonClass="w-fit"
