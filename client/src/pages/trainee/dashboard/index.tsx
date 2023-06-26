@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import { type CustomSession } from '@/src/shared/utils/interface';
 import { useSession } from 'next-auth/react';
+import CoursesSection from '@/src/sections/dashboard/trainee/CoursesSection';
 
 const DashboardPage: React.FC = () => {
   const { data } = useSession();
@@ -28,10 +29,10 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
         <div className="flex border-t-[0.5px] w-full justify-center items-start">
-          <div className="flex flex-col gap-4 p-4 container w-[962px]">
+          <div className="flex flex-col p-4 container w-[962px]">
             <Tabs>
               <Tab title="My Courses">
-                <div>Trainee Courses Section here</div>
+                <CoursesSection />
               </Tab>
               <Tab title="My Learning Paths">
                 <div>Trainee Learning path Section here</div>
