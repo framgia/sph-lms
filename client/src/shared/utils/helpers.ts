@@ -39,7 +39,7 @@ export const getCookie = (cookieName: string): string | undefined => {
 };
 
 export const isAuthorized = (is_trainer: boolean, pathname: string): boolean => {
-  const reg = is_trainer ? 'trainer' : 'trainee';
-  const regex = new RegExp(`^/(${reg}.+)`);
+  const slug = is_trainer ? 'trainer' : 'trainee';
+  const regex = new RegExp(`^/(${slug}.+)`);
   return regex.test(pathname);
 };
