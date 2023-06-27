@@ -7,17 +7,23 @@ import LearningPathLearnersSection from '@/src/sections/learning-paths/LearnersS
 import LearningPathContentSection from '@/src/sections/learning-paths/ContentSection';
 import SettingsSection from '@/src/sections/learning-paths/settingsSection';
 import EditSettingsButton from '@/src/sections/learning-paths/settingsSection/EditSettingsButton';
-import { useGetLearningPathQuery } from '@/src/services/learningPathAPI';
-import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/src/redux/hooks';
 import { reset } from '@/src/features/learning-path/learningPathSlice';
+import type { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { settings } from '@/src/pages/api/auth/[...nextauth]';
+import API from '@/src/apis';
+import type { AxiosError } from 'axios';
+import type { LearningPath } from '@/src/shared/utils';
 
-const LearningPathContent: React.FC = () => {
-  const { query } = useRouter();
+interface LearningPathContentProps {
+  learningPath: LearningPath;
+}
+
+const LearningPathContent = ({
+  learningPath,
+}: LearningPathContentProps): JSX.Element | undefined => {
   const dispatch = useAppDispatch();
-  const { data: learningPath } = useGetLearningPathQuery(query.id, {
-    skip: query.id === undefined,
-  });
 
   const paths = [
     {
@@ -35,6 +41,7 @@ const LearningPathContent: React.FC = () => {
       dispatch(reset(learningPath));
     }
   }, [learningPath]);
+
   return (
     <Fragment>
       <div className="ml-5 mt-5">
@@ -62,3 +69,31 @@ const LearningPathContent: React.FC = () => {
 };
 
 export default LearningPathContent;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+  const { id } = params as Record<string, any>;
+
+  const session = await getServerSession(
+    context.req,
+    context.res,
+    settings(context.req as NextApiRequest, context.res as NextApiResponse)
+  );
+
+  let data;
+  try {
+    data = await API.get(`/api/learning-paths/${id}`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+  } catch (e) {
+    const error = e as AxiosError;
+
+    if (error.response?.status === 404) {
+      return { notFound: true };
+    }
+
+    return { props: {}, redirect: { destination: '/500' } };
+  }
+
+  return { props: { learningPath: data?.data } };
+};

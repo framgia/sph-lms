@@ -1,4 +1,3 @@
-import { useGetCourseQuery } from '@/src/services/courseAPI';
 import ContentSection from '@/src/sections/courses/ContentSection';
 import SettingsSection from '@/src/sections/courses/SettingsSection';
 import EditSettingsButton from '@/src/sections/courses/SettingsSection/EditSettingsButton';
@@ -7,17 +6,23 @@ import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Container from '@/src/shared/layouts/Container';
-import { useRouter } from 'next/router';
 import { Fragment, useEffect } from 'react';
 import { useAppDispatch } from '@/src/redux/hooks';
 import { reset } from '@/src/features/course/courseSlice';
+import type { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
+import API from '@/src/apis';
+import type { AxiosError } from 'axios';
+import { getServerSession } from 'next-auth';
+import { settings } from '@/src/pages/api/auth/[...nextauth]';
+import type { Course, DBCourse } from '@/src/shared/utils';
 
-const CourseContent: React.FC = () => {
-  const { query } = useRouter();
+interface CourseContentProps {
+  course: Course | DBCourse;
+}
+
+const CourseContent = ({ course }: CourseContentProps): JSX.Element | undefined => {
   const dispatch = useAppDispatch();
-  const { data: course } = useGetCourseQuery(query.id, {
-    skip: query.id === undefined,
-  });
+
   const paths = [
     {
       text: 'Course',
@@ -31,7 +36,7 @@ const CourseContent: React.FC = () => {
 
   useEffect(() => {
     if (course) {
-      dispatch(reset(course));
+      dispatch(reset(course as DBCourse));
     }
   }, [course]);
 
@@ -46,7 +51,7 @@ const CourseContent: React.FC = () => {
           </div>
           <Tabs>
             <Tab title="Content">
-              <ContentSection course={course} />
+              <ContentSection course={course as Course} />
             </Tab>
             <Tab title="Learners">
               <LearningSection />
@@ -62,3 +67,31 @@ const CourseContent: React.FC = () => {
 };
 
 export default CourseContent;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+  const { id } = params as Record<string, any>;
+
+  const session = await getServerSession(
+    context.req,
+    context.res,
+    settings(context.req as NextApiRequest, context.res as NextApiResponse)
+  );
+
+  let data;
+  try {
+    data = await API.get(`/api/course/${id}`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+  } catch (e) {
+    const error = e as AxiosError;
+
+    if (error.response?.status === 404) {
+      return { notFound: true };
+    }
+
+    return { props: {}, redirect: { destination: '/500' } };
+  }
+
+  return { props: { course: data?.data } };
+};
