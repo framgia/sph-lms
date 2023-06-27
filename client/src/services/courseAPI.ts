@@ -16,6 +16,7 @@ export const getCourse = createApi({
   endpoints: (builder) => ({
     getCourse: builder.query({
       query: (courseID) => `course/${courseID}`,
+      providesTags: ['Course'],
     }),
     getCourses: builder.query({
       query: ({ search, page, pageSize }) => {
@@ -48,6 +49,7 @@ export const getCourse = createApi({
         method: 'PUT',
         body: courseData,
       }),
+      invalidatesTags: ['Course'],
     }),
   }),
 });
