@@ -28,7 +28,7 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
         <div className="flex border-t-[0.5px] w-full justify-center items-start">
-          <div className="flex flex-col p-4 container w-[962px]">
+          <div className="flex flex-col p-4 container w-[1138px]">
             <Tabs>
               <Tab title="My Courses">
                 <CoursesSection />
