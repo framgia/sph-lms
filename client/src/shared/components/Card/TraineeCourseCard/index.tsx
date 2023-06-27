@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import ProgressPercentage from '../../ProgressPercentage';
-import ChevronRight from '@/src/shared/icons/ChevronRightIcon';
 
 const TraineeCourseCard = (): JSX.Element => {
   return (

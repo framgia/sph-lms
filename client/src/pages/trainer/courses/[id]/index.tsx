@@ -11,13 +11,20 @@ import { useRouter } from 'next/router';
 import { Fragment, useEffect } from 'react';
 import { useAppDispatch } from '@/src/redux/hooks';
 import { reset } from '@/src/features/course/courseSlice';
+import Spinner from '@/src/shared/components/Spinner';
 
-const CourseContent: React.FC = () => {
-  const { query } = useRouter();
+const CourseContent = (): JSX.Element | undefined => {
+  const { query, replace } = useRouter();
   const dispatch = useAppDispatch();
-  const { data: course } = useGetCourseQuery(query.id, {
+  const {
+    data: course,
+    isLoading,
+    isError,
+    error,
+  } = useGetCourseQuery(query.id, {
     skip: query.id === undefined,
   });
+
   const paths = [
     {
       text: 'Course',
@@ -34,6 +41,19 @@ const CourseContent: React.FC = () => {
       dispatch(reset(course));
     }
   }, [course]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  const newError = error as typeof error & {
+    status: number | string;
+  };
+
+  if (isError && (newError.status === 404 || newError.status === 'PARSING_ERROR')) {
+    void replace('/404');
+    return;
+  }
 
   return (
     <Fragment>

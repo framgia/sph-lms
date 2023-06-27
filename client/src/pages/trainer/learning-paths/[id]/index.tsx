@@ -11,11 +11,17 @@ import { useGetLearningPathQuery } from '@/src/services/learningPathAPI';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/src/redux/hooks';
 import { reset } from '@/src/features/learning-path/learningPathSlice';
+import Spinner from '@/src/shared/components/Spinner';
 
-const LearningPathContent: React.FC = () => {
-  const { query } = useRouter();
+const LearningPathContent = (): JSX.Element | undefined => {
+  const { query, replace } = useRouter();
   const dispatch = useAppDispatch();
-  const { data: learningPath } = useGetLearningPathQuery(query.id, {
+  const {
+    data: learningPath,
+    isLoading,
+    isError,
+    error,
+  } = useGetLearningPathQuery(query.id, {
     skip: query.id === undefined,
   });
 
@@ -35,6 +41,20 @@ const LearningPathContent: React.FC = () => {
       dispatch(reset(learningPath));
     }
   }, [learningPath]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  const newError = error as typeof error & {
+    status: number | string;
+  };
+
+  if (isError && (newError.status === 404 || newError.status === 'PARSING_ERROR')) {
+    void replace('/404');
+    return;
+  }
+
   return (
     <Fragment>
       <div className="ml-5 mt-5">
