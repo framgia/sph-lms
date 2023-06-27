@@ -1,17 +1,18 @@
+import CoursesSection from '@/src/sections/dashboard/trainee/CoursesSection';
+import MyLearningPathSection from '@/src/sections/trainee/MyLearningPathSection';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { useSession } from 'next-auth/react';
-import CoursesSection from '@/src/sections/dashboard/trainee/CoursesSection';
 
 const DashboardPage: React.FC = () => {
   const { data: session } = useSession();
 
   return (
     <Fragment>
-      <div className="flex flex-col justify-center items-center gap-24 w-full pt-24">
-        <div className="flex flex-col gap-2 justify-center items-center">
+      <div>
+        <div className="flex flex-col gap-2 py-24 justify-center items-center">
           <div className="font-semibold text-[32px] leading-[40px] font-lora">
             <span className="text-dark">Welcome back, </span>
             <span className="text-red">Trainee {session?.user?.first_name}</span>
@@ -27,13 +28,13 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
         <div className="flex border-t-[0.5px] w-full justify-center items-start">
-          <div className="flex flex-col p-4 container w-[962px]">
+          <div className="flex flex-col p-4 container w-[1138px]">
             <Tabs>
               <Tab title="My Courses">
                 <CoursesSection />
               </Tab>
               <Tab title="My Learning Paths">
-                <div>Trainee Learning path Section here</div>
+                <MyLearningPathSection />
               </Tab>
             </Tabs>
           </div>

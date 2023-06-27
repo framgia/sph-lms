@@ -208,7 +208,6 @@ export interface TrainerLearningPath {
 export interface LearningPath extends TrainerLearningPath {
   description: string;
   image: string;
-  ratings: number;
   courses: Course[];
   category: CourseCategory[];
   is_active: boolean;
