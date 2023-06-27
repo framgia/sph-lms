@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
-import SunBear from '../shared/icons/SunBear';
-import Button from '../shared/components/Button';
 import { useSession } from 'next-auth/react';
+import SunBear from '../../icons/SunBear';
+import Button from '../../components/Button';
 
 interface ErrorLayoutProps {
   statusCode: number;

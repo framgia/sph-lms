@@ -1,4 +1,3 @@
-import { useGetCourseQuery } from '@/src/services/courseAPI';
 import ContentSection from '@/src/sections/courses/ContentSection';
 import SettingsSection from '@/src/sections/courses/SettingsSection';
 import EditSettingsButton from '@/src/sections/courses/SettingsSection/EditSettingsButton';
@@ -7,23 +6,17 @@ import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Container from '@/src/shared/layouts/Container';
-import { useRouter } from 'next/router';
 import { Fragment, useEffect } from 'react';
 import { useAppDispatch } from '@/src/redux/hooks';
 import { reset } from '@/src/features/course/courseSlice';
-import Spinner from '@/src/shared/components/Spinner';
+import type { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
+import API from '@/src/apis';
+import type { AxiosError } from 'axios';
+import { getServerSession } from 'next-auth';
+import { settings } from '@/src/pages/api/auth/[...nextauth]';
 
-const CourseContent = (): JSX.Element | undefined => {
-  const { query, replace } = useRouter();
+const CourseContent = ({ course }: { course: any }): JSX.Element | undefined => {
   const dispatch = useAppDispatch();
-  const {
-    data: course,
-    isLoading,
-    isError,
-    error,
-  } = useGetCourseQuery(query.id, {
-    skip: query.id === undefined,
-  });
 
   const paths = [
     {
@@ -41,19 +34,6 @@ const CourseContent = (): JSX.Element | undefined => {
       dispatch(reset(course));
     }
   }, [course]);
-
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  const newError = error as typeof error & {
-    status: number | string;
-  };
-
-  if (isError && (newError.status === 404 || newError.status === 'PARSING_ERROR')) {
-    void replace('/404');
-    return;
-  }
 
   return (
     <Fragment>
@@ -82,3 +62,28 @@ const CourseContent = (): JSX.Element | undefined => {
 };
 
 export default CourseContent;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+  const { id } = params as Record<string, any>;
+
+  const session = await getServerSession(
+    context.req,
+    context.res,
+    settings(context.req as NextApiRequest, context.res as NextApiResponse)
+  );
+
+  let data;
+  try {
+    data = await API.get(`/api/course/${id}`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+  } catch (e) {
+    const error = e as AxiosError;
+    if (error.response?.status === 404) {
+      return { notFound: true };
+    }
+  }
+
+  return { props: { course: data?.data } };
+};

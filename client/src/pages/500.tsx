@@ -1,4 +1,4 @@
-import ErrorPageLayout from './error';
+import ErrorPageLayout from '../shared/layouts/Error';
 
 const ServerCrash = (): JSX.Element => {
   return (
