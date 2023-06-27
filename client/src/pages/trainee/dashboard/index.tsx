@@ -2,13 +2,11 @@ import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Link from 'next/link';
 import { Fragment } from 'react';
-import { type CustomSession } from '@/src/shared/utils/interface';
 import { useSession } from 'next-auth/react';
 import CoursesSection from '@/src/sections/dashboard/trainee/CoursesSection';
 
 const DashboardPage: React.FC = () => {
-  const { data } = useSession();
-  const session = data as CustomSession;
+  const { data: session } = useSession();
 
   return (
     <Fragment>
