@@ -12,22 +12,32 @@ class LearningPathList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        name = self.request.query_params.get('search', None)
-        isActive = self.request.query_params.get('is_active', None)
+        name = self.request.query_params.get("search", None)
+        is_active = self.request.query_params.get("is_active", None)
+        is_trainer = self.request.user.is_trainer
+        sort = self.request.query_params.get("sort", None)
+
+        if not is_trainer:
+            queryset = queryset.filter(trainee=self.request.user)
+
+            if sort == "A - Z":
+                queryset = queryset.order_by("name")
+            elif sort == "Z - A":
+                queryset = queryset.order_by("-name")
 
         if name:
             queryset = queryset.filter(name__icontains=name)
 
-        if isActive is not None:
-            if isActive.lower() == 'true':
+        if is_active is not None:
+            if is_active.lower() == "true":
                 queryset = queryset.filter(is_active=True)
-            elif isActive.lower() == 'false':
+            elif is_active.lower() == "false":
                 queryset = queryset.filter(is_active=False)
             else:
                 raise serializers.ValidationError(
-                        "Invalid value for is_active. "
-                        "Should either be 'true' or 'false'."
-                    )
+                    "Invalid value for is_active. "
+                    "Should either be 'true' or 'false'."
+                )
 
         return queryset
 
