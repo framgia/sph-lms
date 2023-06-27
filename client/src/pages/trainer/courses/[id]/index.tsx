@@ -14,8 +14,13 @@ import API from '@/src/apis';
 import type { AxiosError } from 'axios';
 import { getServerSession } from 'next-auth';
 import { settings } from '@/src/pages/api/auth/[...nextauth]';
+import type { Course, DBCourse } from '@/src/shared/utils';
 
-const CourseContent = ({ course }: { course: any }): JSX.Element | undefined => {
+interface CourseContentProps {
+  course: Course | DBCourse;
+}
+
+const CourseContent = ({ course }: CourseContentProps): JSX.Element | undefined => {
   const dispatch = useAppDispatch();
 
   const paths = [
@@ -31,7 +36,7 @@ const CourseContent = ({ course }: { course: any }): JSX.Element | undefined => 
 
   useEffect(() => {
     if (course) {
-      dispatch(reset(course));
+      dispatch(reset(course as DBCourse));
     }
   }, [course]);
 
@@ -46,7 +51,7 @@ const CourseContent = ({ course }: { course: any }): JSX.Element | undefined => 
           </div>
           <Tabs>
             <Tab title="Content">
-              <ContentSection course={course} />
+              <ContentSection course={course as Course} />
             </Tab>
             <Tab title="Learners">
               <LearningSection />
@@ -80,9 +85,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     });
   } catch (e) {
     const error = e as AxiosError;
+
     if (error.response?.status === 404) {
       return { notFound: true };
     }
+
+    return { props: {}, redirect: { destination: '/500' } };
   }
 
   return { props: { course: data?.data } };

@@ -14,8 +14,15 @@ import { getServerSession } from 'next-auth';
 import { settings } from '@/src/pages/api/auth/[...nextauth]';
 import API from '@/src/apis';
 import type { AxiosError } from 'axios';
+import type { LearningPath } from '@/src/shared/utils';
 
-const LearningPathContent = ({ learningPath }: { learningPath: any }): JSX.Element | undefined => {
+interface LearningPathContentProps {
+  learningPath: LearningPath;
+}
+
+const LearningPathContent = ({
+  learningPath,
+}: LearningPathContentProps): JSX.Element | undefined => {
   const dispatch = useAppDispatch();
 
   const paths = [
@@ -80,9 +87,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     });
   } catch (e) {
     const error = e as AxiosError;
+
     if (error.response?.status === 404) {
       return { notFound: true };
     }
+
+    return { props: {}, redirect: { destination: '/500' } };
   }
 
   return { props: { learningPath: data?.data } };
