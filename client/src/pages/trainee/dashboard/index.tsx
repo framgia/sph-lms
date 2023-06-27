@@ -1,5 +1,5 @@
 import CoursesSection from '@/src/sections/dashboard/trainee/CoursesSection';
-import MyLearningPathSection from '@/src/sections/trainee/MyLearningPathSection';
+import MyLearningPathSection from '@/src/sections/dashboard/trainee/MyLearningPathSection';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import { useSession } from 'next-auth/react';
