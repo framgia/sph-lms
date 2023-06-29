@@ -43,3 +43,9 @@ export const isAuthorized = (is_trainer: boolean, pathname: string): boolean => 
   const regex = new RegExp(`^/(${slug}.+)`);
   return regex.test(pathname);
 };
+
+export const isYoutubeLink = (link: string): boolean => {
+  const regex =
+    /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+  return regex.test(link);
+};

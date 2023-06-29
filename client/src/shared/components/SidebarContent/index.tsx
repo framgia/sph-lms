@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-import React, {
-  Children,
-  type FC,
-  Fragment,
-  type ReactElement,
-  useEffect,
-  useState
-} from 'react';
+import React, { Children, type FC, Fragment, type ReactElement, useEffect, useState } from 'react';
 import { type ChildElementObject } from '../../utils/interface';
 import { type SideBarProps } from './SideBar';
 
@@ -24,12 +17,12 @@ const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
     Children.map(children, (child, index) => {
       if (
         Object.hasOwnProperty.call(child.type, 'name') &&
-          Object.getOwnPropertyDescriptors(child.type).name?.value === 'SideBar'
+        Object.getOwnPropertyDescriptors(child.type).name?.value === 'SideBar'
       ) {
         childrenListObj[index] = {
           id: index,
           title: child.props.title,
-          childContent: child
+          childContent: child,
         };
       }
     });
@@ -42,29 +35,27 @@ const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
   }, [children, activeTab]);
 
   return (
-      <Fragment>
-        <div className="hidden md:flex">
-          <div className="flex flex-col  font-medium text-[14px] text-gray2 capitalize bg-gray1 w-[300px] ">
-            {Object.values(childrenList).map(({ title, id }) => (
-              <div
-                key={id}
-                className={`${
-                  activeTab !== id
-                    ? 'p-2'
-                    : 'bg-lightRed border-red border-r-[2px] p-2 text-textGray'
-                } cursor-pointer flex pointer-events-auto w-full pl-4`}
-                onClick={() => {
-                  setActiveTab(id);
-                }}
-              >
-                {title}
-              </div>
-            ))}
-          </div>
+    <Fragment>
+      <div className="hidden md:flex">
+        <div className="flex-col font-medium text-[14px] text-gray2 capitalize bg-gray1 w-[300px] h-screen">
+          {Object.values(childrenList).map(({ title, id }) => (
+            <div
+              key={id}
+              className={`${
+                activeTab !== id ? 'p-2' : 'bg-lightRed border-red border-r-[2px] p-2 text-textGray'
+              } cursor-pointer flex pointer-events-auto w-full pl-4`}
+              onClick={() => {
+                setActiveTab(id);
+              }}
+            >
+              {title}
+            </div>
+          ))}
         </div>
+      </div>
 
-        <div>{activeTab !== null && childrenList[activeTab]?.childContent}</div>
-      </Fragment>
+      <div>{activeTab !== null && childrenList[activeTab]?.childContent}</div>
+    </Fragment>
   );
 };
 export default SidebarContent;
