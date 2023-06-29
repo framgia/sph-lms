@@ -6,6 +6,7 @@ export interface IframeProps {
   width?: string;
   height?: string;
   title?: string;
+  allowFullScreen?: boolean;
 }
 
 const Iframe: React.FunctionComponent<IframeProps> = ({
@@ -13,7 +14,8 @@ const Iframe: React.FunctionComponent<IframeProps> = ({
   className,
   width,
   height,
-  title
+  title,
+  allowFullScreen,
 }: IframeProps) => {
   return (
     <div>
@@ -23,6 +25,7 @@ const Iframe: React.FunctionComponent<IframeProps> = ({
         height={height}
         src={src}
         title={title}
+        allowFullScreen
       ></iframe>
     </div>
   );
@@ -32,7 +35,8 @@ Iframe.defaultProps = {
   className: '',
   width: '100%',
   height: '600',
-  title: ''
+  title: '',
+  allowFullScreen: true,
 };
 
 export default Iframe;
