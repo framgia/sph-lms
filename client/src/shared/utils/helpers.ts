@@ -43,3 +43,7 @@ export const isAuthorized = (is_trainer: boolean, pathname: string): boolean => 
   const regex = new RegExp(`^/(${slug}.+)`);
   return regex.test(pathname);
 };
+
+export const isYoutubeLink = (link: string): boolean => {
+  return link.startsWith('https://www.youtube.com');
+};
