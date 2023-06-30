@@ -17,15 +17,25 @@ export const getLearningPath = createApi({
   endpoints: (builder) => ({
     getLearningPaths: builder.query<
       any,
-      { page: number; pageSize?: number; isActive?: boolean; search?: string }
+      {
+        page: number;
+        pageSize?: number;
+        isActive?: boolean;
+        search?: string;
+        isTrainee?: boolean;
+        sort?: string;
+      }
     >({
-      query: ({ page, pageSize, isActive, search }) => {
-        const pageParam = `page=${page}`;
-        const pageSizeParam = pageSize ? `&page_size=${pageSize}` : '';
-        const statusParam = isActive !== undefined ? `&is_active=${isActive}` : '';
-        const searchParam = search ? `&search=${search}` : '';
-        return `learning-path/?${pageParam}${pageSizeParam}${statusParam}${searchParam}`;
-      },
+      query: ({ page, pageSize, isActive, search, sort }) => ({
+        url: 'learning-path/',
+        params: {
+          page,
+          page_size: pageSize,
+          is_active: isActive,
+          search,
+          sort,
+        },
+      }),
       providesTags: ['LearningPath'],
     }),
     createLearningPath: builder.mutation({
