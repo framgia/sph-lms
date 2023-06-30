@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import {
   changeEditMode,
