@@ -13,7 +13,7 @@ export const getCourseTrainee = createApi({
       return headers;
     },
   }),
-  tagTypes: ['CourseTrainee', 'LearningPathTrainee', 'TrainerTrainee'],
+  tagTypes: ['CourseTrainee', 'LearningPathTrainee', 'TrainerTrainee', 'TraineeCourses'],
   endpoints: (builder) => ({
     getLearner: builder.query({
       query: ({ courseId, isEnrolled, searchQuery, pageNumber, selectedSortOption }) => ({
@@ -26,6 +26,18 @@ export const getCourseTrainee = createApi({
         },
       }),
       providesTags: ['CourseTrainee'],
+    }),
+    getTraineeCourses: builder.query({
+      query: ({ search, pageNumber, sort, pageSize }) => ({
+        url: 'trainee/course',
+        params: {
+          search,
+          page: pageNumber,
+          ordering: sort,
+          page_size: pageSize,
+        },
+      }),
+      providesTags: ['TraineeCourses'],
     }),
     getLearningPathLearner: builder.query({
       query: ({ courseId, isEnrolled, searchQuery, pageNumber, selectedSortOption }) => ({
@@ -80,6 +92,7 @@ export const getCourseTrainee = createApi({
 });
 
 export const {
+  useGetTraineeCoursesQuery,
   useGetLearnerQuery,
   useGetLearningPathLearnerQuery,
   useGetTrainerTraineesQuery,

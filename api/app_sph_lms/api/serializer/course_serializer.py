@@ -2,7 +2,8 @@ import random
 
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.datetime_serializer import DateTimeSerializer
-from app_sph_lms.models import Category, Course, CourseCategory, Lesson, User
+from app_sph_lms.models import (Category, CompletedLesson, Course,
+                                CourseCategory, Lesson, User)
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
@@ -35,6 +36,7 @@ class CourseSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField(read_only=True)
     created_at = DateTimeSerializer(read_only=True)
     updated_at = DateTimeSerializer(read_only=True)
+    progress = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -117,6 +119,19 @@ class CourseSerializer(serializers.ModelSerializer):
         Lesson.objects.filter(id__in=existing_lesson_ids).delete()
 
         return instance
+
+    def get_progress(self, instance):
+        trainee = self.context['request'].user
+        completed_lessons = CompletedLesson.objects.filter(
+            trainee=trainee,
+            lesson__course=instance
+        ).count()
+        total_lessons = instance.lessons.count()
+        if total_lessons > 0:
+            progress = int((completed_lessons / total_lessons) * 100)
+        else:
+            progress = 0
+        return progress
 
 
 class CustomPagination(PageNumberPagination):

@@ -1,8 +1,10 @@
 from app_sph_lms.api.serializer.course_serializer import (
     CourseCategorySerializer, CourseSerializer)
-from app_sph_lms.models import Course, CourseCategory
+from app_sph_lms.models import Course, CourseCategory, User
+from django.db.models import F
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
@@ -41,6 +43,27 @@ class CourseList(generics.ListCreateAPIView):
 
         if name:
             queryset = queryset.filter(name__icontains=name)
+
+        return queryset
+
+
+class TraineeCourseList(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    pagination_class = LargeResultsSetPagination
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['name']
+    ordering_fields = ['name']
+
+    def get_queryset(self):
+        trainee_id = self.request.user.id
+        trainee = User.objects.get(id=trainee_id)
+        queryset = trainee.enrolled_course.all()
+
+        ordering = self.request.query_params.get('ordering')
+        if ordering == 'A - Z':
+            queryset = queryset.order_by('name')
+        elif ordering == 'Z - A':
+            queryset = queryset.order_by(F('name').desc())
 
         return queryset
 
