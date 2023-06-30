@@ -15,7 +15,14 @@ interface LearningPathState {
 }
 
 const initialState: LearningPathState = {
-  values: { name: '', description: '', image: null, courses: [], category: [], isActive: true },
+  values: {
+    name: '',
+    description: '',
+    image: null,
+    courses: [],
+    category: [],
+    isActive: true,
+  },
   editMode: true,
 };
 
