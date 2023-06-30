@@ -28,8 +28,6 @@ const CoursesSection = (): JSX.Element => {
     pageSize: 4,
   });
 
-  console.log(CourseCollection);
-
   if (isLoading) {
     return <Spinner />;
   }
