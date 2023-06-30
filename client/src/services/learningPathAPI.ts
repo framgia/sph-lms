@@ -49,9 +49,23 @@ export const getLearningPath = createApi({
 
     getLearningPath: builder.query({
       query: (id) => `learning-paths/${id}`,
+      providesTags: ['LearningPath'],
+    }),
+
+    updateLearningPath: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `learning-paths/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['LearningPath'],
     }),
   }),
 });
 
-export const { useGetLearningPathsQuery, useCreateLearningPathMutation, useGetLearningPathQuery } =
-  getLearningPath;
+export const {
+  useGetLearningPathsQuery,
+  useCreateLearningPathMutation,
+  useGetLearningPathQuery,
+  useUpdateLearningPathMutation,
+} = getLearningPath;

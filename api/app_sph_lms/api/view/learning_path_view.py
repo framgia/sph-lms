@@ -2,7 +2,8 @@ from app_sph_lms.api.serializer.learning_path_serializer import (
     LearningPathDetailSerializer, LearningPathSerializer)
 from app_sph_lms.api.view.course_view import LargeResultsSetPagination
 from app_sph_lms.models import LearningPath
-from rest_framework import generics, serializers
+from rest_framework import generics, serializers, status
+from rest_framework.response import Response
 
 
 class LearningPathList(generics.ListCreateAPIView):
@@ -45,3 +46,18 @@ class LearningPathList(generics.ListCreateAPIView):
 class LearningPathDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = LearningPath.objects.all()
     serializer_class = LearningPathDetailSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        category_data = request.data.get('category', [])
+        courses_data = request.data.get('courses', [])
+
+        try:
+            serializer.save(category=category_data, courses=courses_data)
+        except LearningPath.DoesNotExist:
+            return Response({'error': 'LearningPath not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(serializer.data)

@@ -109,7 +109,34 @@ class LearningPathDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LearningPath
-        fields = "__all__"
+        exclude = ["author", "trainee"]
+
+    def update(self, instance, validated_data):
+        is_active = validated_data.get('is_active', instance.is_active)
+        if instance.is_active != is_active:
+            instance.is_active = is_active
+        else:
+            instance.name = validated_data.get('name', instance.name)
+            instance.description = validated_data.get('description', instance.description)
+            instance.image = validated_data.get('image', instance.image)
+            if 'category' in validated_data:
+                category_data = validated_data.pop('category')
+                instance.category.set(category_data)
+
+            if 'courses' in validated_data:
+                courses_data = validated_data.pop('courses')
+                LearningPathCourse.objects.filter(learning_path=instance).delete()
+                for course_data in courses_data:
+                    course = Course.objects.get(id=course_data['course'])
+                    course_order = course_data['course_order']
+                    LearningPathCourse.objects.create(
+                        learning_path=instance,
+                        course=course,
+                        course_order=course_order
+                    )
+
+        instance.save()
+        return instance
 
 
 class LearningPathTraineeSerializer(serializers.ModelSerializer):

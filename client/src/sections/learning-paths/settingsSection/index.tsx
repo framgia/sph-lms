@@ -13,16 +13,17 @@ import { useRouter } from 'next/router';
 import { useConfirmBeforeLeave } from '@/src/shared/hooks/useConfirmBeforeLeave';
 import AddCourseSection from '../create/AddCourseSection';
 import ConfirmationModal from '@/src/shared/components/Modal/ConfirmationModal';
+import { alertError, alertSuccess } from '@/src/shared/utils/toastify';
+import { useUpdateLearningPathMutation } from '@/src/services/learningPathAPI';
 
 const SettingsSection: FC = () => {
   const { values, editMode } = useAppSelector((state) => state.learningPath);
   const { isTabValid } = useAppSelector((state) => state.tab);
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
-  const { asPath, events } = useRouter();
-
-  // Please remove this isActive and replace it with the incoming learning path status in learningPathStatus variable
-  const isActive = true;
-  const learningPathStatus = isActive ? 'Archive' : 'Activate';
+  const [isArchived, setIsArchived] = useState(values.isActive);
+  const { asPath, events, query } = useRouter();
+  const [updateLearningPath] = useUpdateLearningPathMutation();
+  const learningPathStatus = isArchived ? 'Archive' : 'Activate';
 
   const dispatch = useAppDispatch();
   useConfirmBeforeLeave(editMode);
@@ -47,9 +48,28 @@ const SettingsSection: FC = () => {
     defaultValues,
   });
 
-  const handleArchive = (): void => {
-    // Archive or activate learing path logic goes here
-    alert('Archive action has been confirmed');
+  const handleArchive = async (): Promise<void> => {
+    setIsArchiveModalOpen(false);
+    try {
+      const updatedData = {
+        ...values,
+        is_active: !isArchived,
+        category: values.category.map(({ id }) => id),
+        courses: values.courses.map(({ id, order }) => ({
+          course: id,
+          order,
+        })),
+      };
+      const res = await updateLearningPath({ id: query.id, data: updatedData });
+      if ('error' in res) {
+        throw new Error('Error updating the learning path');
+      } else {
+        setIsArchived(!isArchived);
+        alertSuccess('The learning path has been archived');
+      }
+    } catch (error) {
+      alertError(`Error archiving the learning path: ${error}`);
+    }
   };
 
   useEffect(() => {
@@ -92,7 +112,7 @@ const SettingsSection: FC = () => {
             <h3 className="font-medium">{learningPathStatus} learning path</h3>
             <p className="font-normal">
               {learningPathStatus} learning path and set status to{' '}
-              {isActive ? 'inactive' : 'active'}.
+              {isArchived ? 'inactive' : 'active'}.
             </p>
           </div>
           <Button
@@ -111,8 +131,7 @@ const SettingsSection: FC = () => {
         }}
         action={learningPathStatus.toLowerCase()}
         item="learning path"
-        // Please change this name on integration to the lerning path name
-        itemTitle="Learning path"
+        itemTitle={values.name}
         onConfirm={handleArchive}
         confirmTitle="Confirm"
       />
