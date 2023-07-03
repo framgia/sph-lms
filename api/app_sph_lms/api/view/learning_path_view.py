@@ -47,9 +47,29 @@ class LearningPathDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = LearningPath.objects.all()
     serializer_class = LearningPathDetailSerializer
 
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+
+        sorted_courses = instance.courses.order_by(
+            'learning_path_course__course_order'
+        )
+        instance.courses.set(sorted_courses)
+
+        data = serializer.data
+        data['courses'] = serializer.fields['courses'].to_representation(
+            sorted_courses
+        )
+
+        return Response(data)
+
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer = self.get_serializer(
+            instance,
+            data=request.data,
+            partial=True
+        )
         serializer.is_valid(raise_exception=True)
 
         category_data = request.data.get('category', [])
@@ -58,6 +78,9 @@ class LearningPathDetail(generics.RetrieveUpdateDestroyAPIView):
         try:
             serializer.save(category=category_data, courses=courses_data)
         except LearningPath.DoesNotExist:
-            return Response({'error': 'LearningPath not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {'error': 'LearningPath not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
         return Response(serializer.data)

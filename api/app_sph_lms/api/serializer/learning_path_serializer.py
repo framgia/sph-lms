@@ -97,7 +97,13 @@ class ExtendedCourse(CourseSerializer):
     order = serializers.SerializerMethodField()
 
     def get_order(self, course):
-        return course.learning_path_course.first().course_order
+        learning_path_id = self.context["request"].parser_context[
+            "kwargs"
+        ].get("pk")
+        learning_path_course = course.learning_path_course.filter(
+            learning_path__id=learning_path_id
+        ).first()
+        return learning_path_course.course_order
 
     class Meta(CourseSerializer.Meta):
         exclude = CourseSerializer.Meta.exclude
@@ -117,7 +123,9 @@ class LearningPathDetailSerializer(serializers.ModelSerializer):
             instance.is_active = is_active
         else:
             instance.name = validated_data.get('name', instance.name)
-            instance.description = validated_data.get('description', instance.description)
+            instance.description = validated_data.get(
+                'description', instance.description
+            )
             instance.image = validated_data.get('image', instance.image)
             if 'category' in validated_data:
                 category_data = validated_data.pop('category')
@@ -125,7 +133,9 @@ class LearningPathDetailSerializer(serializers.ModelSerializer):
 
             if 'courses' in validated_data:
                 courses_data = validated_data.pop('courses')
-                LearningPathCourse.objects.filter(learning_path=instance).delete()
+                LearningPathCourse.objects.filter(
+                    learning_path=instance
+                ).delete()
                 for course_data in courses_data:
                     course = Course.objects.get(id=course_data['course'])
                     course_order = course_data['course_order']
