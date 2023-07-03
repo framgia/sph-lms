@@ -96,6 +96,10 @@ class CourseSerializer(serializers.ModelSerializer):
         lessons_data = validated_data.pop("lessons", [])
 
         instance.name = validated_data.get("name", instance.name)
+        instance.description = validated_data.get(
+                "description",
+                instance.description
+            )
         instance.save()
 
         CourseCategory.objects.filter(course=instance).delete()
