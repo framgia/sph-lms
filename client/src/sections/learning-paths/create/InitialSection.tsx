@@ -13,7 +13,7 @@ import ChevronDown from '@/src/shared/icons/ChevronDownIcon';
 import ExclamationPointIcon from '@/src/shared/icons/ExclamationPointIcon';
 import type { MultiSelectOptionData } from '@/src/shared/utils';
 import Image from 'next/image';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import {
   Controller,
   type FieldErrors,
@@ -36,6 +36,7 @@ const InitialSection = ({
   control,
   showStatus = true,
 }: InitialSectionProps): JSX.Element => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { values: learningPath, editMode } = useAppSelector((state) => state.learningPath);
   const dispatch = useAppDispatch();
 
@@ -117,10 +118,11 @@ const InitialSection = ({
         error={errors && (errors.name?.message as string)}
       />
       <RFTextField
+        ref={textareaRef}
         labelClass="!font-medium"
         label={`${editMode ? 'Description' : 'Description:'}`}
         className={`min-w-[70%] max-w-[100%] ${
-          !editMode ? 'border-transparent bg-transparent resize-none h-max' : 'resize'
+          !editMode ? 'border-transparent bg-transparent resize-none overflow-hidden' : 'resize'
         }`}
         readOnly={!editMode}
         defaultValue={learningPath.description}
@@ -192,7 +194,7 @@ const InitialSection = ({
               onChange={(val) => {
                 dispatch(updateForm({ isActive: val === 'Active' }));
               }}
-              buttonClass='w-fit pr-2'
+              buttonClass="w-fit pr-2"
             />
           </div>
         </div>

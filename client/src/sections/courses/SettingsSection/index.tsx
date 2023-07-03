@@ -117,7 +117,7 @@ const SettingsSection: FC = () => {
           setIsDeleteModalOpen(false);
         }}
         item="course"
-        itemTitle="Vue introduction"
+        itemTitle={values.name}
         onConfirm={handleDelete}
       />
     </Fragment>

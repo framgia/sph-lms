@@ -2,8 +2,7 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React from 'react';
-import { forwardRef, type TextareaHTMLAttributes, type LegacyRef } from 'react';
+import { forwardRef, type TextareaHTMLAttributes, useState, useEffect } from 'react';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -14,8 +13,22 @@ interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   labelClass?: string;
 }
 
-const RFTextField = forwardRef((props: Props, ref: LegacyRef<HTMLTextAreaElement>) => {
+const RFTextField = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   const { label, register, error, className, labelClass, ...rest } = props;
+
+  const [textareaHeight, setTextareaHeight] = useState('auto');
+
+  useEffect(() => {
+    const newRef = ref as typeof ref & {
+      current: {
+        scrollHeight: number;
+      };
+    };
+
+    if (newRef.current) {
+      setTextareaHeight(`${newRef.current.scrollHeight}px`);
+    }
+  }, [ref]);
 
   const errorAlert = (error: string | boolean): string => {
     return error ? ' border-red' : ' border-gray-300';
@@ -30,7 +43,8 @@ const RFTextField = forwardRef((props: Props, ref: LegacyRef<HTMLTextAreaElement
       )}
       <textarea
         ref={ref}
-        className={`appearance-none border rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-[200px] ${
+        style={{ height: textareaHeight }}
+        className={`appearance-none border rounded text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
           error !== undefined && errorAlert(error)
         } ${className}`}
         {...register}
