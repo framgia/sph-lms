@@ -193,7 +193,7 @@ export interface CourseCollection {
   name: string;
   description: string | null;
   image: string | null;
-  progress: number;
+  progress?: number;
 }
 
 export interface CourseData {
