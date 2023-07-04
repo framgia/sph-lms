@@ -1,8 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
-import {
-  changeEditMode,
-  reset as learningPathReset,
-} from '@/src/features/learning-path/learningPathSlice';
+import { changeEditMode } from '@/src/features/learning-path/learningPathSlice';
 import { type FC, Fragment, useEffect, useState } from 'react';
 import InitialSection from '../create/InitialSection';
 import Button from '@/src/shared/components/Button';
@@ -21,7 +18,7 @@ const SettingsSection: FC = () => {
   const { isTabValid } = useAppSelector((state) => state.tab);
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
   const [isArchived, setIsArchived] = useState(values.isActive);
-  const { asPath, events, query } = useRouter();
+  const { query } = useRouter();
   const [updateLearningPath] = useUpdateLearningPathMutation();
   const learningPathStatus = isArchived ? 'Archive' : 'Activate';
 
@@ -91,14 +88,6 @@ const SettingsSection: FC = () => {
     reset(defaultValues);
   }, [editMode]);
 
-  useEffect(() => {
-    const prevPath = asPath;
-    events?.on('routeChangeComplete', (newPath) => {
-      if (newPath !== prevPath) {
-        dispatch(learningPathReset());
-      }
-    });
-  }, []);
   return (
     <Fragment>
       <InitialSection register={register} errors={errors} control={control} showStatus={false} />

@@ -15,6 +15,7 @@ import { settings } from '@/src/pages/api/auth/[...nextauth]';
 import API from '@/src/apis';
 import type { AxiosError } from 'axios';
 import type { LearningPath } from '@/src/shared/utils';
+import { useRouter } from 'next/router';
 
 interface LearningPathContentProps {
   learningPath: LearningPath;
@@ -23,6 +24,7 @@ interface LearningPathContentProps {
 const LearningPathContent = ({
   learningPath,
 }: LearningPathContentProps): JSX.Element | undefined => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const paths = [
@@ -41,6 +43,12 @@ const LearningPathContent = ({
       dispatch(reset(learningPath));
     }
   }, [learningPath]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [router]);
 
   return (
     <Fragment>

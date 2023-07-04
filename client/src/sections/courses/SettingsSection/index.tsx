@@ -3,7 +3,7 @@ import AddLessonSection from '../create/AddLessonSection';
 import InitialSection from '../create/InitialSection';
 import Button from '@/src/shared/components/Button';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
-import { changeEditMode, reset as courseReset } from '@/src/features/course/courseSlice';
+import { changeEditMode } from '@/src/features/course/courseSlice';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { courseSchema } from '@/src/shared/utils/validationSchemas';
@@ -19,7 +19,6 @@ const SettingsSection: FC = () => {
   const { values, editMode } = useAppSelector((state) => state.course);
   const { isTabValid } = useAppSelector((state) => state.tab);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { asPath, events } = useRouter();
   const dispatch = useAppDispatch();
   useConfirmBeforeLeave(editMode);
   const [deleteCourseMutation] = useDeleteCourseMutation();
@@ -80,14 +79,6 @@ const SettingsSection: FC = () => {
     reset(defaultValues);
   }, [editMode]);
 
-  useEffect(() => {
-    const prevPath = asPath;
-    events?.on('routeChangeComplete', (newPath) => {
-      if (newPath !== prevPath) {
-        dispatch(courseReset());
-      }
-    });
-  }, []);
   return (
     <Fragment>
       <InitialSection register={register} errors={errors} control={control} />
