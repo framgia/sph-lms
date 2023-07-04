@@ -8,9 +8,10 @@ export interface collapseProps {
   label: string;
   children: React.ReactNode;
   onDelete?: () => void;
+  editMode?: boolean;
 }
 
-const Collapse: React.FC<collapseProps> = ({ label, children, onDelete }) => {
+const Collapse: React.FC<collapseProps> = ({ label, children, onDelete, editMode = true }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleCollapse = (): void => {
@@ -23,7 +24,7 @@ const Collapse: React.FC<collapseProps> = ({ label, children, onDelete }) => {
     <div className="flex flex-col divide-y border border-neutral-200 rounded-[5px] cursor-pointer">
       <div className="flex p-4 items-center" onClick={toggleCollapse}>
         <div className="flex gap-1 items-center w-full mr-4">
-          <FourDotsIcon />
+          {editMode && <FourDotsIcon />}
           <span className="text-sm flex-1">{label}</span>
           {!!onDelete && (
             <TrashIcon
