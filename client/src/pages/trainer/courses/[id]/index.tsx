@@ -7,7 +7,6 @@ import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Container from '@/src/shared/layouts/Container';
 import { Fragment, useEffect } from 'react';
-import { useAppDispatch } from '@/src/redux/hooks';
 import { reset } from '@/src/features/course/courseSlice';
 import type { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import API from '@/src/apis';
@@ -15,12 +14,15 @@ import type { AxiosError } from 'axios';
 import { getServerSession } from 'next-auth';
 import { settings } from '@/src/pages/api/auth/[...nextauth]';
 import type { Course, DBCourse } from '@/src/shared/utils';
+import { useRouter } from 'next/router';
+import { useAppDispatch } from '@/src/redux/hooks';
 
 interface CourseContentProps {
   course: Course | DBCourse;
 }
 
 const CourseContent = ({ course }: CourseContentProps): JSX.Element | undefined => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const paths = [
@@ -39,6 +41,12 @@ const CourseContent = ({ course }: CourseContentProps): JSX.Element | undefined 
       dispatch(reset(course as DBCourse));
     }
   }, [course]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [router]);
 
   return (
     <Fragment>
