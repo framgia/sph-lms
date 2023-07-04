@@ -1,6 +1,7 @@
 import { useGetLearningPathsQuery } from '@/src/services/learningPathAPI';
 import LearningPathCard from '@/src/shared/components/Card/LearningPathCard';
 import Pagination from '@/src/shared/components/Pagination';
+import Spinner from '@/src/shared/components/Spinner';
 import { alertError, type LearningPath } from '@/src/shared/utils';
 import { Fragment } from 'react';
 
@@ -24,7 +25,7 @@ const LearningPathList = ({
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   if (error) {
