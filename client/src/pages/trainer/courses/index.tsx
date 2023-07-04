@@ -67,7 +67,7 @@ const CoursesListPage: React.FC = () => {
               />
               <Link
                 href="/trainer/courses/create"
-                className="border border-red text-red text-[14px] rounded-md px-5 py-[6.5px]"
+                className="border border-red text-red text-sm h-9 items-center rounded-md font-medium px-4 py-2"
               >
                 Create a course
               </Link>

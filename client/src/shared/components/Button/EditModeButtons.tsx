@@ -28,7 +28,7 @@ const EditModeButtons: FC<EditModeButtonsProps> = ({ editMode, onCancel, onSave,
         <Button
           onClick={onEdit}
           text="Edit settings"
-          buttonClass="border border-red text-red !font-medium text-[14px] px-[18px] py-[6.5px] font-inter"
+          buttonClass="border border-red text-red text-sm h-9 items-center rounded-md font-medium px-4 py-2"
         />
       )}
     </Fragment>

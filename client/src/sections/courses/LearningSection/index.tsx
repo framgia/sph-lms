@@ -80,7 +80,7 @@ const LearningSection: React.FC = () => {
           <div>
             <Button
               text="Add learner"
-              buttonClass="px-4 py-2 text-sm bg-white text-blue-500 border-2 border-red"
+              buttonClass="border border-red text-red text-sm h-9 items-center rounded-md font-medium px-4 py-2"
               textColor="text-red"
               onClick={handleAddMaterialModal}
             />
