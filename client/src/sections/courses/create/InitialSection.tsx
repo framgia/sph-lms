@@ -8,7 +8,7 @@ import RFTextField from '@/src/shared/components/ReactForm/RFTextField';
 import ExclamationPointIcon from '@/src/shared/icons/ExclamationPointIcon';
 import type { MultiSelectOptionData } from '@/src/shared/utils';
 import Image from 'next/image';
-import { Fragment, useEffect, type FC } from 'react';
+import { Fragment, useEffect, type FC, useRef } from 'react';
 import {
   Controller,
   type FieldErrors,
@@ -24,6 +24,7 @@ interface InitialSectionProps {
 }
 
 const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { values: course, editMode } = useAppSelector((state) => state.course);
   const dispatch = useAppDispatch();
 
@@ -101,10 +102,11 @@ const InitialSection: FC<InitialSectionProps> = ({ register, errors, control }) 
         error={errors && (errors.name?.message as string)}
       />
       <RFTextField
+        ref={textareaRef}
         labelClass="!font-medium"
         label="Description"
         className={`min-w-[70%] max-w-[100%] ${
-          !editMode ? 'border-transparent bg-transparent resize-none h-max' : 'resize'
+          !editMode ? 'border-transparent bg-transparent resize-none overflow-hidden' : 'resize'
         }`}
         readOnly={!editMode}
         defaultValue={course.description}
