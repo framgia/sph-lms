@@ -100,6 +100,7 @@ class CourseSerializer(serializers.ModelSerializer):
                 "description",
                 instance.description
             )
+        instance.image = validated_data.get("image", instance.image)
         instance.save()
 
         CourseCategory.objects.filter(course=instance).delete()

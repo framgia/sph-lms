@@ -15,6 +15,9 @@ environ = "*"
 dj-rest-auth = "*"
 django-allauth = "*"
 djangorestframework-simplejwt = "*"
+boto3="*"
+django-storages="*"
+pillow="*"
 
 [dev-packages]
 
