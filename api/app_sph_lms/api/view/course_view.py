@@ -40,7 +40,7 @@ class TraineeCourseList(generics.ListAPIView):
         queryset = self.get_queryset()
         queryset = self.filter_queryset(queryset)
         serializer = self.get_serializer(queryset, many=True)
-        sort = self.request.query_params.get('ordering', None)
+        sort = self.request.query_params.get('sort', None)
 
         formatted_data = self.format_response(serializer.data, sort)
 

@@ -33,7 +33,7 @@ export const getCourseTrainee = createApi({
         params: {
           search,
           page: pageNumber,
-          ordering: sort,
+          sort,
           page_size: pageSize,
         },
       }),
