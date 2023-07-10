@@ -1,16 +1,12 @@
-import random
-
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.course_serializer import CourseSerializer
 from app_sph_lms.models import (Category, Course, LearningPath,
                                 LearningPathCourse, User)
+from app_sph_lms.utils.pagination import CustomPagination
+from app_sph_lms.utils.progress_calculator import ProgressCalculator
+from app_sph_lms.utils.sorting import SortingOption
+from django.db.models import Count
 from rest_framework import serializers
-from rest_framework.pagination import PageNumberPagination
-
-
-class CustomPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = "page_size"
 
 
 class LearningPathCourseSerializer(serializers.ModelSerializer):
@@ -163,44 +159,43 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
                     'is_enrolled',
                     "true"
                 )
-
         sortingOption = self.context[
                 'request'
             ].query_params.get(
                     'sort_by',
-                    "A - Z",
+                    "A - Z"
                 )
+        search = self.context[
+                'request'
+            ].query_params.get('search')
 
         if is_enrolled == "true":
-            if sortingOption == "A - Z":
-                learning_path_trainees = obj.trainee.order_by("first_name")
-            elif sortingOption == "Z - A":
-                learning_path_trainees = obj.trainee.order_by("-first_name")
+            learning_path_trainees = obj.trainee.filter(
+                    is_trainer=False
+                ).order_by("first_name")
+            total_lessons = obj.courses.aggregate(
+                    total_lessons=Count('lessons')
+                )['total_lessons']
+            data = []
+            for trainee in learning_path_trainees:
+                completed_lessons = trainee.trainee.filter(
+                        lesson__course__learning_path=obj
+                    ).count()
+                progress = ProgressCalculator(completed_lessons, total_lessons)
 
-            data = [
-                {
+                data.append({
                     "id": trainee.id,
                     "firstname": trainee.first_name,
                     "lastname": trainee.last_name,
                     "email": trainee.email,
-                    "progress": random.randint(0, 100),
-                }
-                for trainee in learning_path_trainees
-            ]
+                    "progress": progress.get_percentage()
+                })
         else:
-            # no filters, base logic to get all trainees,
-            # will update along with user model update
-            # trainees = (
-            #     User.objects.exclude(learningpathtrainee__learning_path=obj)
-            # )
-
-            # with filter, get every user, will update base from model refactor
             trainees = User.objects.filter(
                     is_trainer=False
                 ).exclude(
                         enrolled_learning_paths=obj
                     )
-
             data = [
                 {
                     "id": trainee.id,
@@ -211,7 +206,15 @@ class LearningPathTraineeSerializer(serializers.ModelSerializer):
                 for trainee in trainees
             ]
 
-        search = self.context["request"].query_params.get("search")
+        if sortingOption in SortingOption.sorting_options:
+            sort_key = SortingOption.get_sort_key(sortingOption)
+            reverse_flag = SortingOption.get_reverse_flag(sortingOption)
+            data = sorted(
+                    data,
+                    key=lambda x: x[sort_key],
+                    reverse=reverse_flag
+                )
+
         if search:
             search = search.lower()
             data = [

@@ -4,8 +4,9 @@ from app_sph_lms.api.serializer.learning_path_serializer import \
     LearningPathTraineeSerializer
 from app_sph_lms.api.serializer.trainer_serializer import \
     TrainerTraineeSerializer
-from app_sph_lms.api.view.course_view import LargeResultsSetPagination
 from app_sph_lms.models import Course, LearningPath, User
+from app_sph_lms.utils.pagination import LargeResultsSetPagination
+from app_sph_lms.utils.sorting import SortingOption
 from django.db.models import Q
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -126,22 +127,47 @@ class TrainerTraineeList(generics.ListCreateAPIView):
         self.user_id = request.user.id
         return super().get(request, *args, **kwargs)
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(trainer_id=self.user_id)
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
         search = self.request.query_params.get('search', None)
         sort = self.request.query_params.get('sort', None)
 
         if search:
             queryset = queryset.filter(
-                    Q(first_name__icontains=search) |
-                    Q(last_name__icontains=search) |
-                    Q(email__icontains=search)
-                )
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(email__icontains=search)
+            )
 
-        if sort == "A - Z":
-            queryset = queryset.order_by('first_name')
-        elif sort == "Z - A":
-            queryset = queryset.order_by('-first_name')
+        serializer = self.get_serializer(queryset, many=True)
+        response_data = serializer.data
+        response_data = self.format_response(response_data, sort)
 
-        return queryset
+        page = self.paginate_queryset(response_data)
+        if page is not None:
+            return self.get_paginated_response(page)
+
+        return Response(response_data)
+
+    def format_response(self, data, sort):
+        trainees = []
+        for trainee in data:
+            format_trainee = {
+                'id': trainee['id'],
+                'firstname': trainee['first_name'],
+                'lastname': trainee['last_name'],
+                'email': trainee['email'],
+                'course': {
+                    "name": trainee['progress']['name'],
+                    "percentage": trainee['progress']['percentage'],
+                },
+                'progress': trainee['progress']['percentage'],
+            }
+            trainees.append(format_trainee)
+
+        if sort in SortingOption.sorting_options:
+            sort_key = SortingOption.get_sort_key(sort)
+            reverse_flag = SortingOption.get_reverse_flag(sort)
+            trainees = sorted(trainees, key=lambda x: x[sort_key], reverse=reverse_flag)
+
+        return trainees

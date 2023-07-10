@@ -1,13 +1,13 @@
-import random
-
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.datetime_serializer import DateTimeSerializer
 from app_sph_lms.models import (Category, CompletedLesson, Course,
                                 CourseCategory, Lesson, User)
+from app_sph_lms.utils.pagination import CustomPagination
+from app_sph_lms.utils.progress_calculator import ProgressCalculator
+from app_sph_lms.utils.sorting import SortingOption
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.pagination import PageNumberPagination
 
 
 class CourseCategorySerializer(serializers.ModelSerializer):
@@ -138,11 +138,6 @@ class CourseSerializer(serializers.ModelSerializer):
         return progress
 
 
-class CustomPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = "page_size"
-
-
 class CourseTraineeSerializer(serializers.ModelSerializer):
     learners = serializers.SerializerMethodField()
 
@@ -163,20 +158,19 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
                     'selectedSortOption',
                     "A - Z",
                 )
+        search = self.context["request"].query_params.get("search")
 
         if is_enrolled == "true":
-            if sortingOption == "A - Z":
-                course_trainees = obj.trainee.order_by("first_name")
-            elif sortingOption == "Z - A":
-                course_trainees = obj.trainee.order_by("-first_name")
-
+            course_trainees = obj.trainee.filter(
+                    is_trainer=False
+                ).order_by("first_name")
             data = [
                 {
                     "id": trainee.id,
                     "firstname": trainee.first_name,
                     "lastname": trainee.last_name,
                     "email": trainee.email,
-                    "progress": random.randint(0, 100),
+                    "progress": self.get_trainee_progress(trainee, obj),
                 }
                 for trainee in course_trainees
             ]
@@ -197,7 +191,15 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
                 for trainee in trainees
             ]
 
-        search = self.context["request"].query_params.get("search")
+        if sortingOption in SortingOption.sorting_options:
+            sort_key = SortingOption.get_sort_key(sortingOption)
+            reverse_flag = SortingOption.get_reverse_flag(sortingOption)
+            data = sorted(
+                    data,
+                    key=lambda x: x[sort_key],
+                    reverse=reverse_flag
+                )
+
         if search:
             search = search.lower()
             data = [
@@ -219,3 +221,11 @@ class CourseTraineeSerializer(serializers.ModelSerializer):
             "data": paginated_data,
             "total_pages": total_pages,
         }
+
+    def get_trainee_progress(self, trainee, course):
+        total_lessons = course.lessons.count()
+        completed_lessons = trainee.trainee.filter(
+                lesson__course=course
+            ).count()
+        progress = ProgressCalculator(completed_lessons, total_lessons)
+        return progress.get_percentage()

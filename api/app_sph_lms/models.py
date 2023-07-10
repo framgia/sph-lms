@@ -159,6 +159,7 @@ class CompletedLesson(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
+        unique_together = ('trainee', 'lesson')
         verbose_name = "CompletedLesson"
         verbose_name_plural = "CompletedLessons"
         db_table = "app_sph_lms_completed_lessons"

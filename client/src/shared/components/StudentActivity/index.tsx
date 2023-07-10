@@ -10,7 +10,7 @@ interface StudentActivityProps {
 
 const StudentActivity: React.FC<StudentActivityProps> = ({ trainee }) => {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { first_name, last_name, email, image, progress } = trainee;
+  const { first_name, last_name, email, image, course } = trainee;
 
   return (
     <div className="flex divide-x">
@@ -24,11 +24,11 @@ const StudentActivity: React.FC<StudentActivityProps> = ({ trainee }) => {
         </div>
       </div>
       <div className="flex flex-1 gap-4 p-4 items-center">
-        {progress ? (
+        {course ? (
           <Fragment>
-            <span className="font-medium text-xs">{progress.name}</span>
+            <span className="font-medium text-xs">{course.name}</span>
             <div className="flex-1">
-              <ProgressPercentage progress={progress.percentage} />
+              <ProgressPercentage progress={course.percentage} />
             </div>
           </Fragment>
         ) : (
