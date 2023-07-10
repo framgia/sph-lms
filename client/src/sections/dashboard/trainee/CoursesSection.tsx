@@ -1,8 +1,7 @@
 import { useGetTraineeCoursesQuery } from '@/src/services/traineeAPI';
 import TraineeCourseCard from '@/src/shared/components/Card/TraineeCourseCard';
-import SortDropdown, {
-  type SortOption,
-} from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
+import { DropDownOptions } from '@/src/shared/components/Dropdown/SortDropdown/DropDownOptions';
+import SortDropdown from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import Pagination from '@/src/shared/components/Pagination';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Spinner from '@/src/shared/components/Spinner';
@@ -36,11 +35,6 @@ const CoursesSection = (): JSX.Element => {
     return alertError('An error occurred');
   }
 
-  const sortOptions: SortOption[] = [
-    { label: 'A - Z', value: 'A - Z' },
-    { label: 'Z - A', value: 'Z - A' },
-  ];
-
   const handleSearch = (value: string): void => {
     setSearch(value);
     setPage(1);
@@ -60,7 +54,7 @@ const CoursesSection = (): JSX.Element => {
       <div className="flex justify-between items-center">
         <SearchBar onSearchEvent={handleSearch} placeholder="Search" />
         <SortDropdown
-          options={sortOptions}
+          options={DropDownOptions}
           onChange={handleSortOptionChange}
           buttonText={selectedOption ?? 'A - Z'}
           buttonIcon={<FilterIcon />}
