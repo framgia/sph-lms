@@ -22,7 +22,7 @@ const LearningPathContentSection: FC<LearningPathContentSectionProp> = ({
         <h3 className="text-lg font-bold text-dark mb-2">Description</h3>
         <p className="text-sm font-normal text-dark">{learningPath?.description}</p>
       </div>
-      <div className="flex gap-6 mt-4">
+      <div className="flex gap-6 mt-4 mb-4">
         <div className="grid gap-4">
           {learningPath.courses.length === 0 ? (
             <p className="text-sm font-semibold text-dark pt-4 ">No courses available.</p>
@@ -61,7 +61,7 @@ const LearningPathContentSection: FC<LearningPathContentSectionProp> = ({
                   ))}
                 </div>
               </div>
-              <Link href={`http://localhost:3000/trainer/courses/${selectedCourse.id}`}>
+              <Link href={`/trainer/courses/${selectedCourse.id}`}>
                 <Button
                   text="Go to course details"
                   buttonClass="rounded-md h-[28px] px-4 text-red text-xs font-[600] border border-red"
