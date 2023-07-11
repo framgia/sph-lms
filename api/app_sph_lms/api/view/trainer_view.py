@@ -1,7 +1,7 @@
 from app_sph_lms.api.serializer.trainer_serializer import (
     TrainerCourseSerializer, TrainerLearningPathSerializer)
-from app_sph_lms.api.view.course_view import LargeResultsSetPagination
 from app_sph_lms.models import Course, LearningPath
+from app_sph_lms.utils.pagination import LargeResultsSetPagination
 from rest_framework import generics
 
 

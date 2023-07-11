@@ -43,7 +43,7 @@ const Courses = (): JSX.Element => {
                   </Draggable>
                 ))
               ) : (
-                <p className="text-[14px] text-center w-[70%]">
+                <p className="text-[14px] text-center w-[70%] text-red">
                   No courses yet, at least one course is required!
                 </p>
               )}

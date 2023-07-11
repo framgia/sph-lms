@@ -48,14 +48,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
         }}
       >
         <span className="flex  border-gray-500 text-[14px] px-2 rounded">
-          {selectedOption ? (
-            <Fragment>
-              {selectedOption.label}
-              {selectedOption.icon && <span>{selectedOption.icon}</span>}
-            </Fragment>
-          ) : (
-            buttonText
-          )}
+          {selectedOption ? <Fragment>{selectedOption.value}</Fragment> : buttonText}
         </span>
         {!disabled && <span>{buttonIcon}</span>}
       </button>

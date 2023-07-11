@@ -22,6 +22,7 @@ const LearningPathList = ({
     page,
     isActive,
     search,
+    pageSize: 12,
   });
 
   if (isLoading) {

@@ -66,7 +66,7 @@ export interface User {
   email: string;
   status: string;
   image: string;
-  progress: Progress;
+  course?: Progress;
   created_at: string;
   updated_at: string;
 }

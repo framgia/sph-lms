@@ -1,11 +1,9 @@
-import SortDropdown, {
-  type SortOption,
-} from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
+import SortDropdown from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
 import FilterIcon from '@/src/shared/icons/FilterIcon';
 import ShowIcon from '@/src/shared/icons/ShowIcon';
 import React, { Fragment, useEffect, useState } from 'react';
-// import ArrowIcon from '@/src/shared/icons/ArrowIcon';
+
 import {
   addTrainees,
   resetTraineesList,
@@ -16,6 +14,7 @@ import { useGetLearningPathLearnerQuery } from '@/src/services/traineeAPI';
 import Button from '@/src/shared/components/Button';
 import { useRouter } from 'next/router';
 import AddLearnerModal from '../../../shared/components/Modal/AddLearnerModal';
+import { DropDownOptions } from '@/src/shared/components/Dropdown/SortDropdown/DropDownOptions';
 
 const LearningPathLearnersSection: React.FC = () => {
   const [selectedSortOption, setSelectedSortOption] = useState('A - Z');
@@ -46,21 +45,6 @@ const LearningPathLearnersSection: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
-
-  const sortOptions: SortOption[] = [
-    { label: 'A - Z', value: 'A - Z' },
-    { label: 'Z - A', value: 'Z - A' },
-    // {
-    //   label: 'Progress',
-    //   value: 'progress-high',
-    //   icon: <ArrowIcon className="transform rotate-90" />,
-    // },
-    // {
-    //   label: 'Progress',
-    //   value: 'progress-low',
-    //   icon: <ArrowIcon className="transform -rotate-90" />,
-    // },
-  ];
 
   const handleSortOptionChange = (option: string): void => {
     setSelectedSortOption(option);
@@ -99,7 +83,7 @@ const LearningPathLearnersSection: React.FC = () => {
           <div className="mx-4">
             <div className="flex items-center ml-3 text-[15px] my-2 cursor-pointer">
               <SortDropdown
-                options={sortOptions}
+                options={DropDownOptions}
                 onChange={handleSortOptionChange}
                 buttonText={selectedOption ?? 'A - Z'}
                 buttonIcon={<FilterIcon />}

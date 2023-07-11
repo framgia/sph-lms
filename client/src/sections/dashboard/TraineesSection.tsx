@@ -5,6 +5,7 @@ import {
 } from '@/src/features/trainer/dashboard/traineeSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { useGetTrainerTraineesQuery } from '@/src/services/traineeAPI';
+import { DropDownOptions } from '@/src/shared/components/Dropdown/SortDropdown/DropDownOptions';
 import SortDropdown from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import StudentActivity from '@/src/shared/components/StudentActivity';
 import FilterIcon from '@/src/shared/icons/FilterIcon';
@@ -52,10 +53,7 @@ const TraineesSection = (): JSX.Element => {
           <SortDropdown
             buttonText={sortOption}
             buttonIcon={<FilterIcon />}
-            options={[
-              { label: 'A - Z', value: 'A - Z' },
-              { label: 'Z - A', value: 'Z - A' },
-            ]}
+            options={DropDownOptions}
             onChange={(value) => {
               handleSortOptionChange(value);
             }}

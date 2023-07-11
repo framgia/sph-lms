@@ -8,9 +8,8 @@ import {
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { useGetLearnerQuery } from '@/src/services/traineeAPI';
 import Button from '@/src/shared/components/Button';
-import SortDropdown, {
-  type SortOption,
-} from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
+import { DropDownOptions } from '@/src/shared/components/Dropdown/SortDropdown/DropDownOptions';
+import SortDropdown from '@/src/shared/components/Dropdown/SortDropdown/SortDropdown';
 import AddLearnerModal from '@/src/shared/components/Modal/AddLearnerModal';
 import ProgressPercentage from '@/src/shared/components/ProgressPercentage';
 import FilterIcon from '@/src/shared/icons/FilterIcon';
@@ -60,11 +59,6 @@ const LearningSection: React.FC = () => {
     };
   }, []);
 
-  const sortOptions: SortOption[] = [
-    { label: 'A - Z', value: 'A - Z' },
-    { label: 'Z - A', value: 'Z - A' },
-  ];
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
 
@@ -88,10 +82,9 @@ const LearningSection: React.FC = () => {
         </div>
         {learners && learners.length > 0 ? (
           <div className="mx-4 mb-4">
-            {/* SORT BUTTON  */}
             <div className="flex text-[15px] my-2 cursor-pointer">
               <SortDropdown
-                options={sortOptions}
+                options={DropDownOptions}
                 onChange={handleSortOptionChange}
                 buttonText={selectedOption ?? 'A - Z'}
                 buttonIcon={<FilterIcon />}

@@ -19,7 +19,7 @@ const CoursesListPage: React.FC = () => {
     data: { results: courses = [], totalPages, current_page_number: currentPage } = {},
     isLoading,
     error,
-  } = useGetCoursesQuery({ search, page });
+  } = useGetCoursesQuery({ search, page, pageSize: 12 });
 
   useEffect(() => {
     if (search === '') {

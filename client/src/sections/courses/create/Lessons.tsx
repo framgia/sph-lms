@@ -41,7 +41,7 @@ const Lessons: FC = () => {
                   </Draggable>
                 ))
               ) : (
-                <p className="text-[14px] text-center w-[70%]">
+                <p className="text-[14px] text-center w-[70%] text-red">
                   No lessons yet, at least one lesson is required!
                 </p>
               )}
