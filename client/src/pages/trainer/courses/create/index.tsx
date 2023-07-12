@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect, type FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { objectToFormData } from '@/src/shared/utils/helpers';
 
 const Create: FC = () => {
   const { activeStep } = useAppSelector((state) => state.stepper);
@@ -68,15 +69,10 @@ const Create: FC = () => {
         try {
           const data = {
             ...values,
-            image:
-              typeof values.image === 'string'
-                ? '/' + values.image
-                : values.image?.name
-                ? '/' + values.image.name
-                : null,
             category: values.category.map(({ id }) => id),
           };
-          const res = await createCourse(data);
+          const formData = objectToFormData(data);
+          const res = await createCourse(formData);
 
           if ('error' in res) {
             throw new Error('Failed to create course');

@@ -49,3 +49,28 @@ export const isYoutubeLink = (link: string): boolean => {
     /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
   return regex.test(link);
 };
+
+export const objectToFormData = (obj: Record<string, any>): FormData => {
+  const formData = new FormData();
+
+  for (const key in obj) {
+    const value = obj[key];
+
+    if (key === 'image' && (value === null || typeof value === 'string')) {
+      continue;
+    }
+
+    if (Array.isArray(value)) {
+      for (let i = 0; i < value.length; i++) {
+        let newValue = value[i];
+        if (key === 'lessons') {
+          const { id, ...rest } = value[i];
+          newValue = rest;
+        }
+        formData.append(key, JSON.stringify(newValue));
+      }
+    } else formData.append(key, value);
+  }
+
+  return formData;
+};

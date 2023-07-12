@@ -14,7 +14,7 @@ const CourseCard: React.FC<Props> = ({ course }: Props) => {
         <div className="relative overflow-hidden">
           <Image
             className="w-full h-[128px] rounded-tl-lg rounded-tr-lg object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"
-            src={course.image ?? '/image1.jpg'}
+            src={course.image ? String(course.image) : '/image1.jpg'}
             alt={course.name}
             width={720}
             height={128}

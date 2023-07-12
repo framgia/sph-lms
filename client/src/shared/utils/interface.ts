@@ -174,7 +174,7 @@ export interface DBCourse {
   description: string;
   category: CourseCategory[];
   lessons: Lesson[];
-  image: string | null;
+  image: File | string | null;
 }
 
 export interface CourseLearner {

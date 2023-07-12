@@ -16,6 +16,7 @@ import {
   useGetLearningPathQuery,
   useUpdateLearningPathMutation,
 } from '@/src/services/learningPathAPI';
+import { objectToFormData } from '@/src/shared/utils/helpers';
 
 const EditSettingsButton: FC = () => {
   const { activeTab } = useAppSelector((state) => state.tab);
@@ -71,14 +72,10 @@ const EditSettingsButton: FC = () => {
             course: id,
             course_order: order,
           })),
-          image:
-            typeof values.image === 'string'
-              ? '/' + values.image
-              : values.image?.name
-              ? '/' + values.image.name
-              : null,
         };
-        const res = await updateLearningPath({ id: query.id, data });
+        const formData = objectToFormData(data);
+        const res = await updateLearningPath({ id: query.id, data: formData });
+
         if ('error' in res) {
           throw new Error('Error updating the learning path');
         } else {

@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { objectToFormData } from '@/src/shared/utils/helpers';
 
 const LearningPathCreate = (): JSX.Element => {
   const { activeStep } = useAppSelector((state) => state.stepper);
@@ -55,7 +56,7 @@ const LearningPathCreate = (): JSX.Element => {
         return await trigger(['name', 'description', 'category']);
       case 2:
         try {
-          const formData = {
+          const data = {
             ...values,
             category: values.category.map(({ id }) => id),
             courses: values.courses.map(({ id, order }) => {
@@ -65,15 +66,10 @@ const LearningPathCreate = (): JSX.Element => {
               };
             }),
             is_active: values.isActive,
-            image:
-              typeof values.image === 'string'
-                ? '/' + values.image
-                : values.image?.name
-                ? '/' + values.image.name
-                : null,
           };
-
+          const formData = objectToFormData(data);
           const res: any = await createLearningPath(formData);
+
           if ('error' in res) {
             const { data } = res.error;
             const property = Object.keys(data)[0];
