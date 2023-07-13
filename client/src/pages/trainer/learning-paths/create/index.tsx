@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { reset } from '@/src/features/learning-path/learningPathSlice';
-import { setIsStepValid } from '@/src/features/stepper/stepperSlice';
+import { setIsStepValid, setLoading } from '@/src/features/stepper/stepperSlice';
 import { useCreateLearningPathMutation } from '@/src/services/learningPathAPI';
 import AddCourseSection from '@/src/sections/learning-paths/create/AddCourseSection';
 import InitialSection from '@/src/sections/learning-paths/create/InitialSection';
@@ -68,6 +68,7 @@ const LearningPathCreate = (): JSX.Element => {
             is_active: values.isActive,
           };
           const formData = objectToFormData(data);
+          dispatch(setLoading(true));
           const res: any = await createLearningPath(formData);
 
           if ('error' in res) {
@@ -81,6 +82,8 @@ const LearningPathCreate = (): JSX.Element => {
           }
         } catch (e: any) {
           alertError('Something went wrong');
+        } finally {
+          dispatch(setLoading(false));
         }
         break;
 

@@ -1,4 +1,3 @@
-import random
 import json
 
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer

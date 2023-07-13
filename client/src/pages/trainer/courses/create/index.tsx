@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { reset } from '@/src/features/course/courseSlice';
-import { setIsStepValid } from '@/src/features/stepper/stepperSlice';
+import { setIsStepValid, setLoading } from '@/src/features/stepper/stepperSlice';
 import { useCreateCourseMutation } from '@/src/services/courseAPI';
 import AddLessonSection from '@/src/sections/courses/create/AddLessonSection';
 import InitialSection from '@/src/sections/courses/create/InitialSection';
@@ -72,6 +72,7 @@ const Create: FC = () => {
             category: values.category.map(({ id }) => id),
           };
           const formData = objectToFormData(data);
+          dispatch(setLoading(true));
           const res = await createCourse(formData);
 
           if ('error' in res) {
@@ -83,6 +84,8 @@ const Create: FC = () => {
           }
         } catch (error) {
           alertError('Error saving course data. Please try again.');
+        } finally {
+          dispatch(setLoading(false));
         }
         break;
       default:

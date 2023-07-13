@@ -1,5 +1,4 @@
 import json
-import random
 
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.course_serializer import CourseSerializer
