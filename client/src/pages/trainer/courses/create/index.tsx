@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { reset } from '@/src/features/course/courseSlice';
-import { setIsStepValid } from '@/src/features/stepper/stepperSlice';
+import { setIsStepValid, setLoading } from '@/src/features/stepper/stepperSlice';
 import { useCreateCourseMutation } from '@/src/services/courseAPI';
 import AddLessonSection from '@/src/sections/courses/create/AddLessonSection';
 import InitialSection from '@/src/sections/courses/create/InitialSection';
@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect, type FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { objectToFormData } from '@/src/shared/utils/helpers';
 
 const Create: FC = () => {
   const { activeStep } = useAppSelector((state) => state.stepper);
@@ -68,15 +69,11 @@ const Create: FC = () => {
         try {
           const data = {
             ...values,
-            image:
-              typeof values.image === 'string'
-                ? '/' + values.image
-                : values.image?.name
-                ? '/' + values.image.name
-                : null,
             category: values.category.map(({ id }) => id),
           };
-          const res = await createCourse(data);
+          const formData = objectToFormData(data);
+          dispatch(setLoading(true));
+          const res = await createCourse(formData);
 
           if ('error' in res) {
             throw new Error('Failed to create course');
@@ -87,6 +84,8 @@ const Create: FC = () => {
           }
         } catch (error) {
           alertError('Error saving course data. Please try again.');
+        } finally {
+          dispatch(setLoading(false));
         }
         break;
       default:

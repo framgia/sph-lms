@@ -1,3 +1,5 @@
+import json
+
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.datetime_serializer import DateTimeSerializer
 from app_sph_lms.models import (Category, CompletedLesson, Course,
@@ -19,9 +21,12 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 
 
 class LessonSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+
     class Meta:
         model = Lesson
         fields = ("id", "title", "link", "order")
+        read_only_fields = ("id",)
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -58,20 +63,25 @@ class CourseSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context["request"].user
 
+        parsed_lessons = []
+        lesson_list = self.context["request"].data.getlist("lessons")
+        for lesson_str in lesson_list:
+            lesson_dict = json.loads(lesson_str)
+            parsed_lessons.append(lesson_dict)
+
         if not user.is_authenticated or not user.is_trainer:
             raise PermissionDenied(
                 "Only authenticated Trainers and Admins can create a course."
             )
 
         validated_data["author"] = user
-        categories_data = validated_data.pop("category")
 
-        lessons_data = validated_data.pop("lessons")
+        categories_data = validated_data.pop("category")
 
         with transaction.atomic():
             course = Course.objects.create(**validated_data)
 
-            for lesson_data in lessons_data:
+            for lesson_data in parsed_lessons:
                 lesson_data["course"] = course
                 Lesson.objects.create(**lesson_data)
 
@@ -92,14 +102,20 @@ class CourseSerializer(serializers.ModelSerializer):
                 "Only authenticated Trainers and Admins can update a course."
             )
 
+        parsed_lessons = []
+        lesson_list = self.context["request"].data.getlist("lessons")
+        for lesson_str in lesson_list:
+            lesson_dict = json.loads(lesson_str)
+            parsed_lessons.append(lesson_dict)
+
         categories_data = validated_data.pop("category", [])
-        lessons_data = validated_data.pop("lessons", [])
 
         instance.name = validated_data.get("name", instance.name)
         instance.description = validated_data.get(
                 "description",
                 instance.description
             )
+        instance.image = validated_data.get("image", instance.image)
         instance.save()
 
         CourseCategory.objects.filter(course=instance).delete()
@@ -111,7 +127,7 @@ class CourseSerializer(serializers.ModelSerializer):
             )
 
         existing_lesson_ids = [lesson.id for lesson in instance.lessons.all()]
-        for lesson_data in lessons_data:
+        for lesson_data in parsed_lessons:
             lesson_id = lesson_data.get("id")
             if lesson_id in existing_lesson_ids:
                 Lesson.objects.filter(id=lesson_id).update(**lesson_data)

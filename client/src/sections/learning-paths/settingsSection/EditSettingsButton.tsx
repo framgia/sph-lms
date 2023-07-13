@@ -16,6 +16,8 @@ import {
   useGetLearningPathQuery,
   useUpdateLearningPathMutation,
 } from '@/src/services/learningPathAPI';
+import { objectToFormData } from '@/src/shared/utils/helpers';
+import { setLoading } from '@/src/features/stepper/stepperSlice';
 
 const EditSettingsButton: FC = () => {
   const { activeTab } = useAppSelector((state) => state.tab);
@@ -71,14 +73,11 @@ const EditSettingsButton: FC = () => {
             course: id,
             course_order: order,
           })),
-          image:
-            typeof values.image === 'string'
-              ? '/' + values.image
-              : values.image?.name
-              ? '/' + values.image.name
-              : null,
         };
-        const res = await updateLearningPath({ id: query.id, data });
+        const formData = objectToFormData(data);
+        dispatch(setLoading(true));
+        const res = await updateLearningPath({ id: query.id, data: formData });
+
         if ('error' in res) {
           throw new Error('Error updating the learning path');
         } else {
@@ -87,6 +86,8 @@ const EditSettingsButton: FC = () => {
         dispatch(changeEditMode(false));
       } catch (error) {
         alertError(`Error saving the learning path ${error}`);
+      } finally {
+        dispatch(setLoading(false));
       }
     }
   };

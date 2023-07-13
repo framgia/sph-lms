@@ -1,5 +1,7 @@
 import { type FC, Fragment } from 'react';
 import Button from '.';
+import { useAppSelector } from '@/src/redux/hooks';
+import LoadingSpinner from '../LoadingSpinner';
 
 interface EditModeButtonsProps {
   editMode: boolean;
@@ -9,6 +11,7 @@ interface EditModeButtonsProps {
 }
 
 const EditModeButtons: FC<EditModeButtonsProps> = ({ editMode, onCancel, onSave, onEdit }) => {
+  const { isLoading } = useAppSelector((state) => state.stepper);
   return (
     <Fragment>
       {editMode ? (
@@ -21,8 +24,12 @@ const EditModeButtons: FC<EditModeButtonsProps> = ({ editMode, onCancel, onSave,
           <Button
             onClick={onSave}
             text="Save changes"
-            buttonClass="border border-red text-red !font-medium text-[14px] px-[18px] py-[6.5px] font-inter"
-          />
+            buttonClass={`${
+              isLoading && 'opacity-50 pointer-events-none'
+            } border border-red text-red !font-medium text-[14px] px-[18px] py-[6.5px] font-inter`}
+          >
+            {isLoading ? <LoadingSpinner /> : <></>}
+          </Button>
         </div>
       ) : (
         <Button

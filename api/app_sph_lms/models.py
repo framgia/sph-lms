@@ -23,7 +23,7 @@ class User(AbstractUser):
             db_index=True,
             validators=[MinLengthValidator(5)]
         )
-    image = models.CharField(max_length=255, null=True)
+    image = models.ImageField(null=True)
     trainer_id = models.ForeignKey(
         'self',
         null=True,
@@ -78,7 +78,7 @@ class Course(models.Model):
             validators=[MinLengthValidator(5)]
         )
     is_active = models.BooleanField(default=True)
-    image = models.CharField(max_length=255, null=True)
+    image = models.ImageField(null=True)
     trainee = models.ManyToManyField(
         User,
         related_name='enrolled_course',
@@ -190,7 +190,7 @@ class LearningPath(models.Model):
             null=True,
             validators=[MinLengthValidator(5)]
         )
-    image = models.CharField(max_length=255, null=True)
+    image = models.ImageField(null=True)
     is_active = models.BooleanField(default=True)
     courses = models.ManyToManyField(
         Course,

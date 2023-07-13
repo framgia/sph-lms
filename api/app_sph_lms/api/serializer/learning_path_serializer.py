@@ -1,3 +1,5 @@
+import json
+
 from app_sph_lms.api.serializer.category_serializer import CategorySerializer
 from app_sph_lms.api.serializer.course_serializer import CourseSerializer
 from app_sph_lms.models import (Category, Course, LearningPath,
@@ -10,9 +12,22 @@ from rest_framework import serializers
 
 
 class LearningPathCourseSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = LearningPathCourse
         fields = ("course", "course_order")
+
+    def to_internal_value(self, data):
+        if isinstance(data, str):
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                raise serializers.ValidationError("Invalid data format. Unable to parse as JSON.")
+
+        if not isinstance(data, dict):
+            raise serializers.ValidationError("Invalid data format. Expected a dictionary.")
+
+        return super().to_internal_value(data)
 
 
 class LearningPathSerializer(serializers.ModelSerializer):
@@ -71,8 +86,8 @@ class LearningPathSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         validated_data["author"] = request.user
 
-        courses = validated_data.pop("courses")
         categories = validated_data.pop("category")
+        courses = validated_data.pop("courses")
 
         learning_path = LearningPath.objects.create(**validated_data)
 
@@ -87,7 +102,6 @@ class LearningPathSerializer(serializers.ModelSerializer):
             )
 
         return learning_path
-
 
 class ExtendedCourse(CourseSerializer):
     order = serializers.SerializerMethodField()
@@ -114,7 +128,9 @@ class LearningPathDetailSerializer(serializers.ModelSerializer):
         exclude = ["author", "trainee"]
 
     def update(self, instance, validated_data):
+        form_data = self.context["request"].data
         is_active = validated_data.get('is_active', instance.is_active)
+
         if instance.is_active != is_active:
             instance.is_active = is_active
         else:
@@ -123,16 +139,23 @@ class LearningPathDetailSerializer(serializers.ModelSerializer):
                 'description', instance.description
             )
             instance.image = validated_data.get('image', instance.image)
-            if 'category' in validated_data:
-                category_data = validated_data.pop('category')
+
+            if 'category' in form_data:
+                category_data = form_data.getlist("category")
                 instance.category.set(category_data)
 
-            if 'courses' in validated_data:
-                courses_data = validated_data.pop('courses')
+            if 'courses' in form_data:
+                parsed_courses = []
+                course_list = form_data.getlist("courses")
+                for course_str in course_list:
+                    course_dict = json.loads(course_str)
+                    parsed_courses.append(course_dict)
+
                 LearningPathCourse.objects.filter(
                     learning_path=instance
                 ).delete()
-                for course_data in courses_data:
+
+                for course_data in parsed_courses:
                     course = Course.objects.get(id=course_data['course'])
                     course_order = course_data['course_order']
                     LearningPathCourse.objects.create(

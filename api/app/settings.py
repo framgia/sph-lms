@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     'app_sph_lms',
-    'django_filters'
+    'django_filters',
+    'storages',
 ]
 
 SITE_ID = 1
@@ -213,3 +214,19 @@ REST_AUTH = {
 
 # Permission
 AUTH_USER_MODEL = "app_sph_lms.User"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "app.storage_backends.MediaStorage"
+    },
+    "staticfiles": {
+        "BACKEND": "app.storage_backends.StaticStorage"
+    }
+}
+
+AWS_S3_ACCESS_KEY_ID = env('AWS_ACCESS')
+AWS_S3_SECRET_ACCESS_KEY = env('AWS_SECRET')
+AWS_STORAGE_BUCKET_NAME = env('AWS_BUCKET')
+AWS_S3_REGION_NAME = env('AWS_REGION')
+STATIC_URL = f"https://{env('AWS_BUCKET')}.s3.amazonaws.com/static/"
+MEDIA_URL = f"https://{env('AWS_BUCKET')}.s3.amazonaws.com/media/"

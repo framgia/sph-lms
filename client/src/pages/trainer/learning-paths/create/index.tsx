@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { reset } from '@/src/features/learning-path/learningPathSlice';
-import { setIsStepValid } from '@/src/features/stepper/stepperSlice';
+import { setIsStepValid, setLoading } from '@/src/features/stepper/stepperSlice';
 import { useCreateLearningPathMutation } from '@/src/services/learningPathAPI';
 import AddCourseSection from '@/src/sections/learning-paths/create/AddCourseSection';
 import InitialSection from '@/src/sections/learning-paths/create/InitialSection';
@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { objectToFormData } from '@/src/shared/utils/helpers';
 
 const LearningPathCreate = (): JSX.Element => {
   const { activeStep } = useAppSelector((state) => state.stepper);
@@ -55,7 +56,7 @@ const LearningPathCreate = (): JSX.Element => {
         return await trigger(['name', 'description', 'category']);
       case 2:
         try {
-          const formData = {
+          const data = {
             ...values,
             category: values.category.map(({ id }) => id),
             courses: values.courses.map(({ id, order }) => {
@@ -65,15 +66,11 @@ const LearningPathCreate = (): JSX.Element => {
               };
             }),
             is_active: values.isActive,
-            image:
-              typeof values.image === 'string'
-                ? '/' + values.image
-                : values.image?.name
-                ? '/' + values.image.name
-                : null,
           };
-
+          const formData = objectToFormData(data);
+          dispatch(setLoading(true));
           const res: any = await createLearningPath(formData);
+
           if ('error' in res) {
             const { data } = res.error;
             const property = Object.keys(data)[0];
@@ -85,6 +82,8 @@ const LearningPathCreate = (): JSX.Element => {
           }
         } catch (e: any) {
           alertError('Something went wrong');
+        } finally {
+          dispatch(setLoading(false));
         }
         break;
 

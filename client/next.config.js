@@ -12,6 +12,7 @@ const nextConfig = {
       'campustechnology.com',
       'res.cloudinary.com',
       'lh3.googleusercontent.com',
+      'sunph-sim-lms-dev.s3.amazonaws.com',
     ],
   },
 };

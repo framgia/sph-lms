@@ -6,6 +6,7 @@ import Button from '../Button';
 import ProgressBar from '../ProgressBar';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { reset, setActiveStep } from '@/src/features/stepper/stepperSlice';
+import LoadingSpinner from '../LoadingSpinner';
 
 interface StepperProps {
   title: string;
@@ -15,7 +16,7 @@ interface StepperProps {
 }
 
 const Stepper: FC<StepperProps> = ({ title, contentClass = '', onNext, children }) => {
-  const { activeStep, isStepValid } = useAppSelector((state) => state.stepper);
+  const { activeStep, isStepValid, isLoading } = useAppSelector((state) => state.stepper);
   const dispatch = useAppDispatch();
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
   const childListLength = Object.keys(childrenList).length;
@@ -88,9 +89,11 @@ const Stepper: FC<StepperProps> = ({ title, contentClass = '', onNext, children 
           onClick={handleNext}
           text={activeStep ? childrenList[activeStep]?.childContent.props.nextTitle : 'Next'}
           buttonClass={`border py-[6px] border-red !text-red !w-32 !font-medium ${
-            !isStepValid && 'opacity-50 cursor-not-allowed'
+            (!isStepValid || isLoading) && 'opacity-50 pointer-events-none'
           }`}
-        />
+        >
+          {isLoading ? <LoadingSpinner /> : <></>}
+        </Button>
       </div>
     </div>
   );

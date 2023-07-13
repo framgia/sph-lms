@@ -10,6 +10,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { type FC, Fragment, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { objectToFormData } from '@/src/shared/utils/helpers';
+import { setLoading } from '@/src/features/stepper/stepperSlice';
 
 const EditSettingsButton: FC = () => {
   const { query } = useRouter();
@@ -58,8 +60,10 @@ const EditSettingsButton: FC = () => {
           ...values,
           category: values.category.map(({ id }) => id),
         };
+        const formData = objectToFormData(data);
+        dispatch(setLoading(true));
+        const res = await updateCourse({ courseID: query.id, courseData: formData });
 
-        const res = await updateCourse({ courseID: query.id, courseData: data });
         if ('error' in res) {
           throw new Error('Failed to update course');
         } else {
@@ -68,6 +72,8 @@ const EditSettingsButton: FC = () => {
         dispatch(changeEditMode(false));
       } catch (error) {
         alertError('Failed to update the course. Please try again later.');
+      } finally {
+        dispatch(setLoading(false));
       }
     }
   };
