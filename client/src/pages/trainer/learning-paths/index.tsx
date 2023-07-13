@@ -3,12 +3,19 @@ import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
 import Link from 'next/link';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { reset as resetLearningPath } from '@/src/features/learning-path/learningPathSlice';
+import { useAppDispatch } from '@/src/redux/hooks';
 
 const LearningPathListPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [activePage, setActivePage] = useState(1);
   const [inactivePage, setInactivePage] = useState(1);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetLearningPath());
+  });
 
   const handleSearch = (search: string): void => {
     setSearch(search);
