@@ -20,6 +20,7 @@ const Stepper: FC<StepperProps> = ({ title, contentClass = '', onNext, children 
   const dispatch = useAppDispatch();
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
   const childListLength = Object.keys(childrenList).length;
+  const [isMounted, setIsMounted] = useState(true);
 
   const handleNext = async (): Promise<void> => {
     let validated = true;
@@ -41,6 +42,11 @@ const Stepper: FC<StepperProps> = ({ title, contentClass = '', onNext, children 
   };
 
   useEffect(() => {
+    if (isMounted) {
+      dispatch(reset());
+      setIsMounted(false);
+    }
+
     let step = 0;
     const childrenListObj: ChildElementObject = {};
     Children.map(children, (child) => {

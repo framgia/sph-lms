@@ -9,17 +9,24 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Fragment, useEffect, useState } from 'react';
 import CourseCard from '../../../shared/components/Card/CourseCard';
+import { reset as resetCourse } from '@/src/features/course/courseSlice';
+import { useAppDispatch } from '@/src/redux/hooks';
 
 const CoursesListPage: React.FC = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const dispatch = useAppDispatch();
 
   const {
     data: { results: courses = [], totalPages, current_page_number: currentPage } = {},
     isLoading,
     error,
   } = useGetCoursesQuery({ search, page, pageSize: 12 });
+
+  useEffect(() => {
+    dispatch(resetCourse());
+  });
 
   useEffect(() => {
     if (search === '') {
