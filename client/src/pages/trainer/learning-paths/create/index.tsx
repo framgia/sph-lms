@@ -74,14 +74,15 @@ const LearningPathCreate = (): JSX.Element => {
           if ('error' in res) {
             const { data } = res.error;
             const property = Object.keys(data)[0];
-            throw new Error(data[property][0]);
+            const errorMessage = data[property][0];
+            throw new Error(errorMessage);
           } else {
             await push('/trainer/learning-paths');
             alertSuccess('Learning path created successfully!');
             dispatch(reset());
           }
         } catch (e: any) {
-          alertError('Something went wrong');
+          alertError(e.message);
         } finally {
           dispatch(setLoading(false));
         }

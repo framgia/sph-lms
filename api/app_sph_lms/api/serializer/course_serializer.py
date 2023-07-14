@@ -8,8 +8,9 @@ from app_sph_lms.utils.pagination import CustomPagination
 from app_sph_lms.utils.progress_calculator import ProgressCalculator
 from app_sph_lms.utils.sorting import SortingOption
 from django.db import transaction
+from django.db.utils import IntegrityError
 from rest_framework import serializers
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 
 
 class CourseCategorySerializer(serializers.ModelSerializer):
@@ -79,20 +80,28 @@ class CourseSerializer(serializers.ModelSerializer):
         categories_data = validated_data.pop("category")
 
         with transaction.atomic():
-            course = Course.objects.create(**validated_data)
+            try:
+                course = Course.objects.create(**validated_data)
 
-            for lesson_data in parsed_lessons:
-                lesson_data["course"] = course
-                Lesson.objects.create(**lesson_data)
+                for lesson_data in parsed_lessons:
+                    lesson_data["course"] = course
+                    Lesson.objects.create(**lesson_data)
 
-            for category in categories_data:
-                category_id = category.id
-                CourseCategory.objects.create(
-                    course=course,
-                    category_id=category_id
-                )
+                for category in categories_data:
+                    category_id = category.id
+                    CourseCategory.objects.create(
+                        course=course,
+                        category_id=category_id
+                    )
 
-        return course
+                return course
+            except IntegrityError as e:
+                if 'app_sph_lms_courses_name_787babb9_uniq' in str(e):
+                    raise ValidationError(
+                        "A course with the same name already exists."
+                    )
+                else:
+                    raise e
 
     def update(self, instance, validated_data):
         user = self.context["request"].user

@@ -73,17 +73,20 @@ const Create: FC = () => {
           };
           const formData = objectToFormData(data);
           dispatch(setLoading(true));
-          const res = await createCourse(formData);
+          const res: any = await createCourse(formData);
 
           if ('error' in res) {
-            throw new Error('Failed to create course');
+            const { data } = res.error;
+            const property = Object.keys(data)[0];
+            const errorMessage = data[property];
+            throw new Error(errorMessage);
           } else {
-            alertSuccess('Created courses successfully');
             await push('/trainer/courses');
+            alertSuccess('Created courses successfully');
             dispatch(reset());
           }
-        } catch (error) {
-          alertError('Error saving course data. Please try again.');
+        } catch (e: any) {
+          alertError(e.message);
         } finally {
           dispatch(setLoading(false));
         }
