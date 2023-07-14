@@ -71,7 +71,11 @@ class Course(models.Model):
             related_name='categories',
             through="CourseCategory"
             )
-    name = models.CharField(max_length=255, validators=[MinLengthValidator(3)])
+    name = models.CharField(
+        max_length=255,
+        unique=True,
+        validators=[MinLengthValidator(3)],
+        )
     description = models.TextField(
             max_length=65000,
             null=True,
