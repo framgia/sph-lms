@@ -59,6 +59,7 @@ const CoursesListPage: React.FC = () => {
     setPage(page);
   };
 
+  const hasCourses = courses.length > 0;
   return (
     <Fragment>
       <Head>
@@ -67,12 +68,19 @@ const CoursesListPage: React.FC = () => {
       <div>
         <div className="flex justify-center">
           <div className="container mt-4 w-fit">
-            <div className="flex justify-between gap-4 items-center mb-4">
-              <SearchBar
-                onSearchEvent={handleSearch}
-                placeholder="Search"
-                searchClass="sm:w-[24rem] md:w-[350px] md:lg-[400px] sm:h-[40px]"
-              />
+            <div
+              className={`flex  ${
+                hasCourses || search ? 'justify-between' : 'justify-end'
+              } gap-4 items-center mb-4`}
+            >
+              {(hasCourses || search) && (
+                <SearchBar
+                  onSearchEvent={handleSearch}
+                  placeholder="Search"
+                  searchClass="sm:w-[24rem] md:w-[350px] md:lg-[400px] sm:h-[40px]"
+                />
+              )}
+
               <Link
                 href="/trainer/courses/create"
                 className="border border-red text-red text-sm h-9 items-center rounded-md font-medium px-4 py-2"
@@ -80,7 +88,7 @@ const CoursesListPage: React.FC = () => {
                 Create a course
               </Link>
             </div>
-            <div className="flex justify-center mb-4">
+            <div className="flex w-[1120px] justify-center mb-4">
               {/* eslint-disable-next-line multiline-ternary */}
               {!courses.length ? (
                 <div className="flex items-center text-sm text-gray-400 h-24">
