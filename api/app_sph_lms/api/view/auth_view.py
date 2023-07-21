@@ -1,10 +1,8 @@
-from django.contrib.auth.backends import BaseBackend, get_user_model
-from dj_rest_auth.registration.views import SocialLoginView
+import environ
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-
-
-import environ
+from dj_rest_auth.registration.views import SocialLoginView
+from django.contrib.auth.backends import BaseBackend, get_user_model
 
 env = environ.Env(
     # set casting, default value
@@ -19,14 +17,28 @@ class AuthViaEmail(BaseBackend):
         except get_user_model().DoesNotExist:
             return None
 
-    def authenticate(self, request, email=None, password=None, **kwargs):
+    def authenticate(self, request, username=None, email=None, password=None, **kwargs):
         UserModel = get_user_model()
-        try:
-            user = UserModel.objects.get(email=email)
-            if user.check_password(password):
-                return user
-        except UserModel.DoesNotExist:
-            return None
+
+        # Check if email is provided
+        if email:
+            try:
+                user = UserModel.objects.get(email=email)
+                if user.check_password(password):
+                    return user
+            except UserModel.DoesNotExist:
+                pass
+
+        # If email-based authentication fails, try username-based authentication
+        if username:
+            try:
+                user = UserModel.objects.get(username=username)
+                if user.check_password(password):
+                    return user
+            except UserModel.DoesNotExist:
+                pass
+
+        return None
 
 
 class GoogleLoginView(SocialLoginView):
