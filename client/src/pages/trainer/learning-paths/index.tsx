@@ -1,15 +1,12 @@
-import { type TabState } from '@/src/features/tab/tabSlice';
 import LearningPathList from '@/src/sections/learning-paths';
 import { useGetLearningPathsQuery } from '@/src/services/learningPathAPI';
 import SearchBar from '@/src/shared/components/SearchBar/SearchBar';
 import Tabs from '@/src/shared/components/Tabs';
 import Tab from '@/src/shared/components/Tabs/Tab';
-import { type RootState } from '@reduxjs/toolkit/dist/query/core/apiState';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import { reset as resetLearningPath } from '@/src/features/learning-path/learningPathSlice';
-import { useAppDispatch } from '@/src/redux/hooks';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 
 const LearningPathListPage: React.FC = () => {
   const { data: activeData } = useGetLearningPathsQuery({ page: 1, isActive: true });
@@ -22,7 +19,7 @@ const LearningPathListPage: React.FC = () => {
   useEffect(() => {
     dispatch(resetLearningPath());
   });
-  const activeTab = useSelector<RootState, TabState['activeTab']>((state) => state.tab.activeTab);
+  const { activeTab } = useAppSelector((state) => state.tab);
 
   const handleSearch = (search: string): void => {
     setSearch(search);

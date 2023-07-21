@@ -159,13 +159,13 @@ const AddLearnerModal: React.FC<AddLearnerModalProps> = ({
           <div className="flex mb-5">
             <Button
               text="Cancel"
-              buttonClass="bg-white px-[14px] py-[5px] border-2 border-gray-500 rounded-md mr-2"
+              buttonClass="bg-white px-4 py-2 border-2 border-gray-500 rounded-md mr-2"
               textColor="text-gray-600"
               onClick={handleModal}
             />
             <Button
               text="Add Learners"
-              buttonClass={`!bg-white px-6 border-2 !border-red rounded-md ${
+              buttonClass={`!bg-white px-4 py-2 border-2 !border-red rounded-md ${
                 !selectedIds.length ? 'opacity-50' : ''
               }`}
               textColor="!text-red"

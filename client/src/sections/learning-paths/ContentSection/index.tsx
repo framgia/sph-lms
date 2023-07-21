@@ -64,7 +64,7 @@ const LearningPathContentSection: FC<LearningPathContentSectionProp> = ({
               <Link href={`/trainer/courses/${selectedCourse.id}`}>
                 <Button
                   text="Go to course details"
-                  buttonClass="rounded-md h-[28px] px-4 text-red text-xs font-[600] border border-red"
+                  buttonClass="rounded-md px-4 py-2 text-red text-xs font-[600] border border-red"
                 />
               </Link>
             </div>
