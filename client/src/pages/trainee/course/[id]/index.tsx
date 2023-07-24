@@ -3,7 +3,6 @@ import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import type { Course, DBCourse } from '@/src/shared/utils';
 import Container from '@/src/shared/layouts/Container';
 import Button from '@/src/shared/components/Button';
-import Checkbox from '@mui/material/Checkbox';
 import React, { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,6 +14,7 @@ interface TraineeCourseProps {
 const TraineeCoursePage = ({ course }: TraineeCourseProps): JSX.Element => {
   const categories = ['Javascript', 'TypeScript', 'NodeJS', 'Laravel', 'ReactJS', 'NextJS', 'Django', 'Tailwind'];
   const sections = ['Section 1', 'Section 2', 'Section 3', 'Section 4'];
+  const progress = 10;
 
   const paths = [
     {
@@ -74,30 +74,21 @@ const TraineeCoursePage = ({ course }: TraineeCourseProps): JSX.Element => {
             <h3 className="mb-1 text-base font-bold text-dark">Course Overview</h3>
             <ul className="bg-neutral-50">
               {sections.map((section, index) => (
-                <li key={index} className="flex items-center px-2">
-                  <Checkbox
-                    defaultChecked
-                    sx={{
-                      color: '#C0C0C0',
-                      '&.Mui-checked': {
-                        color: '#373737',
-                      },
-                      '& .MuiSvgIcon-root': { fontSize: 16 },
-                    }}
-                  />
+                <li key={index} className="flex items-center">
+                  <input type="checkbox" className='accent-checkbox m-3 ml-5' />
                   <span className="text-sm text-dark font-semibold opacity-50">{section}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <ProgressPercentage progress={50} />
+            <ProgressPercentage progress={progress} />
           </div>
           <div>
             <Link href={'#'}>
               <Button
                 buttonClass="text-red text-xs px-4 py-2 border border-red"
-                text="Start course"
+                text={`${progress ? 'Continue Course' : 'Start Course'}`}
               />
             </Link>
           </div>
