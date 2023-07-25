@@ -5,9 +5,10 @@ import { type SideBarProps } from './SideBar';
 
 interface SidebarContentProps {
   children: ReactElement<SideBarProps> | Array<ReactElement<SideBarProps>>;
+  isCheckbox?: boolean;
 }
 
-const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
+const SidebarContent: FC<SidebarContentProps> = ({ children, isCheckbox = false }) => {
   const [activeTab, setActiveTab] = useState<null | number>(null);
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
 
@@ -48,6 +49,15 @@ const SidebarContent: FC<SidebarContentProps> = ({ children }) => {
                 setActiveTab(id);
               }}
             >
+              {isCheckbox && (
+                <input
+                  type="checkbox"
+                  className="mr-2 accent-black cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                />
+              )}
               {title}
             </div>
           ))}
