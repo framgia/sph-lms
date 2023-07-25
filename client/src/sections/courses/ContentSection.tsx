@@ -16,7 +16,7 @@ const ContentSection: React.FunctionComponent<CourseData> = ({ course }: CourseD
             {course?.lessons?.map((col) => (
               <SideBar title={col.title} key={col.id}>
                 <div className="ml-7">
-                  <div className="text-20 font-semibold text-textGray">{col.title}</div>
+                  <div className="text-[20px] font-semibold text-textGray">{col.title}</div>
                   <div className="py-3">
                     {isYoutubeLink(col.link) ? (
                       <Iframe src={col.link} className="w-[946px] h-[554px]" />
