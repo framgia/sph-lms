@@ -85,6 +85,18 @@ class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+
+        if not user.is_trainer:
+            is_enrolled = instance.trainee.filter(pk=user.id).exists()
+            if not is_enrolled:
+                raise PermissionDenied("Unauthorized to view this course")
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
     def delete(self, request, *args, **kwargs, ):
         user = self.request.user
 

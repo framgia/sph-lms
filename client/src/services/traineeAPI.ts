@@ -66,6 +66,12 @@ export const getCourseTrainee = createApi({
       }),
       providesTags: ['TrainerTrainee'],
     }),
+    getTraineeCourse: builder.query({
+      query: (courseId) => ({
+        url: `course/${courseId}`,
+      }),
+      providesTags: ['TraineeCourses'],
+    }),
     enrollLearner: builder.mutation({
       query: ({ courseId, postData }) => ({
         url: `course/${courseId}/trainee`,
@@ -96,6 +102,7 @@ export const {
   useGetLearnerQuery,
   useGetLearningPathLearnerQuery,
   useGetTrainerTraineesQuery,
+  useGetTraineeCourseQuery,
   useEnrollLearnerMutation,
   useEnrollLearningPathLearnerMutation,
 } = getCourseTrainee;
