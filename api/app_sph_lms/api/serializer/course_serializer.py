@@ -23,11 +23,20 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 
 class LessonSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
+    is_completed = serializers.SerializerMethodField()
 
     class Meta:
         model = Lesson
-        fields = ("id", "title", "link", "order")
-        read_only_fields = ("id",)
+        fields = ("id", "title", "link", "order", "is_completed")
+        read_only_fields = ("id", "is_completed")
+
+    def get_is_completed(self, obj):
+        user = self.context["request"].user
+
+        return CompletedLesson.objects.filter(
+            trainee=user,
+            lesson=obj
+        ).exists()
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -96,7 +105,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
                 return course
             except IntegrityError as e:
-                if 'app_sph_lms_courses_name_787babb9_uniq' in str(e):
+                if "app_sph_lms_courses_name_787babb9_uniq" in str(e):
                     raise ValidationError(
                         "A course with the same name already exists."
                     )
@@ -150,7 +159,7 @@ class CourseSerializer(serializers.ModelSerializer):
         return instance
 
     def get_progress(self, instance):
-        trainee = self.context['request'].user
+        trainee = self.context["request"].user
         completed_lessons = CompletedLesson.objects.filter(
             trainee=trainee,
             lesson__course=instance

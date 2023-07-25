@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/array-type */
-import { type ReactElement } from 'react';
 import type { User as NextAuthUser } from 'next-auth';
+import { type ReactElement } from 'react';
 
 export interface CourseDetails {
   id: string;
@@ -159,6 +159,7 @@ export interface LessonForm {
 export interface Lesson extends LessonForm {
   id: string;
   order: number;
+  is_completed?: boolean;
 }
 
 export interface Learner {

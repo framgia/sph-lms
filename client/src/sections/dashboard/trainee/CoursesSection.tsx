@@ -71,7 +71,7 @@ const CoursesSection = (): JSX.Element => {
           <Fragment>
             <div className="flex flex-col gap-4">
               {CourseCollection.map((course: CourseCollection) => (
-                <Link key={course.id} href="#">
+                <Link key={course.id} href={`/trainee/course/${course.id}`}>
                   <TraineeCourseCard course={course} />
                 </Link>
               ))}
