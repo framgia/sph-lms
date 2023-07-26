@@ -13,7 +13,7 @@ const LearningPathCard: React.FC<Props> = ({ learningPath, isTrainee = false }: 
 
   return (
     <div className="w-[268px] rounded-md border shadow-[2px_2px_4px_0_rgba(0, 0, 0, 0.05)]">
-      <Link href={isTrainee ? '#' : `/trainer/learning-paths/${id}`}>
+      <Link href={isTrainee ? `/trainee/learning-path/${id}` : `/trainer/learning-paths/${id}`}>
         <div className="relative overflow-hidden group">
           <Image
             className="w-full h-32 rounded-tl-md rounded-tr-md object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer"

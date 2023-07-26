@@ -1,6 +1,7 @@
 import Button from '@/src/shared/components/Button';
 import LearningPathCourseCard from '@/src/shared/components/Card/LearningPathCourseCard';
 import type { Course, LearningPath } from '@/src/shared/utils';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React, { Fragment, useState, type FC } from 'react';
 
@@ -11,6 +12,9 @@ interface LearningPathContentSectionProp {
 const LearningPathContentSection: FC<LearningPathContentSectionProp> = ({
   learningPath,
 }): JSX.Element => {
+  const { data: session } = useSession();
+  const isTrainer = session?.user.is_trainer;
+
   const [selectedCourse, setSelectedCourse] = useState(learningPath.courses[0] || null);
 
   const handlePreview = (course: Course): void => {
@@ -56,12 +60,27 @@ const LearningPathContentSection: FC<LearningPathContentSectionProp> = ({
                       key={lesson.id}
                       className="bg-neutral-50 px-4 py-2 text-sm font-[500] text-lightGray3 text-opacity-50"
                     >
+                      {!isTrainer && (
+                        <input
+                          type="checkbox"
+                          disabled
+                          checked={lesson?.is_completed}
+                          className="accent-checkbox mr-5"
+                        />
+                      )}
+
                       {lesson.title}
                     </div>
                   ))}
                 </div>
               </div>
-              <Link href={`/trainer/courses/${selectedCourse.id}`}>
+              <Link
+                href={
+                  isTrainer
+                    ? `/trainer/courses/${selectedCourse.id}`
+                    : `/trainee/course/${selectedCourse.id}`
+                }
+              >
                 <Button
                   text="Go to course details"
                   buttonClass="rounded-md px-4 py-2 text-red text-xs font-[600] border border-red"
