@@ -24,7 +24,7 @@ const TraineeCoursePage: FC = () => {
 
   const paths = [
     {
-      text: 'My Courses',
+      text: 'Dashboard',
       url: '/trainee/dashboard',
     },
     {
@@ -41,7 +41,12 @@ const TraineeCoursePage: FC = () => {
       <Container>
         <div className="grid gap-4 relative mt-5 lg:mx-32 mb-5 cursor-default">
           <div className="relative bg-slate-800 w-full h-[210px]">
-            <Image src={course?.image} alt={course?.name} fill style={{ objectFit: 'cover' }} />
+            <Image
+              src={course?.image ? course?.image : '/image1.jpg'}
+              alt={course?.name}
+              fill
+              style={{ objectFit: 'cover' }}
+            />
           </div>
           <div className="">
             <h1 className="text-lg font-bold text-dark pb-1">{course?.name}</h1>

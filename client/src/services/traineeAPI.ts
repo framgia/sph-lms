@@ -13,7 +13,13 @@ export const getCourseTrainee = createApi({
       return headers;
     },
   }),
-  tagTypes: ['CourseTrainee', 'LearningPathTrainee', 'TrainerTrainee', 'TraineeCourses'],
+  tagTypes: [
+    'CourseTrainee',
+    'LearningPathTrainee',
+    'TrainerTrainee',
+    'TraineeCourses',
+    'LearningPathDetails',
+  ],
   endpoints: (builder) => ({
     getLearner: builder.query({
       query: ({ courseId, isEnrolled, searchQuery, pageNumber, selectedSortOption }) => ({
@@ -94,20 +100,24 @@ export const getCourseTrainee = createApi({
       }),
       invalidatesTags: ['LearningPathTrainee', 'TrainerTrainee'],
     }),
+    getLearningPath: builder.query({
+      query: (id) => `learning-paths/${id}`,
+      providesTags: ['LearningPathDetails'],
+    }),
     addCompletedLesson: builder.mutation({
       query: (formData) => ({
         url: 'trainee/completed-lesson',
         method: 'POST',
         body: formData,
       }),
-      invalidatesTags: ['TraineeCourses'],
+      invalidatesTags: ['TraineeCourses', 'LearningPathDetails'],
     }),
     removeCompletedLesson: builder.mutation({
       query: (lessonID) => ({
         url: `trainee/completed-lesson/${lessonID}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['TraineeCourses'],
+      invalidatesTags: ['TraineeCourses', 'LearningPathDetails'],
     }),
   }),
 });
@@ -120,6 +130,7 @@ export const {
   useGetTraineeCourseQuery,
   useEnrollLearnerMutation,
   useEnrollLearningPathLearnerMutation,
+  useGetLearningPathQuery,
   useAddCompletedLessonMutation,
   useRemoveCompletedLessonMutation,
 } = getCourseTrainee;
