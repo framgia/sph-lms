@@ -1,5 +1,7 @@
 from app_sph_lms.api.view.auth_view import GoogleLoginView
 from app_sph_lms.api.view.category_view import CategoryDetail, CategoryList
+from app_sph_lms.api.view.completed_lesson_views import (CompletedLessonDetail,
+                                                         CompletedLessonList)
 from app_sph_lms.api.view.course_view import (CourseCategoryDetail,
                                               CourseCategoryList, CourseDetail,
                                               CourseList, TraineeCourseList)
@@ -96,5 +98,15 @@ urlpatterns = [
         'trainee/course',
         TraineeCourseList.as_view(),
         name="trainee-course"
+    ),
+    path(
+        'trainee/completed-lesson',
+        CompletedLessonList.as_view(),
+        name="trainee-completed-lesson"
+    ),
+    path(
+        'trainee/completed-lesson/<int:lesson>',
+        CompletedLessonDetail.as_view(),
+        name="trainee-completed-lesson-detail"
     ),
 ]

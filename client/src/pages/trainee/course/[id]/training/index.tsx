@@ -5,16 +5,33 @@ import Breadcrumbs from '@/src/shared/components/Breadcrumbs';
 import SidebarContent from '@/src/shared/components/SidebarContent';
 import SideBar from '@/src/shared/components/SidebarContent/SideBar';
 import Iframe from '@/src/shared/components/Iframe';
+import { useRouter } from 'next/router';
+import { useGetTraineeCourseQuery } from '@/src/services/traineeAPI';
+import Spinner from '@/src/shared/components/Spinner';
+import { type Lesson, alertError } from '@/src/shared/utils';
+import { isYoutubeLink } from '@/src/shared/utils/helpers';
+import Button from '@/src/shared/components/Button';
 
 const TrainingPage: React.FunctionComponent = () => {
+  const { query } = useRouter();
+  const { data: course, isLoading, error } = useGetTraineeCourseQuery(query.id);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    return alertError('An error occured');
+  }
+
   const paths = [
     {
-      text: 'My Course',
-      url: '/trainer/courses',
+      text: 'My Courses',
+      url: '/trainee/dashboard',
     },
     {
-      text: 'Course Title',
-      url: '/trainee/course/1/training',
+      text: course?.name,
+      url: `/trainee/course/${course?.id}`,
     },
   ];
   return (
@@ -24,50 +41,26 @@ const TrainingPage: React.FunctionComponent = () => {
           <Breadcrumbs paths={paths} />
           <div className="flex flex-grow h-full mt-5">
             <SidebarContent isCheckbox={true}>
-              <SideBar title="Section 1">
-                <div className="ml-7">
-                  <div className="text-[20px] font-semibold text-textGray">Section 1</div>
-                  <div className="py-3">
-                    <Iframe
-                      src="https://www.youtube.com/embed/cJveiktaOSQ"
-                      className="w-[946px] h-[554px]"
-                    />
+              {course?.lessons.map((lesson: Lesson) => (
+                <SideBar title={lesson.title} key={lesson.id} is_completed={lesson.is_completed}>
+                  <div className="ml-7">
+                    <div className="text-[20px] font-semibold text-textGray">
+                      {lesson.title} {lesson.id}
+                    </div>
+                    <div className="py-3">
+                      {isYoutubeLink(lesson.link) ? (
+                        <Iframe src={lesson.link} className="w-[946px] h-[554px]" />
+                      ) : (
+                        <Button
+                          text="Open Link"
+                          buttonClass="border border-red text-red !font-medium text-[14px] px-[18px] py-[6.5px] font-inter m-2 ml-5"
+                          onClick={() => window.open(lesson.link)}
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-              </SideBar>
-              <SideBar title="Section 2">
-                <div className="ml-7 flex-grow ">
-                  <div className="text-[20px] font-semibold text-textGray">Section 2</div>
-                  <div className="py-3">
-                    <Iframe
-                      src="https://www.youtube.com/embed/HGl75kurxok"
-                      className="w-[946px] h-[554px]"
-                    />
-                  </div>
-                </div>
-              </SideBar>
-              <SideBar title="Section 3">
-                <div className="ml-7 flex-grow ">
-                  <div className="text-[20px] font-semibold text-textGray">Section 3</div>
-                  <div className="py-3">
-                    <Iframe
-                      src="https://www.youtube.com/embed/Zy0y_gnyeJY"
-                      className="w-[946px] h-[554px]"
-                    />
-                  </div>
-                </div>
-              </SideBar>
-              <SideBar title="Section 4">
-                <div className="ml-7 flex-grow ">
-                  <div className="text-[20px] font-semibold text-textGray">Section 4</div>
-                  <div className="py-3">
-                    <Iframe
-                      src="https://www.youtube.com/embed/d56mG7DezGs"
-                      className="w-[946px] h-[554px]"
-                    />
-                  </div>
-                </div>
-              </SideBar>
+                </SideBar>
+              ))}
             </SidebarContent>
           </div>
         </div>

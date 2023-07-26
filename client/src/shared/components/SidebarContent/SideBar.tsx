@@ -2,6 +2,7 @@ import { type FC, Fragment, type ReactElement } from 'react';
 
 export interface SideBarProps {
   title: string;
+  is_completed?: boolean;
   children?: ReactElement;
 }
 

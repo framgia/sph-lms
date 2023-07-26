@@ -94,6 +94,21 @@ export const getCourseTrainee = createApi({
       }),
       invalidatesTags: ['LearningPathTrainee', 'TrainerTrainee'],
     }),
+    addCompletedLesson: builder.mutation({
+      query: (formData) => ({
+        url: 'trainee/completed-lesson',
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: ['TraineeCourses'],
+    }),
+    removeCompletedLesson: builder.mutation({
+      query: (lessonID) => ({
+        url: `trainee/completed-lesson/${lessonID}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['TraineeCourses'],
+    }),
   }),
 });
 
@@ -105,4 +120,6 @@ export const {
   useGetTraineeCourseQuery,
   useEnrollLearnerMutation,
   useEnrollLearningPathLearnerMutation,
+  useAddCompletedLessonMutation,
+  useRemoveCompletedLessonMutation,
 } = getCourseTrainee;
