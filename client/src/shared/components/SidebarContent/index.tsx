@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 import React, { Children, type FC, Fragment, type ReactElement, useEffect, useState } from 'react';
 import { type ChildElementObject } from '../../utils/interface';
 import { type SideBarProps } from './SideBar';
+import {
+  useAddCompletedLessonMutation,
+  useRemoveCompletedLessonMutation,
+} from '@/src/services/traineeAPI';
+import { alertError, alertSuccess } from '../../utils';
 
 interface SidebarContentProps {
   children: ReactElement<SideBarProps> | Array<ReactElement<SideBarProps>>;
@@ -11,6 +17,8 @@ interface SidebarContentProps {
 const SidebarContent: FC<SidebarContentProps> = ({ children, isCheckbox = false }) => {
   const [activeTab, setActiveTab] = useState<null | number>(null);
   const [childrenList, setChildrenList] = useState<ChildElementObject>({});
+  const [addCompletedLesson] = useAddCompletedLessonMutation();
+  const [removeCompletedLesson] = useRemoveCompletedLessonMutation();
 
   useEffect(() => {
     const childrenListObj: ChildElementObject = {};
@@ -22,7 +30,9 @@ const SidebarContent: FC<SidebarContentProps> = ({ children, isCheckbox = false 
       ) {
         childrenListObj[index] = {
           id: index,
+          lesson_id: child.key,
           title: child.props.title,
+          isCompleted: child.props.is_completed,
           childContent: child,
         };
       }
@@ -34,6 +44,41 @@ const SidebarContent: FC<SidebarContentProps> = ({ children, isCheckbox = false 
 
     setChildrenList(childrenListObj);
   }, [children, activeTab]);
+
+  const handleCheckbox = async (lesson: number, isCompleted: boolean): Promise<void> => {
+    if (isCompleted) {
+      try {
+        const res: any = await removeCompletedLesson(lesson);
+
+        if ('error' in res) {
+          const { data } = res.error;
+          const property = Object.keys(data)[0];
+          const errorMessage = data[property];
+          throw new Error(errorMessage);
+        } else {
+          alertSuccess(res.data.message);
+        }
+      } catch (e: any) {
+        alertError(e.message);
+      }
+    } else {
+      try {
+        const formData = { lesson };
+        const res: any = await addCompletedLesson(formData);
+
+        if ('error' in res) {
+          const { data } = res.error;
+          const property = Object.keys(data)[0];
+          const errorMessage = data[property];
+          throw new Error(errorMessage);
+        } else {
+          alertSuccess(res.data.message);
+        }
+      } catch (e: any) {
+        alertError(e.message);
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -53,8 +98,13 @@ const SidebarContent: FC<SidebarContentProps> = ({ children, isCheckbox = false 
                 <input
                   type="checkbox"
                   className="mr-2 accent-black cursor-pointer"
+                  defaultChecked={childrenList[id].isCompleted}
                   onClick={(e) => {
                     e.stopPropagation();
+                    handleCheckbox(
+                      childrenList[id].lesson_id as number,
+                      childrenList[id].isCompleted as boolean
+                    );
                   }}
                 />
               )}

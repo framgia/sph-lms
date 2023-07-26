@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/array-type */
 import type { User as NextAuthUser } from 'next-auth';
-import { type ReactElement } from 'react';
+import { type Key, type ReactElement } from 'react';
 
 export interface CourseDetails {
   id: string;
@@ -145,7 +145,9 @@ export interface TabButtonProps {
 
 export interface ChildElement {
   id: number;
+  lesson_id?: number | Key | null;
   title: string;
+  isCompleted?: boolean;
   childContent: ReactElement;
 }
 
