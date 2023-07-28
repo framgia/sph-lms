@@ -59,6 +59,11 @@ const EditSettingsButton: FC = () => {
         const data = {
           ...values,
           category: values.category.map(({ id }) => id),
+          lessons: values.lessons.map((lesson) => {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            const { is_completed, ...lessonWithoutIsCompleted } = lesson;
+            return lessonWithoutIsCompleted;
+          }),
         };
         const formData = objectToFormData(data);
         dispatch(setLoading(true));
