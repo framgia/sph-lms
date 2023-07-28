@@ -7,5 +7,6 @@ from django.dispatch import receiver
 @receiver(post_save, sender=SocialAccount)
 def set_default_password(sender, instance, created, **kwargs):
     if created and instance.provider == 'google':
+        instance.user.username = instance.user.email
         instance.user.password = make_password("password")
         instance.user.save()

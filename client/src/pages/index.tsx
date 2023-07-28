@@ -1,11 +1,31 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Head from 'next/head';
 import NavbarSection from '../sections/landing-page/NavbarSection';
 import HeroSection from '../sections/landing-page/HeroSection';
 import BenefitSection from '../sections/landing-page/BenefitSection';
 import TestimonialSection from '../sections/landing-page/TestimonialSection';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import Spinner from '../shared/components/Spinner';
 
 const LandingPage: React.FunctionComponent = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (session) {
+      const route = session.user.is_trainer ? '/trainer/dashboard' : '/trainee/dashboard';
+      void router.push(route);
+    } else {
+      setLoading(false);
+    }
+  }, [session, router]);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <Fragment>
       <Head>
@@ -14,9 +34,7 @@ const LandingPage: React.FunctionComponent = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="sticky top-0 overflow-hidden">
-        <NavbarSection
-          navItems={['About', 'Benefits', 'Testimonies']}
-        ></NavbarSection>
+        <NavbarSection navItems={['About', 'Benefits', 'Testimonies']}></NavbarSection>
       </div>
       <div className="h-screen w-auto pl-40 pr-10">
         <HeroSection></HeroSection>
